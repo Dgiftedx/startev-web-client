@@ -39,7 +39,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .list-content{
-	line-height: 5px;
+	line-height:14px;
+	font-family: Verdana;
+	margin-bottom: 7px;
+}
+
+.list-content .list-title {
+	font-size: 10px;
+	padding: 0;
+	margin: 0;
+}
+
+.list-content .list-position {
+	font-size: 12px;
+	font-style: italic;
 }
 
 .sticky {
@@ -52,4 +65,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   justify-content: center;
   align-items: center;
   color: #fff;
+}
+
+.btn-simple:hover{
+	box-sizing: content-box;
+	font-weight: 500;
+	transition: 0.4s;
 }

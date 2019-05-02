@@ -19793,11 +19793,18 @@ section small {
     .hidden-md {
         display: none
     }
+    
 }
 
 @media only screen and (max-width: 992px) {
     .hidden-sm {
         display: none !important
+    }
+
+    .sticky {
+    	position: static !important;
+    	position: -webkit-static !important;
+    	display: block !important;
     }
 }
 
