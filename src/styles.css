@@ -1,1 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/lib/bootstrap/css/bootstrap.min.css";
+@import "assets/css/main.css";
+@import "assets/css/color_skins.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.inline-icon i{
+	font-size: 22px !important;
+    color: #c7d1d8;
+    opacity: 1;
+    padding-right: 5px;
+}
+
+.inline-text {
+    font-size: 14px;
+    color: #c7d1d8;
+    font-weight: 500;
+}
+
+.feeds-container{
+	border-radius: 0 !important;
+	box-shadow: 0 0 3px #000;
+}
+
+.custom-list li {
+	border-top: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	margin-top: 5px;
+}
+
+.custom-list li img{
+	margin-right: 25px;
+}
+
+.min-height-400{
+	min-height: 400px;
+}
+
+.list-content{
+	line-height: 5px;
+}
+
+.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  width: 100%;
+  height: 100%;
+  top: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
