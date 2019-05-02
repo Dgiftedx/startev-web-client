@@ -123,9 +123,10 @@
                                 </div>
                             </li>                            
                             <li><a href="profile.html"><i class="icon-user m-r-10"></i> <span>My Profile</span> <span class="badge badge-success float-right">80%</span></a></li>
-                            <li><a href="javascript:void(0);"><i class="icon-notebook m-r-10"></i><span>Taskboard</span> <span class="badge badge-info float-right">New</span></a></li>                            
-                            <li><a href="locked.html"><i class="icon-lock m-r-10"></i><span>Locked</span></a></li>
-                            <li><a href="sign-in.html"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
+                            <li><a href="javascript:void(0);"><i class="icon-notebook m-r-10"></i><span>Taskboard</span> <span class="badge badge-info float-right">New</span></a></li>                      
+                            <li><a [routerLink]="['/login']"><i class="icon-lock m-r-10"></i><span>Login</span></a></li>
+                            <li><a [routerLink]="['/']"><i class="icon-lock m-r-10"></i><span>Locked</span></a></li>
+                            <li><a [routerLink]="['/']"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
                         </ul>
                     </li>
                     <li><a href="javascript:void(0);" class="js-right-sidebar"><i class="icon-equalizer"></i></a></li>
