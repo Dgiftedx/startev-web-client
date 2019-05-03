@@ -1,10 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/lib/bootstrap/css/bootstrap.min.css";
 @import "assets/css/main.css";
+@import "assets/css/mentors.css";
 @import "assets/css/color_skins.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.text-bold {
+	color: #222;
+	font-weight: 600;
+}
+
+.mentor-count {
+	font-size: 15px;
+	font-style: italic;
+	line-height: 30px;
+}
 .inline-icon i{
 	font-size: 22px !important;
     color: #c7d1d8;
@@ -71,4 +83,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 	box-sizing: content-box;
 	font-weight: 500;
 	transition: 0.4s;
+}
+
+.info-box-2 {
+	padding:0 !important;
+}
+
+.info-box-2 .icon {
+	padding-right: 20px;
+}
+.info-box-2 .icon img {
+	width: 60px;
+	height: 60px;
+	vertical-align: bottom;
+}
+
+.profession {
+	color: #424242;
+	padding: 0 10px;
+}
+
+.trainer {
+	color: #ff4136;
+	font-size: 14px;
+	font-family: "Roboto" Helvetica;
+	font-weight: 700;
 }

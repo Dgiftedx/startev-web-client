@@ -16,7 +16,7 @@
                         </div>
                     </li>
                     <li class="hidden-sm">
-                        <a href="#" class="active inline-bar">
+                        <a [routerLink]="['/feeds']" class="active inline-bar">
                             <span class="inline-icon"><i class="material-icons">home</i></span><span class="inline-text"> Home</span>
                         </a>
                     </li>
@@ -57,7 +57,7 @@
                                     <li>
                                         <a href="javascript:void(0);">
                                             <div class="media">
-                                                <img class="media-object" src="../assets/images/xs/avatar6.jpg" alt="">
+                                                <img class="media-object" src="assets/images/xs/avatar6.jpg" alt="">
                                                 <div class="media-body">
                                                     <span class="name">Grayson <span class="time">22min ago</span></span>
                                                     <span class="message">You have 5 unread emails in your inbox.</span>                                        
@@ -68,7 +68,7 @@
                                     <li>
                                         <a href="javascript:void(0);">
                                             <div class="media">
-                                                <img class="media-object" src="../assets/images/xs/avatar3.jpg" alt="">
+                                                <img class="media-object" src="assets/images/xs/avatar3.jpg" alt="">
                                                 <div class="media-body">
                                                     <span class="name">Sophia <span class="time">31min ago</span></span>
                                                     <span class="message">OrderPlaced: You received a new oder from Tina.</span>                                        
@@ -122,10 +122,8 @@
                                     <hr>
                                 </div>
                             </li>                            
-                            <li><a href="profile.html"><i class="icon-user m-r-10"></i> <span>My Profile</span> <span class="badge badge-success float-right">80%</span></a></li>
-                            <li><a href="javascript:void(0);"><i class="icon-notebook m-r-10"></i><span>Taskboard</span> <span class="badge badge-info float-right">New</span></a></li>                      
+                            <li><a [routerLink]="['/feeds']"><i class="icon-user m-r-10"></i> <span>My Profile</span> <span class="badge badge-success float-right">80%</span></a></li>                  
                             <li><a [routerLink]="['/login']"><i class="icon-lock m-r-10"></i><span>Login</span></a></li>
-                            <li><a [routerLink]="['/']"><i class="icon-lock m-r-10"></i><span>Locked</span></a></li>
                             <li><a [routerLink]="['/']"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
                         </ul>
                     </li>
@@ -144,23 +142,23 @@
                     <ul class="list">
                         <li class="header">MAIN</li>
                         <li class=""> 
-                            <a href="#"><i class="icon-directions"></i><span>Architecture & Contruction (8)</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-directions"></i><span>Architecture & Contruction (8)</span></a>
                         </li>
                         <li class=""> 
-                            <a href="#"><i class="icon-credit-card"></i><span>Finance (9)</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-credit-card"></i><span>Finance (9)</span></a>
                         </li>
                          <li class=""> 
-                            <a href="#"><i class="icon-grid"></i><span>Information Technology (43)</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-grid"></i><span>Information Technology (43)</span></a>
                         </li>
                         <li class=""> 
-                            <a href="#"><i class="icon-basket-loaded"></i><span>Agriculture (73)</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-basket-loaded"></i><span>Agriculture (73)</span></a>
                         </li>
 
                         <li class=""> 
-                            <a href="#"><i class="icon-hourglass"></i><span>Vocational (93)</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-hourglass"></i><span>Vocational (93)</span></a>
                         </li>
                          <li class=""> 
-                            <a href="#"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
+                            <a [routerLink]="['industry']"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
                         </li>
                     </ul>
                 </div>
