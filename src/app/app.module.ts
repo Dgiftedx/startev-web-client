@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,6 +8,7 @@ import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER,
 import { fakeBackendProvider } from './_helpers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
@@ -28,6 +29,7 @@ import { IndustryComponent } from './industry/industry.component';
 import { FeedsComponent } from './feeds/feeds.component';
 import { AlertComponent } from './alert/alert.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,11 @@ import { RegisterComponent } from './register/register.component';
     IndustryComponent,
     FeedsComponent,
     AlertComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileComponent
+  ],
+  schemas : [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,16 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
+    NgSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule
+  ],
+
+  exports : [
+    MatButtonModule,
+    MatCheckboxModule,
+    MatTabsModule
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

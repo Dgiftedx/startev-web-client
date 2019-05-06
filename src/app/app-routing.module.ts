@@ -5,13 +5,14 @@ import { FeedsComponent } from './feeds/feeds.component';
 import { IndustryComponent } from './industry/industry.component';
 import { AuthGuard } from './_guards';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
 {path: '', component: FeedsComponent, canActivate : [AuthGuard] },
 
 {path: 'industry', component: IndustryComponent, canActivate : [AuthGuard] },
 
-{path: 'login', component: LoginComponent},
+{path: 'profile', component: ProfileComponent, canActivate : [AuthGuard] },
 
 {path: 'login', component: LoginComponent},
 

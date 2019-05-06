@@ -22857,6 +22857,30 @@ section small {
     }
 }
 
+.profile-header {
+    background-size: cover;
+    min-height: 350px;
+}
+.profile-header img {
+    position: absolute;
+    bottom:0;
+    top: 70%;
+    left: 12%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .taskboard .planned_task .dd-handle {
     background: #eee
 }
