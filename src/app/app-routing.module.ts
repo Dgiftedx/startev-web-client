@@ -3,20 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { FeedsComponent } from './feeds/feeds.component';
 import { IndustryComponent } from './industry/industry.component';
-
-
-
+import { AuthGuard } from './_guards';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-	{
-		path: 'feeds', component: FeedsComponent,
-	},
-	{
-		path: 'industry', component: IndustryComponent,
-	},
-	{
-        path: 'login', component: LoginComponent
-    },
+{path: '', component: FeedsComponent, canActivate : [AuthGuard] },
+
+{path: 'industry', component: IndustryComponent, canActivate : [AuthGuard] },
+
+{path: 'login', component: LoginComponent},
+
+{path: 'login', component: LoginComponent},
+
+{path: 'register', component: RegisterComponent},
+
+// otherwise redirect to home
+{ path: '**', redirectTo: '' }
 
 ];
 

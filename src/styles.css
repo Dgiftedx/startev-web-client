@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/lib/bootstrap/css/bootstrap.min.css";
+@import "assets/lib/bootstrap-select/css/bootstrap-select.css";
+@import "assets/lib/multi-select/css/multi-select.css";
 @import "assets/css/main.css";
 @import "assets/css/mentors.css";
 @import "assets/css/color_skins.css";
+
+@import "~@ng-select/ng-select/themes/material.theme.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

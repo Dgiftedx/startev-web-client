@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { AuthenticationService } from './_services';
+import { User } from './_models';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +12,17 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class AppComponent {
   title = 'startev-client';
   loading = false;
+  currentUser: User;
 
-  constructor(public router: Router, private ngxService: NgxUiLoaderService) {
-
+  constructor(
+    private ngxService: NgxUiLoaderService,
+    private router: Router,
+    private authenticationService: AuthenticationService) {
+      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-
-  ngOnInit() {
-  }
-
- 
-  ngAfterViewInit() {
-  	this.router.events.subscribe(event => {
-  		if (event instanceof NavigationEnd) {
-  			window.scrollTo(0,0);
-  		}
-  	});
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }
