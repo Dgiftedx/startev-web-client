@@ -32,6 +32,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MentorComponent } from './mentor/mentor.component';
 import { MessageComponent } from './message/message.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MessageComponent } from './message/message.component';
     RegisterComponent,
     ProfileComponent,
     MentorComponent,
-    MessageComponent
+    MessageComponent,
+    ProfileEditComponent
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MentorComponent } from './mentor/mentor.component';
 import { MessageComponent } from './message/message.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 const routes: Routes = [
 {path: '', component: FeedsComponent, canActivate : [AuthGuard] },
@@ -19,6 +20,8 @@ const routes: Routes = [
 {path: 'mentor', component: MentorComponent, canActivate : [AuthGuard] },
 
 {path: 'messages', component: MessageComponent, canActivate : [AuthGuard] },
+
+{path: 'edit-profile', component: ProfileEditComponent, canActivate : [AuthGuard] },
 
 {path: 'login', component: LoginComponent},
 

@@ -118,6 +118,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .feed-title {
+	font-weight: 700;
 	text-transform: lowercase;
 	color: var(--pink);
 	font-size: 14px;
