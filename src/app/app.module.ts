@@ -30,6 +30,8 @@ import { FeedsComponent } from './feeds/feeds.component';
 import { AlertComponent } from './alert/alert.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MentorComponent } from './mentor/mentor.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { ProfileComponent } from './profile/profile.component';
     FeedsComponent,
     AlertComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    MentorComponent,
+    MessageComponent
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

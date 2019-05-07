@@ -6,6 +6,8 @@ import { IndustryComponent } from './industry/industry.component';
 import { AuthGuard } from './_guards';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { MentorComponent } from './mentor/mentor.component';
+import { MessageComponent } from './message/message.component';
 
 const routes: Routes = [
 {path: '', component: FeedsComponent, canActivate : [AuthGuard] },
@@ -13,6 +15,10 @@ const routes: Routes = [
 {path: 'industry', component: IndustryComponent, canActivate : [AuthGuard] },
 
 {path: 'profile', component: ProfileComponent, canActivate : [AuthGuard] },
+
+{path: 'mentor', component: MentorComponent, canActivate : [AuthGuard] },
+
+{path: 'messages', component: MessageComponent, canActivate : [AuthGuard] },
 
 {path: 'login', component: LoginComponent},
 
