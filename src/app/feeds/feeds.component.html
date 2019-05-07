@@ -115,8 +115,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pb-2">
-                                    <img src="assets/images/image-gallery/2.jpg" class="img-thumbnail" />
+                                <div class="pb-2 video-player">
+                                  <vg-player>
+                                     <vg-overlay-play vgFor="feedVideo"></vg-overlay-play>
+                                      <vg-scrub-bar>
+                                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                                    </vg-scrub-bar>
+                                     <vg-controls>
+                                        <vg-play-pause></vg-play-pause>
+                                        <vg-playback-button></vg-playback-button>
+                                        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+                                        <vg-volume vgFor="feedVideo"></vg-volume>
+                                        <vg-fullscreen></vg-fullscreen>
+                                    </vg-controls>
+                                    <video [vgMedia]="media" #media id="feedVideo" preload="auto" controls>
+                                        <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
+                                    </video>
+                                </vg-player>
                                 </div>
                                  <div class="">
                                     <div class="row">
@@ -150,8 +166,8 @@
                                     </div>
                                 </div>
                                 <div class="pb-2">
-                                    <img src="assets/images/image-gallery/6.jpg" class="img-thumbnail" />
-                                    <a href="#"> <span class="video-icon"><i class="material-icons">play_circle_outline</i></span> </a>
+                                    <img src="assets/images/image-gallery/5.jpg" class="img-thumbnail" />
+                                    <!-- <a href="#"> <span class="video-icon"><i class="material-icons">play_circle_outline</i></span> </a> -->
                                 </div>
                                 <div class="">
                                     <div class="row">

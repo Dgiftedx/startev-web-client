@@ -9,6 +9,9 @@ import { fakeBackendProvider } from './_helpers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
+import { VgCoreModule } from 'videogular2/core';
+import { VgControlsModule } from 'videogular2/controls';
+import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
@@ -65,7 +68,10 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     NgSelectModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule
   ],
 
   exports : [
