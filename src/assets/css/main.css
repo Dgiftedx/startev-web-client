@@ -22960,10 +22960,17 @@ section small {
 }
 
 .profile-header {
+    min-height: 310px;
+    margin:0 !important;
+    padding:0 !important;
+}
+
+.profile-header img {
     background-repeat: no-repeat;
     background-position: center 30%;
     background-size: cover;
-    min-height: 310px;
+    height: 100% !important;
+    width: 100% !important;
 }
 
 

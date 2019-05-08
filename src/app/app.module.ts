@@ -13,6 +13,7 @@ import {VgCoreModule} from 'videogular2/core';
 import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
+import { ToastrModule } from 'ngx-toastr'; 
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
@@ -73,7 +74,12 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
-    VgBufferingModule
+    VgBufferingModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      progressBar: true,
+      timeOut: 3500
+    })
   ],
 
   exports : [
