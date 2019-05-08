@@ -38,6 +38,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { MentorComponent } from './mentor/mentor.component';
 import { MessageComponent } from './message/message.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { VentureHubComponent } from './venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './knowledge-hub/knowledge-hub.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
     ProfileComponent,
     MentorComponent,
     MessageComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    VentureHubComponent,
+    KnowledgeHubComponent,
+    ForgotPasswordComponent
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

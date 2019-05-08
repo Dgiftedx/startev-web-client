@@ -9,6 +9,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { MentorComponent } from './mentor/mentor.component';
 import { MessageComponent } from './message/message.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { VentureHubComponent } from './venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './knowledge-hub/knowledge-hub.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+
+
+
 
 const routes: Routes = [
 {path: '', component: FeedsComponent, canActivate : [AuthGuard] },
@@ -22,6 +28,13 @@ const routes: Routes = [
 {path: 'messages', component: MessageComponent, canActivate : [AuthGuard] },
 
 {path: 'edit-profile', component: ProfileEditComponent, canActivate : [AuthGuard] },
+
+{path: 'knowledge-hub', component: KnowledgeHubComponent, canActivate : [AuthGuard] },
+
+{path: 'venture-hub', component: VentureHubComponent, canActivate : [AuthGuard] },
+
+
+{path: 'forgot-password', component: ForgotPasswordComponent },
 
 {path: 'login', component: LoginComponent},
 

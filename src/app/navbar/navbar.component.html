@@ -16,22 +16,27 @@
                         </div>
                     </li>
                     <li class="hidden-sm">
-                        <a [routerLink]="['/feeds']" class="active inline-bar">
+                        <a 
+                        [routerLink]="['']" 
+                        routerLinkActive="active" 
+                        [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
                             <span class="inline-icon"><i class="material-icons">home</i></span><span class="inline-text"> Home</span>
                         </a>
                     </li>
                      <li class="hidden-sm">
-                        <a href="#" class="inline-bar">
+                        <a
+                        [routerLink]="['knowledge-hub']" 
+                        routerLinkActive="active" class="inline-bar">
                             <span class="inline-icon"><i class="material-icons">explore</i></span><span class="inline-text"> Knowledge Hub</span>
                         </a>
                     </li>
                      <li class="hidden-sm">
-                        <a href="#" class="inline-bar">
+                        <a [routerLink]="['/venture-hub']" routerLinkActive="active" class="inline-bar">
                             <span class="inline-icon"><i class="material-icons">business_center</i></span><span class="inline-text"> Venture Hub</span>
                         </a>
                     </li>
                     <li class="hidden-sm">
-                        <a [routerLink]="'/messages'" class="inline-bar">
+                        <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
                             <span class="inline-icon"><i class="material-icons">forum</i></span><span class="inline-text"> Messages</span>
                         </a>
                     </li>

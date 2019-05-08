@@ -196,3 +196,45 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .dim img{
 	opacity: 0.3;
 }
+
+.min-height-200 {
+	min-height: 240px;
+}
+
+.business img{
+	padding-bottom: 10px;
+	height: 90px;
+	width: auto;
+}
+.business h5 {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+}
+.business span {
+	font-weight: normal;
+	font-size: 15px;
+}
+.business .location {
+	line-height: 14px;
+}
+.border {
+	border: 1px solid #ccc;
+}
+
+.lesson-box{
+	margin:0 !important;
+	padding: 0 !important;
+}
+.lesson-body-top{
+	min-height: 50px;
+}
+
+.lesson-body-bottom{
+	padding:15px !important;
+	margin: 5px;
+}
+
+.lesson-box .lesson-image{
+
+}
