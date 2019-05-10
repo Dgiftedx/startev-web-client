@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { FeedsComponent } from './feeds/feeds.component';
-import { IndustryComponent } from './industry/industry.component';
+import { LoginComponent } from './components/login/login.component';
+import { FeedsComponent } from './components/feeds/feeds.component';
+import { IndustryComponent } from './components/industry/industry.component';
 import { AuthGuard } from './_guards';
-import { RegisterComponent } from './register/register.component';
-import { ProfileComponent } from './profile/profile.component';
-import { MentorComponent } from './mentor/mentor.component';
-import { MessageComponent } from './message/message.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { VentureHubComponent } from './venture-hub/venture-hub.component';
-import { KnowledgeHubComponent } from './knowledge-hub/knowledge-hub.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { MentorComponent } from './components/mentor/mentor.component';
+import { MessageComponent } from './components/message/message.component';
+import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
+import { VentureHubComponent } from './components/venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './components/knowledge-hub/knowledge-hub.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 
@@ -35,9 +36,8 @@ const routes: Routes = [
 
 
 {path: 'forgot-password', component: ForgotPasswordComponent },
-
+{path: 'reset-password', component: ResetPasswordComponent },
 {path: 'login', component: LoginComponent},
-
 {path: 'register', component: RegisterComponent},
 
 // otherwise redirect to home

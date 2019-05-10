@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/lib/bootstrap/css/bootstrap.min.css";
 @import "assets/lib/bootstrap-select/css/bootstrap-select.css";
-@import "assets/lib/multi-select/css/multi-select.css";
+/*@import "assets/lib/multi-select/css/multi-select.css";*/
 @import "assets/css/main.css";
 @import "assets/css/mentors.css";
 @import "assets/css/chatapp.css";
@@ -9,6 +9,7 @@
 @import "assets/css/color_skins.css";
 
 @import '~ngx-toastr/toastr.css';
+@import "~ladda/dist/ladda-themeless.min.css";
 @import "~@ng-select/ng-select/themes/material.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
@@ -237,4 +238,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .lesson-box .lesson-image{
 
+}
+
+.input-group-focus .is-invalid {
+	outline: none;
+  border: 1px solid var(--red) !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }

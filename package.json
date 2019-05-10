@@ -1,6 +1,6 @@
 {
   "name": "startev-client",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "@ng-select/ng-select": "^2.19.0",
+    "angular7-ladda": "^2.0.1",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "ngx-toastr": "^10.0.2",

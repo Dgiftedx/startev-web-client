@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from '../_services';
+import { AuthenticationService } from '../../_services';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,21 @@ export class LoginComponent implements OnInit {
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
 
+
+    handleResponse(data){
+      if (data.user && data.access_token) {
+           this.authenticationService.handleToken(data.access_token);
+           if (!this.authenticationService.loggedIn()) {
+             this.error = "Invalid Token supplied";
+             return;
+           }
+        this.authenticationService.setUser(data.user);
+        this.router.navigate([this.returnUrl]);
+      }
+    }
+
     onSubmit() {
+      this.error = '';
       this.submitted = true;
 
       // stop here if form is invalid
@@ -50,7 +64,8 @@ export class LoginComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  this.router.navigate([this.returnUrl]);
+                  this.handleResponse(data);
+                  this.loading = false;
               },
               error => {
                   this.error = error;

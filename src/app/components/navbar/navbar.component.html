@@ -111,19 +111,13 @@
                     
                     <li class="dropdown profile">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <img class="rounded-circle" src="../assets/images/profile_av.jpg" alt="User">
+                            <img class="rounded-circle" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" alt="User">
                         </a>
                         <ul class="dropdown-menu">
                             <li>
                                 <div class="user-info">
-                                    <h6 class="user-name m-b-0">Alizee Thomas</h6>
-                                    <p class="user-position">Available</p>
-                                    <a title="facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
-                                    <a title="twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                                    <a title="instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram"></i></a>
-                                    <a title="linkedin" href="javascript:void(0);"><i class="zmdi zmdi-linkedin-box"></i></a>
-                                    <a title="dribbble" href="javascript:void(0);"><i class="zmdi zmdi-dribbble"></i></a>
-                                    <a title="google plus" href="javascript:void(0);"><i class="zmdi zmdi-google-plus-box"></i></a>
+                                    <h6 class="user-name m-b-0">{{ currentUser.name }}</h6>
+                                    <p class="user-position">&nbsp;</p>
                                     <hr>
                                 </div>
                             </li>                            
@@ -178,19 +172,23 @@
     <div class="slim_scroll">
         <div class="card">
            <div class="media">
-                <div class="media-left p-2"> <a href="javascript:void(0);"> <img alt="" class="media-object rounded-circle img-raised" src="assets/images/profile_av.jpg" width="64" height="64"> </a> 
+                <div class="media-left p-2"> <a href="javascript:void(0);"> <img alt="" class="media-object rounded-circle img-raised" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" width="64" height="64"> </a> 
                 </div>
                 <div class="media-body pt-1">
-                    <h4 class="media-heading">John Darke</h4>
+                    <h4 class="media-heading">{{ currentUser.name }}</h4>
                     <span class="text-muted"><strong>Landscape Architech</strong></span><br/>
                     <span class="text-muted"><strong>Trainers 18/25</strong></span>
                 </div>
             </div>
         </div>
         <div class="card transparent text-center">
-             <p> Lanscape studio focussed problem solving creativity. Design to us is how we can make things *work* amazinly. </p>
-            <p class="text-muted text-left"><i class="icon-pointer"></i> Abuja, nigeria</p>
-            <p class="text-muted text-left"><i class="icon-link"></i> darke@gmail.com</p>
+             <p> {{ currentUser.bio?currentUser.bio : 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.' }} </p>
+            <p class="text-muted text-left">
+                <i class="icon-pointer"></i> 
+                <span *ngIf="currentUser.state">{{ currentUser.state }}, </span> 
+                {{ currentUser.country? currentUser.country : 'Address not set' }}
+            </p>
+            <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>
             <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
         </div>
         <div class="card text-center">

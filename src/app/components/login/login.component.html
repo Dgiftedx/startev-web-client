@@ -33,7 +33,7 @@
                               </div>
                           </div>
                            <div class="footer">
-                              <button [disabled]="loading" class="btn btn-warning btn-round waves-effect btn-block">SIGN IN</button>
+                              <button class="btn btn-warning btn-round waves-effect btn-block" [ladda]="loading">SIGN IN</button>
                               <a [routerLink]="['/register']" class="btn btn-sm btn-secondary waves-effect btn-simple btn-round">SIGN UP</a>
                           </div>
                           <div *ngIf="error" class="alert alert-danger">{{error}}</div>                            

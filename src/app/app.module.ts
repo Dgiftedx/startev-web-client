@@ -5,15 +5,15 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
-import { fakeBackendProvider } from './_helpers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
-import {VgCoreModule} from 'videogular2/core';
-import {VgControlsModule} from 'videogular2/controls';
-import {VgOverlayPlayModule} from 'videogular2/overlay-play';
-import {VgBufferingModule} from 'videogular2/buffering';
-import { ToastrModule } from 'ngx-toastr'; 
+import { MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
+import { VgCoreModule} from 'videogular2/core';
+import { VgControlsModule} from 'videogular2/controls';
+import { VgOverlayPlayModule} from 'videogular2/overlay-play';
+import { VgBufferingModule} from 'videogular2/buffering';
+import { ToastrModule } from 'ngx-toastr';
+import { LaddaModule } from  'angular7-ladda';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
@@ -22,25 +22,27 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsType: SPINNER.chasingDots, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbColor: "#C90C0C",
-  overlayColor: "rgba(40, 40, 40, 0.8)",
+  overlayColor: "rgba(40, 40, 40, 1)",
   pbThickness: 5, // progress bar thickness
 };
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './login/login.component';
-import { IndustryComponent } from './industry/industry.component';
-import { FeedsComponent } from './feeds/feeds.component';
-import { AlertComponent } from './alert/alert.component';
-import { RegisterComponent } from './register/register.component';
-import { ProfileComponent } from './profile/profile.component';
-import { MentorComponent } from './mentor/mentor.component';
-import { MessageComponent } from './message/message.component';
-import { ProfileEditComponent } from './profile-edit/profile-edit.component';
-import { VentureHubComponent } from './venture-hub/venture-hub.component';
-import { KnowledgeHubComponent } from './knowledge-hub/knowledge-hub.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { IndustryComponent } from './components/industry/industry.component';
+import { FeedsComponent } from './components/feeds/feeds.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { MentorComponent } from './components/mentor/mentor.component';
+import { MessageComponent } from './components/message/message.component';
+import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
+import { VentureHubComponent } from './components/venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './components/knowledge-hub/knowledge-hub.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { StSelectDirective } from './_directives/st-select.directive';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ProfileEditComponent,
     VentureHubComponent,
     KnowledgeHubComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    StSelectDirective,
+    ResetPasswordComponent
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -85,6 +89,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
       closeButton: true,
       progressBar: true,
       timeOut: 3500
+    }),
+    LaddaModule.forRoot({
+        style: "expand-right",
+        spinnerSize: 35,
+        spinnerLines: 15
     })
   ],
 
@@ -95,8 +104,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        fakeBackendProvider
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
