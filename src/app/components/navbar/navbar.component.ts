@@ -22,25 +22,8 @@ userProfile = {};
   this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-
-  getUserProfile(){
-    this.userSerivce.getProfile()
-    .subscribe(
-
-      data => {
-        this.userProfile = data;
-        console.log(data);
-      }
-
-     )
-  }
-
   ngOnInit() {
     
-  }
-
-  get profile(){
-    return this.userProfile.data;
   }
 
   logout() {
