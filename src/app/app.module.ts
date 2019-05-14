@@ -14,42 +14,47 @@ import { VgOverlayPlayModule} from 'videogular2/overlay-play';
 import { VgBufferingModule} from 'videogular2/buffering';
 import { ToastrModule } from 'ngx-toastr';
 import { LaddaModule } from  'angular7-ladda';
+import { ExcerptFilter } from './_filters/excerpt.filter';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
   bgsPosition: "bottom-center",
+
   bgsSize: 40,
   fgsType: SPINNER.chasingDots, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
   pbColor: "#C90C0C",
-  overlayColor: "rgba(40, 40, 40, 1)",
+  overlayColor: "rgba(40, 40, 40, 0.9)",
   pbThickness: 5, // progress bar thickness
 };
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { LoginComponent } from './components/login/login.component';
-import { IndustryComponent } from './components/industry/industry.component';
-import { FeedsComponent } from './components/feeds/feeds.component';
-import { AlertComponent } from './components/alert/alert.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { MentorComponent } from './components/mentor/mentor.component';
-import { MessageComponent } from './components/message/message.component';
-import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
-import { VentureHubComponent } from './components/venture-hub/venture-hub.component';
-import { KnowledgeHubComponent } from './components/knowledge-hub/knowledge-hub.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { NavbarComponent } from './pages/navbar/navbar.component';
+import { LoginComponent } from './pages/authentication/login/login.component';
+import { FeedsComponent } from './pages/home/feeds/feeds.component';
+import { AlertComponent } from './pages/alert/alert.component';
+import { RegisterComponent } from './pages/authentication/register/register.component';
+import { ProfileComponent } from './pages/profile/main-profile/profile.component';
+import { MentorComponent } from './pages/mentors/mentor-list/mentor.component';
+import { MessageComponent } from './pages/message/message.component';
+import { ProfileEditComponent } from './pages/profile/profile-edit/profile-edit.component';
+import { VentureHubComponent } from './pages/venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './pages/knowledge-hub/knowledge-hub.component';
+import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
 import { StSelectDirective } from './_directives/st-select.directive';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ResetPasswordComponent } from './pages/password/reset-password/reset-password.component';
+import { IndustryListComponent } from './pages/industries/industry-list/industry-list.component';
+import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
+import { FollowComponent } from './pages/widgets/follow/follow.component';
+import { ConnectComponent } from './pages/widgets/connect/connect.component';
+import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    IndustryComponent,
     FeedsComponent,
     AlertComponent,
     RegisterComponent,
@@ -61,7 +66,13 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     KnowledgeHubComponent,
     ForgotPasswordComponent,
     StSelectDirective,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ExcerptFilter,
+    IndustryListComponent,
+    IndustryDetailsComponent,
+    FollowComponent,
+    ConnectComponent,
+    MentorsComponent
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -100,7 +111,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
   exports : [
     MatButtonModule,
     MatCheckboxModule,
-    MatTabsModule
+    MatTabsModule,
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

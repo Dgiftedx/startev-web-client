@@ -4,4 +4,7 @@
 <ngx-ui-loader></ngx-ui-loader>
 
 <!-- App Content -->
-<router-outlet></router-outlet>
+<div [@routeAnimations]="o && o.activatedRouteData 
+      && o.activatedRouteData['animation']">
+    <router-outlet #o="outlet"></router-outlet>
+</div>

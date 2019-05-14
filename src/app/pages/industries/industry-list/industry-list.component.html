@@ -1,0 +1,68 @@
+<section class="content" [ngClass]="{'zero-margin': profile.progress !== 100}">
+	<div class="container">
+		<div class="row clearfix" 
+    [ngClass]="{'m-t-125': profile.progress === 100, 'zero-margin': profile.progress !== 100}">
+    <div class="col-sm-12 col-md-12 col-lg-9">
+     <div class="row clearfix">
+      <div class="col-sm-12 col-md-12">
+        <div class="row clearfix">
+         <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let industry of industries">
+          <div class="card info-box-2 feeds-container">
+           <div class="body">
+            <div class="content">
+              <div class="text text-bold">{{ industry.name }}</div>
+              <div class="mentor-count">
+               <a [routerLink]="['/industry', industry.slug]" class="btn btn-warning waves-effect btn-sm btn-round"> mentors ({{ industry.totalMentors }}) </a>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+<div class="col-sm-12 col-md-12 col-lg-3 sticky">
+  <div class="card feeds-container min-height-400">
+    <div class="body">
+      <ul class="list-group custom-list">
+        <li class="list-group-item">
+          <img src="assets/images/sm/avatar1.jpg" height="50" class="rounded-circle float-left" />
+          <div class="list-content">
+            <h6 class="list-title">John Gidado</h6>
+            <span class="list-position">Manager Sunflex</span>
+          </div>
+          <button class="btn btn-primary btn-sm btn-simple">Follow</button>
+        </li>
+        <li class="list-group-item">
+          <img src="assets/images/sm/avatar2.jpg" height="50" class="rounded-circle float-left" />
+          <div class="list-content">
+            <h6 class="list-title">Kelvin Black</h6>
+            <span class="list-position">CEO Grand More Inc.</span>
+          </div>
+          <button class="btn btn-primary btn-sm btn-simple">Follow</button>
+        </li>
+        <li class="list-group-item">
+          <img src="assets/images/sm/avatar3.jpg" height="50" class="rounded-circle float-left" />
+          <div class="list-content">
+            <h6 class="list-title">Malcon Malvin</h6>
+            <span class="list-position">Entrepreneur</span>
+          </div>
+          <button class="btn btn-primary btn-sm btn-simple">Follow</button>
+        </li>
+
+        <li class="list-group-item">
+          <img src="assets/images/sm/avatar4.jpg" height="50" class="rounded-circle float-left" />
+          <div class="list-content">
+            <h6 class="list-title">Bamidele Joshua</h6>
+            <span class="list-position">CEO Health Ko.</span>
+          </div>
+          <button class="btn btn-primary btn-sm btn-simple">Follow</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</section>

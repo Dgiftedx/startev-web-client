@@ -1,0 +1,200 @@
+<!-- Overlay For Sidebars -->
+<div class="overlay" (click)="toggleMenu()"></div>
+<!-- Top Bar -->
+<nav class="top_navbar">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-12">
+                <div class="navbar-logo">
+                    <a href="javascript:void(0);" class="bars"></a>
+                    <a class="navbar-brand" href="/"><img src="assets/logo/logo_.png" width="40" alt="Startev"><span class="m-l-10">Startev</span></a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="search_bar hidden-xs hidden-md">
+                        <div class="input-group">                
+                            <input type="text" class="form-control" placeholder="Find your stuff...">
+                        </div>
+                    </li>
+                    <li class="hidden-sm hidden-xs hidden-md">
+                        <a 
+                        [routerLink]="['']" 
+                        routerLinkActive="active" 
+                        [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
+                            <span class="inline-icon"><i class="material-icons">home</i></span><span class="inline-text"> Home</span>
+                        </a>
+                    </li>
+                     <li class="hidden-sm">
+                        <a
+                        [routerLink]="['knowledge-hub']" 
+                        routerLinkActive="active" class="inline-bar">
+                            <span class="inline-icon"><i class="material-icons">explore</i></span><span class="inline-text"> Knowledge Hub</span>
+                        </a>
+                    </li>
+                     <li class="hidden-sm">
+                        <a [routerLink]="['/venture-hub']" routerLinkActive="active" class="inline-bar">
+                            <span class="inline-icon"><i class="material-icons">business_center</i></span><span class="inline-text"> Venture Hub</span>
+                        </a>
+                    </li>
+                    <li class="hidden-sm">
+                        <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
+                            <span class="inline-icon"><i class="material-icons">forum</i></span><span class="inline-text"> Messages</span>
+                        </a>
+                    </li>
+                    <li class="dropdown notifications">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <span class="inline-icon"><i class="material-icons">notifications</i></span>
+                            <span class="label-count">5</span></a>
+                        <ul class="dropdown-menu">
+                            <li class="header">New Message</li>
+                            <li class="body">
+                                <ul class="menu list-unstyled">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <img class="media-object" src="assets/images/xs/avatar5.jpg" alt="">
+                                                <div class="media-body">
+                                                    <span class="name">Alexander <span class="time">13min ago</span></span>
+                                                    <span class="message">Meeting with Shawn at Stark Tower by 8 o'clock.</span>                                        
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <img class="media-object" src="assets/images/xs/avatar6.jpg" alt="">
+                                                <div class="media-body">
+                                                    <span class="name">Grayson <span class="time">22min ago</span></span>
+                                                    <span class="message">You have 5 unread emails in your inbox.</span>                                        
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <img class="media-object" src="assets/images/xs/avatar3.jpg" alt="">
+                                                <div class="media-body">
+                                                    <span class="name">Sophia <span class="time">31min ago</span></span>
+                                                    <span class="message">OrderPlaced: You received a new oder from Tina.</span>                                        
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>                
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <img class="media-object" src="../assets/images/xs/avatar4.jpg" alt="">
+                                                <div class="media-body">
+                                                    <span class="name">Isabella <span class="time">35min ago</span></span>
+                                                    <span class="message">Lara added a comment in Blazing Saddles.</span>                                        
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <img class="media-object" src="../assets/images/xs/avatar8.jpg" alt="">
+                                                <div class="media-body">
+                                                    <span class="name">Sophia <span class="time">48min ago</span></span>
+                                                   assets/images/profile_av.jpg <span class="message">OrderPlaced: You received a new oder from Tina.</span>                                        
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="footer"> <a href="javascript:void(0);">View All</a> </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="dropdown profile">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <img class="rounded-circle" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" alt="User">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="user-info">
+                                    <h6 class="user-name m-b-1">{{ currentUser.name }}</h6>
+                                    <p class="user-position">{{ profile.role | uppercase }}</p>
+                                    <hr>
+                                </div>
+                            </li>                            
+                            <li><a [routerLink]="['/profile']"><i class="icon-user m-r-10"></i> <span>My Profile</span> <span class="badge badge-success float-right">{{ profile.progress }}%</span></a></li>                  
+                            <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="javascript:void(0);" (click)="toggleMenu()" class="js-right-sidebar"><i class="icon-equalizer"></i></a></li>
+                </ul>
+            </div>
+        </div>        
+    </div>
+</nav>
+
+<aside id="leftsidebar" class="sidebar h_menu">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-12">
+                <div class="menu">
+                    <ul class="list">
+                        <li class="header">MAIN</li>
+                        
+                         <li *ngFor="let industry of industries" class=""> 
+                            <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
+                                <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
+                            </a>
+                        </li>
+                       
+                         <li class=""> 
+                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+<div *ngIf="profile.progress !== 100" class="alert alert-warning m-t-125 feeds-container" role="alert">
+    <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you viible to other users on the platform</span>
+</div>
+
+<!-- Right Bar Section -->
+<!-- Right Sidebar -->
+<aside id="rightsidebar" class="right-sidebar " [ngClass]="{'open': show==true}">
+    <div class="slim_scroll">
+        <div class="card">
+           <div class="media">
+                <div class="media-left p-2"> <a href="javascript:void(0);"> <img alt="" class="media-object rounded-circle img-raised" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" width="64" height="64"> </a> 
+                </div>
+                <div class="media-body pt-1">
+                    <h4 class="media-heading">{{ currentUser.name }}</h4>
+                    <span *ngIf="profile.role === 'student'" 
+                    class="text-muted"><strong>{{ profile.role }}</strong></span><br/>
+
+                     <span *ngIf="profile.role === 'mentor'" 
+                     class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></span><br/>
+
+                    <span *ngIf="profile.role === 'student'" 
+                    class="text-muted"><strong>Trainers 18/25</strong></span>
+                </div>
+            </div>
+        </div>
+        <div class="card transparent text-center">
+             <p> {{ currentUser.bio?currentUser.bio : 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.' }} </p>
+            <p class="text-muted text-left">
+                <i class="icon-pointer"></i> 
+                <span *ngIf="currentUser.state">{{ currentUser.state }}, </span> 
+                {{ currentUser.country? currentUser.country : 'Address not set' }}
+            </p>
+            <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>
+            <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
+        </div>
+        <div class="card text-center">
+            <h6>Profile Completion</h6>
+            <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="profile.progress" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': profile.progress+'%'}"> {{ profile.progress }}% </div>
+            <br/>
+            <a [routerLink] = "'/edit-profile'" class="btn btn-sm btn-simple btn-round btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</aside>

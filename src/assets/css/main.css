@@ -19355,7 +19355,7 @@ section.content {
     position: relative
 }
 
-section.content::before {
+/*section.content::before {
     background: #f5f5f5;
     top: -120px;
     left: 0;
@@ -19363,7 +19363,7 @@ section.content::before {
     height: 180px;
     width: 100%;
     position: absolute
-}
+}*/
 
 section small {
     font-size: 90%
@@ -19898,6 +19898,15 @@ section small {
     
 }
 
+@media only screen and (max-width: 1028px) {
+    .hidden-sm {
+        display: none !important
+    }
+    .m-t-125 {
+        margin-top: 66px;
+    }
+}
+
 @media only screen and (max-width: 992px) {
     .hidden-sm {
         display: none !important
@@ -19908,11 +19917,18 @@ section small {
     	position: -webkit-static !important;
     	display: block !important;
     }
+    .m-t-125 {
+        margin-top: 65px;
+    }
 }
 
 @media only screen and (max-width: 767px) {
     .hidden-xs {
         display: none !important
+    }
+
+    .m-t-125 {
+        margin-top: 60px;
     }
 }
 

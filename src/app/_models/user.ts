@@ -8,7 +8,5 @@ export class User {
     password: string;
     role: string;
     bg_image: string;
-    careerPath? : string;
-    secondaryCP? : string;
     access_token?: string;
 }

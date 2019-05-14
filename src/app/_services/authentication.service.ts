@@ -20,7 +20,6 @@ export class AuthenticationService {
     public baseurl = 'http://startev.server';
     public endPointAuth = 'http://startev.server/api/auth';
 
-
     //Server
     // public endpoint = 'https://bs.educare.school/api/v1';
     // public baseurl = 'https://bs.educare.school';
@@ -28,7 +27,7 @@ export class AuthenticationService {
     // private school_website = 'https://www.educare.school';
 
 
-     private iss = {
+    private iss = {
         login: `${this.endPointAuth}/login`,
         register : `${this.endPointAuth}/register`
     }
@@ -73,9 +72,29 @@ export class AuthenticationService {
         this.currentUserSubject.next(user);
     }
 
+    //set basic user data
+    setUserData(data){
+        localStorage.setItem('userData', JSON.stringify(data));
+    }
+
     // Set access token
     setToken(token){
-         localStorage.setItem('access_token', token);   
+        localStorage.setItem('access_token', token);   
+    }
+
+
+    removeUser(){
+        return localStorage.removeItem('currentUser');
+    }
+
+    //get user data from storage
+    getUserData(){
+        return localStorage.getItem('userData');
+    }
+
+    //remove user data from storage
+    removeUserData(){
+        return localStorage.removeItem('userData');
     }
 
 
@@ -94,11 +113,11 @@ export class AuthenticationService {
         const token = this.getToken();
 
         if (token) {
-            
+
             const payload = this.payload(token);
 
             if (payload) {
-               return Object.values(this.iss).indexOf(payload.iss) > -1 ? true : false;
+                return Object.values(this.iss).indexOf(payload.iss) > -1 ? true : false;
             }
         }
 
@@ -124,7 +143,8 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
+        this.removeUser();
+        this.removeUserData();
         // remove access_token
         this.removeToken();
         this.currentUserSubject.next(null);

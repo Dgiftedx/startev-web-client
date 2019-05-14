@@ -1,26 +1,41 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { FeedsComponent } from './components/feeds/feeds.component';
-import { IndustryComponent } from './components/industry/industry.component';
+import { LoginComponent } from './pages/authentication/login/login.component';
+import { FeedsComponent } from './pages/home/feeds/feeds.component';
+import { IndustryListComponent } from './pages/industries/industry-list/industry-list.component';
 import { AuthGuard } from './_guards';
-import { RegisterComponent } from './components/register/register.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { MentorComponent } from './components/mentor/mentor.component';
-import { MessageComponent } from './components/message/message.component';
-import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
-import { VentureHubComponent } from './components/venture-hub/venture-hub.component';
-import { KnowledgeHubComponent } from './components/knowledge-hub/knowledge-hub.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { RegisterComponent } from './pages/authentication/register/register.component';
+import { ProfileComponent } from './pages/profile/main-profile/profile.component';
+import { MentorComponent } from './pages/mentors/mentor-list/mentor.component';
+import { MessageComponent } from './pages/message/message.component';
+import { ProfileEditComponent } from './pages/profile/profile-edit/profile-edit.component';
+import { VentureHubComponent } from './pages/venture-hub/venture-hub.component';
+import { KnowledgeHubComponent } from './pages/knowledge-hub/knowledge-hub.component';
+import { ResetPasswordComponent } from './pages/password/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
+import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 
 
 
 
 const routes: Routes = [
-{path: '', component: FeedsComponent, canActivate : [AuthGuard] },
+{
+	path: '', 
+	component: FeedsComponent, 
+	data : {animation: 'Feeds'},
+	canActivate : [AuthGuard] },
 
-{path: 'industry', component: IndustryComponent, canActivate : [AuthGuard] },
+{
+	path: 'industry', 
+	component: IndustryListComponent,
+	data: {animation: 'Industries'}, 
+	canActivate : [AuthGuard] },
+
+{
+	path: 'industry/:slug', 
+	component: IndustryDetailsComponent,
+	canActivate : [AuthGuard] 
+},
 
 {path: 'profile', component: ProfileComponent, canActivate : [AuthGuard] },
 
@@ -30,7 +45,11 @@ const routes: Routes = [
 
 {path: 'edit-profile', component: ProfileEditComponent, canActivate : [AuthGuard] },
 
-{path: 'knowledge-hub', component: KnowledgeHubComponent, canActivate : [AuthGuard] },
+{
+	path: 'knowledge-hub', 
+	component: KnowledgeHubComponent,
+	data: {animation: 'All'}, 
+	canActivate : [AuthGuard] },
 
 {path: 'venture-hub', component: VentureHubComponent, canActivate : [AuthGuard] },
 
