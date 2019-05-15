@@ -1,4 +1,4 @@
-<section class="content">
+<section class="content" [ngClass]="{'zero-margin': progress !== 100}">
 	<div class="container-fluid">
 		<div class="row clearfix m-t-123">
 			<div class="col-md-12">
@@ -27,106 +27,205 @@
 				<div class="card">
                     <div class="header">
                         <h2><strong>Account</strong> Settings</h2>
+                        <p class="text-danger" *ngIf="role === 'business'"> The avatar can be changed to your company or business logo & must be <b>450x450</b> width & height respectively.</p>
                     </div>
                     <div class="body">
-                        <div class="row clearfix">
-                            <div class="col-lg-6">
+                       <form [formGroup]="userForm" (ngSubmit)="userFormSubmit()">
+                            <div class="row clearfix">
+                            <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Full Name">
+                                    <input type="text" formControlName="name" class="form-control" placeholder="Full Name">
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Username">
+                                    <input type="email" formControlName="email" class="form-control" placeholder="E-mail">
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="E-mail">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Phone">
+                                    <input type="text" formControlName="phone" class="form-control" placeholder="Phone">
                                 </div>
                             </div>
                                                            
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
-                                    <label>Country</label>
-                                    <select class="form-control">
-                                        <option>select country</option>
-                                    </select>
+                                     <label>Country</label>
+                                      <ng-select [items]="countries"
+                                               bindLabel="name"
+                                               (change)="countryChange($event)"
+                                               bindValue="id"
+                                               placeholder="select country"
+                                               formControlName="country">
+                                    </ng-select>
                                 </div>
                             </div>
                            
                             <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>State</label>
-                                     <select class="form-control">
-                                        <option>select state</option>
-                                    </select>
+                                     <ng-select [items]="states"
+                                               bindLabel="name"
+                                               (change)="stateChange($event)"
+                                               bindValue="id"
+                                               placeholder="select state"
+                                               formControlName="state">
+                                    </ng-select>
                                 </div>
                             </div>
 
                              <div class="col-lg-4 col-md-12">
                                 <div class="form-group">
                                     <label>City</label>
-                                     <select class="form-control">
-                                        <option>select city</option>
-                                    </select>
+                                     <ng-select [items]="cities"
+                                               bindLabel="name"
+                                               bindValue="id"
+                                               placeholder="select city"
+                                               formControlName="city">
+                                    </ng-select>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Residentiial Address</label>
-                                    <textarea rows="3" class="form-control no-resize" placeholder="Address Line 1"></textarea>
+                                    <label>Date of Birth</label>
+                                    <input [owlDateTimeTrigger]="dt3" formControlName="dob" class="form-control" [owlDateTime]="dt3">
+                                    <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-5">
+                                <div class="form-group">
+                                    <label>Residential Address</label>
+                                    <textarea rows="3" formControlName="address" class="form-control no-resize" placeholder="Address Line 1"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>A Brief About You</label>
-                                    <textarea rows="3" class="form-control no-resize" placeholder="say something"></textarea>
+                                    <label>A Short Brief About You</label>
+                                    <textarea rows="3" formControlName="bio" class="form-control no-resize" placeholder="say something"></textarea>
                                 </div>
                             </div>
                             
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-round">Save Changes</button>
+                                <button class="btn btn-danger btn-round" [ladda]="userFormLoading">Save Changes</button>
                             </div>
                         </div>
+                       </form>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Extra</strong> Settings</h2>
+                        <h2><strong>Platform</strong> Settings</h2>
                     </div>
                     <div class="body">
-                       <div class="row clearfix">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Your Position @current Employment">
+                            <div *ngIf="role === 'student'">
+                            <form [formGroup]="studentForm">
+                             <div class="row clearfix">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="institution" class="form-control" placeholder="School/Institution/College">
+                                    </div>
                                 </div>
-                            </div>
-                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="other">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="faculty" class="form-control" placeholder="Faculty">
+                                    </div>
                                 </div>
-                            </div>
-                           <div class="col-md-12">
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="department" class="form-control" placeholder="Department">
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="level" class="form-control" placeholder="Level/Year">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mt-3">
+                                    <div class="form-group">
+                                        <label>Primary Career Path</label>
+                                       <ng-select [items]="careerPaths"
+                                               bindLabel="name"
+                                               bindValue="id"
+                                               placeholder="select primary career path"
+                                               formControlName="careerPath">
+                                    </ng-select>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-6 col-sm-12 mt-3">
+                                    <div class="form-group">
+                                        <label>Secondary Career Path</label>
+                                         <ng-select [items]="careerPaths"
+                                               bindLabel="name"
+                                               bindValue="id"
+                                               placeholder="select secondary career path"
+                                               formControlName="secondaryCP">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                           <!-- <div class="col-md-12">
                                 <div class="checkbox">
                                     <input id="procheck1" type="checkbox">
                                     <label for="procheck1">Profile Visibility For Everyone</label>
                                 </div>
+                            </div> -->
+                                <div class="col-md-12 mt-5">
+                                    <button class="btn btn-warning btn-round">Save Changes</button>
+                                </div>
+                                </div>
+                            </form>
                             </div>
-                            <div class="col-md-12">
-                                <button class="btn btn-primary btn-round">Save Changes</button>
-                            </div>
-                       </div>                               
+
+                            <div *ngIf="role === 'business'">
+                                <form [formGroup]="businessForm">
+                                    <div class="row clearfix">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" formControlName="name" class="form-control" placeholder="Company/Business Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <textarea class="form-control" formControlName="description" name="" rows="4" placeholder="About Company"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" formControlName="phone" class="form-control" placeholder="Company/Business Phone">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" formControlName="website" class="form-control" placeholder="Website">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div formArrayName="services"
+                                                  *ngFor="let service of businessForm.get('services').controls; let i = index;">
+                                                  <div [formGroupName]="i">
+                                                    <input formControlName="slug" placeholder="Service Slug">
+                                                    <input formControlName="name" placeholder="Service Name">
+                                                  </div>
+                                                  Chosen service: {{ businessForm.controls.services.controls[i].controls.name.value }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary btn-round">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>                   
                     </div>
                 </div>
 

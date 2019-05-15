@@ -1,9 +1,9 @@
-<section class="content">
+<section class="content" [ngClass]="{'zero-margin': profile.progress !== 100}">
 	<div class="container-fluid">
-		<div class="row clearfix m-t-123">
+		<div class="row clearfix">
 			<div class="col-md-12">
 				<div class="card text-white feeds-container" style="margin: 0 !important;">
-					<div class="body bg-pink profile-header" style="background-image: url(assets/images/social1.jpg);">
+					<div class="body bg-pink profile-header" [style.background-image.url]="currentUser.bg_image">
 						
 					</div>
 				</div>
@@ -16,17 +16,23 @@
 				<div class="card member-card transparent">
                     <div class="member-img">
                         <a href="#" class="">
-                        <img src="../assets/images/profile_av.jpg" class="user_pic rounded-circle img-raised" alt="profile-image">
+                        <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" class="user_pic rounded-circle img-raised" alt="profile-image">
                         </a>
                     </div>
                     <div class="body">
                         <div class="col-12">
-                        	<h6>John Darke</h6>
-                        	<p class="text-muted"><strong>Lanscape Architech</strong></p>
-                        	<p class="text-muted">Lanscape studio focussed problem solving creativity. Design to us is how we can make things *work* amazinly.</p>
+                        	<h6>{{ currentUser.name | titlecase }}</h6>
+                        	<p *ngIf="profile.role === 'mentor'" class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></p>
+
+                        	<p *ngIf="profile.role === 'student'" class="text-muted"><strong>{{ profile.role | titlecase }}</strong></p>
+
+                        	<p class="text-muted">{{ currentUser.bio?currentUser.bio : defaultBio }} </p>
                            
-                            <p class="text-muted text-left"><i class="icon-pointer"></i> Abuja, nigeria</p>
-                            <p class="text-muted text-left"><i class="icon-link"></i> darke@gmail.com</p>
+                            <p class="text-muted text-left"><i class="icon-pointer"></i> 
+                            	 <span *ngIf="currentUser.state">{{ currentUser.state }}, </span> 
+                					{{ currentUser.country? currentUser.country : 'Address not set' }}
+                            </p>
+                            <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>
                             <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
                         </div>
                         <hr>
@@ -41,39 +47,74 @@
 			<div class="col-md-6">
 				<div class="profile-pane"> 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
-					  <li class="nav-item">
-					    <a class="nav-link active" id="feed-tab" data-toggle="tab" href="#feed" role="tab" aria-controls="feed" aria-selected="true">Feeds</a>
-					  </li>
-					  <li class="nav-item">
-					    <a class="nav-link" id="conection-tab" data-toggle="tab" href="#connection" role="tab" aria-controls="connection" aria-selected="false">Connections</a>
-					  </li>
-					  <li class="nav-item">
-					    <a class="nav-link" id="training-tab" data-toggle="tab" href="#training" role="tab" aria-controls="training" aria-selected="false"> Saved Trainings </a>
-					  </li>
-					  <li class="nav-item">
-					    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+					  <li class="nav-item" *ngFor="let tab of profileTabs; let first = first">
+					    <a class="nav-link" [class.active]="selectedTab === tab" [attr.data-toggle]="tab" href="javascript:void(0);" (click)="selectedTab = tab" role="tab" [attr.aria-controls]="tab" [attr.aria-selected]="{true: first}">{{ tab|titlecase }} </a>
 					  </li>
 					</ul>
 				</div>
 				<div class="row clearfix m-t-20"> 
 					<div class="col-sm-12 col-md-12">
-						<div class="card feeds-container min-height-400">
-		                    <div class="body">
-		                    	<br/>
-		                    	<br/>
-		                    </div>
-		                </div>
-					</div>
+					<div class="tab-content">
+                		<div
+                		*ngIf="selectedTab === profileTabs[0]" 
+                		role="tabpanel" class="tab-pane active" 
+                		[class.in]="selectedTab === profileTabs[0]" 
+                		id="{{ selectedTab }}">
 
-					<div class="col-sm-12 col-md-12">
-						<div class="card feeds-container min-height-400">
-		                    <div class="body">
-		                    	<br/>
-		                    	<br/>
-		                    </div>
-		                </div>
-					</div>
+                			<!-- Tab Contents -->
 
+                			<div class="card feeds-container">
+				                <div class="body">
+				                    	<h4 class="text-center">{{ selectedTab }}</h4>
+				                </div>
+							</div>
+
+							<!--//Tab Contents -->
+
+                		</div>
+                	</div>
+
+                	<div class="tab-content">
+                		<div
+                		*ngIf="selectedTab === profileTabs[1]" 
+                		role="tabpanel" class="tab-pane active" 
+                		[class.in]="selectedTab === profileTabs[1]" 
+                		id="{{ selectedTab }}">
+
+                			<!-- Tab Contents -->
+
+							<div class="card feeds-container min-height-400">
+				                <div class="body">
+				                    	<h4 class="text-center">{{ selectedTab }}</h4>
+				                </div>
+							</div>
+
+							<!--//Tab Contents -->
+
+                		</div>
+                	</div>
+
+                	<div class="tab-content">
+                		<div
+                		*ngIf="selectedTab === profileTabs[2]" 
+                		role="tabpanel" class="tab-pane active" 
+                		[class.in]="selectedTab === profileTabs[2]" 
+                		id="{{ selectedTab }}">
+
+
+                			<!-- Tab Contents -->
+
+                			<div class="card feeds-container min-height-400">
+				                <div class="body">
+				                    	<h4 class="text-center">{{ selectedTab }}</h4>
+				                </div>
+							</div>
+
+							<!--//Tab Contents -->
+							
+                		</div>
+                	</div>
+                </div>
 				</div>
 			</div>
 			<div class="col-md-3 m-t-80 sticky">

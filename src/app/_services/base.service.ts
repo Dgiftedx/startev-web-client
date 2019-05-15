@@ -32,4 +32,22 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/single-industry/${slug}`);
 	}
 
+	fetchUserProfile(){
+		return this.http.get(`${this.endpoint}/get-profile`);
+	}
+
+
+	fetchCountries(){
+		return this.http.get(`${this.endpoint}/countries`);
+	}
+
+	getStates(id : any){
+		return this.http.get(`${this.endpoint}/states/${id}`);
+	}
+
+
+	getCities(id : any){
+		return this.http.get(`${this.endpoint}/cities/${id}`);
+	}
+
 }

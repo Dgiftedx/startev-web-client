@@ -28,7 +28,7 @@ const routes: Routes = [
 {
 	path: 'industry', 
 	component: IndustryListComponent,
-	data: {animation: 'Industries'}, 
+	data: {animation: 'Industries'},
 	canActivate : [AuthGuard] },
 
 {
@@ -37,7 +37,11 @@ const routes: Routes = [
 	canActivate : [AuthGuard] 
 },
 
-{path: 'profile', component: ProfileComponent, canActivate : [AuthGuard] },
+{
+	path: 'profile', 
+	component: ProfileComponent,
+	data: {animation: 'Profile'},
+	canActivate : [AuthGuard] },
 
 {path: 'mentor', component: MentorComponent, canActivate : [AuthGuard] },
 

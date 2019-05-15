@@ -15,11 +15,11 @@ import { VgBufferingModule} from 'videogular2/buffering';
 import { ToastrModule } from 'ngx-toastr';
 import { LaddaModule } from  'angular7-ladda';
 import { ExcerptFilter } from './_filters/excerpt.filter';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
   bgsPosition: "bottom-center",
-
   bgsSize: 40,
   fgsType: SPINNER.chasingDots, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
@@ -105,7 +105,9 @@ import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
         style: "expand-right",
         spinnerSize: 35,
         spinnerLines: 15
-    })
+    }),
+     OwlDateTimeModule, 
+     OwlNativeDateTimeModule,
   ],
 
   exports : [

@@ -8,10 +8,11 @@
 @import "assets/css/feed-box.css";
 @import "assets/css/color_skins.css";
 
-@import '~ngx-toastr/toastr.css';
+@import "~ngx-toastr/toastr.css";
 @import "~ladda/dist/ladda-themeless.min.css";
-@import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -21,6 +22,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-bold {
 	color: #222;
 	font-weight: 600;
+}
+
+.ng-select{
+	border-radius: 50px !important;
 }
 
 .mentor-count {
@@ -248,4 +253,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}
+
+
+/* NG Select custom style */
+
+.ng-select .ng-select-container {
+    /*padding: 0 20px !important;*/
+    border-radius: 60px !important;
+}
+
+.ng-select.disabled .ng-arrow-wrapper .ng-arrow {
+   display: none;
+}
+
+.ng-select.disabled ng-dropdown-panel {
+  display: none;
+}
+
+.ng-select.disabled .ng-clear-wrapper {
+ display: none;
 }

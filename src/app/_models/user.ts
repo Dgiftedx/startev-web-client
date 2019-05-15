@@ -6,6 +6,7 @@ export class User {
     email : string;
     phone : string;
     password: string;
+    address : string;
     role: string;
     bg_image: string;
     access_token?: string;
