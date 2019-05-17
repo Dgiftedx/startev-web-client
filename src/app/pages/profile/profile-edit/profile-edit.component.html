@@ -1,11 +1,19 @@
-<section class="content" [ngClass]="{'zero-margin': progress !== 100}">
+<section class="content" [ngClass]="{'zero-margin': progress < 82}">
 	<div class="container-fluid">
 		<div class="row clearfix m-t-123">
 			<div class="col-md-12">
 				<div class="card text-white feeds-container" style="margin: 0 !important;">
 					<div class="body bg-pink profile-header dim">
-                        <img src="assets/images/social1.jpg"/>
-						<button class="btn btn-simple btn-round btn-warning">change header image</button>
+                        <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}"/>
+						<form>
+                            <label class="btn btn-warning btn-sm btn-round fileLabel">
+                                <input 
+                                class="hiddenFileInputField" 
+                                type="file" 
+                                accept="image/*"
+                                (change)="uploadHeaderImage(profileHeaderInput)"
+                                #profileHeaderInput> Change header image</label>
+                        </form>
 					</div>
 				</div>
 			</div>
@@ -16,9 +24,19 @@
 			<div class="col-md-3 m-t--30">
 				<div class="card member-card transparent">
                     <div class="member-img">
-                        <a href="#" class="profile-container">
-                        <img src="../assets/images/profile_av.jpg" class="user_pic rounded-circle img-raised" alt="profile-image">
-                        <span class="change-pics"><a href="#"> Change </a></span>
+                        <a href="javascript:void(0);" class="profile-container">
+                        <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" class="user_pic rounded-circle img-raised" alt="profile-image">
+                        <span class="change-pics">
+                            <form>
+                                <label class="btn btn-warning btn-sm btn-round fileLabel">
+                                    <input 
+                                    class="hiddenFileInputField" 
+                                    type="file" 
+                                    accept="image/*"
+                                    (change)="uploadProfileAvatar($event)"
+                                    #profileImageInput> change</label>
+                            </form>
+                        </span>
                         </a>
                     </div>
                 </div>
@@ -34,19 +52,42 @@
                             <div class="row clearfix">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input type="text" formControlName="name" class="form-control" placeholder="Full Name">
+                                    <input 
+                                    type="text" 
+                                    formControlName="name" 
+                                    class="form-control" 
+                                    placeholder="Full Name" 
+                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                                    >
+                                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                      <div *ngIf="f.name.errors.required">Full Name can't be empty</div>
+                                  </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="email" formControlName="email" class="form-control" placeholder="E-mail">
+                                    <input 
+                                    type="email" 
+                                    formControlName="email" 
+                                    class="form-control"
+                                    placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                      <div *ngIf="f.email.errors.required">Full Name can't be empty</div>
+                                  </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="text" formControlName="phone" class="form-control" placeholder="Phone">
+                                    <input 
+                                    type="text" 
+                                    formControlName="phone" 
+                                    class="form-control" 
+                                    placeholder="Phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                      <div *ngIf="f.phone.errors.required">Full Name can't be empty</div>
+                                  </div>
                                 </div>
                             </div>
                                                            
@@ -109,7 +150,7 @@
                             </div>
                             
                             <div class="col-md-12">
-                                <button class="btn btn-danger btn-round" [ladda]="userFormLoading">Save Changes</button>
+                                <button class="btn btn-danger btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
                             </div>
                         </div>
                        </form>
@@ -121,27 +162,55 @@
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
                     <div class="body">
-                            <div *ngIf="role === 'student'">
-                            <form [formGroup]="studentForm">
+                        <div *ngIf="role === 'student'">
+                            <form [formGroup]="studentForm" (ngSubmit)="studentFormSubmit()">
                              <div class="row clearfix">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" formControlName="institution" class="form-control" placeholder="School/Institution/College">
+                                        <input type="text" 
+                                        formControlName="institution" 
+                                        class="form-control" 
+                                        placeholder="School/Institution/College" 
+                                        [ngClass]="{ 'is-invalid': studentFormSubmitted && s.institution.errors }">
+                                        <div *ngIf="studentFormSubmitted && s.institution.errors" class="invalid-feedback">
+                                          <div *ngIf="s.institution.errors.required">Field can't be empty</div>
+                                      </div>
                                     </div>
                                 </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" formControlName="faculty" class="form-control" placeholder="Faculty">
+                                        <input type="text" 
+                                        formControlName="faculty" 
+                                        class="form-control" 
+                                        placeholder="Faculty" 
+                                        [ngClass]="{ 'is-invalid': studentFormSubmitted && s.faculty.errors }">
+                                         <div *ngIf="studentFormSubmitted && s.faculty.errors" class="invalid-feedback">
+                                          <div *ngIf="s.faculty.errors.required">Field can't be empty</div>
+                                      </div>
                                     </div>
                                 </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" formControlName="department" class="form-control" placeholder="Department">
+                                        <input type="text" 
+                                        formControlName="department" 
+                                        class="form-control" 
+                                        placeholder="Department" 
+                                        [ngClass]="{ 'is-invalid': studentFormSubmitted && s.department.errors }">
+                                         <div *ngIf="studentFormSubmitted && s.department.errors" class="invalid-feedback">
+                                          <div *ngIf="s.department.errors.required">Field can't be empty</div>
+                                      </div>
                                     </div>
                                 </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                        <input type="text" formControlName="level" class="form-control" placeholder="Level/Year">
+                                        <input type="text" 
+                                        formControlName="level" 
+                                        class="form-control" 
+                                        placeholder="Level/Year" 
+                                        [ngClass]="{ 'is-invalid': studentFormSubmitted && s.level.errors }">
+                                         <div *ngIf="studentFormSubmitted && s.level.errors" class="invalid-feedback">
+                                          <div *ngIf="s.level.errors.required">Field can't be empty</div>
+                                      </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mt-3">
@@ -174,11 +243,114 @@
                                 </div>
                             </div> -->
                                 <div class="col-md-12 mt-5">
-                                    <button class="btn btn-warning btn-round">Save Changes</button>
+                                    <button class="btn btn-warning btn-round waves-effect">Save Changes</button>
                                 </div>
                                 </div>
                             </form>
                             </div>
+
+                             <div *ngIf="role === 'mentor'">
+                                <form [formGroup]="mentorForm" (ngSubmit)="mentorFormSubmit()">
+                                    <div class="row clearfix">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>Employment Status</label>
+                                                     <ng-select [items]="employmentState"
+                                                           bindLabel="name"
+                                                           bindValue="name"
+                                                           placeholder="Employment Status"
+                                                           formControlName="employmentStatus">
+                                                    </ng-select>
+                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Current Job Position (<small>if you own a business, state your role</small>)</label>
+                                                 <input type="text" formControlName="current_job_position" class="form-control" placeholder="Current Job Position">
+                                            </div>
+                                        </div>
+
+                                       <div class="col-md-12 mt-3">
+                                            <div class="form-group">
+                                                <label>Work Experience Entry</label>
+                                                <div 
+                                                    formArrayName="workExperience"
+                                                    *ngFor="let experience of mentorForm.get('workExperience').controls; let i = index;">
+
+                                                  <div class="text-center mt-2 mb-2 p-2">{{ i+1 }}
+                                                    <button type=" button" *ngIf="i !== 0" 
+                                                    class="btn btn-round btn-danger btn-sm" 
+                                                    (click)="removeWorkExperience(i)"> remove</button>
+                                                </div>
+
+                                                  <div [formGroupName]="i">
+                                                    <input formControlName="company" class="form-control" placeholder="Company"><br/>
+                                                    <input formControlName="position" class="form-control" placeholder="Position"><br/>
+
+                                                     <input formControlName="location" class="form-control" placeholder="Company Address"><br/>
+
+                                                      <input [owlDateTimeTrigger]="dt5" formControlName="from_date" class="form-control" [owlDateTime]="dt5" placeholder="Start Date"><br/>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt5></owl-date-time>
+
+                                                      <input [owlDateTimeTrigger]="dt4" formControlName="to_date" class="form-control" [owlDateTime]="dt4" placeholder="End Date"><br/>
+                                                     <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+
+                                                       <div class="checkbox">
+                                                        <input id="tillDate" type="checkbox" formControlName="till_present">
+                                                        <label for="tillDate">Till date ?</label>
+                                                      </div>
+                                                  </div>
+                                                  
+                                                </div>
+                                                <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addworkExperience()"> Add More</button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 mt-3 mb-4">
+                                            <div class="form-group">
+                                                <label>Education Entry</label>
+                                                <div 
+                                                    formArrayName="education"
+                                                    *ngFor="let experience of mentorForm.get('education').controls; let i = index;">
+
+                                                  <div class="text-center mt-1 mb-1 p-1">{{ i+1 }}
+                                                    <button type="button" *ngIf="i !== 0" 
+                                                    class="btn btn-round btn-danger btn-sm" 
+                                                    (click)="removeEducation(i)"> remove</button>
+                                                </div>
+
+                                                  <div [formGroupName]="i">
+                                                    <input formControlName="institution" class="form-control" placeholder="Institution"><br/>
+                                                    <input formControlName="program" class="form-control" placeholder="Program of Study"><br/>
+
+                                                     <input [owlDateTimeTrigger]="dt2" formControlName="from_date" class="form-control" [owlDateTime]="dt2" placeholder="Start Date"><br/>
+                                                        <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+
+                                                      <input [owlDateTimeTrigger]="dt1" formControlName="to_date" class="form-control" [owlDateTime]="dt1" placeholder="End Date"><br/>
+                                                      <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+
+                                                       <div class="checkbox">
+                                                        <input id="tillPresent" type="checkbox" formControlName="till_present">
+                                                        <label for="tillPresent">Till date ?</label>
+                                                      </div>
+                                                  </div>
+                                                  
+                                                </div>
+                                                <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addEducation()"> Add More</button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 mt-4">
+                                            <button class="btn btn-danger btn-round" [ladda]="mentorFormLoading">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>    
 
                             <div *ngIf="role === 'business'">
                                 <form [formGroup]="businessForm">
@@ -191,35 +363,32 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <textarea class="form-control" formControlName="description" name="" rows="4" placeholder="About Company"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
                                                 <input type="text" formControlName="phone" class="form-control" placeholder="Company/Business Phone">
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input type="text" formControlName="website" class="form-control" placeholder="Website">
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <div formArrayName="services"
-                                                  *ngFor="let service of businessForm.get('services').controls; let i = index;">
-                                                  <div [formGroupName]="i">
-                                                    <input formControlName="slug" placeholder="Service Slug">
-                                                    <input formControlName="name" placeholder="Service Name">
-                                                  </div>
-                                                  Chosen service: {{ businessForm.controls.services.controls[i].controls.name.value }}
-                                                </div>
+                                                <textarea class="form-control" formControlName="description" name="" rows="4" placeholder="About Company"></textarea>
                                             </div>
                                         </div>
 
+                                       
+                                       <div class="col-md-12">
+                                           <div class="form-group">
+                                               <ng-select [items]="[]"
+                                                           [addTag]="true"
+                                                           [multiple]="true"
+                                                           [isOpen]="false">
+                                                </ng-select>
+                                           </div>
+                                       </div>
                                         <div class="col-md-12">
                                             <button class="btn btn-primary btn-round">Save Changes</button>
                                         </div>
@@ -229,21 +398,89 @@
                     </div>
                 </div>
 
+                <div class="card" *ngIf="role === 'mentor' || role === 'business'">
+                    <div class="header">
+                        <h2><strong>Industries of Interest</strong> Settings</h2>
+                    </div>
+                    <div class="body">
+                        <form [formGroup]="industryForm" (ngSubmit)="industryFormSubmit()">
+                             <div class="form-group">
+                                <ng-select [items]="industries"
+                                        [addTag]="addTag"
+                                        [hideSelected]="true"
+                                        multiple="true"
+                                        bindLabel="name"
+                                        formControlName="industries">
+                                </ng-select>
+                            </div>
+                            <button class="btn btn-warning btn-round waves-effect">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
 				<div class="card">
                     <div class="header">
                         <h2><strong>Security</strong> Settings</h2>
                     </div>
                     <div class="body">
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="Current Password">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" placeholder="New Password">
-                        </div>
-                        <button class="btn btn-primary btn-round">Save Changes</button>                               
+                        <form [formGroup]="passwordForm" (ngSubmit)="passwordFormSubmit()">
+                            <div class="form-group">
+                                <input type="password" 
+                                formControlName="password" 
+                                [ngClass]="{'is-invalid': passSubmitted && pass.password.errors}"
+                                class="form-control" placeholder="New Password">
+                                <div *ngIf="passSubmitted && pass.password.errors" class="invalid-feedback">
+                                  <div *ngIf="pass.password.errors.required">Password is required</div>
+                                  <div *ngIf="pass.password.errors.minlength">Password must be at least 6 characters</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" 
+                                formControlName="confirmPassword"
+                                [ngClass]="{'is-invalid': passSubmitted && pass.confirmPassword.errors}"
+                                class="form-control" placeholder="Confirm New Password">
+                                <div *ngIf="passSubmitted && pass.confirmPassword.errors" class="invalid-feedback">
+                                  <div *ngIf="pass.confirmPassword.errors.required">Confirm Password is required</div>
+                                  <div *ngIf="pass.confirmPassword.errors.mustMatch">Passwords must match</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-round waves-effect">Save Changes</button> 
+                        </form>                              
                     </div>
                 </div>
 			</div>
 		</div>
 	</div>
+
+    <!-- Page Modals -->
+    <div class="modal fade" #imageCropperModal id="imageCropperModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body"> 
+                 <image-cropper
+                  style="max-height: 460px !important;"
+                  [imageChangedEvent]="imageChangedEvent"
+                  [maintainAspectRatio]="true"
+                  [aspectRatio]="5 / 5"
+                  [resizeToWidth]="180"
+                  [cropperMinWidth]="180"
+                  [onlyScaleDown]="true"
+                  [roundCropper]="false"
+                  format="png"
+                  outputType="base64"
+                  (imageCropped)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()"
+                  (cropperReady)="cropperReady()"
+                  (loadImageFailed)="loadImageFailed()"
+              ></image-cropper>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-round waves-effect" (click)="saveImage()" [ladda]="avatarLoading">SAVE CHANGES</button>
+                <button id="closeImageModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </section>

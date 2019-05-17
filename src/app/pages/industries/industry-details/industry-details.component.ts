@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../../_models';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
-import { switchMap } from "rxjs/operators"
+import { switchMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-industry-details',

@@ -19,35 +19,54 @@ export class BaseService {
 	endpoint = this.authenticationService.endpoint;
 	endPointAuth = this.authenticationService.endPointAuth;
 
-	fetchIndustries(){
+	public fetchIndustries(){
 		return this.http.get(`${this.endpoint}/industries`);
 	}
 
-	fetchAllIndustries(){
+	public fetchAllIndustries(){
 		return this.http.get(`${this.endpoint}/all-industries`);
 	}
 
 
-	getSingleIndustry(slug : any){
+	public getSingleIndustry(slug : any){
 		return this.http.get(`${this.endpoint}/single-industry/${slug}`);
 	}
 
-	fetchUserProfile(){
+	public fetchUserProfile(){
 		return this.http.get(`${this.endpoint}/get-profile`);
 	}
 
 
-	fetchCountries(){
+	public fetchCountries(){
 		return this.http.get(`${this.endpoint}/countries`);
 	}
 
-	getStates(id : any){
+	public getStates(id : any){
 		return this.http.get(`${this.endpoint}/states/${id}`);
 	}
 
 
-	getCities(id : any){
+	public getCities(id : any){
 		return this.http.get(`${this.endpoint}/cities/${id}`);
+	}
+
+	// Register a new user
+    public updateUserData(formData: any, url : string, id : number){
+        return this.http.post<any>(`${this.endpoint}/${url}/${id}`, formData);
+    }
+
+    public fetchCareerPaths(){
+		return this.http.get(`${this.endpoint}/career-paths`);
+	}
+
+	public updateImage(imageData: any, id: number) {
+		return this.http.post<any>(`${this.endpoint}/update-user-avatar/${id}`, imageData);
+	}
+
+	public updateHeaderImage(imageData: any, id: number){
+		let formData = new FormData();
+		formData.append('image', imageData);
+		return this.http.post<any>(`${this.endpoint}/update-user-header-image/${id}`, formData);
 	}
 
 }

@@ -7,6 +7,7 @@ import { AuthGuard } from './_guards';
 import { RegisterComponent } from './pages/authentication/register/register.component';
 import { ProfileComponent } from './pages/profile/main-profile/profile.component';
 import { MentorComponent } from './pages/mentors/mentor-list/mentor.component';
+import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
 import { MessageComponent } from './pages/message/message.component';
 import { ProfileEditComponent } from './pages/profile/profile-edit/profile-edit.component';
 import { VentureHubComponent } from './pages/venture-hub/venture-hub.component';
@@ -43,7 +44,7 @@ const routes: Routes = [
 	data: {animation: 'Profile'},
 	canActivate : [AuthGuard] },
 
-{path: 'mentor', component: MentorComponent, canActivate : [AuthGuard] },
+{path: 'mentor', component: MentorProfileComponent, canActivate : [AuthGuard] },
 
 {path: 'messages', component: MessageComponent, canActivate : [AuthGuard] },
 

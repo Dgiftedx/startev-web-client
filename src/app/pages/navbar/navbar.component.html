@@ -1,5 +1,5 @@
 <!-- Overlay For Sidebars -->
-<div class="overlay" (click)="toggleMenu()"></div>
+<!-- <div class="overlay"></div> -->
 <!-- Top Bar -->
 <nav class="top_navbar">
     <div class="container">
@@ -20,29 +20,46 @@
                         [routerLink]="['']" 
                         routerLinkActive="active" 
                         [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
-                            <span class="inline-icon"><i class="material-icons">home</i></span><span class="inline-text"> Home</span>
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','home']" size="lg"></fa-icon>
+                            </span>
+                            <span class="inline-text"> Home</span>
                         </a>
                     </li>
                      <li class="hidden-sm">
                         <a
                         [routerLink]="['knowledge-hub']" 
-                        routerLinkActive="active" class="inline-bar">
-                            <span class="inline-icon"><i class="material-icons">explore</i></span><span class="inline-text"> Knowledge Hub</span>
+                        routerLinkActive="active" 
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="inline-bar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','universal-access']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Knowledge Hub</span>
                         </a>
                     </li>
                      <li class="hidden-sm">
-                        <a [routerLink]="['/venture-hub']" routerLinkActive="active" class="inline-bar">
-                            <span class="inline-icon"><i class="material-icons">business_center</i></span><span class="inline-text"> Venture Hub</span>
+                        <a 
+                        [routerLink]="['/venture-hub']" 
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="inline-bar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','archive']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Venture Hub</span>
                         </a>
                     </li>
                     <li class="hidden-sm">
                         <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
-                            <span class="inline-icon"><i class="material-icons">forum</i></span><span class="inline-text"> Messages</span>
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','comment-alt']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Messages</span>
                         </a>
                     </li>
                     <li class="dropdown notifications">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <span class="inline-icon"><i class="material-icons">notifications</i></span>
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','bell']" size="lg"></fa-icon>
+                            </span>
                             <span class="label-count">5</span></a>
                         <ul class="dropdown-menu">
                             <li class="header">New Message</li>
@@ -59,50 +76,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="media">
-                                                <img class="media-object" src="assets/images/xs/avatar6.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Grayson <span class="time">22min ago</span></span>
-                                                    <span class="message">You have 5 unread emails in your inbox.</span>                                        
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="media">
-                                                <img class="media-object" src="assets/images/xs/avatar3.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Sophia <span class="time">31min ago</span></span>
-                                                    <span class="message">OrderPlaced: You received a new oder from Tina.</span>                                        
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>                
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="media">
-                                                <img class="media-object" src="../assets/images/xs/avatar4.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Isabella <span class="time">35min ago</span></span>
-                                                    <span class="message">Lara added a comment in Blazing Saddles.</span>                                        
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);">
-                                            <div class="media">
-                                                <img class="media-object" src="../assets/images/xs/avatar8.jpg" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">Sophia <span class="time">48min ago</span></span>
-                                                   assets/images/profile_av.jpg <span class="message">OrderPlaced: You received a new oder from Tina.</span>                                        
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
+                                  
                                 </ul>
                             </li>
                             <li class="footer"> <a href="javascript:void(0);">View All</a> </li>
@@ -111,7 +85,7 @@
                     
                     <li class="dropdown profile">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <img class="rounded-circle" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" alt="User">
+                            <img class="rounded-circle" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" alt="User">
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -125,7 +99,13 @@
                             <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0);" (click)="toggleMenu()" class="js-right-sidebar"><i class="icon-equalizer"></i></a></li>
+                    <li>
+                        <a href="javascript:void(0);" class="js-right-sidebar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','adjust']" size="lg" [spin]="true"></fa-icon>
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>        
@@ -155,14 +135,19 @@
         </div>
     </div>
 </aside>
-<div *ngIf="profile.progress !== 100" class="alert alert-warning m-t-125 feeds-container" role="alert">
+<div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">
     <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you viible to other users on the platform</span>
 </div>
 
 <!-- Right Bar Section -->
 <!-- Right Sidebar -->
-<aside id="rightsidebar" class="right-sidebar " [ngClass]="{'open': show==true}">
+<aside id="rightsidebar" class="right-sidebar">
     <div class="slim_scroll">
+        <div class="text-center">
+            <button (click)="toggleMenu()" class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
+                <fa-icon [icon]="['fas','window-close']" size='lg'></fa-icon>
+            </button>
+        </div>
         <div class="card">
            <div class="media">
                 <div class="media-left p-2"> <a href="javascript:void(0);"> <img alt="" class="media-object rounded-circle img-raised" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/profile_av.jpg' }}" width="64" height="64"> </a> 
@@ -184,7 +169,7 @@
              <p> {{ currentUser.bio?currentUser.bio : 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.' }} </p>
             <p class="text-muted text-left">
                 <i class="icon-pointer"></i> 
-                <span *ngIf="currentUser.state">{{ currentUser.state }}, </span> 
+                <span *ngIf="currentUser.state"> {{ currentUser.state }}, </span> 
                 {{ currentUser.country? currentUser.country : 'Address not set' }}
             </p>
             <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>

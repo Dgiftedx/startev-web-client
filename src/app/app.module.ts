@@ -16,6 +16,12 @@ import { ToastrModule } from 'ngx-toastr';
 import { LaddaModule } from  'angular7-ladda';
 import { ExcerptFilter } from './_filters/excerpt.filter';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#C90C0C',
@@ -42,13 +48,13 @@ import { ProfileEditComponent } from './pages/profile/profile-edit/profile-edit.
 import { VentureHubComponent } from './pages/venture-hub/venture-hub.component';
 import { KnowledgeHubComponent } from './pages/knowledge-hub/knowledge-hub.component';
 import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
-import { StSelectDirective } from './_directives/st-select.directive';
 import { ResetPasswordComponent } from './pages/password/reset-password/reset-password.component';
 import { IndustryListComponent } from './pages/industries/industry-list/industry-list.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 import { FollowComponent } from './pages/widgets/follow/follow.component';
 import { ConnectComponent } from './pages/widgets/connect/connect.component';
 import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
+import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
 
 @NgModule({
   declarations: [
@@ -65,14 +71,14 @@ import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
     VentureHubComponent,
     KnowledgeHubComponent,
     ForgotPasswordComponent,
-    StSelectDirective,
     ResetPasswordComponent,
     ExcerptFilter,
     IndustryListComponent,
     IndustryDetailsComponent,
     FollowComponent,
     ConnectComponent,
-    MentorsComponent
+    MentorsComponent,
+    MentorProfileComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -108,6 +114,8 @@ import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
     }),
      OwlDateTimeModule, 
      OwlNativeDateTimeModule,
+     ImageCropperModule,
+     FontAwesomeModule
   ],
 
   exports : [

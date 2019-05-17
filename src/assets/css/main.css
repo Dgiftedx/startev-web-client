@@ -18183,7 +18183,7 @@ img {
 }
 
 .m-t-125 {
-    margin-top: 125px
+    margin-top: 150px;
 }
 
 .m-r-125 {
@@ -19902,9 +19902,11 @@ section small {
     .hidden-sm {
         display: none !important
     }
-    .m-t-125 {
+    .m-t-125, .m-t-120 {
         margin-top: 66px;
+
     }
+
 }
 
 @media only screen and (max-width: 992px) {
@@ -19917,7 +19919,7 @@ section small {
     	position: -webkit-static !important;
     	display: block !important;
     }
-    .m-t-125 {
+    .m-t-125, .m-t-120 {
         margin-top: 65px;
     }
 }
@@ -19927,7 +19929,7 @@ section small {
         display: none !important
     }
 
-    .m-t-125 {
+    .m-t-125, .m-t-120 {
         margin-top: 60px;
     }
 }
@@ -22976,7 +22978,8 @@ section small {
 }
 
 .profile-header {
-    min-height: 310px;
+    max-height: 350px;
+    height: 350px;
     margin:0 !important;
     padding:0 !important;
 }

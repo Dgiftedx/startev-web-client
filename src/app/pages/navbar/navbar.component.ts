@@ -5,6 +5,7 @@ import { AuthenticationService, AlertService, UserService, BaseService } from '.
 import { User } from '../../_models';
 import { Functions } from '../../_helpers';
 import * as _ from 'lodash';
+declare var $: any;
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +13,10 @@ import * as _ from 'lodash';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
   currentUser: User;
   show: boolean = false;
-  industries = [];
+  industries: Array<any> = [];
 
   constructor(
     private router: Router,
@@ -56,7 +58,7 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleMenu(){
-    this.show = this.show === false ? true : false;
+    $(document).find('.js-right-sidebar').click();
   }
 
   progress(){

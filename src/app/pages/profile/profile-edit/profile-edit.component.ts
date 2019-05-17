@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { AuthenticationService, AlertService, UserService, BaseService } from '../../../_services';
+declare var $: any;
+import * as _ from 'lodash';
+import { AuthenticationService, AlertService, UserService, BaseService} from '../../../_services';
 import { User } from '../../../_models';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import * as _ from 'lodash';
+import { MustMatch } from '../../../_helpers/must-match';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { NgSelectConfig } from '@ng-select/ng-select';
 
 
@@ -16,16 +19,25 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 export class ProfileEditComponent implements OnInit {
 	private value:any = {};
 	public countries : Array<any> = [];
+	public industries: Array<any> = [];
 	states: Array<any> = [];
 	cities: Array<any> = [];
 	careerPaths : Array<any> = [];
 	public selectedCountry = {};
+	public selectedIndustries = {};
+
+	employmentState: Array<any> = [
+		{id: 1, name: "Employed", alias: "employed"},
+		{id: 2, name: "Unemployed", alias: "unemployed"},
+		{id: 3, name: "Own a Business", alias: "own_business"},
+		{id: 4, name: "Retired", alias: "retired"},
+	];
 
 	currentUser: User;
 	show: boolean = false;
 	user;
 	profileData;
-	roleData;
+	roleData: any;
 
 	progress;
 	role;
@@ -34,6 +46,9 @@ export class ProfileEditComponent implements OnInit {
 	studentForm: FormGroup;
 	mentorForm: FormGroup;
 	businessForm: FormGroup;
+	passwordForm: FormGroup;
+
+	industryForm: FormGroup;
 
 	workExperience: FormArray;
 	education: FormArray;
@@ -43,6 +58,21 @@ export class ProfileEditComponent implements OnInit {
 	userFormLoading = false;
 	userFormSubmitted = false;
 	userFormError = '';
+
+
+	studentFormLoading = false;
+	studentFormSubmitted = false;
+	studentFormError = '';
+
+	mentorFormLoading = false;
+	mentorFormSubmitted = false;
+	mentorFormError = '';
+
+
+	avatarLoading = false;
+
+	passSubmitted = false;
+
 
 	constructor(
 		private config: NgSelectConfig,
@@ -54,9 +84,14 @@ export class ProfileEditComponent implements OnInit {
 		private authenticationService: AuthenticationService) {
 		this.createForm();
 		this.config.notFoundText = 'item not found';
+		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+		this.getCountries();
+		this.getIndustryList();
 	}
 
 
+	imageChangedEvent: any = '';
+    croppedImage: any = '';
 
 	createWorkExperienceItems(): FormGroup {
 		return this.formBuilder.group({
@@ -77,14 +112,6 @@ export class ProfileEditComponent implements OnInit {
 			from_date: '',
 			to_date: '',
 			till_present: ''
-		});
-	}
-
-
-	createServicesItems(): FormGroup {
-		return this.formBuilder.group({
-			slug: '',
-			name: ''
 		});
 	}
 
@@ -110,10 +137,10 @@ export class ProfileEditComponent implements OnInit {
 		});
 
 		this.mentorForm = this.formBuilder.group({
-			employmentStatus : ['', Validators.required],
+			employmentStatus : [''],
 			workExperience : this.formBuilder.array([this.createWorkExperienceItems()]),
 			education: this.formBuilder.array([this.createEducationItems()]),
-			current_job_position : ['', Validators.required]
+			current_job_position : ['']
 		});
 
 		this.studentForm = this.formBuilder.group({
@@ -130,8 +157,17 @@ export class ProfileEditComponent implements OnInit {
 			description: ['', Validators.required],
 			phone: ['', Validators.required],
 			website: ['', Validators.required],
-			services: this.formBuilder.array([this.createServicesItems()]),
+			services: [],
 			social_handle: this.formBuilder.array([this.createSocialHandle()])
+		});
+
+		this.passwordForm = this.formBuilder.group({
+			password : ['', [Validators.required, Validators.minLength(6)]],
+			confirmPassword : ['', Validators.required],
+		}, {validator : MustMatch('password','confirmPassword')})
+
+		this.industryForm = this.formBuilder.group({
+			industries: []
 		});
 	}
 
@@ -139,6 +175,8 @@ export class ProfileEditComponent implements OnInit {
 	ngOnInit() {
 		this.getProfileData();
 		this.getCountries();
+		this.getCareerPaths();
+		this.getIndustryList();
 	}
 
 	handleProfileResponse(data: any){
@@ -153,10 +191,64 @@ export class ProfileEditComponent implements OnInit {
 		this.userForm.get('email').setValue(this.user.email);
 		this.userForm.get('phone').setValue(this.user.phone);
 		this.userForm.get('bio').setValue(this.user.bio);
-		this.userForm.get('dob').setValue(this.user.dob);
-		this.userForm.get('country').setValue(this.user.country);
-		this.userForm.get('state').setValue(this.user.state);
-		this.userForm.get('city').setValue(this.user.city);
+		
+		//set date of birth
+		if (_.size(this.user.dob) > 0) {
+			// converts dob to datepicker readable form
+			this.userForm.get('dob').setValue(new Date(this.user.dob));
+		}
+
+		//set country value if it's set.
+		if (_.size(this.user.country) > 0) {
+			let country = this.findStackByName(this.countries, this.user.country);
+
+			if (country) {
+				this.userForm.get('country').setValue(country.id);
+			}
+		}
+
+		//set state value if it's set.
+		if (_.size(this.user.state) > 0 ) {
+
+			//fetch all states and pull user state
+			let country2 = this.findStackByName(this.countries, this.user.country);
+			setTimeout(() => {
+				if (country2) {
+					this.getStates(country2.id);
+					setTimeout(() => {
+						let state = this.findStackByName(this.states, this.user.state);
+						if (state) {
+							this.userForm.get('state').setValue(state.id);
+						}
+					}, 200)
+				}
+			})
+
+		}
+
+		//set city value if it's set.
+		if (_.size(this.user.city) > 0 ) {
+
+			//fetch all states and pull user state
+			let country3 = this.findStackByName(this.countries, this.user.country);
+			// console.log(country3);
+			//fetch cities
+			setTimeout(() => {
+				this.getCities(country3.id);
+				setTimeout(() => {
+					if (_.size(this.cities) > 0) {
+						let city = this.findStackByName(this.cities, this.user.city);
+
+						if (city) {
+							this.userForm.get('city').setValue(city.id);
+						}
+						
+					}
+				}, 800)
+			}, 1400)
+
+		}
+		
 		this.userForm.get('address').setValue(this.user.address);
 
 		//toggle Disable State
@@ -164,12 +256,12 @@ export class ProfileEditComponent implements OnInit {
 
 		//Set role based form values
 		if (this.profileData.role === 'student') {
-			this.studentForm.get('institution').setValue(this.roleData.institution);
-			this.studentForm.get('faculty').setValue(this.roleData.faculty);
-			this.studentForm.get('department').setValue(this.roleData.department);
-			this.studentForm.get('level').setValue(this.roleData.level);
-			this.studentForm.get('careerPath').setValue(this.roleData.careerPath);
-			this.studentForm.get('secondaryCP').setValue(this.roleData.secondaryCP);
+			this.setStudentFormFields();
+		}
+
+		if (this.profileData.role === 'mentor') {
+			this.setMentorFormFields();
+			this.setIndustryField();
 		}
 
 		if (this.profileData.role ==='business') {
@@ -184,6 +276,89 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
+	setStudentFormFields(){
+		this.studentForm.get('institution').setValue(this.roleData.institution);
+		this.studentForm.get('faculty').setValue(this.roleData.faculty);
+		this.studentForm.get('department').setValue(this.roleData.department);
+		this.studentForm.get('level').setValue(this.roleData.level);
+
+		let career1 = this.findStackByName(this.careerPaths, this.roleData.careerPath);
+		let career2 = this.findStackByName(this.careerPaths, this.roleData.secondaryCP);
+
+		setTimeout(() => {
+			if (career1) {
+				this.studentForm.get('careerPath').setValue(career1.id);
+			}
+
+			if (career2) {
+				this.studentForm.get('secondaryCP').setValue(career2.id);
+			}
+		}, 200)
+	}
+
+
+	setMentorFormFields(){
+		this.mentorForm.get('employmentStatus').setValue(this.roleData.employmentStatus);
+		this.mentorForm.get('current_job_position').setValue(this.roleData.current_job_position);
+
+		if (_.size(this.roleData.workExperience) > 0) {
+			let experienceArray: FormArray = this.mentorForm.get('workExperience') as FormArray;
+
+			this.roleData.workExperience.forEach((item, index) => {
+				experienceArray.controls[index].get('company').setValue(item.company);
+				experienceArray.controls[index].get('position').setValue(item.position);
+				experienceArray.controls[index].get('location').setValue(item.location);
+				experienceArray.controls[index].get('company').setValue(item.company);
+
+				if (_.size(item.from_date) > 0) {
+					experienceArray.controls[index].get('from_date').setValue(new Date(item.from_date));
+				}
+				if (_.size(item.to_date)) {
+					experienceArray.controls[index].get('to_date').setValue(new Date(item.to_date));
+				}
+				experienceArray.controls[index].get('till_present').setValue(item.till_present);
+			})
+		}
+
+
+		if (_.size(this.roleData.education) > 0) {
+			let educationArray: FormArray = this.mentorForm.get('education') as FormArray;
+
+			this.roleData.education.forEach((item, index) => {
+				educationArray.controls[index].get('institution').setValue(item.institution);
+				educationArray.controls[index].get('program').setValue(item.program);
+
+				if (_.size(item.from_date) > 0) {
+					educationArray.controls[index].get('from_date').setValue(new Date(item.from_date));
+				}
+				if (_.size(item.to_date)) {
+					educationArray.controls[index].get('to_date').setValue(new Date(item.to_date));
+				}
+				educationArray.controls[index].get('till_present').setValue(item.till_present);
+			})
+		}
+
+	}
+
+
+
+	setIndustryField(){
+		if (_.size(this.user.industries) > 0) {
+			this.handleUpdatedUserIndustry(this.user);
+		}
+	}
+
+	// convenience getter for easy access to form fields
+    get f() { return this.userForm.controls; }
+
+    get s() { return this.studentForm.controls; }
+
+    get m() { return this.mentorForm.controls; }
+
+    get b() { return this.businessForm.controls; }
+
+    get pass() { return this.passwordForm.controls; }
+
 	toggleDisableState(){
 		if (_.size(this.states) === 0) {
 			this.userForm.controls['state'].disable();
@@ -196,6 +371,17 @@ export class ProfileEditComponent implements OnInit {
 		}else{
 			this.userForm.controls['city'].enable();
 		}
+	}
+
+
+	// Object finder
+	findStackById(collection: Array<any>, key: any){
+		return _.findLast(collection, ['id',key]);
+	}
+
+	// Object finder
+	findStackByName(collection: Array<any>, key: any){
+		return _.findLast(collection, ['name',key]);
 	}
 
 	handleCountriesResponse(data){
@@ -213,15 +399,68 @@ export class ProfileEditComponent implements OnInit {
 		this.toggleDisableState();
 	}
 
-	get profile(){
-		return this.profileData;
+	handleRoledataResponse(data){
+		this.roleData = data.roleData;
+		//update localStorage
+		let update: any = this.authenticationService.getUserData();
+		//converts string to json
+		update = JSON.parse(update);
+		//reset role data
+		update.roleData = data.roleData;
+		//reset progress
+		update.progress = data.progress;
+		//remove userData from local storage
+		this.authenticationService.removeUserData();
+
+		//update
+		this.authenticationService.setUserData(update);
+
+		if (this.roleData.role === 'student') {
+			//update form fields
+			this.setStudentFormFields();
+		}
+
+		if (this.roleData.role === 'mentor') {
+			this.setMentorFormFields();
+		}
+
+	}
+
+
+	handleCareersResponse(data){
+		this.careerPaths = data.careers;
 	}
 
 
 
+	handleImageResponse(data: any): void{
+		this.authenticationService.removeUser();
+		this.authenticationService.setUser(data.user);
+		this.user = data.user;
+	}
+
+
+	handleIndustriesResponse(data: any){
+	    data.industries.forEach((item) => {
+	    	this.industries.push({id: item.id, name: item.name});
+	    });
+	}
+
+
+
+	handleUpdatedUserIndustry(data : any){
+		this.industryForm = this.formBuilder.group({
+			industries : [data.industries]
+		});
+	}
+
+
+	get profile(){
+		return this.profileData;
+	}
 
 	//Add new mentor work experience
-	addworkExperience(): void {
+	public addworkExperience(): void {
 		this.workExperience = this.mentorForm.get('workExperience') as FormArray;
 		this.workExperience.push(this.createWorkExperienceItems());
 	}
@@ -233,18 +472,17 @@ export class ProfileEditComponent implements OnInit {
 		this.education.push(this.createEducationItems());
 	}
 
-
-	//Add new business services
-	addServices(): void {
-		this.services = this.businessForm.get('services') as FormArray;
-		this.services.push(this.createServicesItems());
-	}
-
 	//Add new business social handle
 	addSocialHandle(): void {
 		this.social_handle = this.businessForm.get('social_handle') as FormArray;
 		this.social_handle.push(this.createSocialHandle());
 	}
+
+	//return a new object of added tag
+	addTag(name){
+		return {name: name, tag: true}
+	}
+
 
 	// remove work experience from group
 	removeWorkExperience(index) {
@@ -256,17 +494,24 @@ export class ProfileEditComponent implements OnInit {
 		this.education.removeAt(index);
 	}
 
-	// remove work experience from group
-	removeService(index) {
-		this.services.removeAt(index);
-	}
-
 	countryChange(e){
 		return this.getStates(this.userForm.controls['country'].value);
 	}
 
 	stateChange(e){
 		return this.getCities(this.userForm.controls['country'].value);
+	}
+
+	getCareerPaths(){
+		this.baseService.fetchCareerPaths()
+		.subscribe(
+			data => {
+				this.handleCareersResponse(data);
+			},
+			error => {
+				this.alert.errorMsg(error.error,"Request Failed");
+			}
+		)
 	}
 
 	getProfileData(){
@@ -278,7 +523,20 @@ export class ProfileEditComponent implements OnInit {
 			error => {
 				this.alert.errorMsg(error.error,"Request Failed");
 			}
-			)
+		)
+	}
+
+	getIndustryList(){
+	    this.baseService.fetchAllIndustries()
+	    .subscribe(
+	        data => {
+	          this.handleIndustriesResponse(data);
+	        },
+
+	        error => {
+	          this.alert.errorMsg(error.error,"Request Failed");
+	        }
+	      )
 	}
 
 	getCountries(){
@@ -318,6 +576,87 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
+	updateLocalStorage(data : any){
+		this.authenticationService.removeUserData();
+		this.authenticationService.setUserData(data.profileData);
+
+		//update global current user
+		this.authenticationService.removeUser();
+		this.authenticationService.setUser(data.profileData.user);
+	}
+
+	openModal(): void {
+		$(document).find('#imageCropperModal').modal();
+		setTimeout(() => {
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+		}, 200);
+	}
+
+
+	// PROFILE AVATAR & IMAGE UPLOAD
+	 uploadProfileAvatar(event: any): void {
+    	this.openModal();
+        this.imageChangedEvent = event;
+    }
+
+    imageCropped(event: ImageCroppedEvent) {
+        this.croppedImage = event.base64;
+    }
+    imageLoaded() {
+        // show cropper
+    }
+    cropperReady() {
+        // cropper ready
+        console.log("image crop ready");
+    }
+    loadImageFailed() {
+        // show message
+        console.log("image crop failed");
+    }
+
+
+
+    uploadHeaderImage(profileHeaderInput: any): void {
+    	const headerImage : File = profileHeaderInput.files[0];
+    	this.saveHeaderImage(headerImage);
+    }
+
+    saveImage(): void {
+    	this.avatarLoading = true;
+    	let imageObject: any = {image: this.croppedImage};
+
+    	this.baseService.updateImage(imageObject, this.user.id)
+    	.subscribe(
+    		data => {
+    			this.handleImageResponse(data);
+    			this.avatarLoading = false;
+    			$('#closeImageModal').click();
+    		},
+
+    		error => {
+    			this.avatarLoading = false;
+    		}
+    	)
+    }
+
+
+    saveHeaderImage(imageData : any): void {
+    	this.baseService.updateHeaderImage(imageData, this.user.id)
+    	.subscribe(
+    		data => {
+    			this.handleImageResponse(data);
+    		},
+    		error => {
+    			//do nothing
+    		}
+    	)
+    }
+
+
+
+
+
 	/////////////////////////////////////////////////////////////////////
 	// Form submissions
 
@@ -327,11 +666,119 @@ export class ProfileEditComponent implements OnInit {
 		
 		// stop here if form is invalid
         if (this.userForm.invalid) {
-        	console.log(this.userForm.value);
             return;
         }
 
         this.userFormLoading = true;
+
+         this.baseService.updateUserData(this.userForm.value, 'update-user-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  this.handleProfileResponse(data);
+                  this.userFormLoading = false;
+                  // update localstorage data
+                  this.updateLocalStorage(data);
+                  this.alert.successMsg("Your profile has been updated","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+                  this.userFormLoading = false;
+              });
+
+	}
+
+
+	studentFormSubmit(){
+		this.studentFormError = '';
+		this.studentFormSubmitted = true;
+		
+		// stop here if form is invalid
+        if (this.studentForm.invalid) {
+            return;
+        }
+
+        this.studentFormLoading = true;
+
+         this.baseService.updateUserData(this.studentForm.value, 'update-student-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  this.studentFormLoading = false;
+                  this.handleRoledataResponse(data);
+                  this.alert.successMsg("Your profile has been updated","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+                  this.studentFormLoading = false;
+              });
+
+	}
+
+	mentorFormSubmit(){
+		this.mentorFormError = '';
+		this.mentorFormSubmitted = true;
+		
+		// stop here if form is invalid
+        if (this.mentorForm.invalid) {
+            return;
+        }
+
+        this.mentorFormLoading = true;
+
+         this.baseService.updateUserData(this.mentorForm.value, 'update-mentor-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  this.mentorFormLoading = false;
+                  this.handleRoledataResponse(data);
+                  this.alert.successMsg("Your profile has been updated","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+                  this.mentorFormLoading = false;
+              });
+
+	}
+
+
+	industryFormSubmit(){
+         this.baseService.updateUserData(this.industryForm.value, 'update-industry-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  console.log(data);
+                  this.alert.successMsg("Industry List updated successfully","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+              });
+
+	}
+
+
+	passwordFormSubmit(){
+		this.passSubmitted = true;
+		
+		// stop here if form is invalid
+        if (this.passwordForm.invalid) {
+            return;
+        }
+
+         this.baseService.updateUserData(this.passwordForm.value, 'update-password-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  this.alert.successMsg("Your Account Password has been updated. Next time your login, use it.","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+              });
 
 	}
 

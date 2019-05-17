@@ -80,7 +80,6 @@ export class RegisterComponent implements OnInit {
 		
 		// stop here if form is invalid
         if (this.registrationForm.invalid) {
-        	console.log(this.registrationForm);
             return;
         }
 
