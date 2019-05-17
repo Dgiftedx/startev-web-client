@@ -157,7 +157,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" *ngIf="role !== 'business'">
                     <div class="header">
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
@@ -350,51 +350,86 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>    
+                            </div>                      
+                    </div>
+                </div>
 
-                            <div *ngIf="role === 'business'">
-                                <form [formGroup]="businessForm">
-                                    <div class="row clearfix">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" formControlName="name" class="form-control" placeholder="Company/Business Name">
-                                            </div>
-                                        </div>
+                <div class="card" *ngIf="role === 'business'">
+                    <div class="header">
+                        <h2><strong>Platform</strong> Settings</h2>
+                    </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" formControlName="phone" class="form-control" placeholder="Company/Business Phone">
-                                            </div>
-                                        </div>
-
-                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="text" formControlName="website" class="form-control" placeholder="Website">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <textarea class="form-control" formControlName="description" name="" rows="4" placeholder="About Company"></textarea>
-                                            </div>
-                                        </div>
-
-                                       
-                                       <div class="col-md-12">
-                                           <div class="form-group">
-                                               <ng-select [items]="[]"
-                                                           [addTag]="true"
-                                                           [multiple]="true"
-                                                           [isOpen]="false">
-                                                </ng-select>
-                                           </div>
-                                       </div>
-                                        <div class="col-md-12">
-                                            <button class="btn btn-primary btn-round">Save Changes</button>
-                                        </div>
+                    <div class="body">
+                        <form [formGroup]="companyForm" (ngSubmit)="companyFormSubmit()">
+                            <div class="row clearfix">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="name" class="form-control" placeholder="Company/Business Name">
                                     </div>
-                                </form>
-                            </div>                   
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="phone" class="form-control" placeholder="Company/Business Phone">
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-12 mt-2">
+                                    <div class="form-group">
+                                        <input type="text" formControlName="website" class="form-control" placeholder="https://">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control no-resize" formControlName="description" rows="4" placeholder="About Company"></textarea>
+                                    </div>
+                                </div>
+
+                               
+                               <div class="col-md-12">
+                                   <div class="form-group">
+                                        <label>Enter Business/Organization Services
+                                         <small class="text-danger">( and press enter)</small></label>
+                                       <ng-select [items]="[]"
+                                                   [addTag]="true"
+                                                   [multiple]="true"
+                                                   [isOpen]="false"
+                                                   formControlName="services">
+                                        </ng-select>
+                                   </div>
+                               </div>
+
+
+                                <div class="col-md-12 mt-3 mb-4">
+                                    <div class="form-group">
+                                        <label>Company/Business Social Neetworks</label>
+                                        <div 
+                                            formArrayName="social_handle"
+                                            *ngFor="let social of companyForm.get('social_handle').controls; let i = index;">
+
+                                          <div class="text-center mt-1 mb-1 p-1">{{ i+1 }}
+                                            <button type="button" *ngIf="i !== 0" 
+                                            class="btn btn-round btn-danger btn-sm" 
+                                            (click)="removeSocialHandle(i)"> remove</button>
+                                        </div>
+
+                                          <div [formGroupName]="i">
+                                            <input formControlName="name" class="form-control" placeholder="Social Network"><br/>
+                                            <input formControlName="url" class="form-control" placeholder="Url"><br/>
+                                          </div>
+                                          
+                                        </div>
+                                        <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addSocialHandle()"> Add More</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" 
+                                    class="btn btn-danger btn-round waves-effect" 
+                                    [ladda]="companyFormLoading">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -427,6 +462,7 @@
                             <div class="form-group">
                                 <input type="password" 
                                 formControlName="password" 
+                                autocomplete="new-password" 
                                 [ngClass]="{'is-invalid': passSubmitted && pass.password.errors}"
                                 class="form-control" placeholder="New Password">
                                 <div *ngIf="passSubmitted && pass.password.errors" class="invalid-feedback">
@@ -436,6 +472,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="password" 
+                                autocomplete="new-password"
                                 formControlName="confirmPassword"
                                 [ngClass]="{'is-invalid': passSubmitted && pass.confirmPassword.errors}"
                                 class="form-control" placeholder="Confirm New Password">

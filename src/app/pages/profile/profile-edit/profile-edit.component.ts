@@ -25,6 +25,7 @@ export class ProfileEditComponent implements OnInit {
 	careerPaths : Array<any> = [];
 	public selectedCountry = {};
 	public selectedIndustries = {};
+	public selectedServices: Array<any> = [];
 
 	employmentState: Array<any> = [
 		{id: 1, name: "Employed", alias: "employed"},
@@ -45,7 +46,7 @@ export class ProfileEditComponent implements OnInit {
 	userForm: FormGroup;
 	studentForm: FormGroup;
 	mentorForm: FormGroup;
-	businessForm: FormGroup;
+	companyForm: FormGroup;
 	passwordForm: FormGroup;
 
 	industryForm: FormGroup;
@@ -68,6 +69,9 @@ export class ProfileEditComponent implements OnInit {
 	mentorFormSubmitted = false;
 	mentorFormError = '';
 
+	companyFormLoading = false;
+	companyFormSubmitted = false;
+	
 
 	avatarLoading = false;
 
@@ -152,11 +156,11 @@ export class ProfileEditComponent implements OnInit {
 			secondaryCP: ['']
 		});
 
-		this.businessForm = this.formBuilder.group({
-			name: ['', Validators.required],
-			description: ['', Validators.required],
-			phone: ['', Validators.required],
-			website: ['', Validators.required],
+		this.companyForm = this.formBuilder.group({
+			name: [''],
+			description: [''],
+			phone: [''],
+			website: [''],
 			services: [],
 			social_handle: this.formBuilder.array([this.createSocialHandle()])
 		});
@@ -167,7 +171,7 @@ export class ProfileEditComponent implements OnInit {
 		}, {validator : MustMatch('password','confirmPassword')})
 
 		this.industryForm = this.formBuilder.group({
-			industries: []
+			industries: [[], Validators.required]
 		});
 	}
 
@@ -265,10 +269,8 @@ export class ProfileEditComponent implements OnInit {
 		}
 
 		if (this.profileData.role ==='business') {
-			this.businessForm.get('name').setValue(this.roleData.name);
-			this.businessForm.get('description').setValue(this.roleData.description);
-			this.studentForm.get('website').setValue(this.roleData.website);
-			this.studentForm.get('phone').setValue(this.roleData.phone);
+			this.setBusinessFields();
+			this.setIndustryField();
 		}
 
 
@@ -341,11 +343,26 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
+	setBusinessFields(){
+			this.companyForm.get('name').setValue(this.roleData.name);
+			this.companyForm.get('description').setValue(this.roleData.description);
+			this.companyForm.get('website').setValue(this.roleData.website);
+			this.companyForm.get('phone').setValue(this.roleData.phone);
+			this.companyForm.get('services').setValue(this.roleData.services);
+
+			if (_.size(this.roleData.social_handle) > 0) {
+			let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;
+
+			this.roleData.social_handle.forEach((item, index) => {
+				socialArray.controls[index].get('name').setValue(item.name);
+				socialArray.controls[index].get('url').setValue(item.url);
+			})
+		}
+	}
+
 
 	setIndustryField(){
-		if (_.size(this.user.industries) > 0) {
-			this.handleUpdatedUserIndustry(this.user);
-		}
+		this.handleUpdatedUserIndustry(this.user);
 	}
 
 	// convenience getter for easy access to form fields
@@ -355,7 +372,7 @@ export class ProfileEditComponent implements OnInit {
 
     get m() { return this.mentorForm.controls; }
 
-    get b() { return this.businessForm.controls; }
+    get b() { return this.companyForm.controls; }
 
     get pass() { return this.passwordForm.controls; }
 
@@ -424,6 +441,10 @@ export class ProfileEditComponent implements OnInit {
 			this.setMentorFormFields();
 		}
 
+		if (this.roleData.role === 'business') {
+			this.setBusinessFields();
+		}
+
 	}
 
 
@@ -449,9 +470,10 @@ export class ProfileEditComponent implements OnInit {
 
 
 	handleUpdatedUserIndustry(data : any){
-		this.industryForm = this.formBuilder.group({
-			industries : [data.industries]
-		});
+		// this.industryForm = this.formBuilder.group({
+		// 	industries : [data.industries]
+		// });
+		this.industryForm.get('industries').setValue(this.user.industries);
 	}
 
 
@@ -474,7 +496,7 @@ export class ProfileEditComponent implements OnInit {
 
 	//Add new business social handle
 	addSocialHandle(): void {
-		this.social_handle = this.businessForm.get('social_handle') as FormArray;
+		this.social_handle = this.companyForm.get('social_handle') as FormArray;
 		this.social_handle.push(this.createSocialHandle());
 	}
 
@@ -492,6 +514,11 @@ export class ProfileEditComponent implements OnInit {
 	// remove work education from group
 	removeEducation(index) {
 		this.education.removeAt(index);
+	}
+
+	// remove work education from group
+	removeSocialHandle(index) {
+		this.social_handle.removeAt(index);
 	}
 
 	countryChange(e){
@@ -746,6 +773,10 @@ export class ProfileEditComponent implements OnInit {
 
 
 	industryFormSubmit(){
+
+		if (this.industryForm.invalid) {
+			return;
+		}
          this.baseService.updateUserData(this.industryForm.value, 'update-industry-data', this.user.id)
           .pipe(first())
           .subscribe(
@@ -778,6 +809,33 @@ export class ProfileEditComponent implements OnInit {
               },
               error => {
                   this.alert.errorMsg("Unable to update account.","There was an error");
+              });
+
+	}
+
+
+	companyFormSubmit(){
+		this.companyFormSubmitted = true;
+		
+		// stop here if form is invalid
+        if (this.companyForm.invalid) {
+            return;
+        }
+
+        this.companyFormLoading = true;
+
+         this.baseService.updateUserData(this.companyForm.value, 'update-business-data', this.user.id)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  // Update user data
+                  this.companyFormLoading = false;
+                  this.handleRoledataResponse(data);
+                  this.alert.successMsg("Your profile has been updated","Account Update Successful");
+              },
+              error => {
+                  this.alert.errorMsg("Unable to update account.","There was an error");
+                  this.companyFormLoading = false;
               });
 
 	}
