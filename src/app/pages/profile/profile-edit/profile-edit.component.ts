@@ -19,7 +19,8 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 export class ProfileEditComponent implements OnInit {
 	private value:any = {};
 	public countries : Array<any> = [];
-	public industries: Array<any> = [];
+	  industries = [];
+  	  industriesArray = [];
 	states: Array<any> = [];
 	cities: Array<any> = [];
 	careerPaths : Array<any> = [];
@@ -86,11 +87,9 @@ export class ProfileEditComponent implements OnInit {
 		private userService : UserService,
 		private baseService: BaseService,
 		private authenticationService: AuthenticationService) {
-		this.createForm();
 		this.config.notFoundText = 'item not found';
 		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 		this.getCountries();
-		this.getIndustryList();
 	}
 
 
@@ -181,6 +180,7 @@ export class ProfileEditComponent implements OnInit {
 		this.getCountries();
 		this.getCareerPaths();
 		this.getIndustryList();
+		this.createForm();
 	}
 
 	handleProfileResponse(data: any){
@@ -553,18 +553,12 @@ export class ProfileEditComponent implements OnInit {
 		)
 	}
 
-	getIndustryList(){
-	    this.baseService.fetchAllIndustries()
-	    .subscribe(
-	        data => {
-	          this.handleIndustriesResponse(data);
-	        },
-
-	        error => {
-	          this.alert.errorMsg(error.error,"Request Failed");
-	        }
-	      )
-	}
+	 getIndustryList(){
+	    this.baseService.fetchAllIndustries().subscribe(data => {
+            this.industriesArray = data.industries;
+            this.industries = [...this.industriesArray];
+        });
+	  }
 
 	getCountries(){
 		this.baseService.fetchCountries()

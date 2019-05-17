@@ -69,4 +69,14 @@ export class BaseService {
 		return this.http.post<any>(`${this.endpoint}/update-user-header-image/${id}`, formData);
 	}
 
+
+	public promiseAllIndustries(){
+		return this.http.get<any[]>(`${this.endpoint}/all-industries`);
+	}
+
+	public getMentorProfile(slug : any){
+		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`);
+	}
+
+
 }

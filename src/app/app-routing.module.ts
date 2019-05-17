@@ -44,11 +44,20 @@ const routes: Routes = [
 	data: {animation: 'Profile'},
 	canActivate : [AuthGuard] },
 
-{path: 'mentor', component: MentorProfileComponent, canActivate : [AuthGuard] },
+{
+	path: 'mentor/:slug', 
+	component: MentorProfileComponent, 
+	data: {animation: 'Profile'},
+	canActivate : [AuthGuard] 
+},
 
 {path: 'messages', component: MessageComponent, canActivate : [AuthGuard] },
 
-{path: 'edit-profile', component: ProfileEditComponent, canActivate : [AuthGuard] },
+{
+	path: 'edit-profile', 
+	component: ProfileEditComponent,
+	data: {animation: 'Profile'},
+	canActivate : [AuthGuard] },
 
 {
 	path: 'knowledge-hub', 

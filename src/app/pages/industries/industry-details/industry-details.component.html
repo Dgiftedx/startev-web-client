@@ -3,7 +3,28 @@
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 			<div class="col-sm-12 col-md-12 col-lg-9">
 				<div class="row clearfix">
-					<div class="col-lg-12 col-md-12 col-sm-12 m-b-50">
+
+					<div class="col-lg-12 col-md-12 col-sm-12 m-b-40">
+						<div class="feeds-container"> 
+							<div class="body text-center p-2">
+								<form [formGroup]="industryForm">
+									<label>Select Industry</label>
+									 <ng-select 
+									 		   [items]="industries"
+	                                           bindLabel="name"
+	                                           bindValue="slug"
+	                                           (ngModelChange)="showCurrentIndustry()"
+	                                           [dropdownPosition]="'bottom'"
+	                                           placeholder="select industry"
+	                                           formControlName="selected">
+	                                </ng-select>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-lg-12 col-md-12 col-sm-12 m-b-20">
 						<div class="feeds-container"> 
 							<div class="body text-center">
 								<h6 class="p-2">{{ industry.name }} </h6>
@@ -11,20 +32,39 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-4 col-sm-12">
-						<div class="card mentor_list feeds-container">
+					<div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let mentor of industry.mentors">
+						<div class="card mentor_list feeds-container" *ngIf="mentor.mentor">
 							<div class="body">
 								<div class="cp_img">
-									<img src="assets/images/mentors/mentor1.jpeg" alt="Mentor" class="img-fluid">
+									<img src="{{ mentor.avatar?mentor.avatar : 'assets/images/default/avatar.jpg' }}" alt="Mentor" class="img-fluid">
 									<div class="hover">
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
 									</div>
 								</div>
 								<div class="product_details">
-									<h5><a [routerLink] = "'/mentor'">John Dake</a></h5>
+									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.name | titlecase }}</a></h5>
 									<ul class="product_price list-unstyled">
-										<li class="profession">Landscape Architech</li>
+										<li class="profession">{{ mentor.mentor.current_job_position?mentor.mentor.current_job_position:'Mentor' }}</li><br/>
+										<li class="trainer">Trainers: 18/25</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="card mentor_list feeds-container" *ngIf="mentor.business">
+							<div class="body">
+								<div class="cp_img">
+									<img src="{{ mentor.avatar?mentor.avatar : 'assets/images/default/avatar.jpg' }}" alt="Mentor" class="img-fluid">
+									<div class="hover">
+										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
+										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
+									</div>
+								</div>
+								<div class="product_details">
+									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.name | titlecase }}</a></h5>
+									<ul class="product_price list-unstyled">
+										<li class="profession">{{ mentor.business.name?mentor.business.name:'Business' }}</li>
 										<li class="trainer">Trainers: 18/25</li>
 									</ul>
 								</div>
@@ -32,68 +72,6 @@
 						</div>                
 					</div>
 
-					<div class="col-lg-3 col-md-4 col-sm-12">
-						<div class="card mentor_list feeds-container">
-							<div class="body">
-								<div class="cp_img">
-									<img src="assets/images/mentors/mentor2.jpg" alt="Mentor" class="img-fluid">
-									<div class="hover">
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
-									</div>
-								</div>
-								<div class="product_details">
-									<h5><a [routerLink] = "'/mentor'">Neil Gadinal</a></h5>
-									<ul class="product_price list-unstyled">
-										<li class="profession">Urban Planner</li>
-										<li class="trainer">Trainers: 7/25</li>
-									</ul>
-								</div>
-							</div>
-						</div>                
-					</div>
-
-					<div class="col-lg-3 col-md-4 col-sm-12">
-						<div class="card mentor_list feeds-container">
-							<div class="body">
-								<div class="cp_img">
-									<img src="assets/images/mentors/mentor3.jpg" alt="Mentor" class="img-fluid">
-									<div class="hover">
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
-									</div>
-								</div>
-								<div class="product_details">
-									<h5><a [routerLink] = "'/mentor'">Micheal Josh</a></h5>
-									<ul class="product_price list-unstyled">
-										<li class="profession">Fashion Designer</li>
-										<li class="trainer">Trainers: 7/25</li>
-									</ul>
-								</div>
-							</div>
-						</div>                
-					</div>
-
-					<div class="col-lg-3 col-md-4 col-sm-12">
-						<div class="card mentor_list feeds-container">
-							<div class="body">
-								<div class="cp_img">
-									<img src="assets/images/mentors/mentor4.jpg" alt="Mentor" class="img-fluid">
-									<div class="hover">
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
-									</div>
-								</div>
-								<div class="product_details">
-									<h5><a href="#">James Collins</a></h5>
-									<ul class="product_price list-unstyled">
-										<li class="profession">Programmer</li>
-										<li class="trainer">Trainers: 7/25</li>
-									</ul>
-								</div>
-							</div>
-						</div>                
-					</div>
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">

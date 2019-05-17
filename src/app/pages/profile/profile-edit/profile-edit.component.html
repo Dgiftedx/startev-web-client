@@ -1,19 +1,19 @@
 <section class="content" [ngClass]="{'zero-margin': progress < 82}">
 	<div class="container-fluid">
-		<div class="row clearfix m-t-123">
+		<div class="row clearfix" [ngClass]="{'m-t-120': progress >= 82}">
 			<div class="col-md-12">
 				<div class="card text-white feeds-container" style="margin: 0 !important;">
 					<div class="body bg-pink profile-header dim">
-                        <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}"/>
+              <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}"/>
 						<form>
-                            <label class="btn btn-warning btn-sm btn-round fileLabel">
-                                <input 
-                                class="hiddenFileInputField" 
-                                type="file" 
-                                accept="image/*"
-                                (change)="uploadHeaderImage(profileHeaderInput)"
-                                #profileHeaderInput> Change header image</label>
-                        </form>
+              <label class="btn btn-warning btn-sm btn-round fileLabel">
+                  <input 
+                  class="hiddenFileInputField" 
+                  type="file" 
+                  accept="image/*"
+                  (change)="uploadHeaderImage(profileHeaderInput)"
+                  #profileHeaderInput> Change header image</label>
+          </form>
 					</div>
 				</div>
 			</div>
@@ -495,12 +495,12 @@
         <div class="modal-content">
             <div class="modal-body"> 
                  <image-cropper
-                  style="max-height: 460px !important;"
+                  style="max-height: 480px !important;"
                   [imageChangedEvent]="imageChangedEvent"
                   [maintainAspectRatio]="true"
                   [aspectRatio]="5 / 5"
-                  [resizeToWidth]="180"
-                  [cropperMinWidth]="180"
+                  [resizeToWidth]="200"
+                  [cropperMinWidth]="200"
                   [onlyScaleDown]="true"
                   [roundCropper]="false"
                   format="png"
