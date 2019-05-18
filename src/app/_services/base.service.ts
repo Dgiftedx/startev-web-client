@@ -87,5 +87,9 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(1000));
 	}
 
+	getFeeds(){
+        return this.http.get(`${this.endpoint}/get-feeds`);
+    }
+
 
 }

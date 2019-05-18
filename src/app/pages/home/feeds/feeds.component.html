@@ -57,33 +57,59 @@
 			                        </div>
 			                        <div class="chat-history">
 			                            <div class="form-group">
-			                            	<textarea rows="3" class="form-control"></textarea>
+			                            	<textarea [(ngModel)]="content" rows="3" class="form-control"></textarea>
 			                            </div>
 			                        </div>
 			                        <div class="clearfix">
-			                           <button class="btn btn-warning btn-round" (click) = "errorMsg('Sorry! the backend has not been created','Submission Failed')"><i class="zmdi zmdi-favorite-outline6"></i> Post</button>
+			                           <button type="button" (click)="submitPost()" class="btn btn-warning btn-round waves-effect"><i class="zmdi zmdi-favorite-outline6"></i> Post</button>
 			                        </div>
 			                    </div>
 		                    </div>
 		                </div>
-                         <img
-                            width="300"
-                            alt="Pusher Logo"
-                            src="https://djmmlc8gcwtqv.cloudfront.net/imgs/channels/channels-fold.png"
-                          />
 					</div>
 
-					<div class="col-sm-12 col-md-12">
-						<div class="card feeds-container min-height-400">
+					<div class="col-sm-12 col-md-12" *ngFor="let feed of feeds">
+                        <div class="card feeds-container" *ngIf="feed.postType === 'post'">
+                            <div class="body chat">
+                                <div class="chat-header clearfix">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <img [src]="feed.user[0].avatar" alt="avatar">
+                                            <div class="chat-about">
+                                                <h6 class="m-b-0">{{ feed.user[0].name }}</h6>
+                                                <small class="feed-title">{{ feed.title }}</small><br/>
+                                                <small>{{ feed.createdAt | date: 'medium' }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pb-5">
+                                    <p class="post-feed">{{ feed.content }}</p>
+                                </div>
+                                <div class="">
+                                     <div class="row">
+                                        <div class="col-lg-6">
+                                          <p class="text-muted pt-1">0 Likes | 0 Comment</p>
+                                        </div>
+                                        <div class="col-lg-6 text-right">
+                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
+                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
+                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="card feeds-container min-height-400" *ngIf="feed.postType === 'picture'">
 		                    <div class="body chat">
 		                    	<div class="chat-header clearfix">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <img src="../assets/images/xs/avatar2.jpg" alt="avatar">
+                                            <img src="{{feed.user.avatar}}" alt="avatar">
                                             <div class="chat-about">
-                                                <h6 class="m-b-0">Aiden Chavez</h6>
+                                                <h6 class="m-b-0">{{ feed.user.name }}</h6>
                                                 <small class="feed-title">Living the best life, even as a single.</small><br/>
-                                                <small>Last seen: 2 hours ago</small>
+                                                <small>{{ feed.createdAt | date: 'shortDate' }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -105,10 +131,8 @@
                                 </div>
 		                    </div>
 		                </div>
-					</div>
 
-					<div class="col-sm-12 col-md-12">
-						<div class="card feeds-container min-height-400">
+                        <div class="card feeds-container min-height-400" *ngIf="feed.postType === 'video'">
                             <div class="body chat">
                                 <div class="chat-header clearfix">
                                     <div class="row">
@@ -149,41 +173,6 @@
                                           <p class="text-muted pt-3">26 Likes | 8 Comment</p>
                                         </div>
                                         <div class="col-lg-6 text-right">
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-
-					<div class="col-sm-12 col-md-12">
-						<div class="card feeds-container min-height-400">
-                            <div class="body chat">
-                                <div class="chat-header clearfix">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <img src="../assets/images/xs/avatar4.jpg" alt="avatar">
-                                            <div class="chat-about">
-                                                <h6 class="m-b-0">Diana Makins</h6>
-                                                <small class="feed-title">Joan Mikel 2019 Research.</small><br/>
-                                                <small>Last seen: 2 hours ago</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pb-2">
-                                    <img src="assets/images/image-gallery/5.jpg" class="img-thumbnail" />
-                                    <!-- <a href="#"> <span class="video-icon"><i class="material-icons">play_circle_outline</i></span> </a> -->
-                                </div>
-                                <div class="">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                          <p class="text-muted pt-3">30 Likes | 11 Comment</p>
-                                        </div>
-                                       <div class="col-lg-6 text-right">
                                             <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
                                             <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
                                             <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
