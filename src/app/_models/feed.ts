@@ -5,6 +5,9 @@
         public postType: string,
         public title: string,
         public content: string,
+        public image: string,
+        public video: string,
+        public link: any,
         public createdAt: Date
       ) {
         this.roleData = roleData; 
@@ -12,6 +15,9 @@
         this.postType = postType;
         this.title = title;
         this.content = content;
+        this.image = image;
+        this.video = video;
+        this.link = link;
         this.createdAt = createdAt;
       }
     }

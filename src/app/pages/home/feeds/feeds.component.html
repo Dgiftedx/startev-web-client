@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="card member-card">
+				<div class="card member-card feeds-container">
                     <div class="header" [ngStyle]="{'background-image': 'url('+currentUser.bg_image+')', 'background-position': 'center top'}">
                         <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
                         &nbsp;
@@ -38,94 +38,118 @@
 
 			<div class="col-sm-12 col-md-12 col-lg-6">
 				<div class="row clearfix">
-					<div class="col-sm-12 col-md-12">
+					<!-- <div class="col-sm-12 col-md-12">
 						<div class="card feeds-container">
 		                    <div class="body">
 		                    	<div class="chat">
-			                        <div class="chat-header clearfix">
-			                            <div class="row">
-			                                <div class="col-lg-6">
+			                        <div class="chat-header clearfix zero-m">
+			                            <div class="row zero-m">
+			                                <div class="col-lg-6 col-sm-12">
 			                                  <h5> Write an article</h5>
 			                                </div>
-			                                <div class="col-lg-6 text-right">
-			                                    <button class="btn btn-warning btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
-			                                    <button class="btn btn-warning btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
-			                                    <button class="btn btn-warning btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button>
-			                                    <button class="btn btn-warning btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-question"></i></button>
+			                                <div class="col-lg-6 col-sm-12 text-right">
+			                                    <button class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
+			                                    <button class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
+			                                    <button class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-link"></i></button>
+			                                    <button class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button>
 			                                </div>
 			                            </div>
 			                        </div>
-			                        <div class="chat-history">
+			                        <div class="chat-history zero-m">
 			                            <div class="form-group">
 			                            	<textarea [(ngModel)]="content" rows="3" class="form-control"></textarea>
 			                            </div>
 			                        </div>
-			                        <div class="clearfix">
+			                        <div class=" zero-m clearfix">
 			                           <button type="button" (click)="submitPost()" class="btn btn-warning btn-round waves-effect"><i class="zmdi zmdi-favorite-outline6"></i> Post</button>
 			                        </div>
 			                    </div>
 		                    </div>
 		                </div>
-					</div>
+					</div> -->
+                    <div class="col-sm-12 col-md-12">
+                        <div class="card feeds-container">
+                            <div class="body zero-m">
+                                <div class="row zero-m">
+                                    <div class="col-lg-6 col-sm-12">
+                                      <button #articlePost (click)="writePost('article')" type="button" class="btn btn-white btn-block waves-effect"> Write an article</button>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12 text-right">
+                                        <button type="button" #imagePost (click)="writePost('image')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
 
-					<div class="col-sm-12 col-md-12" *ngFor="let feed of feeds">
+                                        <button type="button" #videoPost (click)="writePost('video')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
+
+                                        <button type="button" #linkPost (click)="writePost('link')" class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-link"></i></button>
+
+                                        <button type="button" class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+					<div class="col-sm-12 col-md-12" *ngFor="let feed of feeds|orderBy:'createdAt':true">
                         <div class="card feeds-container" *ngIf="feed.postType === 'post'">
-                            <div class="body chat">
-                                <div class="chat-header clearfix">
+                            <div class="body chat post-container">
+                                <div class="chat-header clearfix post-feed-header">
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-12 zero-margin">
                                             <img [src]="feed.user[0].avatar" alt="avatar">
-                                            <div class="chat-about">
-                                                <h6 class="m-b-0">{{ feed.user[0].name }}</h6>
+                                            <div class="chat-about feed-meta">
+                                                <h6 class="m-b-0 feed-user">{{ feed.user[0].name }}</h6>
                                                 <small class="feed-title">{{ feed.title }}</small><br/>
-                                                <small>{{ feed.createdAt | date: 'medium' }}</small>
+                                                <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                                             </div>
+                                            <button class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pb-5">
-                                    <p class="post-feed">{{ feed.content }}</p>
+                                <div class="post-feed-inner bg_grey">
+                                    <div class="" class="">
+                                        <p class="post-content p-3">{{ feed.content | excerpt: 137 }}<a [routerLink]="['/feed', feed.title]" class="btn-link read-more">read more</a></p>
+                                    </div>
                                 </div>
                                 <div class="">
-                                     <div class="row">
-                                        <div class="col-lg-6">
-                                          <p class="text-muted pt-1">0 Likes | 0 Comment</p>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
+                                     <div class="row zero-m">
+                                        <div class="col-lg-12 pl-2">
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 						<div class="card feeds-container min-height-400" *ngIf="feed.postType === 'picture'">
-		                    <div class="body chat">
-		                    	<div class="chat-header clearfix">
+		                    <div class="body chat post-container">
+		                    	<div class="chat-header clearfix post-feed-header">
                                     <div class="row">
-                                        <div class="col-lg-12">
-                                            <img src="{{feed.user.avatar}}" alt="avatar">
-                                            <div class="chat-about">
-                                                <h6 class="m-b-0">{{ feed.user.name }}</h6>
-                                                <small class="feed-title">Living the best life, even as a single.</small><br/>
-                                                <small>{{ feed.createdAt | date: 'shortDate' }}</small>
+                                        <div class="col-lg-12 zero-margin">
+                                            <img [src]="feed.user[0].avatar" alt="avatar">
+                                            <div class="chat-about feed-meta">
+                                                <h6 class="m-b-0 feed-user">{{ feed.user[0].name }}</h6>
+                                                <small class="feed-title">{{ feed.title }}</small><br/>
+                                                <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                                             </div>
+                                            <button class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pb-2">
-                                    <img src="assets/images/image-gallery/1.jpg" class="img-thumbnail" />
+                                <div class="post-feed-inner bg_grey">
+                                    <div class="" class="">
+                                        <img [src]="feed.image" alt="" [ngStyle]="{'height': '350px','width':'100%'}"/>
+                                    </div>
+                                </div>
+                                <div class="post-feed-inner bg_grey">
+                                     <p class="post-content p-3">{{ feed.content | excerpt: 137 }}</p>
                                 </div>
                                 <div class="">
-                                     <div class="row">
-                                        <div class="col-lg-6">
-                                          <p class="text-muted pt-3">2 Likes | 1 Comment</p>
-                                        </div>
-                                        <div class="col-lg-6 text-right">
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
-                                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
+                                     <div class="row zero-m">
+                                        <div class="col-lg-12 pl-2">
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
+                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -229,3 +253,69 @@
 		</div>
 	</div>
 </section>
+
+<!-- Modal Section -->
+<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+               <!--  <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+                </h6> -->
+                <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+            </div>
+            <div class="modal-body"> 
+                    <br/>
+                  <div class="form-group">
+                      <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
+                  </div>
+                  <div class="form-group">
+                    <textarea [(ngModel)]="content" rows="4" class="form-control" placeholder="What do you want to talk about"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="submitArticlePost()" class="btn btn-link waves-effect text-success">Publish</button>
+                <button id="closeArticleModal" type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #imagePostModal id="imagePostModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+               <!--  <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+                </h6> -->
+                <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+            </div>
+            <div class="modal-body"> 
+                <br/>
+                <div class="form-group text-center">
+                    <input
+                     type="file" 
+                     name="file" 
+                     id="file" 
+                     (change)="processPostImage(postImage)" 
+                     class="inputfile" #postImage/>
+                    <label for="file" class="waves-effect"><i class="icon-camera"></i></label>
+                </div>
+                  <div class="form-group">
+                      <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
+                  </div>
+                  <div class="form-group">
+                    <textarea [(ngModel)]="content" rows="4" class="form-control" placeholder="What do you want to talk about"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="float-left">
+                    <img *ngIf="isImage" [src]="processedImage" alt="" class="img-raised" height="50" width="50">
+                </div>
+                <button type="button" (click)="submitImagePost()" class="btn btn-link waves-effect text-success">Publish</button>
+                <button id="closeImageModal" type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>

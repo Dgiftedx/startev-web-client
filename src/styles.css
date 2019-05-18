@@ -20,16 +20,80 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .zero-margin{
 	margin-top: 0 !important;
 }
+
+.zero-m {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+}
 .text-bold {
 	color: #222;
 	font-weight: 600;
 }
 
-.post-feed {
-	font-size: 24px;
+.post-container{
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.bg_grey{
+	background-color: #F3F6F8 !important;
+}
+.post-feed-inner{
+	margin: 0 !important;
+	padding: 0 20px 0 20px !important;
+	vertical-align: baseline;
+}
+
+.post-content {
+	font-size: 1rem;
 	color: rgba(0,0,0,0.9);
 	font-family:  -apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Fira Sans,Ubuntu,Oxygen,Oxygen Sans,Cantarell,Droid Sans,Apple Color Emoji,Segoe UI Emoji,Segoe UI Emoji,Segoe UI Symbol,Lucida Grande,Helvetica,Arial,sans-serif;
 	font-kerning: normal;
+	font-weight: 400;
+}
+.feed-meta{
+	line-height: 13px;
+}
+.feed-user{
+	font-size: 12px;
+}
+
+.feed-title {
+	font-weight: 600;
+	text-transform: lowercase;
+	color: var(--pink);
+	font-size: 13px;
+	font-style: italic;
+}
+.feed-time{
+	font-size: 9px;
+	color: rgba(0,0,0,0.6);
+}
+
+.read-more{
+	font-size: 11px;
+}
+.read-more:hover{
+	transition: 0.5s;
+	color: #220;
+}
+
+.custom-modal-header{
+	background-color: rgba(177,32,0,0.8) !important;
+	min-height: 40px;
+}
+
+.custom-modal-header img {
+	position: absolute;
+	top: 6%;
+	left: 45%;
+	bottom: 0;
+	right: 0;
+}
+
+.img-border{
+	border: 2px solid #fff;
 }
 
 .modal-backdrop {
@@ -58,7 +122,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .feeds-container{
 	border-radius: 0 !important;
-	box-shadow: 0 0 2px #000;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	vertical-align: baseline;
 }
 
 .custom-list li {
@@ -134,14 +199,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 	font-size: 14px;
 	font-family: "Roboto" Helvetica;
 	font-weight: 700;
-}
-
-.feed-title {
-	font-weight: 700;
-	text-transform: lowercase;
-	color: var(--pink);
-	font-size: 14px;
-	font-style: italic;
 }
 
 .video-icon{
@@ -308,8 +365,44 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .overlay {
-  z-index: 9999; }
+  z-index: 9999; 
+}
   .overlay.nsm-overlay-open {
-    background-color: rgba(0, 0, 0, 0.9) !important; }
+    background-color: rgba(0, 0, 0, 0.9) !important; 
+}
   .overlay.transparent {
-    background-color: rgba(0, 0, 0, 0.9) !important; }
+    background-color: rgba(0, 0, 0, 0.9) !important; 
+}
+
+.inputfile {
+width: 0.1px;
+height: 0.1px;
+opacity: 0;
+overflow: hidden;
+position: absolute;
+z-index: -1;
+}
+
+
+.inputfile + label {
+	text-align: center !important;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: black;
+    background-color:#F3F6F8;
+    display: inline-block;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    width: 50px;
+    padding: 5px;
+    box-shadow: 0px 5px 50px 0px rgba(0, 0, 0, 0.2)
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #ccc;
+    transition: all 1.5s;
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}

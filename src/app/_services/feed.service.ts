@@ -20,8 +20,26 @@ export class FeedService {
 
 		channel.bind(
 			'my-event',
-			(data: {roleData: any, user: any, postType: string, title: string; body: string; time: string }) => {
-				this.subject.next(new Feed(data.roleData, data.user, data.postType, data.title, data.body, new Date(data.time)));
+			(data: {
+				roleData: any, 
+				user: any, 
+				postType: string, 
+				title: string; 
+				body: string; 
+				image: string,
+				video: string,
+				link: string,
+				time: string }) => {
+				this.subject.next(new Feed(
+					data.roleData, 
+					data.user, 
+					data.postType, 
+					data.title, 
+					data.body,
+					data.image,
+					data.video,
+					data.link,
+					new Date(data.time)));
 			});
 	}
 

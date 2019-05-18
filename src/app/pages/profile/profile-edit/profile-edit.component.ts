@@ -602,10 +602,6 @@ export class ProfileEditComponent implements OnInit {
 
 	openModal(): void {
 		$(document).find('#imageCropperModal').modal();
-		setTimeout(() => {
-			$('body').removeClass('modal-open');
-			$('.modal-backdrop').remove();
-		}, 200);
 	}
 
 

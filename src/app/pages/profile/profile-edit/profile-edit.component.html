@@ -488,36 +488,33 @@
 			</div>
 		</div>
 	</div>
-
-    <!-- Page Modals -->
-    <div class="modal fade" #imageCropperModal id="imageCropperModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-body"> 
-                 <image-cropper
-                  style="max-height: 480px !important;"
-                  [imageChangedEvent]="imageChangedEvent"
-                  [maintainAspectRatio]="true"
-                  [aspectRatio]="5 / 5"
-                  [resizeToWidth]="200"
-                  [cropperMinWidth]="200"
-                  [onlyScaleDown]="true"
-                  [roundCropper]="false"
-                  format="png"
-                  outputType="base64"
-                  (imageCropped)="imageCropped($event)"
-                  (imageLoaded)="imageLoaded()"
-                  (cropperReady)="cropperReady()"
-                  (loadImageFailed)="loadImageFailed()"
-              ></image-cropper>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-round waves-effect" (click)="saveImage()" [ladda]="avatarLoading">SAVE CHANGES</button>
-                <button id="closeImageModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
-            </div>
-        </div>
+</section>
+<!-- Page Modals -->
+  <div class="modal fade" #imageCropperModal id="imageCropperModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-body"> 
+               <image-cropper
+                style="max-height: 480px !important;"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="5 / 5"
+                [resizeToWidth]="200"
+                [cropperMinWidth]="200"
+                [onlyScaleDown]="true"
+                [roundCropper]="false"
+                format="png"
+                outputType="base64"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-success btn-round waves-effect" (click)="saveImage()" [ladda]="avatarLoading">SAVE CHANGES</button>
+              <button id="closeImageModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+          </div>
+      </div>
     </div>
 </div>
-
-
-</section>

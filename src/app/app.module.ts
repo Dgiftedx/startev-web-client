@@ -23,6 +23,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { BaseService } from './_services';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
+import { OrderModule } from 'ngx-order-pipe';
+// import { CKEditorModule } from 'ngx-ckeditor';
 
 library.add(fas);
 
@@ -118,7 +120,8 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
      OwlDateTimeModule, 
      OwlNativeDateTimeModule,
      ImageCropperModule,
-     FontAwesomeModule
+     FontAwesomeModule,
+     OrderModule
   ],
 
   exports : [

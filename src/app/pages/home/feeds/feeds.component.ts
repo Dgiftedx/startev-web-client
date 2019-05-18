@@ -7,6 +7,7 @@ import { FeedService } from '../../../_services/feed.service';
 import { Feed } from '../../../_models/feed';
 import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
+declare var $: any;
 
 @Component({
   selector: 'app-feeds',
@@ -17,10 +18,12 @@ import * as _ from 'lodash';
 export class FeedsComponent implements OnInit {
 
   currentUser : User;
-
+  public isImage = false;
+  public processedImage = '';
   public content : string = '';
-  public title : string = 'Startev Feed System Test';
-  public post_type: string = 'post';
+  public title : string = '';
+  public post_type: string = '';
+  public image: any = null;
 
   public feeds: Feed[] = [];
 
@@ -60,23 +63,85 @@ export class FeedsComponent implements OnInit {
   }
 
 
+  writePost(type: any){
+    if (type === 'article') {
+      this.post_type = 'post';
+      $(document).find('#articlePostModal').modal();
+    }
+
+    if (type === 'image') {
+      this.post_type = 'picture';
+      $(document).find('#imagePostModal').modal();
+    }
+
+  }
+
+
+  imageFileReader(file: File){
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+      this.processedImage = event.target.result; 
+    });
+
+    reader.readAsDataURL(file);
+  }
+
+  fireImageUpload(){
+    $(document).find('#postImageInput').click();
+  }
+
+  processPostImage(postImage: any): void {
+    const newPostImage : File = postImage.files[0];
+    this.imageFileReader(newPostImage);
+    this.isImage = true;
+    this.image = newPostImage;
+  }
+
+
+  submitArticlePost(){
+    this.submitPost();
+    $(document).find('#closeArticleModal').click();
+  }
+
+
+  submitImagePost(){
+    this.submitPost();
+    $(document).find('#closeImageModal').click();
+  }
+
+  cleanForm(){
+    this.title = '';
+    this.content = '';
+    this.post_type = '';
+  }
+
+
   submitPost(){
 
-    if (_.size(this.content) === 0) {
+    if (_.size(this.content) === 0 || _.size(this.title) === 0) {
+      this.alert.errorMsg("Sorry. You can't publish empty content","There is error in form");
       return;
     }
+
+    if (typeof this.image == null || typeof this.image === "undefined") {
+      return;
+    }
+
     this.alert.infoMsg("Processing your post....","Processing");
 
+    let formData = new FormData();
+    formData.append('post_type',this.post_type);
+    formData.append('user_id',this.currentUser.id);
+    formData.append('title',this.title);
+    formData.append('body',this.content);
+    formData.append('image',this.image);
     this.http
-    .post(`${this.authenticationService.endpoint}/feed-post-article`, {
-      post_type: this.post_type,
-      user_id: this.currentUser.id,
-      title: this.title,
-      body: this.content,
-    })
+    .post(`${this.authenticationService.endpoint}/feed-post-article`, formData)
     .toPromise()
     .then((data: { message: string; status: boolean }) => {
       this.alert.successMsg(data.message,"Success");
+      this.cleanForm();
     })
     .catch(error => {
       this.alert.errorMsg(error, "Post submission failed");
