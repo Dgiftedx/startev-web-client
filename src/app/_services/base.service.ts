@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { User } from '../_models';
 import { AuthenticationService } from './authentication.service';
 
@@ -71,11 +71,20 @@ export class BaseService {
 
 
 	public promiseAllIndustries(){
-		return this.http.get<any[]>(`${this.endpoint}/all-industries`);
+		return this.http.get(`${this.endpoint}/all-industries`).pipe(delay(1000));
 	}
 
-	public getMentorProfile(slug : any){
-		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`);
+	public promiseSingleIndustry(slug: any){
+		return this.http.get(`${this.endpoint}/single-industry/${slug}`).pipe(delay(1000));
+	}
+
+
+	public promiseUserProfile(){
+		return this.http.get(`${this.endpoint}/get-profile`).pipe(delay(1000));
+	}
+
+	public promiseMentorProfile(slug : any){
+		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(1000));
 	}
 
 

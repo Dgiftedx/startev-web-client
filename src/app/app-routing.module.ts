@@ -16,6 +16,8 @@ import { ResetPasswordComponent } from './pages/password/reset-password/reset-pa
 import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 
+import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
+import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 
 
 
@@ -29,13 +31,18 @@ const routes: Routes = [
 {
 	path: 'industry', 
 	component: IndustryListComponent,
+	resolve: {industries: IndustryResolve},
 	data: {animation: 'Industries'},
 	canActivate : [AuthGuard] },
 
 {
 	path: 'industry/:slug', 
 	component: IndustryDetailsComponent,
-	canActivate : [AuthGuard] 
+	resolve: {
+		industries: IndustryResolve,
+		industry : SingleIndustryResolve},
+	data: {animation: 'Industries'},
+	canActivate : [AuthGuard]
 },
 
 {
@@ -48,6 +55,7 @@ const routes: Routes = [
 	path: 'mentor/:slug', 
 	component: MentorProfileComponent, 
 	data: {animation: 'Profile'},
+	resolve: {mentor: MentorProfileResolve},
 	canActivate : [AuthGuard] 
 },
 
@@ -57,6 +65,10 @@ const routes: Routes = [
 	path: 'edit-profile', 
 	component: ProfileEditComponent,
 	data: {animation: 'Profile'},
+	resolve: {
+		industries: IndustryResolve,
+		profile: ProfileEditResolve
+	},
 	canActivate : [AuthGuard] },
 
 {

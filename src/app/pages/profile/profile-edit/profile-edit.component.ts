@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 declare var $: any;
 import * as _ from 'lodash';
 import { AuthenticationService, AlertService, UserService, BaseService} from '../../../_services';
@@ -82,6 +82,7 @@ export class ProfileEditComponent implements OnInit {
 	constructor(
 		private config: NgSelectConfig,
 		private router: Router,
+		private route: ActivatedRoute,
 		private formBuilder: FormBuilder,
 		private alert: AlertService,
 		private userService : UserService,
@@ -179,7 +180,7 @@ export class ProfileEditComponent implements OnInit {
 		this.getProfileData();
 		this.getCountries();
 		this.getCareerPaths();
-		this.getIndustryList();
+		this.industries = this.route.snapshot.data.industries;
 		this.createForm();
 	}
 
@@ -552,13 +553,6 @@ export class ProfileEditComponent implements OnInit {
 			}
 		)
 	}
-
-	 getIndustryList(){
-	    this.baseService.fetchAllIndustries().subscribe(data => {
-            this.industriesArray = data.industries;
-            this.industries = [...this.industriesArray];
-        });
-	  }
 
 	getCountries(){
 		this.baseService.fetchCountries()

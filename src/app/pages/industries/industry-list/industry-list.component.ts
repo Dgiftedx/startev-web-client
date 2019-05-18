@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../_models';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AuthenticationService, AlertService, BaseService } from '../../../_services';
 import * as _ from 'lodash';
 
@@ -17,6 +17,7 @@ export class IndustryListComponent implements OnInit {
   
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private alert: AlertService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
@@ -25,31 +26,15 @@ export class IndustryListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.allIndusries();
+    this.industries = this.route.snapshot.data.industries;
   }
 
    get profile(){
     return JSON.parse(this.authenticationService.getUserData());
   }
 
-    handleIndustriesResponse(data: any){
-    this.industries = data.industries;
-    this.industries.forEach(item => {
-        item.totalMentors = _.size(item.mentors);
-    });
-  }
-
-   allIndusries(){
-    this.baseService.fetchAllIndustries()
-    .subscribe(
-        data => {
-          this.handleIndustriesResponse(data);
-        },
-
-        error => {
-          this.alert.errorMsg(error.error,"Request Failed");
-        }
-      )
+  total(mentor){
+    return _.size(mentor);
   }
 
 }

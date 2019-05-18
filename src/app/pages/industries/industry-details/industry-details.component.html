@@ -10,7 +10,7 @@
 								<form [formGroup]="industryForm">
 									<label>Select Industry</label>
 									 <ng-select 
-									 		   [items]="industries"
+									 		   [items]="industries.industries"
 	                                           bindLabel="name"
 	                                           bindValue="slug"
 	                                           (ngModelChange)="showCurrentIndustry()"
@@ -27,12 +27,12 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 m-b-20">
 						<div class="feeds-container"> 
 							<div class="body text-center">
-								<h6 class="p-2">{{ industry.name }} </h6>
+								<h6 class="p-2">{{ industry.industry.name }} </h6>
 							</div>
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let mentor of industry.mentors">
+					<div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let mentor of industry.industry.mentors">
 						<div class="card mentor_list feeds-container" *ngIf="mentor.mentor">
 							<div class="body">
 								<div class="cp_img">
@@ -52,7 +52,7 @@
 							</div>
 						</div>
 
-						<div class="card mentor_list feeds-container" *ngIf="mentor.business">
+						<div class="card mentor_list feeds-container" *ngIf="industry.industry.business">
 							<div class="body">
 								<div class="cp_img">
 									<img src="{{ mentor.avatar?mentor.avatar : 'assets/images/default/avatar.jpg' }}" alt="Mentor" class="img-fluid">

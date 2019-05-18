@@ -35,43 +35,13 @@ export class MentorProfileComponent implements OnInit {
 
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.param = params.get("slug")
-    })
-    //make request for new single industry details
-    this.getMentorProfile(this.param);
-
+    
+    this.currentMentor = this.route.snapshot.data.mentor;
     this.progress = this.profile.progress;
-
-    console.log(this.currentMentor);
   }
 
   get profile(){
     return JSON.parse(this.authenticationService.getUserData());
-  }
-
-  set mentor(mentor){
-    this.currentMentor = mentor;
-  }
-
-  get mentor(){
-
-    if (typeof this.currentMentor === 'undefined') {
-      setTimeout(() => {
-        this.mentor(this.currentMentor);
-      })
-    }
-    return this.currentMentor;
-  }
-
-  getMentorProfile(slug : any){
-    this.baseService.getMentorProfile(slug)
-    .subscribe(
-      data => {
-        return this.currentMentor = data.profile;
-      }
-
-      )
   }
 
 }

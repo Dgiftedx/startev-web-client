@@ -50,13 +50,10 @@ export class IndustryDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getIndustryList();
+    this.industries = this.route.snapshot.data.industries;
     this.createSearchForm();
-    this.route.paramMap.subscribe(params => {
-      this.param = params.get("slug")
-    })
     //make request for new single industry details
-    this.getIndustryDetails(this.param);
+    this.industry = this.route.snapshot.data.industry;
   }
 
 
@@ -65,22 +62,13 @@ export class IndustryDetailsComponent implements OnInit {
   }
 
 
-
-
   get profile(){
     return JSON.parse(this.authenticationService.getUserData());
   }
 
 
   handleResponse(data : any){
-    this.industry = data.industry;
-  }
-
-  getIndustryList(){
-    this.baseService.fetchAllIndustries().subscribe(data => {
-            this.industriesArray = data.industries;
-            this.industries = [...this.industriesArray];
-        });
+    this.industry = data;
   }
 
   getIndustryDetails(slug : any){

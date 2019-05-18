@@ -51,7 +51,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .feeds-container{
 	border-radius: 0 !important;
-	box-shadow: 0 0 3px #000;
+	box-shadow: 0 0 2px #000;
 }
 
 .custom-list li {

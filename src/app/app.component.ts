@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { Event, Router, NavigationEnd, RouterOutlet, NavigationStart } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AuthenticationService } from './_services';
 import { User } from './_models';
@@ -13,7 +13,7 @@ import { slideInAnimation } from './aminations';
 })
 export class AppComponent {
   title = 'startev-client';
-  loading = false;
+  loading = true;
   currentUser: User;
 
   constructor(
@@ -21,6 +21,15 @@ export class AppComponent {
     private router: Router,
     private authenticationService: AuthenticationService) {
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      this.router.events.subscribe((routerEvent: Event) => {
+        if (routerEvent instanceof NavigationStart) {
+          this.loading = true;
+        }
+
+        if (routerEvent instanceof NavigationEnd) {
+          this.loading = false;
+        }
+      });
   }
 
   prepareRoute(outlet: RouterOutlet) {

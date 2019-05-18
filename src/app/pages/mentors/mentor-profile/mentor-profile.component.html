@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<div class="card text-white feeds-container" style="margin: 0 !important;">
 					<div class="body bg-pink profile-header">
-                        <img [src]="mentor.user.bg_image"/>
+                        <img [src]="currentMentor.profile.user.bg_image"/>
 					</div>
 				</div>
 			</div>
@@ -16,17 +16,30 @@
 				<div class="card member-card transparent">
                     <div class="member-img">
                         <a href="#" class="">
-                        <img src="assets/images/default/avatar.jpg" class="user_pic rounded-circle img-raised" alt="profile-image">
+                        <img src="{{ currentMentor.profile.user.avatar?currentMentor.profile.user.avatar : 'assets/images/default/avatar.jpg' }}" class="user_pic rounded-circle img-raised" alt="profile-image">
                         </a>
                     </div>
                     <div class="body">
                         <div class="col-12">
-                        	<h6>John Darke</h6>
-                        	<p class="text-muted"><strong>Lanscape Architech</strong></p>
-                        	<p class="text-muted">Lanscape studio focussed problem solving creativity. Design to us is how we can make things *work* amazinly.</p>
+                        	<h6>{{ currentMentor.profile.user.name | titlecase }}</h6>
+                        	<p class="text-muted" *ngIf="currentMentor.profile.roleData.role === 'mentor'">
+                        		<strong>{{ currentMentor.profile.roleData.data.current_job_position }}</strong>
+                        	</p>
+                        	<p class="text-muted" *ngIf="currentMentor.profile.roleData.role === 'business'">
+                        		<strong>{{ currentMentor.profile.roleData.data.name }}</strong>
+                        	</p>
+                        	<p class="text-muted" *ngIf="currentMentor.profile.roleData.role === 'business'">
+                        		{{ currentMentor.profile.roleData.data.description }}
+                        	</p>
+                        	<p class="text-muted" *ngIf="currentMentor.profile.roleData.role !== 'business'">
+                        		{{ currentMentor.profile.user.bio?currentMentor.profile.user.bio: 'N/A' }}
+                        	</p>
                            
-                            <p class="text-muted text-left"><i class="icon-pointer"></i> Abuja, nigeria</p>
-                            <p class="text-muted text-left"><i class="icon-link"></i> darke@gmail.com</p>
+                             <p class="text-muted text-left"><i class="icon-pointer"></i> 
+                            	 <span *ngIf="currentUser.state"> {{ currentMentor.profile.user.state }}, </span> 
+                					{{ currentMentor.profile.user.country? currentMentor.profile.user.country : 'Address not set' }}
+                            </p>
+                            <p class="text-muted text-left"><i class="icon-link"></i> {{ currentMentor.profile.user.email }}</p>
                             <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
                         </div>
                         <hr>

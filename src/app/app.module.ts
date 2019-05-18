@@ -20,6 +20,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { BaseService } from './_services';
+import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
+import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 
 library.add(fas);
 
@@ -125,7 +128,12 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        BaseService,
+        IndustryResolve,
+        SingleIndustryResolve,
+        ProfileEditResolve,
+        MentorProfileResolve
   ],
   bootstrap: [AppComponent]
 })

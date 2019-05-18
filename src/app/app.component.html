@@ -1,8 +1,10 @@
-
+<div class="page-loader-wrapper" *ngIf="loading">
+    <div class="loader">
+        <div class="m-t-30"><img class="zmdi-hc-spin" src="assets/logo/logo_.png" width="58" height="53" alt="Startev"></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
 <app-navbar *ngIf="currentUser"></app-navbar>
-
-<!-- <ngx-ui-loader></ngx-ui-loader> -->
-
 <!-- App Content -->
 <div [@routeAnimations]="o && o.activatedRouteData 
       && o.activatedRouteData['animation']">
