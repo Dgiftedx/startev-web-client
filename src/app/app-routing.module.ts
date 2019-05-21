@@ -18,6 +18,8 @@ import { IndustryDetailsComponent } from './pages/industries/industry-details/in
 
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
+import { VentureResolve } from './_resolvers/venture.resolver';
+import { BusinessResolve } from './_resolvers/business.resolver';
 
 
 
@@ -80,7 +82,16 @@ const routes: Routes = [
 	data: {animation: 'All'}, 
 	canActivate : [AuthGuard] },
 
-{path: 'venture-hub', component: VentureHubComponent, canActivate : [AuthGuard] },
+{
+	path: 'venture-hub', 
+	component: VentureHubComponent,
+	resolve: {
+		ventures : VentureResolve,
+		business: BusinessResolve
+	},
+	data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
 
 
 {path: 'forgot-password', component: ForgotPasswordComponent },

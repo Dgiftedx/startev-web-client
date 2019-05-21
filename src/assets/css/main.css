@@ -23018,7 +23018,7 @@ section small {
 }
 
 .taskboard .dd:hover {
-    cursor: move
+    /*cursor: move*/
 }
 
 .bitcoin .body {

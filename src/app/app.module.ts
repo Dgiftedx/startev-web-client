@@ -15,6 +15,7 @@ import { VgBufferingModule} from 'videogular2/buffering';
 import { ToastrModule } from 'ngx-toastr';
 import { LaddaModule } from  'angular7-ladda';
 import { ExcerptFilter } from './_filters/excerpt.filter';
+import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -23,6 +24,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { BaseService } from './_services';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
+import { VentureResolve } from './_resolvers/venture.resolver';
+import { BusinessResolve } from './_resolvers/business.resolver';
 import { OrderModule } from 'ngx-order-pipe';
 // import { CKEditorModule } from 'ngx-ckeditor';
 
@@ -78,6 +81,7 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ExcerptFilter,
+    DateAgoPipe,
     IndustryListComponent,
     IndustryDetailsComponent,
     FollowComponent,
@@ -136,7 +140,9 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
         IndustryResolve,
         SingleIndustryResolve,
         ProfileEditResolve,
-        MentorProfileResolve
+        MentorProfileResolve,
+        VentureResolve,
+        BusinessResolve
   ],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,7 @@ import { AuthenticationService, AlertService, UserService, BaseService } from '.
 import { Subscription } from 'rxjs'
 import { User } from '../../../_models';
 import * as _ from 'lodash';
-
+declare var $: any;
 
 @Component({
   selector: 'app-profile',
@@ -15,15 +15,18 @@ export class ProfileComponent implements OnInit {
   public people: Array<any> = [];
   public followingIds: Array<any> = [];
   private peopleSubscription : Subscription;
+  private ventureSubscription: Subscription;
 
+  public ventures:any;
   currentUser: User;
   show: boolean = false;
   profileData: any;
+  ventureName: string = '';
+  ventureDescription: string = '';
+  ventureUrl:string = '';
+  ventureButton = '';
   
   defaultBio = 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.';
-
-  profileTabs: string[] = ['followers','following','partners'];
-  selectedTab = this.profileTabs[0];
 
   constructor(
     private route : ActivatedRoute,
@@ -36,9 +39,13 @@ export class ProfileComponent implements OnInit {
     this.peopleSubscription = this.baseService.getPeople()
     .subscribe((people: any) => {
       this.people = people;
-    })
+    });
+
+    
   }
 
+  profileTabs: string[] = ['followers','following','partners'];
+  selectedTab = this.profileTabs[0];
 
 
   //Algorithm to show user Job title
@@ -50,6 +57,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.profileData = this.route.snapshot.data.profile.profileData;
   	this.getProfileData();
+    if (this.profileData.role === 'business') {
+        this.profileTabs = ['followers','following','partners','ventures'];
+     }
+
+     this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
+    .subscribe((ventures: any) => {
+      this.ventures = ventures.ventures;
+    })
+
+     // this.getVentures(this.profileData.roleData.id);
   }
 
   updateFollowingIds(followers: any){
@@ -60,8 +77,38 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  newVenture(): void {
+    this.ventureButton = 'Create Venture';
+    this.ventureUrl = 'new-venture';
+    $(document).find('#ventureModal').modal();
+  }
+
+
+  editVenture(id: number){
+    this.ventureButton = 'Update Venture';
+    let venture = _.findLast(this.ventures, ['id',id]);
+
+    if (venture) {
+      this.ventureName = venture.venture_name;
+      this.ventureDescription = venture.venture_description;
+
+      this.ventureUrl = 'update-venture/'+id;
+      $(document).find('#ventureModal').modal();
+
+    }
+  }
+
+
+
   public isFollowing(target: number){
     return this.followingIds.includes(target)?true:false;
+  }
+
+
+  closeModal(){
+    $(document).find('.modal').each(function() {
+        $(this).modal('hide');
+      })
   }
 
 
@@ -78,6 +125,11 @@ export class ProfileComponent implements OnInit {
    handleProfileResponse(data: any){
     this.profileData = data.profileData;
     this.updateFollowingIds(data.profileData.following);
+  }
+
+  handleVentureResponse(data){
+    this.ventures = data.ventures;
+    this.closeModal();
   }
 
   get profile(){
@@ -105,6 +157,19 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  getVentures(businessId: number){
+    this.baseService.businessVentures(businessId)
+    .subscribe(
+        data => {
+          this.handleVentureResponse(data);
+        },
+        error => {
+          this.alert.errorMsg(error.error,"Request Failed");
+        }
+      )
+  }
+
+
    onToggleFollow(target: number){
      this.baseService.toggleFollow(this.currentUser.id, target)
     .subscribe(
@@ -112,6 +177,40 @@ export class ProfileComponent implements OnInit {
         data => {
             this.handleFollowToggleResponse(data);
         }
+      )
+  }
+
+
+  submitVenture(){
+
+    if (_.size(this.ventureName) === 0 || _.size(this.ventureDescription) === 0) {
+      this.alert.warningMsg("Sorry! you can't submit empty felds","Please review form");
+      return false;
+    }
+
+    let formData = {
+      business_id: this.profileData.roleData.id,
+      venture_name: this.ventureName,
+      venture_description: this.ventureDescription
+    };
+
+    this.baseService.updateVenture(formData, this.ventureUrl)
+    .subscribe(
+        data => {
+          this.handleVentureResponse(data)
+        }
+
+      )
+  }
+
+
+  deleteVenture(id: number){
+    this.baseService.removeVenture(this.profileData.roleData.id, id)
+    .subscribe(
+
+      data => {
+        this.handleVentureResponse(data);
+      }
       )
   }
 

@@ -45,6 +45,10 @@ export class BaseService {
         return presentWork.position;
       }
     }
+
+    if (role === 'business') {
+    	return roleData.name;
+    }
   }
 
 	public fetchIndustries(){
@@ -133,4 +137,24 @@ export class BaseService {
     	return this.http.get(`${this.endpoint}/toggle-follow/${userId}/${target_id}`);
     }
 
+    public allVentures(){
+    	return this.http.get(`${this.endpoint}/all-ventures`).pipe(delay(1000));
+    }
+
+    public allBusiness(){
+    	return this.http.get(`${this.endpoint}/all-business`).pipe(delay(500));
+    }
+
+    public businessVentures(id: number){
+		return this.http.get(`${this.endpoint}/business-ventures/${id}`);
+	}
+
+    // Register a new user
+    public updateVenture(formData: any, url : string){
+        return this.http.post<any>(`${this.endpoint}/${url}`, formData);
+    }
+
+    public removeVenture(business_id: number, id: number){
+    	return this.http.get(`${this.endpoint}/remove-venture/${business_id}/${id}`);
+    }
 }

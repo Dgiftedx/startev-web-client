@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../../_models';
+import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import { AlertService, AuthenticationService, BaseService } from '../../_services';
+import { switchMap, first } from "rxjs/operators";
+import { Subscription } from 'rxjs'
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { NgSelectConfig } from '@ng-select/ng-select';
+import { VentureResolve } from '../../_resolvers/venture.resolver'
 
 @Component({
   selector: 'app-venture-hub',
@@ -7,9 +15,67 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VentureHubComponent implements OnInit {
 
-  constructor() { }
+	currentUser : User;
+	  param = null;
+	  industry = {};
+	  businesses = [];
+	  selectedIndustry = {};
 
-  ngOnInit() {
+    ventures = [];
+	  businessForm: FormGroup;
+
+  constructor(
+    private router: Router,
+    private config: NgSelectConfig,
+    private route: ActivatedRoute,
+    private alert: AlertService,
+    private formBuilder: FormBuilder,
+    private baseService : BaseService,
+    private authenticationService: AuthenticationService) {
+    this.config.notFoundText = 'item not found';
+    // this.getIndustryList();
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
+  createSearchForm(){
+    this.businessForm = this.formBuilder.group({
+      selected : [''],
+    });
+  }
+
+   ngOnInit() {
+    this.ventures = this.route.snapshot.data.ventures.ventures;
+    this.createSearchForm();
+    this.baseService.allBusiness()
+    .subscribe((businesses :  any) => {
+      this.businesses = businesses.all;
+    })
+  }
+
+  get profile(){
+    return JSON.parse(this.authenticationService.getUserData());
+  }
+
+  showCurrentVentures(): void {
+    console.log(this.businessForm.value.selected);
+  }
+
+  handleResponse(data : any){
+    this.industry = data;
+  }
+
+  getIndustryDetails(slug : any){
+    this.baseService.getSingleIndustry(slug)
+    .subscribe(
+      data => {
+        this.handleResponse(data);
+      },
+
+
+      error => {
+        this.alert.errorMsg(error.error, "Request Failed");
+      }
+
+      )
+  }
 }

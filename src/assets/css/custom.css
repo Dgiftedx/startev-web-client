@@ -413,3 +413,7 @@ z-index: -1;
     white-space: nowrap;
     overflow: hidden
 }
+
+.dd-list{
+	list-style: none !important;
+}

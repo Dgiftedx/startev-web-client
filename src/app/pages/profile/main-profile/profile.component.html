@@ -21,7 +21,10 @@
                     </div>
                     <div class="body">
                         <div class="col-12">
-                        	<h6>{{ currentUser.name | titlecase }}</h6>
+                        	<h6 *ngIf="profile.role === 'business'">{{ profile.roleData.name | titlecase }}</h6>
+
+                            <h6 *ngIf="profile.role !== 'business'">{{ currentUser.name | titlecase }}</h6>
+
                         	<p *ngIf="profile.role === 'mentor'" class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></p>
 
                         	<p *ngIf="profile.role === 'student'" class="text-muted"><strong>{{ profile.role | titlecase }}</strong></p>
@@ -33,7 +36,7 @@
                 					{{ currentUser.country? currentUser.country : 'Address not set' }}
                             </p>
                             <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>
-                            <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
+                            <p class="text-muted text-left"><i class="icon-calendar"></i> {{ currentUser.created_at | date: 'mediumDate' }}</p>
                         </div>
                         <hr>
                         <div class="row text-center">
@@ -165,6 +168,61 @@
 							
                 		</div>
                 	</div>
+
+
+                    <div class="tab-content">
+                        <div
+                        *ngIf="selectedTab === profileTabs[3]" 
+                        role="tabpanel" class="tab-pane active" 
+                        [class.in]="selectedTab === profileTabs[3]" 
+                        id="{{ selectedTab }}">
+
+
+                            <!-- Tab Contents -->
+
+                            <div class="row clearfix">
+                                <div class="col-md-12 text-center m-b-10">
+                                    <button (click)="newVenture()" class="btn btn-round btn-warning waves-effect">
+                                        <fa-icon [icon]="['fas','plus']"></fa-icon> Add New Venture
+                                    </button>
+                                    <br/>
+                                    <p *ngIf="ventures.length === 0">Your Venture list is empty</p>
+                                </div>
+                                <div class="col-lg-6 col-md-12" *ngFor="let venture of ventures; let i = index">
+                                <div class="card taskboard feeds-container">
+                                    <div class="body planned_task zero-m">
+                                        <div class="dd" data-plugin="nestable">
+                                            <ol class="dd-list">
+                                                <li class="dd-item" data-id="{{ index+1 }}">
+                                                    <div class="dd-handle bg_grey">{{ venture.identifier }}</div>
+                                                    <div class="dd-content p-15">
+                                                        <div class="" [ngStyle]="{'min-height':'120px'}">
+                                                            <h5>{{ venture.venture_name  }}</h5>
+                                                        </div>
+                                                        <div class="" [ngStyle]="{'min-height':'60px'}">
+                                                            <p>{{ venture.venture_description | excerpt: 120 }}</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="action">
+                                                            <button (click)="editVenture(venture.id)" type="button" class="btn btn-sm btn-danger btn-simple waves-effect" title="Edit"><i class="icon-note"></i></button>
+
+                                                            <button (click)="deleteVenture(venture.id)" type="button" class="btn btn-sm btn-danger btn-simple waves-effect" title="Delete"><i class="icon-trash"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </li>                                    
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!--//Tab Contents -->
+                            
+                        </div>
+                    </div>
+
+
                 </div>
 				</div>
 			</div>
@@ -200,3 +258,38 @@
 		</div>
 	</div>
 </section>
+
+
+<!-- Modal Section -->
+<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #ventureModal id="ventureModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+                <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+            </div>
+            <div class="modal-body"> 
+                    <br/>
+                  <div class="form-group">
+                      <input 
+                      type="text" 
+                      placeholder="Venture Name" 
+                      class="form-control" 
+                      [(ngModel)]="ventureName">
+                  </div>
+                  <div class="form-group">
+                    <textarea 
+                    [(ngModel)]="ventureDescription" 
+                    rows="4" class="form-control" 
+                    placeholder="About this Venture"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" 
+                (click)="submitVenture()" 
+                class="btn btn-round btn-success waves-effect">{{ ventureButton }}</button>
+                <button (click)="closeModal()" type="button" class="btn btn-round btn-white waves-effect">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
