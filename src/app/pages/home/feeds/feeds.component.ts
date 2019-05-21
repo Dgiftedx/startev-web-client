@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { User } from '../../../_models';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
-import { AlertService, AuthenticationService, UserService } from '../../../_services';
+import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 import { FeedService } from '../../../_services/feed.service';
 import { Feed } from '../../../_models/feed';
 import { Subscription } from 'rxjs';
@@ -26,16 +26,18 @@ export class FeedsComponent implements OnInit {
   public image: any = null;
 
   public feeds: Feed[] = [];
+  public people: Array<any> = [];
 
   private feedSubscription: Subscription;
   private localFeedSubscription : Subscription;
+  private peopleSubscription : Subscription;
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private feedService : FeedService,
     private alert: AlertService,
-    private userSerivce : UserService,
+    private baseService : BaseService,
     private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
@@ -57,6 +59,11 @@ export class FeedsComponent implements OnInit {
         this.feeds.push(feed);
       }
     });
+
+    this.peopleSubscription = this.baseService.getPeople()
+    .subscribe((people: any) => {
+      this.people = people;
+    })
   }
 
   ngOnInit() {
@@ -74,6 +81,42 @@ export class FeedsComponent implements OnInit {
       $(document).find('#imagePostModal').modal();
     }
 
+  }
+
+  //Algorithm to show user Job title
+  echoJobTitle(roleData: any, role: string){
+    if (role === 'student') {
+      return roleData.institution;
+    }
+
+    if (role === 'mentor') {
+      
+      if (roleData.employmentStatus === 'Own a Business') {
+        return 'Business Owner';
+      }
+
+      if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
+        let presentWork;
+
+        roleData.workExperience.forEach((experience, index) => {
+          if (experience.till_present) {
+            presentWork = roleData.workExperience[index];
+          }
+        });
+
+        return presentWork.position;
+      }
+    }
+  }
+
+
+  followUser(id: number){
+    this.onFollow(id);
+  }
+
+
+  isMore(text: string, level: number): boolean {
+    return text.length > level;
   }
 
 
@@ -101,19 +144,26 @@ export class FeedsComponent implements OnInit {
 
   submitArticlePost(){
     this.submitPost();
-    $(document).find('#closeArticleModal').click();
+    // this.closeModal('closeArticleModal');
   }
 
 
   submitImagePost(){
     this.submitPost();
-    $(document).find('#closeImageModal').click();
+    // this.closeModal('closeImageModal');
   }
 
-  cleanForm(){
+  cleanForm(): void {
+    this.image = null;
+    this.processedImage = null;
     this.title = '';
     this.content = '';
     this.post_type = '';
+  }
+
+
+  closeModal(element : any): void {
+    $(document).find('#'+element).modal('hide');
   }
 
 
@@ -121,10 +171,6 @@ export class FeedsComponent implements OnInit {
 
     if (_.size(this.content) === 0 || _.size(this.title) === 0) {
       this.alert.errorMsg("Sorry. You can't publish empty content","There is error in form");
-      return;
-    }
-
-    if (typeof this.image == null || typeof this.image === "undefined") {
       return;
     }
 
@@ -141,11 +187,21 @@ export class FeedsComponent implements OnInit {
     .toPromise()
     .then((data: { message: string; status: boolean }) => {
       this.alert.successMsg(data.message,"Success");
+      $(document).find('.modal').each(function() {
+        $(this).modal('hide');
+      })
       this.cleanForm();
     })
     .catch(error => {
       this.alert.errorMsg(error, "Post submission failed");
+      this.cleanForm();
     });
+  }
+
+
+  handleFollowResponse(data){
+    this.people = data.people;
+    this.alert.successMsg("You started following this user","Now Following");
   }
 
 
@@ -154,6 +210,23 @@ export class FeedsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.feedSubscription.unsubscribe();
+    // this.feedSubscription.unsubscribe();
   }
+
+  onFollow(target: number){
+    this.baseService.follow(this.currentUser.id, target)
+    .subscribe(
+
+        data => {
+            this.handleFollowResponse(data);
+        },
+
+
+        error => {
+          //
+        }
+
+      )
+  }
+
 }

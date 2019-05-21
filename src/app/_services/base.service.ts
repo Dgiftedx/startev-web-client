@@ -87,8 +87,16 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(1000));
 	}
 
-	getFeeds(){
+	public getFeeds(){
         return this.http.get(`${this.endpoint}/get-feeds`);
+    }
+
+    public getPeople(){
+    	return this.http.get(`${this.endpoint}/get-people`);
+    }
+
+    public follow(userId: number, target_id : number){
+    	return this.http.get(`${this.endpoint}/follow/${userId}/${target_id}`);
     }
 
 

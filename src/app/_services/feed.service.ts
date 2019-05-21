@@ -21,6 +21,7 @@ export class FeedService {
 		channel.bind(
 			'my-event',
 			(data: {
+				id : number,
 				roleData: any, 
 				user: any, 
 				postType: string, 
@@ -31,6 +32,7 @@ export class FeedService {
 				link: string,
 				time: string }) => {
 				this.subject.next(new Feed(
+					data.id,
 					data.roleData, 
 					data.user, 
 					data.postType, 

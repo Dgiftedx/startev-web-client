@@ -14,6 +14,7 @@
                     </div>
                     <div class="body">
                         <div class="col-12">
+                            <p class="text-muted" *ngIf="currentUser.address">{{ currentUser.address }}</p>
                             <p class="text-muted"> <span *ngIf="currentUser.state">{{ currentUser.state }}, 
                             </span> {{ currentUser.country? currentUser.country : 'Address not set' }}</p>
                         </div>
@@ -107,7 +108,9 @@
                                 </div>
                                 <div class="post-feed-inner bg_grey">
                                     <div class="" class="">
-                                        <p class="post-content p-3">{{ feed.content | excerpt: 137 }}<a [routerLink]="['/feed', feed.title]" class="btn-link read-more">read more</a></p>
+                                        <p class="post-content p-3">{{ feed.content | excerpt: 137 : feed.title }}
+                                            <a *ngIf="isMore(feed.content, 137)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="">
@@ -142,7 +145,10 @@
                                     </div>
                                 </div>
                                 <div class="post-feed-inner bg_grey">
-                                     <p class="post-content p-3">{{ feed.content | excerpt: 137 }}</p>
+                                     <p class="post-content p-3">{{ feed.content | excerpt: 137 }}
+                                        <a *ngIf="isMore(feed.content, 137)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
+                                     </p>
+
                                 </div>
                                 <div class="">
                                      <div class="row zero-m">
@@ -210,43 +216,26 @@
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="card feeds-container min-height-400">
-                    <div class="body">
-                    	<ul class="list-group custom-list">
-                    		<li class="list-group-item">
-                    			<img src="assets/images/sm/avatar1.jpg" height="50" class="rounded-circle float-left" />
+				<div class="card feeds-container zero-m">
+                    <div class="body zero-m">
+                        <div class="bg_grey">
+                            <p class="follow-suggestion-text">People you might like to follow_</p>
+                        </div>
+                    	<ul class="list-group custom-list zero-m">
+                    		<li class="list-group-item" *ngFor="let person of people">
+                    			<img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
                     			<div class="list-content">
-                    				<h6 class="list-title">John Gidado</h6>
-                    				<span class="list-position">Manager Sunflex</span>
+                    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
+                    				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
                     			</div>
-                    			<button class="btn btn-warning btn-sm btn-simple">Follow</button>
-                    		</li>
-                    		<li class="list-group-item">
-                    			<img src="assets/images/sm/avatar2.jpg" height="50" class="rounded-circle float-left" />
-                    			<div class="list-content">
-                    				<h6 class="list-title">Kelvin Black</h6>
-                    				<span class="list-position">CEO Grand More Inc.</span>
-                    			</div>
-                    			<button class="btn btn-warning btn-sm btn-simple">Follow</button>
-                    		</li>
-                    		<li class="list-group-item">
-                    			<img src="assets/images/sm/avatar3.jpg" height="50" class="rounded-circle float-left" />
-                    			<div class="list-content">
-                    				<h6 class="list-title">Malcon Malvin</h6>
-                    				<span class="list-position">Entrepreneur</span>
-                    			</div>
-                    			<button class="btn btn-warning btn-sm btn-simple">Follow</button>
-                    		</li>
-
-                    		<li class="list-group-item">
-                    			<img src="assets/images/sm/avatar4.jpg" height="50" class="rounded-circle float-left" />
-                    			<div class="list-content">
-                    				<h6 class="list-title">Bamidele Joshua</h6>
-                    				<span class="list-position">CEO Health Ko.</span>
-                    			</div>
-                    			<button class="btn btn-warning btn-sm btn-simple">Follow</button>
+                    			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
+                                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
+                                 </button>
                     		</li>
                     	</ul>
+                        <!-- <div class="bg_grey align-bottom">
+                            <p class="follow-suggestion-text"><a href="#">See more suggestions</a></p>
+                        </div> -->
                     </div>
                 </div>
 			</div>
@@ -260,8 +249,6 @@
         <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-               <!--  <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
-                </h6> -->
                 <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
             </div>
             <div class="modal-body"> 
@@ -275,7 +262,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="submitArticlePost()" class="btn btn-link waves-effect text-success">Publish</button>
-                <button id="closeArticleModal" type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                <button (click)="closeModal('articlePostModal')" type="button" class="btn btn-link waves-effect">CLOSE</button>
             </div>
         </div>
     </div>
@@ -314,7 +301,7 @@
                     <img *ngIf="isImage" [src]="processedImage" alt="" class="img-raised" height="50" width="50">
                 </div>
                 <button type="button" (click)="submitImagePost()" class="btn btn-link waves-effect text-success">Publish</button>
-                <button id="closeImageModal" type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-link waves-effect">CLOSE</button>
             </div>
         </div>
     </div>
