@@ -57,15 +57,15 @@ export class VentureHubComponent implements OnInit {
   }
 
   showCurrentVentures(): void {
-    console.log(this.businessForm.value.selected);
+    this.getBusinessVentures(this.businessForm.value.selected);
   }
 
   handleResponse(data : any){
-    this.industry = data;
+    this.ventures = data.ventures;
   }
 
-  getIndustryDetails(slug : any){
-    this.baseService.getSingleIndustry(slug)
+  getBusinessVentures(id : any){
+    this.baseService.ventureByBusiness(id)
     .subscribe(
       data => {
         this.handleResponse(data);

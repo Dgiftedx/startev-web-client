@@ -149,6 +149,10 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/business-ventures/${id}`);
 	}
 
+	public ventureByBusiness(id: number){
+		return this.http.get(`${this.endpoint}/venture-by-business/${id}`);
+	}
+
     // Register a new user
     public updateVenture(formData: any, url : string){
         return this.http.post<any>(`${this.endpoint}/${url}`, formData);
@@ -157,4 +161,9 @@ export class BaseService {
     public removeVenture(business_id: number, id: number){
     	return this.http.get(`${this.endpoint}/remove-venture/${business_id}/${id}`);
     }
+
+    public singleVenture(identifier: any){
+		return this.http.get(`${this.endpoint}/single-venture/${identifier}`).pipe(delay(500));
+	}
+
 }

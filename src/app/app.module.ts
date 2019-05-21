@@ -26,6 +26,7 @@ import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_r
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
+import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { OrderModule } from 'ngx-order-pipe';
 // import { CKEditorModule } from 'ngx-ckeditor';
 
@@ -63,6 +64,10 @@ import { FollowComponent } from './pages/widgets/follow/follow.component';
 import { ConnectComponent } from './pages/widgets/connect/connect.component';
 import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
 import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
+import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
+import { PartnerApplyComponent } from './pages/partner/partner-apply/partner-apply.component';
+import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
+import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +93,10 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
     ConnectComponent,
     MentorsComponent,
     MentorProfileComponent,
+    PartnerViewComponent,
+    PartnerApplyComponent,
+    PartnerWatchComponent,
+    PartnerBoardComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -142,7 +151,8 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
         ProfileEditResolve,
         MentorProfileResolve,
         VentureResolve,
-        BusinessResolve
+        BusinessResolve,
+        SingleVentureResolve
   ],
   bootstrap: [AppComponent]
 })

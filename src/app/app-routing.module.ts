@@ -15,11 +15,16 @@ import { KnowledgeHubComponent } from './pages/knowledge-hub/knowledge-hub.compo
 import { ResetPasswordComponent } from './pages/password/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
+import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
+import { PartnerApplyComponent } from './pages/partner/partner-apply/partner-apply.component';
+import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
+import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
+import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 
 
 
@@ -89,6 +94,21 @@ const routes: Routes = [
 		ventures : VentureResolve,
 		business: BusinessResolve
 	},
+	data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'partner-view/:identifier', 
+	component: PartnerViewComponent,
+	resolve: {partnerView : SingleVentureResolve},
+	data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'partner-apply/:identifier',
+	component: PartnerApplyComponent,
 	data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },

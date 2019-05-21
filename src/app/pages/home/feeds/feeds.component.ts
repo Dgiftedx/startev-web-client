@@ -85,28 +85,7 @@ export class FeedsComponent implements OnInit {
 
   //Algorithm to show user Job title
   echoJobTitle(roleData: any, role: string){
-    if (role === 'student') {
-      return roleData.institution;
-    }
-
-    if (role === 'mentor') {
-      
-      if (roleData.employmentStatus === 'Own a Business') {
-        return 'Business Owner';
-      }
-
-      if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
-        let presentWork;
-
-        roleData.workExperience.forEach((experience, index) => {
-          if (experience.till_present) {
-            presentWork = roleData.workExperience[index];
-          }
-        });
-
-        return presentWork.position;
-      }
-    }
+    return this.baseService.echoJobTitle(roleData, role);
   }
 
 

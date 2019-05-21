@@ -225,8 +225,10 @@
                     		<li class="list-group-item" *ngFor="let person of people">
                     			<img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
                     			<div class="list-content">
-                    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
-                    				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
+                    				<h6 class="list-title" *ngIf="person.roleData.role !=='business'">{{ person.name | titlecase }}</h6>
+                                    <h6 class="list-title" *ngIf="person.roleData.role ==='business'">{{ person.roleData.data.name | titlecase }}</h6>
+                    				<span class="list-position" *ngIf="person.roleData.role !== 'business'">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
+                                    <span class="list-position" *ngIf="person.roleData.role === 'business'">{{ person.roleData.role | titlecase}} Partners</span>
                     			</div>
                     			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
                                    <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow

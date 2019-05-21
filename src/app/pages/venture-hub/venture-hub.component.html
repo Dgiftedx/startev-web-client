@@ -38,7 +38,7 @@
 						<div class="border"></div>
 						<div class="">
 							<span class="text-muted">{{ venture.created_at | dateAgo }}</span>
-							<button class="btn btn-sm btn-warning float-right waves-effect">Partner</button>
+							<a [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
 						</div>
 					</div>
 				</div>

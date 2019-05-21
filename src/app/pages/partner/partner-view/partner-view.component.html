@@ -1,0 +1,62 @@
+<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+	<div class="container-fluid">
+		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
+		</div>
+	</div>
+
+	<div class="container"> 
+		<div class="row clearfix">
+			<div class="col-12 col-md-8">
+				<div class="card feeds-container">
+					<div class="row clearfix">
+						<div class="col-md-3">
+							<img src="{{partner.venture.business.user.avatar?partner.venture.business.user.avatar:'assets/images/default/default.png'}}" class="img-thumbnail" />
+							<h6 class="apple-font p-4 text-center">{{ partner.venture.business.name }}</h6>
+						</div>
+						<div class="col-md-9 p-3">
+							<h5 class="apple-font pl-3">{{ partner.venture.venture_name }}</h5>
+							<h6 class="title text-muted pl-3">Description</h6>
+							<div class="border"></div>
+							<p class="p-3 partner-desc" [innerHtml]="partner.venture.venture_description"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-4">
+				<div class="card feeds-container" [ngStyle]="{'min-height':'250px'}">
+					<div class="partner-count pb-1">
+						<h1>24</h1>
+						<span>No. of Partners</span>
+					</div>
+					<div class="border"></div>
+					<a [routerLink]="['/partner-apply',partner.identifier]" class="mt-5 btn btn-block btn-info waves-effect">Apply To Partner</a>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="row clearfix">
+			<div class="col-12 col-md-12 mb-3">
+				<div class="border p-2">Similar offer from {{ partner.venture.business.name | titlecase }}</div>
+			</div>
+			<div class="col-md-3 col-lg-3 col-sm-12" *ngFor="let venture of similar">
+				<div class="card feeds-container" *ngIf="venture.id !== partner.venture.id">
+					<div class="body business">
+						<div class="business-content min-height-200">
+							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />
+							<h5>{{ venture.venture_name | titlecase }}</h5>
+							<span>{{ venture.business.name | titlecase }}</span>
+							<p class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</p>
+						</div>
+						
+						<div class="border"></div>
+						<div class="">
+							<span class="text-muted">{{ venture.created_at | dateAgo }}</span>
+							<a [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
