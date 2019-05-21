@@ -48,6 +48,9 @@ const routes: Routes = [
 {
 	path: 'profile', 
 	component: ProfileComponent,
+	resolve: {
+		profile: ProfileEditResolve
+	},
 	data: {animation: 'Profile'},
 	canActivate : [AuthGuard] },
 

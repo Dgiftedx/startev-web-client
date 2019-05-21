@@ -3,6 +3,7 @@ import { User } from '../../../_models';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 import { switchMap, first } from "rxjs/operators";
+import { Subscription } from 'rxjs'
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { NgSelectConfig } from '@ng-select/ng-select';
 
@@ -19,6 +20,8 @@ export class IndustryDetailsComponent implements OnInit {
   industries = [];
   industriesArray = [];
   selectedIndustry = {};
+  public people: Array<any> = [];
+  private peopleSubscription : Subscription;
 
 
   industryForm: FormGroup;
@@ -35,9 +38,17 @@ export class IndustryDetailsComponent implements OnInit {
     this.config.notFoundText = 'item not found';
     // this.getIndustryList();
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+
+    //disable resuable route
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
+
+    //get people to follow
+    this.peopleSubscription = this.baseService.getPeople()
+    .subscribe((people: any) => {
+      this.people = people;
+    });
   }
 
 
@@ -57,6 +68,17 @@ export class IndustryDetailsComponent implements OnInit {
   }
 
 
+
+  //Algorithm to show user Job title
+  echoJobTitle(roleData: any, role: string){
+    return this.baseService.echoJobTitle(roleData, role);
+  }
+
+
+  followUser(id: number){
+    this.onFollow(id);
+  }
+
   showCurrentIndustry(): void {
     return this.getIndustryDetails(this.industryForm.value.selected);
   }
@@ -66,6 +88,10 @@ export class IndustryDetailsComponent implements OnInit {
     return JSON.parse(this.authenticationService.getUserData());
   }
 
+  handleFollowResponse(data){
+    this.people = data.people;
+    this.alert.successMsg("You started following this user","Now Following");
+  }
 
   handleResponse(data : any){
     this.industry = data;
@@ -81,6 +107,22 @@ export class IndustryDetailsComponent implements OnInit {
 
       error => {
         this.alert.errorMsg(error.error, "Request Failed");
+      }
+
+      )
+  }
+
+  onFollow(target: number){
+    this.baseService.follow(this.currentUser.id, target)
+    .subscribe(
+
+      data => {
+        this.handleFollowResponse(data);
+      },
+
+
+      error => {
+        //
       }
 
       )

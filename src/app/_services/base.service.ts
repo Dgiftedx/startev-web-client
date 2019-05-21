@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
 import { User } from '../_models';
+import * as _ from 'lodash';
 import { AuthenticationService } from './authentication.service';
 
 
@@ -18,6 +19,33 @@ export class BaseService {
 
 	endpoint = this.authenticationService.endpoint;
 	endPointAuth = this.authenticationService.endPointAuth;
+
+
+  //Algorithm to show user Job title
+  echoJobTitle(roleData: any, role: string){
+    if (role === 'student') {
+      return roleData.institution;
+    }
+
+    if (role === 'mentor') {
+      
+      if (roleData.employmentStatus === 'Own a Business') {
+        return 'Business Owner';
+      }
+
+      if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
+        let presentWork;
+
+        roleData.workExperience.forEach((experience, index) => {
+          if (experience.till_present) {
+            presentWork = roleData.workExperience[index];
+          }
+        });
+
+        return presentWork.position;
+      }
+    }
+  }
 
 	public fetchIndustries(){
 		return this.http.get(`${this.endpoint}/industries`);
@@ -99,5 +127,10 @@ export class BaseService {
     	return this.http.get(`${this.endpoint}/follow/${userId}/${target_id}`);
     }
 
+
+    //User follows another another user on user's profile page
+    public toggleFollow(userId: number, target_id : number){
+    	return this.http.get(`${this.endpoint}/toggle-follow/${userId}/${target_id}`);
+    }
 
 }
