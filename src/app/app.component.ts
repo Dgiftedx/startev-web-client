@@ -4,6 +4,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AuthenticationService } from './_services';
 import { User } from './_models';
 import { slideInAnimation } from './aminations';
+import { ChatAdapter } from 'ng-chat';
+import { Adapter } from './adapter';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,11 @@ export class AppComponent {
   title = 'startev-client';
   loading = true;
   currentUser: User;
+
+    //Messenger
+  public userId = 5;
+  public messengerTitle = 'Messenges';
+  public adapter: ChatAdapter = new Adapter();
 
   constructor(
     private ngxService: NgxUiLoaderService,

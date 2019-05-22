@@ -166,4 +166,8 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/single-venture/${identifier}`).pipe(delay(500));
 	}
 
+	public applyToPartner(id : number, user_id: number, url : string) {
+		return this.http.get(`${this.endpoint}/${url}/${id}/${user_id}`);
+	}
+
 }

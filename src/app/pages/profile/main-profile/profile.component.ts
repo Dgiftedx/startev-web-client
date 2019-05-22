@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   private ventureSubscription: Subscription;
 
   public ventures:any;
+  public partners:any;
   currentUser: User;
   show: boolean = false;
   profileData: any;
@@ -44,7 +45,7 @@ export class ProfileComponent implements OnInit {
     
   }
 
-  profileTabs: string[] = ['followers','following','partners'];
+  profileTabs: string[] = ['followers','following','partnerships'];
   selectedTab = this.profileTabs[0];
 
 
@@ -64,6 +65,7 @@ export class ProfileComponent implements OnInit {
      this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
     .subscribe((ventures: any) => {
       this.ventures = ventures.ventures;
+      this.partners = ventures.partners;
     })
 
      // this.getVentures(this.profileData.roleData.id);
@@ -76,6 +78,15 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+
+  acceptPartner(partner: any){
+    this.baseService.applyToPartner(partner.id, partner.user.id, 'accept-partnership')
+    .subscribe(
+        data => {
+          this.partners = data;
+        }
+     )
+  }
 
   newVenture(): void {
     this.ventureButton = 'Create Venture';

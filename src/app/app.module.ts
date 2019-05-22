@@ -28,6 +28,9 @@ import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { OrderModule } from 'ngx-order-pipe';
+import { NgChatModule } from 'ng-chat';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+// import { SnotifyDefaults } from './snotify-defaults';
 // import { CKEditorModule } from 'ngx-ckeditor';
 
 library.add(fas);
@@ -65,7 +68,6 @@ import { ConnectComponent } from './pages/widgets/connect/connect.component';
 import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
 import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
-import { PartnerApplyComponent } from './pages/partner/partner-apply/partner-apply.component';
 import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
 import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 
@@ -94,7 +96,6 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
     MentorsComponent,
     MentorProfileComponent,
     PartnerViewComponent,
-    PartnerApplyComponent,
     PartnerWatchComponent,
     PartnerBoardComponent,
   ],
@@ -134,7 +135,9 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
      OwlNativeDateTimeModule,
      ImageCropperModule,
      FontAwesomeModule,
-     OrderModule
+     OrderModule,
+     NgChatModule,
+     SnotifyModule
   ],
 
   exports : [
@@ -145,6 +148,8 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+        SnotifyService,
         BaseService,
         IndustryResolve,
         SingleIndustryResolve,

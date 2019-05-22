@@ -16,7 +16,6 @@ import { ResetPasswordComponent } from './pages/password/reset-password/reset-pa
 import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
-import { PartnerApplyComponent } from './pages/partner/partner-apply/partner-apply.component';
 import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
 import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 
@@ -107,8 +106,9 @@ const routes: Routes = [
 },
 
 {
-	path: 'partner-apply/:identifier',
-	component: PartnerApplyComponent,
+	path: 'partner-board/:identifier',
+	component: PartnerBoardComponent,
+	resolve: {partnerView : SingleVentureResolve},
 	data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },

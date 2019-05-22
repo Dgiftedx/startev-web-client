@@ -56,6 +56,11 @@ export class VentureHubComponent implements OnInit {
     return JSON.parse(this.authenticationService.getUserData());
   }
 
+
+  isVentureOwner(profile:any, venture:any) {
+    return (profile.role == 'business') && (venture.business_id === profile.roleData.id)?true:false;
+  }
+  
   showCurrentVentures(): void {
     this.getBusinessVentures(this.businessForm.value.selected);
   }

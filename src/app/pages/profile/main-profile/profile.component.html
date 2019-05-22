@@ -47,7 +47,10 @@
                     </div>
                 </div>
 			</div>
-			<div class="col-md-6">
+
+
+            <!-- For Business -->
+			<div class="col-md-6" *ngIf="profile.role ==='business'">
 				<div class="profile-pane"> 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 					  <li class="nav-item" *ngFor="let tab of profileTabs; let first = first">
@@ -158,11 +161,33 @@
 
                 			<!-- Tab Contents -->
 
-                			<div class="card feeds-container min-height-400">
-				                <div class="body">
-				                    	<h4 class="text-center">{{ selectedTab }}</h4>
-				                </div>
-							</div>
+                			<div class="row clearfix">
+                              <div class="col-12" *ngIf="partners.length === 0">
+                                  <div class="card feeds-container bg_grey zero-m">
+                                    <div class="body">
+                                        <p class="text-center">You don't have any partnership.</p>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12" *ngFor="let partner of partners">
+                                <div class="card feeds-container">
+                                    <div class="body text-center">
+                                        <div> <span>
+                                            <img src="{{ partner.user.avatar?partner.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
+                                        </div>
+                                        <h6>{{ partner.user.name | titlecase }}</h6>
+                                        <h6 class="text-muted">{{ partner.venture.venture_name | titlecase }}</h6>
+                                        <small>
+                                            <span class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
+                                            </span><br/>
+                                        </small>
+                                        <button *ngIf="partner.status === 'pending'" (click)="acceptPartner(partner)" class="btn btn-sm btn-success btn-round waves-effect">Accept Partnership</button>
+
+                                         <a [routerLink]="['/partner-watch',partner.id]" *ngIf="partner.status === 'accepted'" class="btn btn-sm btn-success btn-round waves-effect">Open Partnership Watch</a>
+                                    </div>
+                                </div>
+                             </div>         
+                            </div>
 
 							<!--//Tab Contents -->
 							
@@ -221,11 +246,158 @@
                             
                         </div>
                     </div>
-
-
                 </div>
 				</div>
 			</div>
+
+
+
+            <!-- For Mentors and Students -->
+            <div class="col-md-6" *ngIf="profile.role !=='business'">
+                <div class="profile-pane"> 
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" *ngFor="let tab of profileTabs; let first = first">
+                        <a class="nav-link" [class.active]="selectedTab === tab" [attr.data-toggle]="tab" href="javascript:void(0);" (click)="selectedTab = tab" role="tab" [attr.aria-controls]="tab" [attr.aria-selected]="{true: first}">{{ tab|titlecase }} </a>
+                      </li>
+                    </ul>
+                </div>
+                <div class="row clearfix m-t-20"> 
+                    <div class="col-sm-12 col-md-12">
+                    <div class="tab-content">
+                        <div
+                        *ngIf="selectedTab === profileTabs[0]" 
+                        role="tabpanel" class="tab-pane active" 
+                        [class.in]="selectedTab === profileTabs[0]" 
+                        id="{{ selectedTab }}">
+
+                            <!-- Tab Contents -->
+
+                            <div class="card feeds-container bg_grey zero-m" *ngIf="profile.followers.length === 0">
+                                <div class="body">
+                                    <p class="text-center">You don't have any follower yet.</p>
+                                </div>
+                            </div>
+                            <div class="card feeds-container" *ngIf="profile.followers.length > 0">
+                                <div class="body">
+                                    <ul class="follow_us list-unstyled m-b-0">                            
+                                        <li class="online" *ngFor="let user of profile.followers">
+                                            <a href="javascript:void(0);">
+                                                <div class="media">
+                                                    <img 
+                                                    class="media-object" 
+                                                    src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
+                                                    alt="">
+                                                    <div class="media-body">
+                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+                                                    </div>
+                                                    <div class="float-right">
+                                                        <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                                        </button>
+                                                        <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </a>                            
+                                        </li>            
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--//Tab Contents -->
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div
+                        *ngIf="selectedTab === profileTabs[1]" 
+                        role="tabpanel" class="tab-pane active" 
+                        [class.in]="selectedTab === profileTabs[1]" 
+                        id="{{ selectedTab }}">
+                            <!-- Tab Contents -->
+
+                            <div class="card feeds-container bg_grey zero-m" *ngIf="profile.following.length === 0">
+                                <div class="body">
+                                    <p class="text-center">You are not following anyone. Follow to receive their feeds and articles.</p>
+                                </div>
+                            </div>
+                            <div class="card feeds-container" *ngIf="profile.following.length > 0">
+                                <div class="body">
+                                    <ul class="follow_us list-unstyled m-b-0">                            
+                                        <li class="online" *ngFor="let user of profile.following">
+                                            <a href="javascript:void(0);">
+                                                <div class="media">
+                                                    <img 
+                                                    class="media-object" 
+                                                    src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
+                                                    alt="">
+                                                    <div class="media-body">
+                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+                                                    </div>
+                                                    <div class="float-right">
+                                                        <button (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">Unfollow</button>
+                                                    </div>
+                                                </div>
+                                            </a>                            
+                                        </li>            
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--//Tab Contents -->
+
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div
+                        *ngIf="selectedTab === profileTabs[2]" 
+                        role="tabpanel" class="tab-pane active" 
+                        [class.in]="selectedTab === profileTabs[2]" 
+                        id="{{ selectedTab }}">
+
+
+                            <!-- Tab Contents -->
+
+                            <div class="row clearfix">
+                              <div class="col-12" *ngIf="partners.length === 0">
+                                  <div class="card feeds-container bg_grey zero-m">
+                                    <div class="body">
+                                        <p class="text-center">You don't have any partnership.</p>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-12" *ngFor="let partner of partners">
+                                <div class="card feeds-container">
+                                    <div class="body text-center">
+                                        <h6>{{ partner.business.name  | titlecase }}</h6>
+                                        <h6 class="text-muted">{{ partner.venture.venture_name | titlecase }}</h6>
+                                        <small>
+                                            <span class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
+                                            </span><br/>
+                                        </small>
+
+                                        <div class="alert alert-info p-2" *ngIf="partner.status === 'pending'">
+                                            Your application is pending
+                                        </div>
+                                       <a *ngIf="partner.status === 'accepted'" [routerLink]="['/partner-board',partner.venture.identifier]" class="mt-4 btn btn-block btn-success waves-effect">Open Partnership Board</a>
+                                    </div>
+                                </div>
+                             </div>         
+                            </div>
+                            <!--//Tab Contents -->
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
 			<div class="col-md-3 m-t-80 sticky">
 				<div class="card feeds-container zero-m">
                     <div class="body zero-m" *ngIf="people.length > 0">

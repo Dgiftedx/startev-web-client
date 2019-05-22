@@ -9,6 +9,8 @@
 
 /*------------- Plugins Css ----------------------*/
 @import "~ngx-toastr/toastr.css";
+@import "~ng-snotify/styles/material.css";
+/*@import "~ng-snotify/styles/simple";*/
 @import "~ladda/dist/ladda-themeless.min.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";

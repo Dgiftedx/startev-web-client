@@ -25,11 +25,24 @@
 			<div class="col-12 col-md-4">
 				<div class="card feeds-container" [ngStyle]="{'min-height':'250px'}">
 					<div class="partner-count pb-1">
-						<h1>24</h1>
+						<h1>{{ count(venturePartners) }}</h1>
 						<span>No. of Partners</span>
 					</div>
 					<div class="border"></div>
-					<a [routerLink]="['/partner-apply',partner.identifier]" class="mt-5 btn btn-block btn-info waves-effect">Apply To Partner</a>
+
+					<div *ngIf="!isVentureOwner(profile,venture)">
+						<button type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-5 btn btn-block btn-info waves-effect">Apply To Partner</button>
+
+						<a *ngIf="userIsPartner && isAccepted(userIsPartner, partner)" [routerLink]="['/partner-board',partner.venture.identifier]" class="mt-4 btn btn-block btn-success waves-effect">Open Partnership Board</a>
+						<div 
+						*ngIf="userIsPartner && isPending(userIsPartner, partner)" class="m-3 alert alert-info">Your Application is Under Consideration</div>
+
+						<div class="m-3 alert alert-warning" role="alert" *ngIf="userIsPartner && isRejected(userIsPartner, partner)">
+							Sorry! Your application to partner with {{ partner.venture.business.name }} was rejected.
+						</div>
+					</div>
+
+
 				</div>
 			</div>
 			
@@ -52,7 +65,7 @@
 						<div class="border"></div>
 						<div class="">
 							<span class="text-muted">{{ venture.created_at | dateAgo }}</span>
-							<a [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
+							<a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
 						</div>
 					</div>
 				</div>

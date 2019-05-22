@@ -1,0 +1,40 @@
+
+.friends-search-bar,
+.chat-window-input {
+    background-color: #fff
+    -webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -o-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -ms-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px solid #210;
+    border-radius: 30px;
+    color: #2c2c2c;
+    font-size: .8571em;
+    height: auto;
+    line-height: normal
+}
+
+.friend-search-bar:focus,
+.chat-window-input:focus{
+	-webkit-box-shadow: none;
+    box-shadow: none;
+    color: #2c2c2c;
+    background-color: transparent;
+    border: 1px solid #1ab1e3;
+    outline: 0 !important
+}
+
+.friend-search-bar::-moz-placeholder,
+.friend-search-bar::-webkit-input-placeholder,
+.friend-search-bar::-ms-input-placeholder,
+.chat-window-input::-moz-placeholder,
+.chat-window-input::-webkit-input-placeholder,
+.chat-window-input::-ms-input-placeholder{
+	color: #9A9A9A;
+    opacity: 1;
+    filter: alpha(opacity=100)
+}
