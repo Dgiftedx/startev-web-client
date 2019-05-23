@@ -170,4 +170,14 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/${url}/${id}/${user_id}`);
 	}
 
+	//User Likes & Un-like reaction on feeds 
+    public toggleLike(userId: number, target_id : number){
+    	return this.http.get(`${this.endpoint}/toggle-like/${userId}/${target_id}`);
+    }
+
+    //Post User comments on feeds 
+    public postComment(userId: number, comment : any){
+    	return this.http.post<any>(`${this.endpoint}/post-comment/${userId}`, comment);
+    }
+
 }

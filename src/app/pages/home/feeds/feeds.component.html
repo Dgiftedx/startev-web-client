@@ -20,18 +20,9 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-4">
-                                <h5 class="m-b-0">0</h5>
-                                <small>Trainers</small>
-                            </div>
-                            <div class="col-4">
-                                <h5 class="m-b-0">0</h5>
-                                <small>Connection</small>
-                            </div>
-                            <div class="col-4">
-                                <h5 class="m-b-0">0</h5>
-                                <small>Mentors</small>
-                            </div>
+                           <button *ngIf="profile.role ==='mentor' || profile.role ==='business'" class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</button>
+
+                           <a [routerLink]="['/knowledge-hub']" *ngIf="profile.role ==='student'" class="btn btn-info btn-block waves-effect p-2">Access Knowledge Hub</a>
                         </div>
                     </div>
                 </div>
@@ -80,8 +71,6 @@
 
                                         <button type="button" #videoPost (click)="writePost('video')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
 
-                                        <button type="button" #linkPost (click)="writePost('link')" class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-link"></i></button>
-
                                         <button type="button" class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button>
 
                                     </div>
@@ -113,15 +102,98 @@
                                         </p>
                                     </div>
                                 </div>
+
+                                <!-- Post Type Like Box -->
+                                <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
+                                    <div class="row clearfix zero-m">
+                                        <div class="col-md-2 pt-0">
+                                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                                            <span class="pl-2">
+                                            {{ count(feed.likers) }}
+                                             <em *ngIf="count(feed.likers) > 1">likes</em>
+                                             <em *ngIf="count(feed.likers) <= 1">like</em>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-3 negative-margin-30">
+                                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                                            <span class="pl-2">
+                                            {{ count(feed.comments) }} 
+                                            <em *ngIf="count(feed.comments) > 1">comments</em>
+                                            <em *ngIf="count(feed.comments) <= 1">comment</em>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="border"></div>
+                                </div>
+
+                                <!-- Post Type Reaction Box -->
                                 <div class="">
-                                     <div class="row zero-m">
+                                     <div class="row clearfix zero-m">
                                         <div class="col-lg-12 pl-2">
-                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
+                                            <button 
+                                            (click)="toggleLike(feed.id)" 
+                                            [ngClass]="{'liked': feed.hasLiked}"
+                                            class="btn btn-white btn-icon  btn-icon-mini btn-round">
+                                            <i class="icon-like"></i>
+                                            </button>
+
+                                            <button 
+                                            (click)="toggleCommentBox(feed.id)" 
+                                            class="btn btn-white btn-icon  btn-icon-mini btn-round">
+                                            <i class="icon-speech"></i>
+                                            </button>
+
                                             <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
                                         </div>
                                     </div>
+                                    <div class="border" *ngIf="showCommentBox && comment.feedId == feed.id"></div>
                                 </div>
+
+                                <!-- Post Type Comment Box -->
+                                <div class="" [@enterAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+                                    <div class="row clearfix m-1">
+                                        <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
+                                            <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 col-xs-10 pt-2">
+                                           
+                                                <div class="input-group negative-margin-50">
+                                                  <input 
+                                                  type="text" 
+                                                  placeholder="enter comment..." 
+                                                  class="form-control"
+                                                  (keyup.enter)="submitComment()"
+                                                  [(ngModel)]="comment.text">
+                                                  <span class="input-group-addon pointer-move" (click)="submitComment()">
+                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                  </span>
+                                              </div>
+                                           
+                                        </div>
+                                    </div>
+
+                                    <!-- Comments -->
+                                    <div class="row clearfix" *ngIf="count(feed.comments) > 0">
+                                        <div class="col-12 ml-4 p-2">
+                                           <ul class="chat-widget m-r-2 clearfix">
+                                                <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
+                                                    <img 
+                                                    src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
+                                                    class="rounded-circle" alt="">
+                                                    <div class="chat-info">
+                                                        <span class="message">
+                                                            {{ comment.comment }}
+                                                            <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
 						<div class="card feeds-container min-height-400" *ngIf="feed.postType === 'picture'">
@@ -150,15 +222,89 @@
                                      </p>
 
                                 </div>
+
+
+                                <!-- Picture Post Type like Box -->
+                                <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0">
+                                    <div class="row zero-m">
+                                        <div class="col-md-2 pt-0">
+                                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                                            <span class="pl-2">{{ count(feed.likers) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="border"></div>
+                                </div>
+
+
+                                <!-- Picture Post Type Reaction Box -->
                                 <div class="">
                                      <div class="row zero-m">
                                         <div class="col-lg-12 pl-2">
-                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                                            <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
+                                            <button 
+                                            (click)="toggleLike(feed.id)"
+                                            [ngClass]="{'liked': feed.hasLiked}"
+                                            class="btn btn-white btn-icon  btn-icon-mini btn-round">
+                                            <i class="icon-like"></i>
+                                            </button>
+
+                                             <button 
+                                            (click)="toggleCommentBox(feed.id)" 
+                                            class="btn btn-white btn-icon  btn-icon-mini btn-round">
+                                            <i class="icon-speech"></i>
+                                            </button>
+
                                             <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button>
                                         </div>
                                     </div>
+                                    <div class="border" *ngIf="showCommentBox && comment.feedId == feed.id"></div>
                                 </div>
+
+                                 <!-- Post Type Comment Box -->
+                                <div class="" [@enterAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+                                    <div class="row clearfix m-1">
+                                        <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
+                                            <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 col-xs-10 pt-2">
+                                           
+                                                <div class="input-group negative-margin-50">
+                                                  <input 
+                                                  type="text" 
+                                                  placeholder="enter comment..." 
+                                                  class="form-control"
+                                                  (keyup.enter)="submitComment()"
+                                                  [(ngModel)]="comment.text">
+                                                  <span class="input-group-addon pointer-move" (click)="submitComment()">
+                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                  </span>
+                                              </div>
+                                           
+                                        </div>
+                                    </div>
+
+                                    <!-- Comments -->
+                                    <div class="row clearfix" *ngIf="count(feed.comments) > 0">
+                                        <div class="col-12 ml-4 p-2">
+                                           <ul class="chat-widget m-r-2 clearfix">
+                                                <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
+                                                    <img 
+                                                    src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
+                                                    class="rounded-circle" alt="">
+                                                    <div class="chat-info">
+                                                        <span class="message">
+                                                        {{ comment.comment }}
+                                                        <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
+                                                    </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!--// Reaction Box ends -->
+
 		                    </div>
 		                </div>
 

@@ -30,6 +30,9 @@ export class FeedService {
 				image: string,
 				video: string,
 				link: string,
+				likers : any,
+				comments:any,
+				hasLiked : boolean,
 				time: string }) => {
 				this.subject.next(new Feed(
 					data.id,
@@ -41,6 +44,9 @@ export class FeedService {
 					data.image,
 					data.video,
 					data.link,
+					data.likers,
+					data.hasLiked,
+					data.comments,
 					new Date(data.time)));
 			});
 	}

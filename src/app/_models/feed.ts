@@ -9,6 +9,9 @@
         public image: string,
         public video: string,
         public link: any,
+        public likers: any,
+        public comments:any,
+        public hasLiked: boolean,
         public createdAt: Date
       ) {
         this.id = id;
@@ -20,6 +23,9 @@
         this.image = image;
         this.video = video;
         this.link = link;
+        this.likers = likers;
+        this.comments = comments;
+        this.hasLiked = hasLiked;
         this.createdAt = createdAt;
       }
     }
