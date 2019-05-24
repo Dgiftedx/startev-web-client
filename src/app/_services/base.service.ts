@@ -180,4 +180,14 @@ export class BaseService {
     	return this.http.post<any>(`${this.endpoint}/post-comment/${userId}`, comment);
     }
 
+    //Get single feed data
+    public singleFeed(feed_id: any){
+		return this.http.get(`${this.endpoint}/single-feed/${feed_id}`).pipe(delay(500));
+	}
+
+	//Publish publication
+	public publishPublication(formData: any){
+        return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);
+    }
+
 }

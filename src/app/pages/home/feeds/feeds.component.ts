@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
-import { trigger, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate,state, transition } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 
@@ -29,8 +29,22 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
         transition(':leave', [
           animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
         ])
-      ]
-    )
+      ]),
+    trigger('fadeAnimation', [
+
+      // the "in" style determines the "resting" state of the element when it is visible.
+      state('in', style({opacity: 1})),
+
+      // fade in when created. this could also be written as transition('void => *')
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      // fade out when destroyed. this could also be written as transition('void => *')
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
   ],
 })
 export class FeedsComponent implements OnInit {

@@ -27,11 +27,13 @@ import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
+import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 import { OrderModule } from 'ngx-order-pipe';
 import { NgChatModule } from 'ng-chat';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 // import { SnotifyDefaults } from './snotify-defaults';
-// import { CKEditorModule } from 'ngx-ckeditor';
+import { CKEditorModule } from 'ngx-ckeditor';
+import { EmbedVideo } from 'ngx-embed-video';
 
 library.add(fas);
 
@@ -70,6 +72,8 @@ import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-pr
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
 import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
 import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
+import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
+import { PublishComponent } from './pages/home/publish/publish.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +102,8 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
     PartnerViewComponent,
     PartnerWatchComponent,
     PartnerBoardComponent,
+    FeedDetailsComponent,
+    PublishComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -137,7 +143,9 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
      FontAwesomeModule,
      OrderModule,
      NgChatModule,
-     SnotifyModule
+     SnotifyModule,
+     CKEditorModule,
+     EmbedVideo
   ],
 
   exports : [
@@ -157,7 +165,8 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
         MentorProfileResolve,
         VentureResolve,
         BusinessResolve,
-        SingleVentureResolve
+        SingleVentureResolve,
+        SingleFeedResolve
   ],
   bootstrap: [AppComponent]
 })

@@ -18,12 +18,14 @@ import { IndustryDetailsComponent } from './pages/industries/industry-details/in
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
 import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
 import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
-
+import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
+import { PublishComponent } from './pages/home/publish/publish.component';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
+import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 
 
 
@@ -32,14 +34,23 @@ const routes: Routes = [
 	path: '', 
 	component: FeedsComponent, 
 	data : {animation: 'Feeds'},
-	canActivate : [AuthGuard] },
+	canActivate : [AuthGuard] 
+},
+{
+	path: 'feed/:id', 
+	component: FeedDetailsComponent,
+	resolve: {details: SingleFeedResolve},
+	data : {animation: 'Feeds'},
+	canActivate : [AuthGuard] 
+},
 
 {
 	path: 'industry', 
 	component: IndustryListComponent,
 	resolve: {industries: IndustryResolve},
 	data: {animation: 'Industries'},
-	canActivate : [AuthGuard] },
+	canActivate : [AuthGuard] 
+},
 
 {
 	path: 'industry/:slug', 
@@ -84,7 +95,14 @@ const routes: Routes = [
 	path: 'knowledge-hub', 
 	component: KnowledgeHubComponent,
 	data: {animation: 'All'}, 
-	canActivate : [AuthGuard] },
+	canActivate : [AuthGuard] 
+},
+{
+	path: 'publish-to-hub', 
+	component: PublishComponent,
+	data: {animation: 'All'},
+	canActivate : [AuthGuard] 
+},
 
 {
 	path: 'venture-hub', 

@@ -1,0 +1,103 @@
+<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+	<div class="container">
+		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
+			<div class="col-sm-12 col-md-12">
+				<div class="row clearfix">
+					<div class="col-md-9 m-b-40">
+
+						<div class="card feeds-container min-height-400">
+							<div class="body">
+								<div class="feed-detail-header">
+									
+									<h2 class="apple-font text-center text-info">{{ feed.title | uppercase }}</h2>
+									<img *ngIf="feed.image" [src]="feed.image" class="" alt="">
+									<div class="border"></div>
+									 <!-- Post Type Like Box -->
+	                                <div class="p-t-10" *ngIf="count(likers) > 0 || count(feed.feed_comments) > 0">
+	                                    <div class="row clearfix zero-m">
+	                                        <div class="col-md-2 pt-0">
+	                                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+	                                            <span class="pl-2">
+	                                            {{ count(likers) }}
+	                                             <em *ngIf="count(likers) > 1">likes</em>
+	                                             <em *ngIf="count(likers) <= 1">like</em>
+	                                            </span>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+	                                            <span class="pl-2">
+	                                            {{ count(feed.feed_comments) }} 
+	                                            <em *ngIf="count(feed.feed_comments) > 1">comments</em>
+	                                            <em *ngIf="count(feed.feed_comments) <= 1">comment</em>
+	                                            </span>
+	                                        </div>
+	                                        <div class="col-md-3">
+	                                        	 <fa-icon [icon]="['fas','user']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+	                                        	  <span class="pl-2">
+	                                        	  	By - {{ feed.user.name | titlecase }}
+	                                        	  </span>
+	                                        </div>
+	                                    </div>
+	                                    <div class="border"></div>
+	                                </div>
+								</div>
+								<div class="feed-details-body m-t-40 bg_grey">
+									<div [innerHtml]="feed.body" class="apple-font p-5"></div>
+								</div>
+								
+								<div class="m-t-30">
+									<ul class="chat-widget m-r-2 clearfix" *ngIf="count(feed.feed_comments) > 0">
+                                        <li class="left float-left" *ngFor="let comment of feed.feed_comments|orderBy:'id':true">
+                                            <img 
+                                            src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
+                                            class="rounded-circle" alt="">
+                                            <div class="chat-info">
+                                                <span class="message">
+                                                    {{ comment.comment }}
+                                                    <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-3 sticky">
+						<div class="card feeds-container zero-m">
+                    <div class="body zero-m">
+                        <div class="bg_grey">
+                            <p class="follow-suggestion-text">People you might like to follow_</p>
+                        </div>
+                    	<ul class="list-group custom-list zero-m">
+                    		<li class="list-group-item" *ngFor="let person of people">
+                    			<img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
+                    			<div class="list-content">
+                    				<h6 class="list-title" *ngIf="person.roleData.role !=='business'">{{ person.name | titlecase }}</h6>
+                                    <h6 class="list-title" *ngIf="person.roleData.role ==='business'">{{ person.roleData.data.name | titlecase }}</h6>
+                    				<span class="list-position" *ngIf="person.roleData.role !== 'business'">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
+                                    <span class="list-position" *ngIf="person.roleData.role === 'business'">{{ person.roleData.role | titlecase}} Partners</span>
+                    			</div>
+                    			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
+                                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
+                                 </button>
+                    		</li>
+                    	</ul>
+                        <div class="bg_grey pb-0 mb-0">
+                            <p class="follow-suggestion-text mb-0"><a href="#">we think you might be interested</a></p>
+                        </div>
+                        <div class="">
+                            <img src="assets/images/adverts/3.jpg" class="pt-0 mt-0 img-thumbnail" />
+                        </div>
+                        <div class="bg_grey pb-0 mb-0">
+                            <p class="follow-suggestion-text mb-0"><a href="#">Popular Business Partners</a></p>
+                        </div>
+                    </div>
+                </div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

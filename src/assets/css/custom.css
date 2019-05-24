@@ -78,6 +78,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 	border-radius: 50px !important;
 }
 
+#register-select,
+#register-select .ng-select-container{
+	background-color: rgba(255,255,255,0.1) !important;
+}
+
 .mentor-count {
 	font-size: 15px;
 	font-style: italic;
@@ -460,4 +465,41 @@ z-index: -1;
 
 .comment-time{
 	font-size: 9px;
+}
+
+.dropdown-menu{
+	border-radius: 2px !important;
+	box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 6px 9px rgba(0,0,0,.2);
+	background-clip: padding-box;
+	transition: visibility 0s linear 167ms,opacity 167ms cubic-bezier(.4,0,1,1) 0s,z-index 0s linear 167ms;
+}
+
+.dropdown li a {
+	font-size: 14px;
+	font-family: Roboto;
+	color: rgba(0,0,0,1);
+	font-weight: 400;
+}
+
+.dropdown-link{
+	font-weight: normal;
+}
+
+.feed-detail-header img {
+	width: 100%;
+	height: 380px;
+	border-radius: 2px solid #fff;
+}
+
+.image-preview{
+	width: 100%;
+	height: 290px;
+	border: 2px dotted #0073B1;
+	border-radius: 5px;
+}
+
+.image-preview img{
+	height: 100%;
+/*	background-size: cover;
+	background-position: center center;*/
 }

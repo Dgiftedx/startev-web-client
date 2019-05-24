@@ -20,7 +20,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                           <button *ngIf="profile.role ==='mentor' || profile.role ==='business'" class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</button>
+                           <a [routerLink]="['/publish-to-hub']" *ngIf="profile.role ==='mentor' || profile.role ==='business'" class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</a>
 
                            <a [routerLink]="['/knowledge-hub']" *ngIf="profile.role ==='student'" class="btn btn-info btn-block waves-effect p-2">Access Knowledge Hub</a>
                         </div>
@@ -91,7 +91,28 @@
                                                 <small class="feed-title">{{ feed.title }}</small><br/>
                                                 <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                                             </div>
-                                            <button class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon></button>
+
+                                            <button 
+                                            data-toggle="dropdown"
+                                            [attr.aria-haspopup]="true"
+                                            [attr.aria-expanded]="false"
+                                            class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
+                                                <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a [routerLink]="">
+                                                        <fa-icon [icon]="['fas','tag']"></fa-icon>
+                                                        <span class="pl-1 dropdown-link">Hide this post</span>
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a [routerLink]="">
+                                                        <fa-icon [icon]="['fas','ban']"></fa-icon>
+                                                        <span class="pl-1 dropdown-link">Unfollow {{ feed.user[0].name }}</span>
+                                                    </a>
+                                                </li> -->
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +171,7 @@
                                 </div>
 
                                 <!-- Post Type Comment Box -->
-                                <div class="" [@enterAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+                                <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                                     <div class="row clearfix m-1">
                                         <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
                                             <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
@@ -207,7 +228,29 @@
                                                 <small class="feed-title">{{ feed.title }}</small><br/>
                                                 <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                                             </div>
-                                            <button class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon></button>
+
+                                            <button 
+                                            data-toggle="dropdown"
+                                            [attr.aria-haspopup]="true"
+                                            [attr.aria-expanded]="false"
+                                            class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
+                                                <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a [routerLink]="">
+                                                        <fa-icon [icon]="['fas','tag']"></fa-icon>
+                                                        <span class="pl-1 dropdown-link">Hide this post</span>
+                                                    </a>
+                                                </li>
+                                                <!-- <li>
+                                                    <a [routerLink]="">
+                                                        <fa-icon [icon]="['fas','ban']"></fa-icon>
+                                                        <span class="pl-1 dropdown-link">Unfollow {{ feed.user[0].name }}</span>
+                                                    </a>
+                                                </li> -->
+                                            </ul>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -225,15 +268,28 @@
 
 
                                 <!-- Picture Post Type like Box -->
-                                <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0">
-                                    <div class="row zero-m">
+                                <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
+                                    <div class="row clearfix zero-m">
                                         <div class="col-md-2 pt-0">
                                             <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                                            <span class="pl-2">{{ count(feed.likers) }}</span>
+                                            <span class="pl-2">
+                                            {{ count(feed.likers) }}
+                                             <em *ngIf="count(feed.likers) > 1">likes</em>
+                                             <em *ngIf="count(feed.likers) <= 1">like</em>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-3 negative-margin-30">
+                                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                                            <span class="pl-2">
+                                            {{ count(feed.comments) }} 
+                                            <em *ngIf="count(feed.comments) > 1">comments</em>
+                                            <em *ngIf="count(feed.comments) <= 1">comment</em>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="border"></div>
                                 </div>
+
 
 
                                 <!-- Picture Post Type Reaction Box -->
@@ -259,8 +315,8 @@
                                     <div class="border" *ngIf="showCommentBox && comment.feedId == feed.id"></div>
                                 </div>
 
-                                 <!-- Post Type Comment Box -->
-                                <div class="" [@enterAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+                                 <!-- Picture Post Type Comment Box -->
+                                <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                                     <div class="row clearfix m-1">
                                         <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
                                             <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
@@ -381,9 +437,15 @@
                                  </button>
                     		</li>
                     	</ul>
-                        <!-- <div class="bg_grey align-bottom">
-                            <p class="follow-suggestion-text"><a href="#">See more suggestions</a></p>
-                        </div> -->
+                        <div class="bg_grey pb-0 mb-0">
+                            <p class="follow-suggestion-text mb-0"><a href="#">we think you might be interested</a></p>
+                        </div>
+                        <div class="">
+                            <img src="assets/images/adverts/3.jpg" class="pt-0 mt-0 img-thumbnail" />
+                        </div>
+                        <div class="bg_grey pb-0 mb-0">
+                            <p class="follow-suggestion-text mb-0"><a href="#">Popular Business Partners</a></p>
+                        </div>
                     </div>
                 </div>
 			</div>

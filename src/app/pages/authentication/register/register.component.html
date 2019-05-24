@@ -52,13 +52,9 @@
               <div class="col-md-12">
                <div class="form-group">
                 <label class="">who are you?</label>
-                <select 
-                class="form-control" 
-                id="role" 
-                [ngClass]="{'is-invalid': submitted && f.role.erorrs}"
-                formControlName="role">
-                <option *ngFor="let role of roles" [value]="role.alias">{{role.name}}</option>
-              </select>
+                <ng-select formControlName="role" id="register-select" [ngClass]="{'is-invalid': submitted && f.role.erorrs}">
+                  <ng-option *ngFor="let role of roles" [value]="role.alias">{{role.name}}</ng-option>
+              </ng-select>
               
             </div>
           </div>
