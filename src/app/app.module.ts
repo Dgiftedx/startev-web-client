@@ -1,39 +1,43 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+import { NgChatModule } from 'ng-chat';
+import { BaseService } from './_services';
+import { ToastrModule } from 'ngx-toastr';
+import { OrderModule } from 'ngx-order-pipe';
+import { EmbedVideo } from 'ngx-embed-video';
+import { CKEditorModule } from 'ngx-ckeditor';
+import { LaddaModule } from  'angular7-ladda';
+import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
+import { InputSearchModule } from 'ngx-input-search';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { VgControlsModule} from 'videogular2/controls';
+import { DateAgoPipe } from './_filters/date-ago.pipe';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { AppRoutingModule } from './app-routing.module';
+import { VgBufferingModule} from 'videogular2/buffering';
+import { BrowserModule } from '@angular/platform-browser';
+import { ExcerptFilter } from './_filters/excerpt.filter';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { VgOverlayPlayModule} from 'videogular2/overlay-play';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
-import { VgCoreModule} from 'videogular2/core';
-import { VgControlsModule} from 'videogular2/controls';
-import { VgOverlayPlayModule} from 'videogular2/overlay-play';
-import { VgBufferingModule} from 'videogular2/buffering';
-import { ToastrModule } from 'ngx-toastr';
-import { LaddaModule } from  'angular7-ladda';
-import { ExcerptFilter } from './_filters/excerpt.filter';
-import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ImageCropperModule } from 'ngx-image-cropper';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { BaseService } from './_services';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
+import { PublicationResolve } from './_resolvers/publications.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
-import { OrderModule } from 'ngx-order-pipe';
-import { NgChatModule } from 'ng-chat';
+import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
+
 // import { SnotifyDefaults } from './snotify-defaults';
-import { CKEditorModule } from 'ngx-ckeditor';
-import { EmbedVideo } from 'ngx-embed-video';
 
 library.add(fas);
 
@@ -74,6 +78,7 @@ import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-wat
 import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
 import { PublishComponent } from './pages/home/publish/publish.component';
+import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +109,7 @@ import { PublishComponent } from './pages/home/publish/publish.component';
     PartnerBoardComponent,
     FeedDetailsComponent,
     PublishComponent,
+    PublicationViewComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -145,7 +151,8 @@ import { PublishComponent } from './pages/home/publish/publish.component';
      NgChatModule,
      SnotifyModule,
      CKEditorModule,
-     EmbedVideo
+     EmbedVideo,
+     InputSearchModule
   ],
 
   exports : [
@@ -166,7 +173,9 @@ import { PublishComponent } from './pages/home/publish/publish.component';
         VentureResolve,
         BusinessResolve,
         SingleVentureResolve,
-        SingleFeedResolve
+        SingleFeedResolve,
+        PublicationResolve,
+        SinglePublicationResolve
   ],
   bootstrap: [AppComponent]
 })

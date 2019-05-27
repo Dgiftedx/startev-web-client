@@ -16,6 +16,8 @@ export class MentorProfileComponent implements OnInit {
 	progress;
   param;
   currentMentor;
+  public followingIds: Array<any> = [];
+  public mentors: Array<any> = [];
 
   constructor(
     private router: Router,
@@ -34,14 +36,39 @@ export class MentorProfileComponent implements OnInit {
   }
 
 
+  profileTabs: string[] = ['followers','following','trainees'];
+  selectedTab = this.profileTabs[0];
+
+
+
+  //Algorithm to show user Job title
+  echoJobTitle(roleData: any, role: string){
+   return this.baseService.echoJobTitle(roleData, role);
+  }
+
+
   ngOnInit() {
     
-    this.currentMentor = this.route.snapshot.data.mentor;
+    this.currentMentor = this.route.snapshot.data.mentor.profile;
     this.progress = this.profile.progress;
+    //update following Ids
+    this.updateFollowingIds(this.currentMentor.following);
   }
 
   get profile(){
-    return JSON.parse(this.authenticationService.getUserData());
+    return this.currentMentor;
+  }
+
+
+  updateFollowingIds(followers: any){
+    this.followingIds = [];
+    followers.forEach((item) => {
+      this.followingIds.push(item.id);
+    });
+  }
+
+  public isFollowing(target: number){
+    return this.followingIds.includes(target)?true:false;
   }
 
 }

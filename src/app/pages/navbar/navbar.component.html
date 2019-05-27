@@ -129,12 +129,54 @@
                          <li class=""> 
                             <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
                         </li>
+
+                    <li class="topSideNav">
+                    <a 
+                    [routerLink]="['/']" 
+                    routerLinkActive="active" 
+                    [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
+                        <span class="inline-icon">
+                            <fa-icon [icon]="['fas','home']" size="lg"></fa-icon>
+                        </span>
+                        <span class="inline-text"> Home</span>
+                    </a>
+                    </li>
+                     <li class="topSideNav">
+                        <a
+                        [routerLink]="['/knowledge-hub']" 
+                        routerLinkActive="active" 
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="inline-bar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','universal-access']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Knowledge Hub</span>
+                        </a>
+                    </li>
+                     <li class="topSideNav">
+                        <a 
+                        [routerLink]="['/venture-hub']" 
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="inline-bar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','archive']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Venture Hub</span>
+                        </a>
+                    </li>
+                    <li class="topSideNav">
+                        <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
+                            <span class="inline-icon">
+                                <fa-icon [icon]="['fas','comment-alt']" size="lg"></fa-icon>
+                            </span><span class="inline-text"> Messages</span>
+                        </a>
+                    </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </aside>
+
 <div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">
     <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you viible to other users on the platform</span>
 </div>

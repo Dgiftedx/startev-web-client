@@ -26,6 +26,9 @@ import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
+import { PublicationResolve } from './_resolvers/publications.resolver';
+import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
+import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
 
 
 
@@ -94,8 +97,16 @@ const routes: Routes = [
 {
 	path: 'knowledge-hub', 
 	component: KnowledgeHubComponent,
-	data: {animation: 'All'}, 
-	canActivate : [AuthGuard] 
+	resolve: {pub: PublicationResolve},
+	data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+{
+	path: 'publication-view/:id', 
+	component: PublicationViewComponent,
+	resolve: {publicationView: SinglePublicationResolve},
+	data: {animation: 'All'},
+	canActivate : [AuthGuard]
 },
 {
 	path: 'publish-to-hub', 

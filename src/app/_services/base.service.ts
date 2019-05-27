@@ -103,20 +103,20 @@ export class BaseService {
 
 
 	public promiseAllIndustries(){
-		return this.http.get(`${this.endpoint}/all-industries`).pipe(delay(1000));
+		return this.http.get(`${this.endpoint}/all-industries`).pipe(delay(500));
 	}
 
 	public promiseSingleIndustry(slug: any){
-		return this.http.get(`${this.endpoint}/single-industry/${slug}`).pipe(delay(1000));
+		return this.http.get(`${this.endpoint}/single-industry/${slug}`).pipe(delay(500));
 	}
 
 
 	public promiseUserProfile(){
-		return this.http.get(`${this.endpoint}/get-profile`).pipe(delay(1000));
+		return this.http.get(`${this.endpoint}/get-profile`).pipe(delay(500));
 	}
 
 	public promiseMentorProfile(slug : any){
-		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(1000));
+		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(500));
 	}
 
 	public getFeeds(){
@@ -138,7 +138,7 @@ export class BaseService {
     }
 
     public allVentures(){
-    	return this.http.get(`${this.endpoint}/all-ventures`).pipe(delay(1000));
+    	return this.http.get(`${this.endpoint}/all-ventures`).pipe(delay(500));
     }
 
     public allBusiness(){
@@ -188,6 +188,22 @@ export class BaseService {
 	//Publish publication
 	public publishPublication(formData: any){
         return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);
+    }
+
+    //Pull publications for knowledge Hub
+    public getPublications(){
+    	return this.http.get(`${this.endpoint}/get-publications`).pipe(delay(500));
+    }
+
+
+    //Publicaiton Likes & Un-like reaction
+    public togglePublicationLike(userId: number, publication_id : number){
+        return this.http.get(`${this.endpoint}/toggle-publication-like/${userId}/${publication_id}`);
+    }
+
+    //Get single feed data
+    public singlePublication(publication_id: any){
+        return this.http.get(`${this.endpoint}/single-publication/${publication_id}`).pipe(delay(500));
     }
 
 }

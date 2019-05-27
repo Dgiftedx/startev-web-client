@@ -5,7 +5,9 @@
     font-weight: 400;
     src: local("Material Icons"), local("MaterialIcons-Regular"), url(https://fonts.gstatic.com/s/materialicons/v19/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format("woff2")
 }
-
+.topSideNav{
+    visibility: hidden;
+}
 .material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
@@ -6191,6 +6193,7 @@ img {
         -ms-transition: all .5s cubic-bezier(0.685, 0.0473, 0.346, 1);
         transition: all .5s cubic-bezier(0.685, 0.0473, 0.346, 1)
     }
+ 
     .sidebar-collapse .navbar-collapse:before {
         display: block;
         content: "";
@@ -6201,6 +6204,7 @@ img {
         left: 0;
         z-index: -1
     }
+
     .sidebar-collapse .navbar-collapse .navbar-nav:not(.navbar-logo) .nav-link {
         margin: 0 1rem;
         margin-top: 0.3125rem
@@ -7608,6 +7612,10 @@ img {
     .negative-margin-50,
     .negative-margin-30{
         margin-left: 0;
+    }
+
+    .topSideNav{
+        visibility: visible;
     }
 }
 
@@ -15657,12 +15665,13 @@ img {
 
 .page-loader-wrapper p {
     margin-top: 10px;
-    color: #fff
+    color: #910 !important;
 }
 
 .page-loader-wrapper .loader {
     position: relative;
-    top: calc(40% - 30px)
+    top: calc(40% - 30px);
+    color: #910 !important;
 }
 
 .top_navbar {

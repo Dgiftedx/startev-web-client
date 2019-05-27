@@ -15,7 +15,7 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
 })
 export class PartnerBoardComponent implements OnInit {
 
-  currentUser : User;
+ currentUser : User;
  partner:any;
  similar:any = [];
 
@@ -42,7 +42,6 @@ export class PartnerBoardComponent implements OnInit {
     this.partner = this.route.snapshot.data.partnerView.result;
     this.userIsPartner = this.partner.userIsPartner;
     this.venturePartners = this.partner.venturePartners;
-    console.log(this.venturePartners);
     this.partner.similar.forEach((item) => {
     	if (item.id !== this.partner.venture.id) {
     		this.similar.push(item);
