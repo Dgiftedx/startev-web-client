@@ -27,7 +27,9 @@ export class AppComponent {
     private ngxService: NgxUiLoaderService,
     private router: Router,
     private authenticationService: AuthenticationService) {
+      //=================== Subscribe to current user ======================//
       this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      //=================== Subscribe to route events ======================//
       this.router.events.subscribe((routerEvent: Event) => {
         if (routerEvent instanceof NavigationStart) {
           this.loading = true;

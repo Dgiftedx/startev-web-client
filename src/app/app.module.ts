@@ -7,6 +7,7 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import { LaddaModule } from  'angular7-ladda';
 import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
+import { NgxPaginationModule} from 'ngx-pagination';
 import { InputSearchModule } from 'ngx-input-search';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VgControlsModule} from 'videogular2/controls';
@@ -79,6 +80,13 @@ import { PartnerBoardComponent } from './pages/partner/partner-board/partner-boa
 import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
 import { PublishComponent } from './pages/home/publish/publish.component';
 import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
+import { VentureDashboardComponent } from './pages/partner/venture-dashboard/venture-dashboard.component';
+import { DashboardComponent } from './pages/partner/venture-dashboard/dashboard/dashboard.component';
+import { VenturesComponent } from './pages/partner/venture-dashboard/ventures/ventures.component';
+import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders.component';
+import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/reviews.component';
+import { SettingsComponent } from './pages/partner/venture-dashboard/settings/settings.component';
+import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/tracker.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +118,13 @@ import { PublicationViewComponent } from './pages/knowledge-hub/publication-view
     FeedDetailsComponent,
     PublishComponent,
     PublicationViewComponent,
+    VentureDashboardComponent,
+    DashboardComponent,
+    VenturesComponent,
+    OrdersComponent,
+    ReviewsComponent,
+    SettingsComponent,
+    TrackerComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -152,7 +167,8 @@ import { PublicationViewComponent } from './pages/knowledge-hub/publication-view
      SnotifyModule,
      CKEditorModule,
      EmbedVideo,
-     InputSearchModule
+     InputSearchModule,
+     NgxPaginationModule
   ],
 
   exports : [

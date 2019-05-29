@@ -206,4 +206,14 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/single-publication/${publication_id}`).pipe(delay(500));
     }
 
+    //Get help tips
+    public getHelpTips(user_id:any){
+        return this.http.get(`${this.endpoint}/get-help-tips/${user_id}`);
+    }
+
+    //Get Partners
+    public getPartners(){
+        return this.http.get(`${this.endpoint}/get-partners`);
+    }
+
 }

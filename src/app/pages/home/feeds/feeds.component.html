@@ -13,17 +13,39 @@
                         </a>
                     </div>
                     <div class="body">
-                        <div class="col-12">
-                            <p class="text-muted" *ngIf="currentUser.address">{{ currentUser.address }}</p>
-                            <p class="text-muted"> <span *ngIf="currentUser.state">{{ currentUser.state }}, 
-                            </span> {{ currentUser.country? currentUser.country : 'Address not set' }}</p>
-                        </div>
-                        <hr>
+                    
                         <div class="row">
-                           <a [routerLink]="['/publish-to-hub']" *ngIf="profile.role ==='mentor' || profile.role ==='business'" class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</a>
-                           <a [routerLink]="['/profile']"  class="btn btn-warning btn-block waves-effect p-2">view Profile Partnership</a>
+                            <!-- Publish to knowledge hub for Business Entity & Mentors -->
+                            <div class="col-md-12 zero-m">
+                                 <div *ngIf="profile.role ==='mentor' || profile.role ==='business'">
+                                       <a 
+                                       [routerLink]="['/publish-to-hub']" 
+                                       class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</a>
+                                  </div>
+                            </div>
 
-                           <a [routerLink]="['/knowledge-hub']" *ngIf="profile.role ==='student'" class="btn btn-info btn-block waves-effect p-2">Access Knowledge Hub</a>
+                            <div class="col-md-12 zero-m">
+                                 <!-- Direct Access Hub For Students -->
+                                  <div *ngIf="profile.role ==='student'">
+                                        <!-- if user has at least a partner, activate venture dashboard -->
+                                       <a
+                                       *ngIf="hasStore"
+                                       [routerLink]="['/venture-dashboard']" 
+                                       class="btn btn-info btn-block waves-effect p-2">Open Venture Dashboard</a>
+
+                                       <a 
+                                       [routerLink]="['/knowledge-hub']" 
+                                       class="btn btn-info btn-block waves-effect p-2">Access Knowledge Hub</a>
+                                  </div>
+                            </div>
+
+                           <!-- View approved partnerships -->
+                           <div class="col-md-12 zero-m">
+                               <a 
+                               [routerLink]="['/profile']"  
+                               class="btn btn-warning btn-block waves-effect p-2">View Partnership Profile</a>
+                               </div>
+
                         </div>
                     </div>
                 </div>
@@ -80,8 +102,27 @@
                         </div>
                     </div>
 
+                    <!-- Help Tips Box -->
+                    <div class="col-sm-12 col-md-12">
+                        <div class="card feeds-container" *ngIf="showHelpTip && helpTip" [@fadeAnimation]>
+                            <div class="body chat post-container">
+                                 <div class="bg_grey">
+                                    <h6 class="p-3 apple-font color-blue rigid">{{ helpTip.title }} <span class="float-right small">Help Tips</span></h6>
+                                </div>
+                                 <div class="post-feed-inner">
+                                    <div class="" class="">
+                                        <p class="post-content p-3 color-blue">
+                                            {{ helpTip.content }}
+                                        </p>
+                                        <a [routerLink]="" *ngIf="helpTip" class="btn btn-round btn-sm waves-effect">{{ helpTip.link_text }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 					<div class="col-sm-12 col-md-12" *ngFor="let feed of feeds|orderBy:'createdAt':true">
-                        <div class="card feeds-container" *ngIf="feed.postType === 'post'">
+                        <div class="card feeds-container" *ngIf="feed.postType === 'post'" [@fadeAnimation]>
                             <div class="body chat post-container">
                                 <div class="chat-header clearfix post-feed-header">
                                     <div class="row">

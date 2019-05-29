@@ -117,16 +117,14 @@
         <div class="row clearfix">
             <div class="col-12">
                 <div class="menu">
-                    <ul class="list">
-                        <li class="header">MAIN</li>
-                        
-                         <li *ngFor="let industry of industries" class=""> 
+                    <ul class="list" style="max-height: 50px;">
+                         <li *ngFor="let industry of industries" class="hidden-sm"> 
                             <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
                                 <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
                             </a>
                         </li>
                        
-                         <li class=""> 
+                         <li class="hidden-sm"> 
                             <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
                         </li>
 

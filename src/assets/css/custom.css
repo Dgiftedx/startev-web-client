@@ -523,3 +523,49 @@ z-index: -1;
     width:100% !important;
     position:absolute;
 }
+.color-blue{
+	color: #0073B1;
+}
+.rigid{
+	font-weight: 600;
+}
+
+.small{
+	font-size: 10px;
+}
+
+/* ========= Venture Nav ============*/
+.venture-nav{
+	list-style: none;
+	margin:0 0 20px 0;
+}
+
+.venture-nav li{
+    padding-left: 8px;
+    border-left: 2px solid #ccc;
+    margin: 9px 0;
+    transition: all 1.5s;
+}
+
+.venture-nav li a{
+	display: block;
+	width: 100%;
+	padding: 8px;
+}
+
+.venture-nav li:hover{
+	border-left-color: #C90C0C;
+	background-color: rgba(0,115,177,0.1);
+}
+
+.venture-nav li:hover a{
+	font-weight: 500;
+}
+
+.venture-nav .active{
+	border-left-color: #C90C0C;
+	background-color: rgba(0,115,177,0.1);
+}
+.venture-nav .active a{
+	font-weight: 500;
+}

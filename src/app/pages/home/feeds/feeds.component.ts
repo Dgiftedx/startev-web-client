@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
+import { StoreService } from '../../../_services/store.service';
 import { trigger, style, animate,state, transition } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
@@ -27,7 +28,7 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
         animate('200ms ease-in', style({transform: 'translateY(0%)'}))
         ]),
         transition(':leave', [
-          animate('200ms ease-in', style({transform: 'translateY(-100%)'}))
+          animate('200ms ease-out', style({transform: 'translateY(-100%)'}))
         ])
       ]),
     trigger('fadeAnimation', [
@@ -71,6 +72,16 @@ export class FeedsComponent implements OnInit {
   private feedSubscription: Subscription;
   private localFeedSubscription : Subscription;
   private peopleSubscription : Subscription;
+  private partnersSubscription: Subscription;
+
+  public showHelpTip:boolean = false;
+  public helpInterval;
+  public helpTip:any;
+  public partners:any;
+
+
+
+  public hasStore:boolean = false;
 
   constructor(
     private router: Router,
@@ -78,10 +89,15 @@ export class FeedsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private feedService : FeedService,
     private alert: AlertService,
+    private store: StoreService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
+
+    //subscribe to current logged in user
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
+    //check if user has store
+    this.store.checkHasStore(this.currentUser.id).subscribe((x:boolean) => this.hasStore = x);
     //First push local feeds on load
     this.localFeedSubscription = feedService
     .getLocalFeeds()
@@ -104,6 +120,12 @@ export class FeedsComponent implements OnInit {
     this.peopleSubscription = this.baseService.getPeople()
     .subscribe((people: any) => {
       this.people = people;
+    });
+
+
+    this.partnersSubscription = this.baseService.getPartners()
+    .subscribe((partners:any) => {
+      this.partners = partners;
     })
   }
 
@@ -112,9 +134,38 @@ export class FeedsComponent implements OnInit {
       feedId: [null],
       text: ['']
     });
+
+    //= Shoot Help Tips at regulat interval of 3mins =//
+    this.helpInterval = setInterval(() => {
+      this.triggerHelpTips();
+    }, 6000 * 3);
+  }
+
+  //============= help tips =================//
+  triggerHelpTips(){
+    if (this.showHelpTip) {
+      this.showHelpTip = false;
+    }else{
+      this.pullHelpTips();
+      this.showHelpTip = true;
+    }
+  }
+
+  handleHelpTipsResponse(data:any){
+    this.helpTip = data.tips[Math.floor(Math.random()*data.tips.length)];
   }
 
 
+  pullHelpTips(){
+    this.baseService.getHelpTips(this.currentUser.id)
+    .subscribe(
+      data => {
+        this.handleHelpTipsResponse(data);
+      }
+     )
+  }
+
+  //============= Trigger Post Composer =============//
   writePost(type: any){
     if (type === 'article') {
       this.post_type = 'post';
@@ -349,7 +400,9 @@ export class FeedsComponent implements OnInit {
 
 
   ngOnDestroy() {
-    // this.feedSubscription.unsubscribe();
+    if (this.helpInterval) {
+      clearInterval(this.helpInterval);
+    };
   }
 
 }
