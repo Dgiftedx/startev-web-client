@@ -176,14 +176,12 @@
                                             <img src="{{ partner.user.avatar?partner.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
                                         </div>
                                         <h6>{{ partner.user.name | titlecase }}</h6>
-                                        <h6 class="text-muted">{{ partner.venture.venture_name | titlecase }}</h6>
+                                        <h6 class="text-muted">Venture: {{ partner.venture.venture_name | titlecase }}</h6>
                                         <small>
                                             <span class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
                                             </span><br/>
                                         </small>
                                         <button *ngIf="partner.status === 'pending'" (click)="acceptPartner(partner)" class="btn btn-sm btn-success btn-round waves-effect">Accept Partnership</button>
-
-                                         <a [routerLink]="['/partner-watch',partner.id]" *ngIf="partner.status === 'accepted'" class="btn btn-sm btn-success btn-round waves-effect">Open Partnership Watch</a>
                                     </div>
                                 </div>
                              </div>         
@@ -382,9 +380,8 @@
                                         </small>
 
                                         <div class="alert alert-info p-2" *ngIf="partner.status === 'pending'">
-                                            Your application is pending
+                                            Application is pending approval
                                         </div>
-                                       <a *ngIf="partner.status === 'accepted'" [routerLink]="['/partner-board',partner.venture.identifier]" class="mt-4 btn btn-block btn-success waves-effect">Open Partnership Board</a>
                                     </div>
                                 </div>
                              </div>         

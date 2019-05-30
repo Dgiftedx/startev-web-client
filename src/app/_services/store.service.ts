@@ -22,6 +22,10 @@ export class StoreService {
 
 	//======================= Methods Starts Here ==========================//
 
+	public getStore(user_id: number, url:string){
+		return this.http.get(`${this.endpoint}/store/${url}/${user_id}`);
+	}
+
 	public checkHasStore(user_id: number){
 		return this.http.get(`${this.endpoint}/store/check-has-store/${user_id}`);
 	}
@@ -32,6 +36,19 @@ export class StoreService {
 
 	public getOrders(user_id:number){
 		return this.http.get(`${this.endpoint}/store/get-store-orders/${user_id}`);
+	}
+
+	public getVentures(user_id:number){
+		return this.http.get(`${this.endpoint}/store/get-ventures/${user_id}`);
+	}
+
+
+	public getReviews(user_id:number){
+		return this.http.get(`${this.endpoint}/store/get-reviews/${user_id}`);
+	}
+
+	public saveStoreSettings( user_id:number, formData: FormData ){
+		return this.http.post(`${this.endpoint}/store/save-store-settings/${user_id}`, formData);
 	}
 
 }

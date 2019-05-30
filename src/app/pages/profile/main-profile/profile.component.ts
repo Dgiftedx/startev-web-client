@@ -51,24 +51,24 @@ export class ProfileComponent implements OnInit {
 
   //Algorithm to show user Job title
   echoJobTitle(roleData: any, role: string){
-   return this.baseService.echoJobTitle(roleData, role);
+    return this.baseService.echoJobTitle(roleData, role);
   }
 
 
   ngOnInit() {
     this.profileData = this.route.snapshot.data.profile.profileData;
-  	this.getProfileData();
+    this.getProfileData();
     if (this.profileData.role === 'business') {
-        this.profileTabs = ['followers','following','partners','ventures'];
-     }
+      this.profileTabs = ['followers','following','partners','ventures'];
+    }
 
-     this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
+    this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
     .subscribe((ventures: any) => {
       this.ventures = ventures.ventures;
       this.partners = ventures.partners;
     })
 
-     // this.getVentures(this.profileData.roleData.id);
+    // this.getVentures(this.profileData.roleData.id);
   }
 
   updateFollowingIds(followers: any){
@@ -82,10 +82,10 @@ export class ProfileComponent implements OnInit {
   acceptPartner(partner: any){
     this.baseService.applyToPartner(partner.id, partner.user.id, 'accept-partnership')
     .subscribe(
-        data => {
-          this.partners = data;
-        }
-     )
+      data => {
+        this.partners = data;
+      }
+      )
   }
 
   newVenture(): void {
@@ -118,8 +118,8 @@ export class ProfileComponent implements OnInit {
 
   closeModal(){
     $(document).find('.modal').each(function() {
-        $(this).modal('hide');
-      })
+      $(this).modal('hide');
+    })
   }
 
 
@@ -133,37 +133,42 @@ export class ProfileComponent implements OnInit {
     this.alert.successMsg(data.message,"Updates");
   }
 
-   handleProfileResponse(data: any){
+  handleProfileResponse(data: any){
     this.profileData = data.profileData;
     this.updateFollowingIds(data.profileData.following);
   }
 
   handleVentureResponse(data){
-    this.ventures = data.ventures;
-    this.closeModal();
+
+    if (!data.success) {
+      this.alert.errorMsg(data.message, "Request Failed");
+    }else{
+      this.ventures = data.ventures;
+      this.closeModal();
+    }
   }
 
   get profile(){
   	return this.profileData;
   }
 
-   followUser(id: number){
-      this.onToggleFollow(id);
+  followUser(id: number){
+    this.onToggleFollow(id);
   }
 
   unFollowUser(id: number){
-      this.onToggleFollow(id);
+    this.onToggleFollow(id);
   }
 
   getProfileData(){
     this.baseService.fetchUserProfile()
     .subscribe(
-        data => {
-          this.handleProfileResponse(data);
-        },
-        error => {
-          this.alert.errorMsg(error.error,"Request Failed");
-        }
+      data => {
+        this.handleProfileResponse(data);
+      },
+      error => {
+        this.alert.errorMsg(error.error,"Request Failed");
+      }
       )
   }
 
@@ -171,23 +176,23 @@ export class ProfileComponent implements OnInit {
   getVentures(businessId: number){
     this.baseService.businessVentures(businessId)
     .subscribe(
-        data => {
-          this.handleVentureResponse(data);
-        },
-        error => {
-          this.alert.errorMsg(error.error,"Request Failed");
-        }
+      data => {
+        this.handleVentureResponse(data);
+      },
+      error => {
+        this.alert.errorMsg(error.error,"Request Failed");
+      }
       )
   }
 
 
-   onToggleFollow(target: number){
-     this.baseService.toggleFollow(this.currentUser.id, target)
+  onToggleFollow(target: number){
+    this.baseService.toggleFollow(this.currentUser.id, target)
     .subscribe(
 
-        data => {
-            this.handleFollowToggleResponse(data);
-        }
+      data => {
+        this.handleFollowToggleResponse(data);
+      }
       )
   }
 
@@ -207,9 +212,9 @@ export class ProfileComponent implements OnInit {
 
     this.baseService.updateVenture(formData, this.ventureUrl)
     .subscribe(
-        data => {
-          this.handleVentureResponse(data)
-        }
+      data => {
+        this.handleVentureResponse(data)
+      }
 
       )
   }

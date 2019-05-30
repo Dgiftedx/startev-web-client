@@ -36,7 +36,7 @@
 						<div class="card mentor_list feeds-container" *ngIf="mentor.mentor">
 							<div class="body">
 								<div class="cp_img">
-									<img src="{{ mentor.avatar?mentor.avatar : 'assets/images/default/avatar.jpg' }}" alt="Mentor" class="img-fluid">
+									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
 									<div class="hover">
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
@@ -58,7 +58,7 @@
 						<div class="card mentor_list feeds-container" *ngIf="industry.industry.business">
 							<div class="body">
 								<div class="cp_img">
-									<img src="{{ mentor.avatar?mentor.avatar : 'assets/images/default/avatar.jpg' }}" alt="Mentor" class="img-fluid">
+									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
 									<div class="hover">
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
@@ -85,7 +85,8 @@
                         </div>
                     	<ul class="list-group custom-list zero-m">
                     		<li class="list-group-item" *ngFor="let person of people">
-                    			<img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
+                    			<img src="{{ checkValue(person.avatar,'avatar') }}" 
+                    			height="50" class="rounded-circle float-left" />
                     			<div class="list-content">
                     				<h6 class="list-title">{{ person.name | titlecase }}</h6>
                     				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>

@@ -1,43 +1,37 @@
-<div class="row cleafix">
-	<div class="col-md-6">
+<div class="row cleafix" *ngIf="count(reviews) > 0">
+	<div class="col-md-6" *ngFor="let review of reviews">
 		<div class="card feeds-container">
 		  
 		  <div class="body">
 		  	<div class="media">
-				<img src="../assets/images/ecommerce/1.png" width="40" class="float-left mr-3">
+				<img [src]="review.buyer.avatar" width="40" class="float-left mr-3">
 					<div class="content">
-						<h6 class="apple-font">Wale Joshua</h6>
-						<small>4 hours ago</small>
+						<h6 class="apple-font">{{ review.buyer.name }}</h6>
+						<small>{{ review.created_at | dateAgo }}</small>
 					</div>
 			  </div>
 			<div class="border"></div>
 			<div class="pt-4" style="min-height: 100px;">
-				<p>We had the best shopping experience of our lives just with you. Thanks you.</p>
+				<p>{{ review.comment }}</p>
 			</div>
 		  </div>
 			
 		</div>
 	</div>
 
-	<div class="col-md-6">
+</div>
+
+<div class="row cleafix" *ngIf="count(reviews) === 0">
+	<div class="col-md-6 offset-3">
 		<div class="card feeds-container">
 		  
 		  <div class="body">
-		  	<div class="media">
-				<img src="../assets/images/ecommerce/1.png" width="40" class="float-left mr-3">
-					<div class="content">
-						<h6 class="apple-font">Gbenga Osho</h6>
-						<small>4 hours ago</small>
-					</div>
-			  </div>
-			<div class="border"></div>
-			<div class="pt-4" style="min-height: 100px;">
-				<p>This is great! We had the best shopping experience of our lives just with you. Thanks you.</p>
+		  	
+			<div class="pt-4">
+				<p>No reviews has been submitted. You can also admonish your customers to submit reviews for any order delivered with satisfaction</p>
 			</div>
 		  </div>
 			
 		</div>
 	</div>
-
-
 </div>

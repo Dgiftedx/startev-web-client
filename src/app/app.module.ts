@@ -20,6 +20,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { VgOverlayPlayModule} from 'videogular2/overlay-play';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -75,8 +76,6 @@ import { ConnectComponent } from './pages/widgets/connect/connect.component';
 import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
 import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
-import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
-import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
 import { PublishComponent } from './pages/home/publish/publish.component';
 import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
@@ -113,8 +112,6 @@ import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/trac
     MentorsComponent,
     MentorProfileComponent,
     PartnerViewComponent,
-    PartnerWatchComponent,
-    PartnerBoardComponent,
     FeedDetailsComponent,
     PublishComponent,
     PublicationViewComponent,
@@ -151,7 +148,7 @@ import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/trac
     ToastrModule.forRoot({
       closeButton: true,
       progressBar: true,
-      timeOut: 3500
+      timeOut: 6000
     }),
     LaddaModule.forRoot({
         style: "expand-right",
@@ -168,7 +165,8 @@ import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/trac
      CKEditorModule,
      EmbedVideo,
      InputSearchModule,
-     NgxPaginationModule
+     NgxPaginationModule,
+     NgxSkeletonLoaderModule
   ],
 
   exports : [

@@ -16,8 +16,6 @@ import { ResetPasswordComponent } from './pages/password/reset-password/reset-pa
 import { ForgotPasswordComponent } from './pages/password/forgot-password/forgot-password.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
-import { PartnerWatchComponent } from './pages/partner/partner-watch/partner-watch.component';
-import { PartnerBoardComponent } from './pages/partner/partner-board/partner-board.component';
 import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
 import { PublishComponent } from './pages/home/publish/publish.component';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
@@ -134,14 +132,6 @@ const routes: Routes = [
 {
 	path: 'partner-view/:identifier', 
 	component: PartnerViewComponent,
-	resolve: {partnerView : SingleVentureResolve},
-	data: {animation: 'All'},
-	canActivate : [AuthGuard]
-},
-
-{
-	path: 'partner-board/:identifier',
-	component: PartnerBoardComponent,
 	resolve: {partnerView : SingleVentureResolve},
 	data: {animation: 'All'},
 	canActivate : [AuthGuard]

@@ -1,78 +1,51 @@
 <div class="row clearfix">
-	<div class="col-sm-12 col-md-12">
+	<div class="col-sm-12 col-md-12" *ngIf="ventureList">
         <div class="card feeds-container">
             <div class="header">
                 <h2><strong>Ventures</strong> List</h2>
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="table table-hover m-b-0">
+                    <table class="table table-responsive m-b-0">
                         <tbody>
-                            <tr>
+                            <tr *ngFor="let list of ventureList">
                                 <td>
-                                    <i class="zmdi zmdi-facebook zmdi-hc-2x"></i>
+                                    <img [src]="list.business.user.avatar" width="40" class="rounded-circle img-raised" />
                                 </td>
                                 <td>
-                                    <p class="margin-0">Lincoln Ventures</p>
-                                    <span>Imported products(200)</span>
+                                    <p class="margin-0">{{ list.venture.venture_name }}</p>
+                                    <span>Imported products(0)</span>
                                 </td>
                               
                                 <td>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Sync Products</button>
-                                	<button class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
-                                	<button class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
+                                	<button 
+                                    type="button" 
+                                    [disabled]="list.is_products_imported"
+                                    (click)="importProducts(list.venture.id)"
+                                    [ladda]="importLadda"
+                                    class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
+
+                                	<button
+                                    type="button"
+                                    (click)="syncronizeProducts(list.venture.id)"
+                                    [ladda]="syncLadda"
+                                    class="btn btn-round btn-sm btn-warning waves-effect">Sync Products</button>
+
+                                	<button 
+                                    type="button"
+                                    (click)="detachProducts(list.venture.id)"
+                                    [ladda]="detachLadda"
+                                    class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
+
+                                	<button 
+                                    type="button" 
+                                    (click)="manageProducts(list.venture.id)"
+                                    [ladda]="manageLadda"
+                                    class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
                                 </td>
 
                             </tr>
-                            <tr>
-                                <td>
-                                    <i class="zmdi zmdi-twitter zmdi-hc-2x"></i>
-                                </td>
-                                <td>
-                                    <p class="margin-0">Rackson Global Ventures</p>
-                                    <span>Imported products(50)</span>
-                                </td>
-                               
-                                <td>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Sync Products</button>
-                                	<button class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
-                                	<button class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="zmdi zmdi-instagram zmdi-hc-2x"></i>
-                                </td>
-                                <td>
-                                    <p class="margin-0">Ekson sons Ltd.</p>
-                                    <span>Imported products(134)</span>
-                                </td>
-                               
-                               <td>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Sync Products</button>
-                                	<button class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
-                                	<button class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="zmdi zmdi-linkedin zmdi-hc-2x"></i>
-                                </td>
-                                <td>
-                                    <p class="margin-0">Tekson Electronics</p>
-                                    <span>Imported products(0)</span>
-                                </td>
-                               
-                                <td>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
-                                	<button class="btn btn-round btn-sm btn-success waves-effect">Sync Products</button>
-                                	<button class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
-                                	<button class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>

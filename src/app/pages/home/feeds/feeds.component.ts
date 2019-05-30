@@ -141,6 +141,27 @@ export class FeedsComponent implements OnInit {
     }, 6000 * 3);
   }
 
+
+
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
+
+
   //============= help tips =================//
   triggerHelpTips(){
     if (this.showHelpTip) {
@@ -255,14 +276,6 @@ export class FeedsComponent implements OnInit {
 
   toggleCommentBox(feedId: number){
 
-    // if (this.showCommentBox) {
-    //     this.showCommentBox = false;
-    //     this.comment.feedId = null,
-    //     this.comment.text = '';
-    //   }else{
-    //     this.showCommentBox = true;
-    //     this.comment.feedId = feedId;
-    //   }
     //check if the user has toggle the comment for this coming feed
 
     if (this.showCommentBox) {

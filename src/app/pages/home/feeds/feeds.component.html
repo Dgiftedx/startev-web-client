@@ -8,8 +8,9 @@
                         &nbsp;
                     </div>
                     <div class="member-img">
+
                         <a href="#" class="">
-                        <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" class="rounded-circle" alt="profile-image">
+                        <img src="{{ checkValue(currentUser.avatar,'avatar') }}" class="rounded-circle" alt="profile-image">
                         </a>
                     </div>
                     <div class="body">
@@ -20,7 +21,12 @@
                                  <div *ngIf="profile.role ==='mentor' || profile.role ==='business'">
                                        <a 
                                        [routerLink]="['/publish-to-hub']" 
+                                       class="btn btn-info btn-block waves-effect p-2"> Open Store Manager</a>
+
+                                       <a 
+                                       [routerLink]="['/publish-to-hub']" 
                                        class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</a>
+
                                   </div>
                             </div>
 

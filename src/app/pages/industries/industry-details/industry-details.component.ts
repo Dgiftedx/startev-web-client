@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../_models';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
@@ -67,6 +68,28 @@ export class IndustryDetailsComponent implements OnInit {
     this.industry = this.route.snapshot.data.industry;
   }
 
+  count(items:any){
+    return _.size(items);
+  }
+
+
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
 
 
   //Algorithm to show user Job title

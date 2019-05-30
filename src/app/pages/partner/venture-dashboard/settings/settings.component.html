@@ -1,68 +1,136 @@
 <div class="row clearfix">
 	<div class="col-sm-12 col-md-12">
-        <div class="card feeds-container">
+        <div class="card feeds-container" *ngIf="!showEdit" [@fadeAnimation]>
             <div class="header">
                 <h2><strong>Store</strong> Settings</h2>
-                <button class="btn btn-round btn-sm btn-warning waves-effect float-right">Modify Settings</button>
+                <button (click)="openForModification()" class="btn btn-round btn-sm btn-warning waves-effect float-right">Modify Settings</button>
             </div>
             <div class="body">
                 <div class="table-responsive">
                     <table class="table table-responsive m-b-0">
-                    	<thead class="sr-only">
-                    		<tr>
-                    			<th></th>
-                    			<th></th>
-                    		</tr>
-                    	</thead>
-                        <tbody>
+                    	
+                        <tbody *ngIf="settings">
                             <tr style="width: 100% !mportant;">
                                 <td>
-                                    Store Name: 
+                                    <strong>Store Name: </strong>
                                 </td>
                                	<td>
-                               		Epsalom Nig. Ltd.
+                               		{{ checkValue(settings.store_name, 'text', 'Not Set') | titlecase }}
                                	</td>
                             </tr>
                              <tr>
                                 <td>
-                                    Store Logo: 
+                                    <strong>Store Logo: </strong>
                                 </td>
                                	<td>
-                               		<img src="assets/images/business/business1.jpg" width="40" />
+                               		<img src="{{ checkValue(settings.store_logo, 'avatar') }}" width="70" />
                                	</td>
                             </tr>
                             <tr>
                                 <td>
-                                    Store Url: 
+                                    <strong>Store Url: </strong>
                                 </td>
                                	<td>
-                               		http://www.startev.server/store/JKNKGNNI;bdbjbdbJDH
+                               		{{ checkValue(settings.store_url, 'text', 'Not Set') | titlecase }}
                                	</td>
                             </tr>
-                            <tr>
+                           <!--  <tr>
                             	<td>Referral Link: </td>
-                            	<td>http://www.startev.server/ref-?JDKINBnnc8983b</td>
-                            </tr>
+                            	<td>
+                                     {{ checkValue(settings.store_name, 'text', 'Not Set') | titlecase }}
+                                </td>
+                            </tr> -->
                             <tr>
                                <td colspan="2" class="text-center"><span>Bank Details</span></td>
                             </tr>
                              
                             <tr>
-                            	<td>Account Name: </td>
-                            	<td>Ruth Ibiyemi Mosunmola</td>
+                            	<td><strong>Account Name: </strong> </td>
+                            	<td>{{ checkValue(settings.account_name, 'text', 'Not Set') | titlecase }}</td>
                             </tr>
                             <tr>
-                            	<td>Account Number: </td>
-                            	<td>34001XXX3</td>
+                            	<td><strong>Account Number: </strong> </td>
+                            	<td>{{ settings.account_number }}</td>
                             </tr>
                             <tr>
-                            	<td>Bank Name: </td>
-                            	<td>Guranty Trust bank</td>
+                            	<td><strong>Bank Name: </strong></td>
+                            	<td>{{ checkValue(settings.bank_name, 'text', 'Not Set') | titlecase }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
+
+        <div class="card feeds-container" *ngIf="showEdit" [@fadeAnimation]>
+            <div class="header"><h2><strong>Edit Store</strong> Settings</h2></div>
+
+            <div class="body">
+                <span class="mb-3">Upload store logo</span>
+                 <div class="form-group mb-3">
+                    <input
+                     type="file" 
+                     name="file" 
+                     id="file"
+                     placeholder="choose logo"
+                     (change)="processStoreLogo(storeLogo)" 
+                     class="" #storeLogo/>
+                </div>
+
+
+                  <div class="form-group mb-3">
+                      <input 
+                      type="text" 
+                      placeholder="Your preferred store name" 
+                      class="form-control" [(ngModel)]="store_name">
+                  </div>
+
+                   <div class="form-group mb-3">
+                      <input 
+                      type="text"
+                      [readonly]="true"
+                      placeholder="Store url" 
+                      class="form-control" [(ngModel)]="store_url">
+                      <button *ngIf="!settings.store_url" (click)="generateStoreUrl(settings.identifier)" class="btn">generate url</button>
+                  </div>
+
+                   <div class="form-group">
+                      <input 
+                      type="text" 
+                      placeholder="Bank Full Name" 
+                      class="form-control" [(ngModel)]="bank_name">
+                  </div>
+
+                   <div class="form-group mb-3">
+                      <input 
+                      type="text" 
+                      placeholder="Account Full Name" 
+                      class="form-control" [(ngModel)]="account_name">
+                  </div>
+
+                   <div class="form-group">
+                    <label>Account Number</label>
+                      <input 
+                      type="number" 
+                      placeholder="Your Account Number" 
+                      class="form-control" [(ngModel)]="account_number">
+                  </div>
+
+                  
+                <div class="mt-2 p-3">
+                     <div class="float-left">
+                    <img *ngIf="isImage" [src]="processedImage" alt="" class="img-raised mr-3" height="60" width="60">
+                    </div>
+                    <button type="button" 
+                    (click)="saveModifications()" 
+                    class="btn btn-round btn-sm btn-info waves-effect" [ladda]="sendingForm">Save Modifications</button>
+                    <button
+                    type="button"
+                    (click)="closeForModification()" 
+                    class="btn btn-round btn-sm btn-danger waves-effect">CLOSE</button>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
