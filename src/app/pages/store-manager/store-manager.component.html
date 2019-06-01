@@ -4,7 +4,7 @@
 
 			<div class="col-md-3 sticky" *ngIf="hasAccess()">
 				<div class="card feeds-container zero-m">
-					<div class="header"><h2><strong>Manage</strong> Your Store</h2></div>
+					<div class="header"><h2><strong>Welcome</strong> To Store Manager</h2></div>
 					<div class="body zero-m">
 						<ul class="venture-nav">
 							<li *ngFor="let nav of navigation" [ngClass]="{'active': selectedNavigation.id === nav.id}">
@@ -17,22 +17,22 @@
 
 			<div class="col-md-9" *ngIf="hasAccess()">
 				<div *ngIf="selectedNavigation.alias === 'dashboard'" [@fadeAnimation]>
-					<app-user-dashboard></app-user-dashboard>
+					<app-store-manager-dashboard></app-store-manager-dashboard>
 				</div>
 				<div *ngIf="selectedNavigation.alias === 'manage_orders'" [@fadeAnimation]>
-					<app-user-orders></app-user-orders>
+					<app-store-manager-orders></app-store-manager-orders>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'venture_products'" [@fadeAnimation]>
-					<app-user-ventures></app-user-ventures>
+				<div *ngIf="selectedNavigation.alias === 'manage_products'" [@fadeAnimation]>
+					<app-store-manager-products></app-store-manager-products>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'customer_reviews'" [@fadeAnimation]>
-					<app-user-reviews></app-user-reviews>
+				<div *ngIf="selectedNavigation.alias === 'manage_ventures'" [@fadeAnimation]>
+					<app-store-manager-ventures></app-store-manager-ventures>
 				</div>
 				<div *ngIf="selectedNavigation.alias === 'store_settings'" [@fadeAnimation]>
-					<app-user-settings></app-user-settings>
+					<app-store-manager-settings></app-store-manager-settings>
 				</div>
 				<div *ngIf="selectedNavigation.alias === 'order_tracking'" [@fadeAnimation]>
-					<app-user-tracker></app-user-tracker>
+					<app-store-manager-tracker></app-store-manager-tracker>
 				</div>
 			</div>
 

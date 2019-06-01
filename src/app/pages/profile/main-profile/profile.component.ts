@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd , ActivatedRoute} from '@angular/router';
-import { AuthenticationService, AlertService, UserService, BaseService } from '../../../_services';
+declare var $: any;
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs'
 import { User } from '../../../_models';
-import * as _ from 'lodash';
-declare var $: any;
+import { Component, OnInit } from '@angular/core';
+import { StoreService } from '../../../_services/store.service';
+import { Router, NavigationEnd , ActivatedRoute} from '@angular/router';
+import { AuthenticationService, AlertService, UserService, BaseService } from '../../../_services';
 
 @Component({
   selector: 'app-profile',
@@ -35,6 +36,7 @@ export class ProfileComponent implements OnInit {
     private alert: AlertService,
     private userService : UserService,
     private baseService: BaseService,
+    private storeservice: StoreService,
     private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.peopleSubscription = this.baseService.getPeople()
@@ -71,6 +73,15 @@ export class ProfileComponent implements OnInit {
     // this.getVentures(this.profileData.roleData.id);
   }
 
+
+  updateResources(){
+    this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
+    .subscribe((ventures: any) => {
+      this.ventures = ventures.ventures;
+      this.partners = ventures.partners;
+    })
+  }
+
   updateFollowingIds(followers: any){
     this.followingIds = [];
     followers.forEach((item) => {
@@ -89,13 +100,17 @@ export class ProfileComponent implements OnInit {
   }
 
   newVenture(): void {
+    this.clearnVenture();
+
     this.ventureButton = 'Create Venture';
-    this.ventureUrl = 'new-venture';
+    this.ventureUrl = 'add-venture';
     $(document).find('#ventureModal').modal();
   }
 
 
   editVenture(id: number){
+    this.clearnVenture();
+
     this.ventureButton = 'Update Venture';
     let venture = _.findLast(this.ventures, ['id',id]);
 
@@ -141,11 +156,15 @@ export class ProfileComponent implements OnInit {
   handleVentureResponse(data){
 
     if (!data.success) {
-      this.alert.errorMsg(data.message, "Request Failed");
+      this.alert.errorMsg(data.message, "Error has ocurred");
     }else{
-      this.ventures = data.ventures;
+
+      this.alert.snotSuccess(data.message);
+      this.updateResources();
       this.closeModal();
     }
+
+    this.clearnVenture();
   }
 
   get profile(){
@@ -192,10 +211,15 @@ export class ProfileComponent implements OnInit {
 
       data => {
         this.handleFollowToggleResponse(data);
-      }
-      )
+      });
   }
 
+
+  clearnVenture(){
+    this.ventureUrl = '';
+    this.ventureName = '';
+    this.ventureDescription = '';
+  }
 
   submitVenture(){
 
@@ -210,13 +234,11 @@ export class ProfileComponent implements OnInit {
       venture_description: this.ventureDescription
     };
 
-    this.baseService.updateVenture(formData, this.ventureUrl)
+    this.storeservice.storeManagerUpdateVenture(formData, this.profileData.roleData.id, this.ventureUrl)
     .subscribe(
       data => {
         this.handleVentureResponse(data)
-      }
-
-      )
+      });
   }
 
 

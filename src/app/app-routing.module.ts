@@ -26,6 +26,7 @@ import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 import { PublicationResolve } from './_resolvers/publications.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
+import { StoreManagerComponent } from './pages/store-manager/store-manager.component';
 import { DashboardComponent } from './pages/partner/venture-dashboard/dashboard/dashboard.component';
 import { VenturesComponent } from './pages/partner/venture-dashboard/ventures/ventures.component';
 import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders.component';
@@ -35,18 +36,19 @@ import { VentureDashboardComponent } from './pages/partner/venture-dashboard/ven
 
 
 
+
 const routes: Routes = [
 {
 	path: '', 
 	component: FeedsComponent, 
-	data : {animation: 'Feeds'},
+	// data : {animation: 'Feeds'},
 	canActivate : [AuthGuard] 
 },
 {
 	path: 'feed/:id', 
 	component: FeedDetailsComponent,
 	resolve: {details: SingleFeedResolve},
-	data : {animation: 'Feeds'},
+	// data : {animation: 'Feeds'},
 	canActivate : [AuthGuard] 
 },
 
@@ -54,14 +56,14 @@ const routes: Routes = [
 	path: 'industry', 
 	component: IndustryListComponent,
 	resolve: {industries: IndustryResolve},
-	data: {animation: 'Industries'},
+	// data: {animation: 'Industries'},
 	canActivate : [AuthGuard] 
 },
 
 {
 	path: 'industry/:slug', 
 	component: IndustryDetailsComponent,
-	data: {animation: 'Industries'},
+	// data: {animation: 'Industries'},
 	resolve: {
 		industries: IndustryResolve,
 		industry : SingleIndustryResolve},
@@ -74,13 +76,13 @@ const routes: Routes = [
 	resolve: {
 		profile: ProfileEditResolve
 	},
-	data: {animation: 'Profile'},
+	// data: {animation: 'Profile'},
 	canActivate : [AuthGuard] },
 
 {
 	path: 'mentor/:slug', 
 	component: MentorProfileComponent, 
-	data: {animation: 'Profile'},
+	// data: {animation: 'Profile'},
 	resolve: {mentor: MentorProfileResolve},
 	canActivate : [AuthGuard] 
 },
@@ -90,7 +92,7 @@ const routes: Routes = [
 {
 	path: 'edit-profile', 
 	component: ProfileEditComponent,
-	data: {animation: 'Profile'},
+	// data: {animation: 'Profile'},
 	resolve: {
 		industries: IndustryResolve,
 		profile: ProfileEditResolve
@@ -101,20 +103,20 @@ const routes: Routes = [
 	path: 'knowledge-hub', 
 	component: KnowledgeHubComponent,
 	resolve: {pub: PublicationResolve},
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 {
 	path: 'publication-view/:id', 
 	component: PublicationViewComponent,
 	resolve: {publicationView: SinglePublicationResolve},
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 {
 	path: 'publish-to-hub', 
 	component: PublishComponent,
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard] 
 },
 
@@ -125,7 +127,7 @@ const routes: Routes = [
 		ventures : VentureResolve,
 		business: BusinessResolve
 	},
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 
@@ -133,25 +135,24 @@ const routes: Routes = [
 	path: 'partner-view/:identifier', 
 	component: PartnerViewComponent,
 	resolve: {partnerView : SingleVentureResolve},
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 
 {
 	path: 'venture-dashboard',
 	component: VentureDashboardComponent,
-	data: {animation: 'All'},
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 
-//Venture Dashboard Components
-
-// {
-// 	path: "",
-// 	component: DashboardComponent,
-// 	outlet : "ventureDashboard",
-// 	canActivate : [AuthGuard]
-// },
+//Business Store Manager
+{
+	path: 'store-manager',
+	component: StoreManagerComponent,
+	// data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
 
 {path: 'forgot-password', component: ForgotPasswordComponent },
 {path: 'reset-password', component: ResetPasswordComponent },

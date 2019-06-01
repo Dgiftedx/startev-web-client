@@ -3,7 +3,7 @@
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 			<div class="col-sm-12 col-md-12">
 				<div class="row clearfix">
-					<div class="col-md-6 offset-3 m-b-40">
+					<div class="col-md-6 offset-3 m-b-40 slideDown">
 
 						<form [formGroup]="businessForm">
 							<label class="text-center">Select Business/Organzation</label>
@@ -26,7 +26,7 @@
 	<div class="container"> 
 		<div class="row clearfix">
 			<div class="col-md-3 col-lg-3 col-sm-12" *ngFor="let venture of ventures">
-				<div class="card feeds-container">
+				<div class="card feeds-container fadeIn">
 					<div class="body business">
 						<div class="business-content min-height-200">
 							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />

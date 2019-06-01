@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 declare var $: any;
 import * as _ from 'lodash';
-import { AuthenticationService, AlertService, UserService, BaseService} from '../../../_services';
-import { User } from '../../../_models';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { MustMatch } from '../../../_helpers/must-match';
+import { User } from '../../../_models';
+import { Component, OnInit } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { NgSelectConfig } from '@ng-select/ng-select';
-
+import { MustMatch } from '../../../_helpers/must-match';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { AuthenticationService, AlertService, UserService, BaseService} from '../../../_services';
 
 @Component({
 	selector: 'app-profile-edit',

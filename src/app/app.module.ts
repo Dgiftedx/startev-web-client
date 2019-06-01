@@ -16,17 +16,21 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { VgBufferingModule} from 'videogular2/buffering';
+import { FilePickerModule } from  'ngx-awesome-uploader';
 import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VgOverlayPlayModule} from 'videogular2/overlay-play';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
+import { NgxUploadModule, MineTypeEnum, DropTargetOptions} from '@wkoza/ngx-upload';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
@@ -86,6 +90,23 @@ import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders
 import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/reviews.component';
 import { SettingsComponent } from './pages/partner/venture-dashboard/settings/settings.component';
 import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/tracker.component';
+import { StoreManagerComponent } from './pages/store-manager/store-manager.component';
+import { StoreManagerDashboardComponent } from './pages/store-manager/store-manager-dashboard/store-manager-dashboard.component';
+import { StoreManagerVenturesComponent } from './pages/store-manager/store-manager-ventures/store-manager-ventures.component';
+import { StoreManagerProductsComponent } from './pages/store-manager/store-manager-products/store-manager-products.component';
+import { StoreManagerOrdersComponent } from './pages/store-manager/store-manager-orders/store-manager-orders.component';
+import { StoreManagerSettingsComponent } from './pages/store-manager/store-manager-settings/store-manager-settings.component';
+import { StoreManagerTrackerComponent } from './pages/store-manager/store-manager-tracker/store-manager-tracker.component';
+import { NoAccessComponent } from './pages/no-access/no-access.component';
+
+
+export const ngxDropTargetOptions: DropTargetOptions = {
+  color: 'dropZoneColor',
+  colorDrag: 'dropZoneColorDrag',
+  colorDrop: 'dropZoneColorDrop',
+  multiple: true,
+  accept: [MineTypeEnum.Image]
+};
 
 @NgModule({
   declarations: [
@@ -122,6 +143,14 @@ import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/trac
     ReviewsComponent,
     SettingsComponent,
     TrackerComponent,
+    StoreManagerComponent,
+    StoreManagerDashboardComponent,
+    StoreManagerVenturesComponent,
+    StoreManagerProductsComponent,
+    StoreManagerOrdersComponent,
+    StoreManagerSettingsComponent,
+    StoreManagerTrackerComponent,
+    NoAccessComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -166,7 +195,10 @@ import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/trac
      EmbedVideo,
      InputSearchModule,
      NgxPaginationModule,
-     NgxSkeletonLoaderModule
+     NgxDatatableModule,
+     NgxUploadModule.forRoot(ngxDropTargetOptions),
+     FilePickerModule,
+     SweetAlert2Module.forRoot(),
   ],
 
   exports : [

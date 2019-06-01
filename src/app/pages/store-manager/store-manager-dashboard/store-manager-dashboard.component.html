@@ -1,0 +1,80 @@
+<div class="row clearfix" *ngIf="dashboardData">
+	<div class="col-lg-4 col-md-12">
+        <div class="card slideDown">
+            <div class="header">
+                <h2><strong>Orders</strong> Received</h2>                        
+            </div>
+            <div class="body">
+            <h3 class="m-b-0">NGN {{ dashboardData.orders_amount|number:0 }}</h3>
+            <small class="displayblock">0% Average</small>                    
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4 col-md-12">
+	    <div class="card slideDown">
+	        <div class="header">
+	            <h2><strong>Delivered</strong> Orders</h2>                        
+	        </div>
+	        <div class="body">
+	            <h3 class="m-b-0">NGN {{ dashboardData.delivered_orders | number:0 }}</h3>
+	            <small class="displayblock">0% Average</small>                        
+	        </div>
+	    </div>
+	</div>
+
+	<div class="col-lg-4 col-md-12">
+        <div class="card slideDown">
+            <div class="header mb-0">
+                <h2><strong>Total</strong> Partners</h2>                        
+            </div>
+            <div class="body mt-0">
+                <h3 class="m-b-0 m-t-0">{{ dashboardData.total_partners | number:0 }}</h3>
+                <small class="displayblock">Entrpreneurs in partnership</small>                        
+            </div>
+        </div>
+    </div>
+
+    <!-- recent Orders -->
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="card slideDown">
+            <div class="header">
+                <h2><strong>Recent</strong> Orders</h2>
+            </div>
+            <div class="body table-responsive members_profiles">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:60px;">#</th>
+                            <th>Name</th>
+                            <th>Item</th>
+                            <th>Address</th>
+                            <th>Quantity</th>                                    
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        
+                    </tbody>
+                    <tbody *ngIf="count(dashboardData.recent_orders) > 0">
+                        <tr *ngFor="let order of dashboardData.recent_orders">
+                            <td><img src="http://via.placeholder.com/60x50" alt="Product img"></td>
+                            <td>{{ order.buyer.name }}</td>
+                            <td>{{ order.product.product_name }}</td>
+                            <td>{{ order.buyer.address }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td><span class="badge badge-success">{{ order.status }}</span></td>
+                        </tr>
+                        
+                    </tbody>
+                    <tbody *ngIf="count(dashboardData.recent_orders) === 0">
+                        <tr>
+                            <td colspan="6" class="text-center"><span>No recent order has been placed.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

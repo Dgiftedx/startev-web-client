@@ -350,43 +350,43 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .overlay {
-  z-index: 9999; 
+	z-index: 9999; 
 }
-  .overlay.nsm-overlay-open {
-    background-color: rgba(0, 0, 0, 0.9) !important; 
+.overlay.nsm-overlay-open {
+	background-color: rgba(0, 0, 0, 0.9) !important; 
 }
-  .overlay.transparent {
-    background-color: rgba(0, 0, 0, 0.9) !important; 
+.overlay.transparent {
+	background-color: rgba(0, 0, 0, 0.9) !important; 
 }
 
 .inputfile {
-width: 0.1px;
-height: 0.1px;
-opacity: 0;
-overflow: hidden;
-position: absolute;
-z-index: -1;
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 
 
 .inputfile + label {
 	text-align: center !important;
-    font-size: 1.25em;
-    font-weight: 700;
-    color: black;
-    background-color:#F3F6F8;
-    display: inline-block;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    width: 50px;
-    padding: 5px;
-    box-shadow: 0px 5px 50px 0px rgba(0, 0, 0, 0.2)
+	font-size: 1.25em;
+	font-weight: 700;
+	color: black;
+	background-color:#F3F6F8;
+	display: inline-block;
+	border: 2px solid #fff;
+	border-radius: 50%;
+	width: 50px;
+	padding: 5px;
+	box-shadow: 0px 5px 50px 0px rgba(0, 0, 0, 0.2)
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    background-color: #ccc;
-    transition: all 1.5s;
+	background-color: #ccc;
+	transition: all 1.5s;
 }
 .inputfile + label {
 	cursor: pointer; /* "hand" cursor */
@@ -418,10 +418,10 @@ z-index: -1;
 
 .follow-subtext{
 	font-size: 13px;
-    color: #78909c;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden
+	color: #78909c;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden
 }
 
 .dd-list{
@@ -506,22 +506,22 @@ z-index: -1;
 .image-preview img{
 	height: 100%;
 /*	background-size: cover;
-	background-position: center center;*/
+background-position: center center;*/
 }
 
 .video-container{
 	overflow:hidden;
-    padding-bottom:56.25%;
-    position:relative;
-    height:0;
+	padding-bottom:56.25%;
+	position:relative;
+	height:0;
 }
 
 .video-container iframe{
 	left:0;
-    top:0;
-    height:100% !important;
-    width:100% !important;
-    position:absolute;
+	top:0;
+	height:100% !important;
+	width:100% !important;
+	position:absolute;
 }
 .color-blue{
 	color: #0073B1;
@@ -541,10 +541,10 @@ z-index: -1;
 }
 
 .venture-nav li{
-    padding-left: 8px;
-    border-left: 2px solid #ccc;
-    margin: 9px 0;
-    transition: all 1.5s;
+	padding-left: 8px;
+	border-left: 2px solid #ccc;
+	margin: 9px 0;
+	transition: all 1.5s;
 }
 
 .venture-nav li a{
@@ -568,4 +568,71 @@ z-index: -1;
 }
 .venture-nav .active a{
 	font-weight: 500;
+}
+
+.no-access-box{
+	box-sizing: border-box;
+	margin: 20px;
+	padding: 10px;
+}
+
+
+.no-access-box > h1{
+	font-weight: 800;
+	font-size: 200px;
+	color:#e5f1f7;
+	text-shadow: -1px -1px 0 #C90C0C, 1px -1px 0 #C90C0C, -1px 1px 0 #C90C0C, 1px 1px 0 #C90C0C;
+}
+
+.no-access-box p {
+	font-weight: 500;
+	font-size: 20px;
+}
+
+.dropZoneColor {
+	padding: 30px;
+	border: 3px dotted rgba(0,0,0,0.08);
+	background-color: rgba(0,0,0,0.12)
+}
+
+.dropZoneColorDrag {
+	border: 3px dotted rgba(0,0,0,0.28);
+	background-color: grey
+}
+
+.dropZoneColorDrop {
+	border: 3px dotted rgba(0,0,0,0.08);
+	background-color: rgba(0,0,0,0.12)
+}
+
+
+.uploader-wrapper {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+
+.custom-list li:before{
+	content:"\e079";
+	font-size: 16px;
+	font-family: 'Simple-Line-Icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased
+}
+.custom-list{
+	list-style: none;
+}
+
+.custom-list li{
+	font-weight: 600;
 }

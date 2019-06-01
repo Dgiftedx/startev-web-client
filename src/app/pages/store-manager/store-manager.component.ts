@@ -1,19 +1,19 @@
 declare var $: any;
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs'
-import { User } from '../../../_models';
+import { User } from '../../_models';
 import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { trigger, style, animate,state, transition } from '@angular/animations';
-import { AlertService, AuthenticationService, BaseService } from '../../../_services';
+import { AlertService, AuthenticationService, BaseService } from '../../_services';
 
 
 @Component({
-  selector: 'app-venture-dashboard',
-  templateUrl: './venture-dashboard.component.html',
-  styleUrls: ['./venture-dashboard.component.css'],
+  selector: 'app-store-manager',
+  templateUrl: './store-manager.component.html',
+  styleUrls: ['./store-manager.component.css'],
   animations: [
     trigger(
       'enterAnimation', [
@@ -43,9 +43,10 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
   ],
 })
 
-export class VentureDashboardComponent implements OnInit {	
-  
-  currentUser : User;
+
+export class StoreManagerComponent implements OnInit {
+
+ currentUser : User;
 
 
   //======= Dashboard Navigation ============//
@@ -53,8 +54,8 @@ export class VentureDashboardComponent implements OnInit {
 
   	{id: 1, alias: "dashboard", name: "Dashboard"},
   	{id: 2, alias: "manage_orders", name: "Manage Orders"},
-  	{id: 3, alias: "venture_products", name: "Venture Products"},
-  	{id: 4, alias: "customer_reviews", name: "Customer Reviews"},
+  	{id: 3, alias: "manage_products", name: "Manage Products"},
+  	{id: 4, alias: "manage_ventures", name: "Manage Ventures"},
   	{id: 5, alias: "store_settings", name: "General Store Settings"},
   	{id: 6, alias: "order_tracking", name: "Track Order & Deliveries"}
 
@@ -93,8 +94,11 @@ export class VentureDashboardComponent implements OnInit {
     return JSON.parse(this.authenticationService.getUserData());
   }
 
+  //============ Check if user has access to this page ================//
+  // This route is meant for business owners
+
   hasAccess() {
-    return this.profile.role !== 'student'?false:true;
+  	return this.profile.role !== 'business'?false:true;
   }
 
 }

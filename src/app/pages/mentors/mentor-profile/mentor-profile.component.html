@@ -13,7 +13,7 @@
 	<div class="container">
 		<div class="row clearfix">
 			<div class="col-md-3 m-t--30">
-				<div class="card member-card transparent">
+				<div class="card member-card transparent fadeIn">
                     <div class="member-img">
                         <a href="#" class="">
                         <img src="{{ currentMentor.user.avatar?currentMentor.user.avatar : 'assets/images/default/avatar.jpg' }}" class="user_pic rounded-circle img-raised" alt="profile-image">
@@ -77,7 +77,7 @@
 
                 			<!-- Tab Contents -->
 
-                				<div class="card feeds-container bg_grey zero-m" *ngIf="profile.followers.length === 0">
+                				<div class="card feeds-container fadeIn bg_grey zero-m" *ngIf="profile.followers.length === 0">
 				                <div class="body">
 				                    <p class="text-center">{{ profile.user.name | titlecase }} have no follower yet.</p>
 				                </div>
@@ -125,7 +125,7 @@
 
                 			<!-- Tab Contents -->
 
-							<div class="card feeds-container bg_grey zero-m" *ngIf="profile.following.length === 0">
+							<div class="card fadeIn feeds-container bg_grey zero-m" *ngIf="profile.following.length === 0">
 				                <div class="body">
 				                    <p class="text-center">{{ profile.user.name | titlecase }} is following anyone yet. Perhaps a new guest</p>
 				                </div>
@@ -166,7 +166,7 @@
 				</div>
 			</div>
 			<div class="col-md-3 m-t-80 sticky">
-				<div class="card feeds-container min-height-400">
+				<div class="card fadeIn feeds-container min-height-400">
 					<div class="body">
 						<p><strong>Similar Mentors </strong> <span>refresh </span> <span>view all</span></p>
 						<ul class="follow_us list-unstyled m-b-0">

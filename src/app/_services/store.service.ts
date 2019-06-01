@@ -51,4 +51,57 @@ export class StoreService {
 		return this.http.post(`${this.endpoint}/store/save-store-settings/${user_id}`, formData);
 	}
 
+
+	public storeManagerDashboardData(user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${user_id}`);
+	}
+
+	public storeManagerGetOrders(user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-store-orders/${user_id}`);
+	}
+
+	public storeManagerGetProducts(user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-store-products/${user_id}`);
+	}
+
+	public storeManagerAddProduct(formData:any, user_id:number, url:string){
+		return this.http.post(`${this.endpoint}/store/store-manager/${url}/${user_id}`, formData);
+	}
+
+	public storeManagerGetSingleProduct(product_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-single-product/${product_id}`).pipe(delay(800));
+	}
+
+	public storeManagerDeleteSingleProduct(product_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/delete-single-product/${product_id}`);
+	}
+
+	public storeManagerAttachPToVenture( venture_id:number, formData: any ){
+		return this.http.post(`${this.endpoint}/store/store-manager/attach-products-to-venture/${venture_id}`, formData);
+	}
+
+	public storeManagerGetVentures(user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-ventures/${user_id}`).pipe(delay(1000));
+	}
+
+	public storeManagerDetachPFromVenture( venture_id:number ){
+		return this.http.get(`${this.endpoint}/store/store-manager/detach-products-from-venture/${venture_id}`);
+	}
+
+	public storeManagerUpdateVenture(formData:any, business_id:number, url:string){
+		return this.http.post(`${this.endpoint}/store/store-manager/${url}/${business_id}`, formData);
+	}
+
+	public storeManagerGetSettings(business_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-settings/${business_id}`);
+	}
+
+	public storeManagerUpdateSettings(business_id:number, formData:any){
+		return this.http.post(`${this.endpoint}/store/store-manager/update-settings/${business_id}`, formData);
+	}
+
+	public storeManagerTrackOrder(order_id:number, business_id){
+		return this.http.get(`${this.endpoint}/store/store-manager/track-order/${order_id}/${business_id}`);
+	}
+
 }

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="card member-card feeds-container">
+				<div class="card member-card feeds-container fadeIn">
                     <div class="header" [ngStyle]="{'background-image': 'url('+currentUser.bg_image+')', 'background-position': 'center top'}">
                         <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
                         &nbsp;
@@ -20,7 +20,7 @@
                             <div class="col-md-12 zero-m">
                                  <div *ngIf="profile.role ==='mentor' || profile.role ==='business'">
                                        <a 
-                                       [routerLink]="['/publish-to-hub']" 
+                                       [routerLink]="['/store-manager']"
                                        class="btn btn-info btn-block waves-effect p-2"> Open Store Manager</a>
 
                                        <a 
@@ -89,7 +89,7 @@
 		                </div>
 					</div> -->
                     <div class="col-sm-12 col-md-12">
-                        <div class="card feeds-container">
+                        <div class="card feeds-container fadeIn">
                             <div class="body zero-m">
                                 <div class="row zero-m">
                                     <div class="col-lg-9 col-sm-12">
@@ -265,7 +265,7 @@
 
                             </div>
                         </div>
-						<div class="card feeds-container min-height-400" *ngIf="feed.postType === 'picture'">
+						<div class="card feeds-container min-height-400 fadeIn" *ngIf="feed.postType === 'picture'">
 		                    <div class="body chat post-container">
 		                    	<div class="chat-header clearfix post-feed-header">
                                     <div class="row">
@@ -466,7 +466,7 @@
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-12 col-lg-3" [ngClass]="{'sticky': count(people) < 3}">
-				<div class="card feeds-container zero-m">
+				<div class="card feeds-container fadeIn zero-m">
                     <div class="body zero-m">
                         <div class="bg_grey">
                             <p class="follow-suggestion-text">People you might like to follow_</p>

@@ -5,7 +5,7 @@
         <div class="row clearfix">
           <div class="col-md-6 offset-3 m-b-40">
 
-             <div class="form-group text-center">
+             <div class="form-group text-center slideDown">
               <label for="search">Search for entrepreneurship contents</label>
               <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
           </div>
@@ -20,7 +20,7 @@
   <div class="row clearfix">
 
    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12" *ngFor="let pub of publications">
-    <div class="card feeds-container">
+    <div class="card feeds-container fadeIn">
       <div class="header">
         <h2 *ngIf="count(pub.user.mentor) > 0">
           <strong>{{ initials(pub.user.name) }}</strong> - {{ pub.user.name|titlecase }} 
