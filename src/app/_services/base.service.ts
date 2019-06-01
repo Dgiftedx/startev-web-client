@@ -216,4 +216,9 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-partners`);
     }
 
+    //Connection toggle 
+    public toggleConnection(userId: number, target_id : number){
+        return this.http.get(`${this.endpoint}/toggle-connection/${userId}/${target_id}`);
+    }
+
 }

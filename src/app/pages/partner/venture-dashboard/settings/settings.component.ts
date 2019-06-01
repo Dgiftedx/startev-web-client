@@ -169,7 +169,7 @@ export class SettingsComponent implements OnInit {
   }
 
   generateStoreUrl(storeIdentifier:any){
-  	this.store_url = this.base_url+"/store/"+storeIdentifier;
+  	this.store_url = this.base_url+"/main-store/"+storeIdentifier;
   }
 
 

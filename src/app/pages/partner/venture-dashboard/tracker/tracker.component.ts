@@ -21,8 +21,11 @@ export class TrackerComponent implements OnInit {
 
 	currentUser:User;
 
+	public order:any = {};
 	public orderId:any = '';
 	public tracking:boolean = false;
+	public noticeMsg:string = '';
+	public showNotice : boolean = false;
 	public trackingInformation:any;
 
 	constructor(
@@ -53,12 +56,37 @@ export class TrackerComponent implements OnInit {
 		return _.size(items);
 	}
 
+	closeNoticeBox(){
+		this.showNotice = false;
+	}
+
+
+	// ================= Handle tracking response ===============//
+
+	handleTrackingResponse(data){
+		if (!data.success) {
+			
+			this.noticeMsg = data.message;
+
+		}else{
+			this.order = data.order;
+			this.alert.successMsg(data.message, "Success");
+		}
+	}
+
 
 	//================= Track Order ==================//
 	trackOrder(){
 		this.tracking = true;
 
-		setTimeout(() => this.tracking = false, 6000);
+
+		if (this.orderId && this.count(this.orderId.toString()) === 0) {
+			this.alert.infoMsg("Enter valid orderId","Some Value Missing");
+			return;
+		}
+		this.storeService.trackOrder(this.orderId, this.currentUser.id)
+		.subscribe(data => {this.handleTrackingResponse(data); this.showNotice = true; this.tracking = false;});
 	}
+	
 
 }

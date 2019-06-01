@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/authentication/login/login.component';
 import { FeedsComponent } from './pages/home/feeds/feeds.component';
 import { IndustryListComponent } from './pages/industries/industry-list/industry-list.component';
 import { AuthGuard } from './_guards';
+import { MainStoreComponent } from './pages/main-store/main-store.component';
 import { RegisterComponent } from './pages/authentication/register/register.component';
 import { ProfileComponent } from './pages/profile/main-profile/profile.component';
 import { MentorComponent } from './pages/mentors/mentor-list/mentor.component';
@@ -33,6 +34,7 @@ import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders
 import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/reviews.component';
 import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
 import { VentureDashboardComponent } from './pages/partner/venture-dashboard/venture-dashboard.component';
+
 
 
 
@@ -150,6 +152,13 @@ const routes: Routes = [
 {
 	path: 'store-manager',
 	component: StoreManagerComponent,
+	// data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'main-store/:identifier',
+	component: MainStoreComponent,
 	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },

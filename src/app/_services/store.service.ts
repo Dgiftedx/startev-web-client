@@ -52,6 +52,25 @@ export class StoreService {
 	}
 
 
+	public importProducts(user_id:number, venture_id:number){
+		return this.http.get(`${this.endpoint}/store/import-venture-products/${user_id}/${venture_id}`);
+	}
+
+
+	public syncProducts(user_id:number, venture_id:number){
+		return this.http.get(`${this.endpoint}/store/sync-venture-products/${user_id}/${venture_id}`);
+	}
+
+	public detachProducts(user_id:number, venture_id:number){
+		return this.http.get(`${this.endpoint}/store/detach-venture-products/${user_id}/${venture_id}`);
+	}
+
+
+	public trackOrder(order_id:number, user_id){
+		return this.http.get(`${this.endpoint}/store/track-order/${order_id}/${user_id}`);
+	}
+
+
 	public storeManagerDashboardData(user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${user_id}`);
 	}

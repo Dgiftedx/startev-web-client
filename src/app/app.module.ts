@@ -98,6 +98,7 @@ import { StoreManagerOrdersComponent } from './pages/store-manager/store-manager
 import { StoreManagerSettingsComponent } from './pages/store-manager/store-manager-settings/store-manager-settings.component';
 import { StoreManagerTrackerComponent } from './pages/store-manager/store-manager-tracker/store-manager-tracker.component';
 import { NoAccessComponent } from './pages/no-access/no-access.component';
+import { MainStoreComponent } from './pages/main-store/main-store.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -151,6 +152,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     StoreManagerSettingsComponent,
     StoreManagerTrackerComponent,
     NoAccessComponent,
+    MainStoreComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

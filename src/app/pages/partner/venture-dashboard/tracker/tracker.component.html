@@ -15,5 +15,23 @@
 				class="btn btn-lg btn-warning btn-round waves-effect">Track Order</button>
 			</div>
 		</div>
+
+		<div class="card feeds-container fadeIn" *ngIf="showNotice">
+			<div class="header">
+				<h2><strong>Order </strong> Details</h2>
+				<button (click)="closeNoticeBox()" class="float-right btn btn-icon btn-icon-mini btn-white btn-round waves-effect">
+                    <i class="zmdi zmdi-close 2x"></i>
+                </button>
+			</div>
+			<div class="body mt-3">
+				<div class="alert alert-info" *ngIf="noticeMsg" [innerHtml]="noticeMsg"></div>
+
+				<table class="table" *ngIf="count(order) > 0">
+					<tr>
+						<td>Order Details Found</td>
+					</tr>
+				</table>
+			</div>
+			
 	</div>
 </div>

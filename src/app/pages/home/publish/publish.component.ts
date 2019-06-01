@@ -63,6 +63,9 @@ export class PublishComponent implements OnInit {
   		audience : [],
   		content : ['', Validators.required],
   	});
+
+
+    this.makeDefaultAudience();
   }
 
 
@@ -84,6 +87,15 @@ export class PublishComponent implements OnInit {
   	return this.publicationForm.controls;
   }
 
+
+  //============ if user is business entity, disable trainee audience selection
+
+  makeDefaultAudience(){
+    if (this.profile.role === 'business') {
+      this.audienceSelection.pop();
+      this.publicationForm.get('audience').setValue(this.audienceSelection[0].alias);
+    }
+  }
 
   //============ Image Reader ===============//
 

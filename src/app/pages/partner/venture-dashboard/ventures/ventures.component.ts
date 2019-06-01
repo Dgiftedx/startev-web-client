@@ -62,24 +62,53 @@ export class VenturesComponent implements OnInit {
 		return _.size(items);
 	}
 
+
+	updateResources(){
+		//Get Ventures
+		this.venturesSubscription = this.storeService.getVentures(this.currentUser.id)
+		.subscribe(data => this.ventureList = data);
+	}
+
+
+
+	handleSuccessResponse(data:any){
+		this.alert.snotSuccess(data.message);
+		this.updateResources();
+	}
+
 	//================== Import Products From Venture ===============//
 	importProducts( ventureId: number ){
 		this.importLadda = true;
-		setTimeout(() => this.importLadda = false, 5000);
+		
+		this.storeService.importProducts(this.currentUser.id, ventureId)
+		.subscribe(data => {
+			this.handleSuccessResponse(data);
+			this.importLadda = false;
+		});
 	}
 
 
 	//================== Syncronize Products ========================//
 	syncronizeProducts( ventureId: number ){
 		this.syncLadda = true;
-		setTimeout(() => this.syncLadda = false, 5000);
+
+		this.storeService.syncProducts(this.currentUser.id, ventureId)
+		.subscribe(data => {
+			this.handleSuccessResponse(data);
+			this.syncLadda = false;
+		});
 	}
 
 
 	//=================== Detach Imported Products ====================//
 	detachProducts( ventureId: number ){
 		this.detachLadda = true;
-		setTimeout(() => this.detachLadda = false, 5000);
+		
+		this.storeService.detachProducts(this.currentUser.id, ventureId)
+		.subscribe(data => {
+			this.handleSuccessResponse(data);
+			this.detachLadda = false;
+		});
 	}
 
 	//=================== Manage Imported Products ====================//

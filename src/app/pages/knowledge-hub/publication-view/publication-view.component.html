@@ -2,7 +2,24 @@
 	<div class="container">
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 
-			<div class="col-sm-12 col-md-4 col-lg-8">
+			<div class="col-sm-12 col-md-3 col-lg-3">
+				<div class="card feeds-container">
+					<div class="body text-center">
+						<h6 class="apple-font text-center"> About The Writer</h6>
+						<div class="border"></div>
+
+						<div> 
+							<span>
+	                        <img src="{{ currentPublication.user.avatar?currentPublication.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
+	                    </div>
+	                    <h6 *ngIf="currentPublication.user.mentor">{{ currentPublication.user.name | titlecase }}</h6>
+	                    <h6 *ngIf="currentPublication.user.business">{{ currentPublication.user.business.name | titlecase }}</h6>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-md-9 col-lg-9">
 				<div class="card feeds-container">
 					<div class="body">
 						<h4 class="apple-font text-center">{{ currentPublication.title | titlecase }} </h4>
@@ -30,22 +47,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-4 col-lg-4">
-				<div class="card feeds-container">
-					<div class="body text-center">
-						<h6 class="apple-font text-center"> About The Writer</h6>
-						<div class="border"></div>
-
-						<div> 
-							<span>
-	                        <img src="{{ currentPublication.user.avatar?currentPublication.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
-	                    </div>
-	                    <h6 *ngIf="currentPublication.user.mentor">{{ currentPublication.user.name | titlecase }}</h6>
-	                    <h6 *ngIf="currentPublication.user.business">{{ currentPublication.user.business.name | titlecase }}</h6>
-
-					</div>
-				</div>
-			</div>
+			
 		</div>
 	</div>
 </section>

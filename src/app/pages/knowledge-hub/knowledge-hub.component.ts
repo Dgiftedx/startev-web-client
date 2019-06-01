@@ -21,6 +21,7 @@ export class KnowledgeHubComponent implements OnInit {
 	currentUser : User;
 	searchForm : FormGroup;
   public publications = [];
+  connections:Array<any> = [];
 
   constructor(
     private router: Router,
@@ -38,12 +39,17 @@ export class KnowledgeHubComponent implements OnInit {
 
   ngOnInit() {
     this.publications = this.route.snapshot.data.pub.publications;
-  	this.searchForm = this.formBuilder.group({
-  		search : ['']
-  	});
+    this.searchForm = this.formBuilder.group({
+      search : ['']
+    });
+
+    //get current user connections
+    this.route.snapshot.data.pub.connections.forEach(item => {
+      this.connections.push(item.trainer_id);
+    });
   }
 
-   get profile(){
+  get profile(){
     return JSON.parse(this.authenticationService.getUserData());
   }
 
@@ -88,9 +94,9 @@ export class KnowledgeHubComponent implements OnInit {
   showEmbededVideo(source:any, link:any){
 
     return this.embedService.embed(link,{
-        query: {color: '333'},
-        attr: {height: 490}
-      });
+      query: {color: '333'},
+      attr: {height: 490}
+    });
   }
 
 
@@ -108,11 +114,11 @@ export class KnowledgeHubComponent implements OnInit {
   }
 
   onToggleLike(target: number){
-     this.baseService.togglePublicationLike(this.currentUser.id, target)
+    this.baseService.togglePublicationLike(this.currentUser.id, target)
     .subscribe(
-        data => {
-            this.handleLikeToggleResponse(data);
-        }
+      data => {
+        this.handleLikeToggleResponse(data);
+      }
       )
   }
 
@@ -124,6 +130,18 @@ export class KnowledgeHubComponent implements OnInit {
     const stringEmitted = ($event.target as HTMLInputElement).value;
     // Your request...
     console.log(stringEmitted);
+  }
+
+
+  //=============== Check publicaiton audience =============//
+  checkAudience(pub_audience:string, pub_author_id:number) {
+
+    //check publication audience
+   if (pub_audience === 'trainee') {
+       //check if current user has connection to the author
+      return this.connections.includes(pub_author_id)?true:false;
+    }
+    return true;
   }
 
 }

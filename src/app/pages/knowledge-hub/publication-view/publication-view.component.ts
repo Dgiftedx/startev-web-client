@@ -22,6 +22,8 @@ export class PublicationViewComponent implements OnInit {
  currentPublication:any;
  likes:any;
 
+ connections:Array<any> = [];
+
  constructor(
     private router: Router,
     private config: NgSelectConfig,
@@ -42,6 +44,11 @@ export class PublicationViewComponent implements OnInit {
  ngOnInit() {
     this.currentPublication = this.route.snapshot.data.publicationView.publication;
     this.likes = this.route.snapshot.data.publicationView.likers;
+
+    //get current user connections
+    this.route.snapshot.data.publicationView.connections.forEach(item => {
+      this.connections.push(item.trainer_id);
+    });
   }
 
 
@@ -81,5 +88,20 @@ export class PublicationViewComponent implements OnInit {
         attr: {height: 490}
       });
   }
+
+
+  //=============== Check publicaiton audience =============//
+  checkAudience(pub_audience:string, pub_author_id:number) {
+
+    //check publication audience
+   if (pub_audience === 'trainee') {
+       //check if current user has connection to the author
+      return this.connections.includes(pub_author_id)?true:false;
+    }
+    return true;
+  }
+
+
+ 
 
 }

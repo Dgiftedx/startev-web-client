@@ -14,7 +14,7 @@
                                 </td>
                                 <td>
                                     <p class="margin-0">{{ list.venture.venture_name }}</p>
-                                    <span>Imported products(0)</span>
+                                    <span>Imported products({{ list.venture.product_count }})</span>
                                 </td>
                               
                                 <td>
@@ -27,21 +27,17 @@
 
                                 	<button
                                     type="button"
-                                    (click)="syncronizeProducts(list.venture.id)"
+                                    [swal]="syncSwal"
+                                    (confirm)="syncronizeProducts(list.venture.id)"
                                     [ladda]="syncLadda"
                                     class="btn btn-round btn-sm btn-warning waves-effect">Sync Products</button>
 
                                 	<button 
                                     type="button"
-                                    (click)="detachProducts(list.venture.id)"
+                                    [swal]="detachSwal" 
+                                    (confirm)="detachProducts(list.venture.id)"
                                     [ladda]="detachLadda"
                                     class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
-
-                                	<button 
-                                    type="button" 
-                                    (click)="manageProducts(list.venture.id)"
-                                    [ladda]="manageLadda"
-                                    class="btn btn-round btn-sm btn-info waves-effect">Manage Products</button>
                                 </td>
 
                             </tr>
@@ -49,6 +45,23 @@
                         </tbody>
                     </table>
                 </div>
+                    <!-- Products Detachment confirmation Alert -->
+                    <swal #detachSwal title="Detach Products ?"
+                      text="Orders would have been places on this products. 
+                       Are you sure you want to continue ?"
+                      type="question"
+                      [showCancelButton]="true"
+                      [focusCancel]="true">
+                      </swal>
+
+                      <!-- Product Synscronization confirmation Alert -->
+                      <swal #syncSwal title="Are You Sure ?"
+                      text="This will import new product and update stock status of already imported ones. 
+                       Are you sure you want to continue ?"
+                      type="question"
+                      [showCancelButton]="true"
+                      [focusCancel]="true">
+                      </swal>
             </div>
         </div>
     </div>

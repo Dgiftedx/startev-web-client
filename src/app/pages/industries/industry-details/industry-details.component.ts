@@ -17,10 +17,12 @@ export class IndustryDetailsComponent implements OnInit {
   industryMentors = [];
   currentUser : User;
   param = null;
-  industry = {};
+  industry:any = {};
   industries = [];
+  maximumTrainer:number = 25;
   industriesArray = [];
   selectedIndustry = {};
+  connectStatus:string = '';
   public people: Array<any> = [];
   private peopleSubscription : Subscription;
 
@@ -66,6 +68,10 @@ export class IndustryDetailsComponent implements OnInit {
     this.createSearchForm();
     //make request for new single industry details
     this.industry = this.route.snapshot.data.industry;
+
+    setTimeout(() => {
+      this.filterConnections(this.route.snapshot.data.industry.connections, false);
+    }, 800);
   }
 
   count(items:any){
@@ -111,13 +117,14 @@ export class IndustryDetailsComponent implements OnInit {
     return JSON.parse(this.authenticationService.getUserData());
   }
 
-  handleFollowResponse(data){
-    this.people = data.people;
-    this.alert.successMsg("You started following this user","Now Following");
-  }
 
+  //====================== Get Industry Details ======================//
   handleResponse(data : any){
     this.industry = data;
+
+    setTimeout(() => {
+      this.filterConnections(data.connections, false);
+    }, 800);
   }
 
   getIndustryDetails(slug : any){
@@ -135,6 +142,16 @@ export class IndustryDetailsComponent implements OnInit {
       )
   }
 
+
+  //========================= Follow Toggle ==========================//
+
+  handleFollowResponse(data){
+    this.people = data.people;
+    this.alert.successMsg("You started following this user","Now Following");
+  }
+
+
+
   onFollow(target: number){
     this.baseService.follow(this.currentUser.id, target)
     .subscribe(
@@ -149,6 +166,51 @@ export class IndustryDetailsComponent implements OnInit {
       }
 
       )
+  }
+
+  //==================== Connection Toggle =================//
+
+  filterConnections(data:any, isMain:boolean){
+
+    let mentorsId = [];
+
+    if (isMain) {
+      data.connections.forEach(item => {
+        mentorsId.push(item.trainer_id);
+      });
+    }else{
+      data.forEach(item => {
+        mentorsId.push(item.trainer_id);
+      });
+    }
+
+    this.industry.industry.mentors.forEach(item => {
+      if (mentorsId.includes(item.id)) {
+        item.is_connected = true;
+      }else{
+        item.is_connected = false;
+      }
+    });
+
+
+    if (data.message) {
+      this.connectStatus = data.message;
+    }
+
+  }
+
+
+  toggleConnect(mentor:number) {
+
+    this.baseService.toggleConnection(this.currentUser.id, mentor)
+    .subscribe( data => {
+      this.filterConnections(data, true);
+
+      setTimeout(() => {
+        this.alert.snotSuccess(this.connectStatus);
+      }, 400);
+
+    });
   }
 
 }

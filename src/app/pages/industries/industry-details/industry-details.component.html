@@ -36,10 +36,23 @@
 						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.mentor">
 							<div class="body">
 								<div class="cp_img">
-									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
+									<a [routerLink]="['/mentor',mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
 									<div class="hover">
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
+
+
+										<button 
+										type="button" 
+										(click)="toggleConnect(mentor.id)"
+										class="btn btn-warning btn-sm waves-effect">
+											<fa-icon [icon]="['fas','plus']"></fa-icon> 
+										<span *ngIf="mentor.is_connected">Disconnect</span>
+										<span *ngIf="!mentor.is_connected">Connect</span>
+									</button>
+										
+
+										<a [routerLink]="" class="btn btn-warning btn-sm waves-effect">
+											<i class="zmdi zmdi-comment"></i>
+										</a>
 									</div>
 								</div>
 								<div class="product_details">
@@ -49,7 +62,7 @@
 									</h5>
 									<ul class="product_price list-unstyled">
 										<li class="profession">{{ mentor.mentor.current_job_position?mentor.mentor.current_job_position:'Mentor' }}</li><br/>
-										<li class="trainer">Trainers: 18/25</li>
+										<li class="trainer">Trainees: {{ count(mentor.trainer_pivot) }}/{{ maximumTrainer }}</li>
 									</ul>
 								</div>
 							</div>
@@ -60,7 +73,17 @@
 								<div class="cp_img">
 									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
 									<div class="hover">
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-plus"></i> connect</a>
+
+										<button 
+										type="button" 
+										(click)="toggleConnect(mentor.id)"
+										class="btn btn-warning btn-sm waves-effect">
+											<fa-icon [icon]="['fas','plus']"></fa-icon> 
+										<span *ngIf="mentor.is_connected">Disconnect</span>
+										<span *ngIf="!mentor.is_connected">Connect</span>
+									</button>
+
+										
 										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
 									</div>
 								</div>
@@ -68,7 +91,7 @@
 									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.name | titlecase }}</a></h5>
 									<ul class="product_price list-unstyled">
 										<li class="profession">{{ mentor.business.name?mentor.business.name:'Business' }}</li>
-										<li class="trainer">Trainers: 18/25</li>
+										<li class="trainer">Services: {{ count(mentor.business.services) }}</li>
 									</ul>
 								</div>
 							</div>
