@@ -39,6 +39,7 @@ import { PublicationResolve } from './_resolvers/publications.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
+import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
@@ -99,6 +100,7 @@ import { StoreManagerSettingsComponent } from './pages/store-manager/store-manag
 import { StoreManagerTrackerComponent } from './pages/store-manager/store-manager-tracker/store-manager-tracker.component';
 import { NoAccessComponent } from './pages/no-access/no-access.component';
 import { MainStoreComponent } from './pages/main-store/main-store.component';
+import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -153,6 +155,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     StoreManagerTrackerComponent,
     NoAccessComponent,
     MainStoreComponent,
+    ProductViewComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -223,7 +226,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
         SingleVentureResolve,
         SingleFeedResolve,
         PublicationResolve,
-        SinglePublicationResolve
+        SinglePublicationResolve,
+        MainStoreResolve
   ],
   bootstrap: [AppComponent]
 })

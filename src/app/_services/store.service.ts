@@ -123,4 +123,17 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/store-manager/track-order/${order_id}/${business_id}`);
 	}
 
+
+
+
+
+	////////////////////////////////////////////////////////////////////////////
+
+	public mainStore(identifier:any){
+		return this.http.get(`${this.endpoint}/store/main-store-get-products/${identifier}`);
+	}
+
+	public mainStoreSingleProduct(product_id:number){
+		return this.http.get(`${this.endpoint}/store/main-store-get-single-product/${product_id}`);
+	}
 }

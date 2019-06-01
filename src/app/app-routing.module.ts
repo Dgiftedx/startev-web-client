@@ -23,6 +23,7 @@ import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_r
 import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
+import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 import { PublicationResolve } from './_resolvers/publications.resolver';
@@ -34,6 +35,7 @@ import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders
 import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/reviews.component';
 import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
 import { VentureDashboardComponent } from './pages/partner/venture-dashboard/venture-dashboard.component';
+import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
 
 
 
@@ -159,6 +161,14 @@ const routes: Routes = [
 {
 	path: 'main-store/:identifier',
 	component: MainStoreComponent,
+	resolve: {store : MainStoreResolve},
+	// data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'product-view/:id',
+	component: ProductViewComponent,
 	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },

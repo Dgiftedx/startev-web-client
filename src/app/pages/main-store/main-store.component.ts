@@ -19,6 +19,11 @@ export class MainStoreComponent implements OnInit {
 
   currentUser : User;
 
+  public singleProduct:any = {};
+  public selectedSingleImage:any = '';
+
+  public store:any = {};
+  public products:Array<any> = [];
   constructor(
     private router: Router,
     private config: NgSelectConfig,
@@ -34,10 +39,12 @@ export class MainStoreComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.products = this.route.snapshot.data.store.products;
+    this.store = this.route.snapshot.data.store.storeDetails;
   }
 
 
-   get profile(){
+  get profile(){
     return JSON.parse(this.authenticationService.getUserData());
   }
 
@@ -46,11 +53,43 @@ export class MainStoreComponent implements OnInit {
     return _.size(items);
   }
 
-   //===================== Search Handler ===================//
+  //===================== Search Handler ===================//
   doTheSearch($event: Event) {
     const stringEmitted = ($event.target as HTMLInputElement).value;
     // Your request...
     console.log(stringEmitted);
+  }
+
+  getFirstLetter(word:string){
+    return word.charAt(0);
+  }
+
+
+  // set selected image
+  setSelectedImage(image){
+    if (image === this.selectedSingleImage) {
+      return;
+    }
+    return this.selectedSingleImage = image;
+  }
+
+  
+
+  triggerView(product:number){
+
+    let search = _.findLast(this.products, ['id',product]);
+
+    if (search) {
+      this.singleProduct = search;
+      this.selectedSingleImage = search.images[0];
+    }
+
+    $(document).find('#productPreviewModal').modal('show');
+  }
+
+
+  closeModal(){
+    $(document).find('#productPreviewModal').modal('hide');
   }
 
 }
