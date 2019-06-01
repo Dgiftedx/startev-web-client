@@ -85,7 +85,7 @@ export class StoreManagerProductsComponent implements OnInit {
 		this.ventureSubscription = this.storeService.storeManagerGetVentures(this.currentUser.id)
 		.subscribe(
 			data => {this.ventures = data;}
-		)
+			)
 
 		this.productsSubscription = this.storeService.storeManagerGetProducts(this.currentUser.id)
 		.subscribe(data => { this.products = data; this.temp = [...this.products];});
@@ -99,10 +99,10 @@ export class StoreManagerProductsComponent implements OnInit {
 		this.createForm();
 	}
 
-	 onSelect({ selected }) {
-	    this.selectedProducts.splice(0, this.selectedProducts.length);
-	    this.selectedProducts.push(...selected);
-	  }
+	onSelect({ selected }) {
+		this.selectedProducts.splice(0, this.selectedProducts.length);
+		this.selectedProducts.push(...selected);
+	}
 
 	stableData(){
 		this.productsSubscription = this.storeService.storeManagerGetProducts(this.currentUser.id)

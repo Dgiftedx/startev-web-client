@@ -20,7 +20,17 @@ export class StoreManagerOrdersComponent implements OnInit {
 	currentUser: User;
 
 	public orders:any = [];
+	public columns:any[] = [
+	{name: 'Name', prop: 'name'},
+	{name : 'Order ID', prop: 'order_id'},
+	{name: 'Image', },
+	{name: 'Product Name', prop:'product_name'},
+	{name: 'Amount', prop:'amount'},
+	{name: 'Quantity', prop:'quantity'},
+	{name: 'Date', prop:'date'},
+	{name: 'Status', prop:'status'}];
 
+	public selectedOrders:any[] = [];
 	private ordersSubscription:Subscription;
 
 	constructor(
@@ -48,6 +58,11 @@ export class StoreManagerOrdersComponent implements OnInit {
 	}
 
 
+	onSelect({ selected }) {
+		this.selectedOrders.splice(0, this.selectedOrders.length);
+		this.selectedOrders.push(...selected);
+	}
+
 	
 	//====== Getter method for Current User Profile =======//
 
@@ -58,7 +73,8 @@ export class StoreManagerOrdersComponent implements OnInit {
 	count(items:any)
 	{
 		return _.size(items);
-	}nit() {
 	}
+
+
 
 }
