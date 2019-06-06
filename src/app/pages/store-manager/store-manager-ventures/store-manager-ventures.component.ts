@@ -83,7 +83,7 @@ export class StoreManagerVenturesComponent implements OnInit {
 
 	handleDetachResponse(data:any){
 		if (data.success) {
-			this.alert.snotSuccess(data.message);
+			this.alert.snotSimpleSuccess(data.message);
 		}else{
 			this.alert.infoMsg(data.message, "Request Failed");
 		}
@@ -183,7 +183,7 @@ export class StoreManagerVenturesComponent implements OnInit {
 		if (!data.success) {
 			this.alert.errorMsg(data.message, "Error has ocurred");
 		}else{
-			this.alert.snotSuccess(data.message);
+			this.alert.snotSimpleSuccess(data.message);
 		}
 
 		this.updateResource();

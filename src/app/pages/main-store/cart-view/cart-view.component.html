@@ -1,0 +1,177 @@
+<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+  <div class="container">
+    <div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
+
+    	<div class="col-md-12">
+    		<div class="card feeds-container mt-5" *ngIf="showCart">
+    			<div class="header">
+    				<h2><strong>Cart</strong> Summary</h2>
+    			</div>
+    			<div class="body">
+                        <div class="table-responsive">
+                            <table class="table m-b-0 cart-table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th data-breakpoints="xs">Amount</th>
+                                        <th data-breakpoints="sm xs md">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of cart">
+                                        <td><img [src]="item.product.images[0]" width="40" alt="Product img"></td>
+                                        <td><strong>{{ item.product.product_name }}</strong></td>
+                                       <td>
+                                            <div class="quantity-grp">
+                                                <div class="input-group">                                    
+                                                    <span class="input-group-addon">
+                                                        <a (click)="increase(item)" [routerLink]=""  class="spin-up"><i class="zmdi zmdi-plus"></i></a>
+                                                    </span>
+
+                                                    <input type="text" [readonly]="true" class="form-control text-center" [(ngModel)]="item.quantity">
+
+                                                    <span class="input-group-addon">
+                                                        <a [routerLink]="" (click)="decrease(item)" class="spin-down"><i class="zmdi zmdi-minus"></i></a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>NGN {{ item.amount | number:0 }}</td>
+                                        <td>
+                                            <button 
+                                            (click)="removeFromCart(item)"
+                                            type="button" 
+                                            class="btn btn-sm btn-white btn-round waves-effect waves-float waves-red"><i class="zmdi zmdi-delete"></i></button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- if cart is empty -->
+                                    <tr *ngIf="count(cart) === 0">
+                                        <td colspan="5" class="text-center"><strong>No Items in Your Cart</strong></td>
+                                    </tr>
+                                    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">Subtotal</th>
+                                        <th colspan="2">NGN {{ calculateTotal() | number:0 }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+    		</div>
+
+
+    		<div class="card feeds-container" *ngIf="showCart && count(cart) > 0">
+    			<div class="header">
+    				<h2><strong>Delivery </strong> Details</h2>
+    				<div class="body">
+    					<div class="form-group">
+    						<label>Delivery Address <span class="text-danger">(important! if not filled your residential address will be used instead)</span></label>
+    						<textarea rows="3" class="form-control" [(ngModel)]="deliveryAddress" placeholder="enter delivery full address"></textarea>
+    					</div>
+
+    					<div class="form-group">
+    						<button
+    						angular4-paystack
+    						[key]="transactionKey"
+    						[email]="currentUser.email"
+    						[amount]="total+'00'"
+    						[ref]="transactionRef.value"
+    						(close)="transactionCancelled()"
+    						(callback)="transactionSuccessful($event)"
+    						type="button"
+    						class="btn btn-round btn-primary waves-effect">Pay Now</button>
+
+    						<!-- <button
+    						(click)="transactionSuccessful()"
+    						type="button"
+    						class="btn btn-round btn-primary waves-effect">Pay Now</button> -->
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+
+    		<div id="print-invoice" class="card feeds-container" *ngIf="showMsgBox">
+    			<div class="header">
+    				<h2><strong>Order </strong> Invoice</h2>
+    			</div>
+    			<div class="body" *ngIf="invoice">
+                    <div class="row clearfix">
+                        <div class="col-md-6 col-sm-6">
+                            <address>
+                                <strong>Startev Inc.</strong><br>
+                                15B, Alhaji Hussen,<br>
+                                Lekki-Phase 1, NG 23407<br>
+                                <abbr title="Phone">P:</abbr> (123) 456-34636
+                            </address>
+                        </div>
+                        <div class="col-md-6 col-sm-6 text-right">
+                            <p class="m-b-0"><strong>Order Date: </strong> {{ invoice.order_date | date:'mediumDate' }}</p>
+                            <p class="m-b-0"><strong>Order Status: </strong> <span class="badge badge-warning m-b-0">{{ invoice.order_status }}</span></p>
+                            <p><strong>Order ID: </strong> #{{ invoice.order_id }}</p>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>                                                        
+                                            <th>Item</th>
+                                            <th style="width: 50px;">Description</th>
+                                            <th>Quantity</th>
+                                            <th class="hidden-sm-down">Unit Cost</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of invoice.items; let index = index;">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ item.product_name }}</td>
+                                            <td>{{ item.description | excerpt: 80 }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.unit_cost }}</td>
+                                            <td>{{ item.total }}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row clearfix">
+                        <div class="col-md-6">
+                            <h5>Note</h5>
+                            <p [innerHtml]="invoice.remark"></p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="m-b-0"><b>Sub-total:</b> {{ invoice.sub_total }}</p>
+                            <p class="m-b-0">Discout: 0%</p>
+                            <p class="m-b-0">VAT: 0%</p>                                        
+                            <h3 class="m-b-0 m-t-10">NGN {{ invoice.total | number:0 }}</h3>
+                        </div>                                    
+                        <div class="hidden-print col-md-12 text-right">
+                            <hr>
+                            <button
+                            printTitle="Order Invoice: {{ invoice.order_id }}"
+                            [useExistingCss]="true"
+                            ngxPrint 
+                            printSectionId="print-invoice" 
+                            class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                            <a [routerLink]="['/']" class="btn btn-secondary btn-round">Goto Home</a>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+    	</div>
+    </div>
+
+ </div>
+
+</section>

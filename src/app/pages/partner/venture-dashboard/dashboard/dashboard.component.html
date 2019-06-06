@@ -49,17 +49,15 @@
                             <th style="width:60px;">#</th>
                             <th>Name</th>
                             <th>Item</th>
-                            <th>Address</th>
                             <th>Quantity</th>                                    
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody *ngIf="count(dashboardData.recent_orders) > 0">
-                        <tr *ngFor="let order of dashboardData.recent_orders">
-                            <td><img src="http://via.placeholder.com/60x50" alt="Product img"></td>
-                            <td>{{ order.buyer.name }}</td>
-                            <td>{{ order.product.product_name }}</td>
-                            <td>{{ order.buyer.address }}</td>
+                    <tbody *ngIf="count(recentOrders) > 0">
+                        <tr *ngFor="let order of recentOrders">
+                            <td><img [src]="order.image" alt="Product img" width="45"></td>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.product_name }}</td>
                             <td>{{ order.quantity }}</td>
                             <td><span class="badge badge-success">{{ order.status }}</span></td>
                         </tr>

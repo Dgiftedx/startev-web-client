@@ -5,6 +5,18 @@
                 <div class="card feeds-container fadeIn">
                     <div class="body">
                         <div class="row">
+                            <div class="col-md-12">
+                                <span class="pr-2 text-warning rigid">Shopping cart</span>
+                                <button class="cart-box btn btn-icon btn-white btn-round btn-icon-mini">
+                                    <span class="">
+                                        <fa-icon [icon]="['fas','shopping-cart']" size="lg" [ngStyle]="{'color':'#e9c656'}">
+                                        
+                                        </fa-icon>
+                                        <sup class="cart-count">{{ count(cart) }}</sup>
+                                        
+                                    </span>
+                                </button>
+                            </div>
                             <div class="preview col-lg-4 col-md-12">
                                 <div class="preview-pic tab-content">
                                     <div 
@@ -53,7 +65,10 @@
                                 </h5>
                                 <hr>
                                 <div class="action">
-                                    <button class="btn btn-primary btn-round waves-effect" type="button">add to cart</button>
+                                    <button 
+                                    (click)="addToCart(singleProduct.sku, singleProduct.id)"
+                                    class="btn btn-primary btn-round waves-effect" 
+                                    type="button">add to cart</button>
                                     <button
                                     (click)="goBack()" 
                                     class="btn bg-purple color-white btn-round waves-effect" type="button">Back</button>

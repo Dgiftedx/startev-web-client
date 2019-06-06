@@ -3,7 +3,7 @@
     <div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 
         <div class="col-md-3 sticky" *ngIf="store">
-            <div class="card feeds-container fadeIn min-height-400">
+            <div class="card feeds-container fadeIn">
                 <div class="body">
                      <div class="text-center">
                         <img [src]="store.store_logo" height="80" class="img-responsive" />
@@ -12,21 +12,58 @@
 
                     <div class="border"></div>
 
-                    <div class="">
-                        
+                    <div class="mt-3">
+                        <!-- <p class="pl-2 text-danger">Filter by Price</p> -->
                     </div>
+
+                     <div class="mt-3">
+                        <p class="pl-2 text-danger">Select Filter</p>
+
+                        <div class="form-group">
+                            <div class="radio m-r-20">
+                                <input type="radio" 
+                                [(ngModel)]="selectedSortFilter" 
+                                name="sort" id="newest" class="with-gap" 
+                                [value]="productSortFilter[0].value">
+                                <label for="newest">{{ productSortFilter[0].name }}</label>
+                            </div>                                
+                            <div class="radio">
+                                <input type="radio" 
+                                [(ngModel)]="selectedSortFilter"  
+                                name="sort" id="oldest" class="with-gap" 
+                                [value]="productSortFilter[1].value">
+                                <label for="oldest">{{ productSortFilter[1].name }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" (click)="applyFilter()" class="btn btn-block btn-danger waves-effect">Apply Filter</button>
 
                 </div>
             </div>
         </div>
 
         <div class="col-md-9">
-            <div class="row clearfix">
+            <div class="row clearfix m-b-20">
                  <div class="col-md-6 offset-3 m-b-20">
                      <div class="form-group text-center slideDown">
                       <label for="search">Search for Products</label>
                       <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
                   </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="pr-2 text-warning rigid">Shopping cart</span>
+                    <button type="button" (click)="triggerCartView()" 
+                    class="cart-box btn btn-icon btn-white btn-round btn-icon-mini">
+                        <span class="">
+                            <fa-icon [icon]="['fas','shopping-cart']" size="lg" [ngStyle]="{'color':'#e9c656'}">
+                            
+                            </fa-icon>
+                            <sup class="cart-count">{{ count(cart) }}</sup>
+                            
+                        </span>
+                    </button>
+                </div>
             </div>
             <div class="row clearfix" *ngIf="products">
                 <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let product of products">
@@ -40,11 +77,17 @@
                                     (click)="triggerView(product.id)"
                                      class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-eye"></i></button>
 
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                    <button 
+                                    type="button"
+                                    (click)="addToCart(product.sku, product.id)"
+                                    class="btn btn-primary btn-sm waves-effect">
+                                    <i class="zmdi zmdi-shopping-cart"></i></button>
                                 </div>
                             </div>
                             <div class="product_details">
-                                <h5><a href="ec-product-detail.html">{{ product.product_name |excerpt : 20 }}</a></h5>
+                                <h5>
+                                    <a 
+                                    [routerLink]="['/product-view',product.id]">{{ product.product_name |excerpt : 20 }}</a></h5>
                                 <ul class="product_price list-unstyled">
                                     <li class="old_price">NGN 16.00</li>
                                     <li class="new_price">NGN {{ product.product_price | number:0 }}</li>
@@ -95,73 +138,11 @@
                         </div>
                     </div>                
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                <img src="../assets/images/ecommerce/10.png" alt="Product" class="img-fluid">
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_details">
-                                <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="old_price">$16.00</li>
-                                    <li class="new_price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                <img src="../assets/images/ecommerce/11.png" alt="Product" class="img-fluid">
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_details">
-                                <h5><a href="ec-product-detail.html">Wood Simple Chair V2</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="old_price">$16.00</li>
-                                    <li class="new_price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                <img src="../assets/images/ecommerce/12.png" alt="Product" class="img-fluid">
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_details">
-                                <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="old_price">$16.00</li>
-                                    <li class="new_price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-
 
             </div>
         </div>
 
     </div>
-</div>
 </div>
 </section>
 <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #productPreviewModal id="productPreviewModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
@@ -226,6 +207,45 @@
                         (click)="closeModal()">Close</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #cartViewModal id="cartViewModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content m-4">
+            
+            <div class="p-4">
+                <table class="table" *ngIf="count(cart) > 0">
+                    <tr *ngFor="let item of cart">
+                        <td>
+                            <img [src]="item.product.images[0]" width="40" />
+                        </td>
+                        <td>{{ item.product.product_name }}</td>
+                        <td>NGN {{ item.product.product_price | number:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Subtotal</strong>
+                        </td>
+                        <td colspan="2">NGN {{ calculateTotal()|number:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button *ngIf="count(cart) > 0" (click)="goToCart()" type="button" class="btn btn-warning btn-simple waves-effect">Modify Cart & Checkout</button>
+                            <button type="button" (click)="closeCartModal()" class="btn btn-secondary btn-simple waves-effect">Close</button>
+                        </td>
+                    </tr>
+                </table>
+
+                <table *ngIf="count(cart) === 0">
+                    <tr>
+                        <td colspan="3" class="text-center"><strong>Your shopping cart is empty</strong></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

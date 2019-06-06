@@ -70,6 +70,10 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/track-order/${order_id}/${user_id}`);
 	}
 
+	public getSingleOrder(identifier:number){
+		return this.http.get(`${this.endpoint}/store/get-single-order/${identifier}`);
+	}
+
 
 	public storeManagerDashboardData(user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${user_id}`);
@@ -135,5 +139,25 @@ export class StoreService {
 
 	public mainStoreSingleProduct(product_id:number){
 		return this.http.get(`${this.endpoint}/store/main-store-get-single-product/${product_id}`);
+	}
+
+	public mainStoreByFilter(identifier:any, query:any){
+		return this.http.get(`${this.endpoint}/store/main-store-get-products-with-query/${identifier}?${query}`);
+	}
+
+	public mainStoreGetCartItems(){
+		return this.http.get(`${this.endpoint}/store/main-store-get-cart`);
+	}
+
+	public mainStoreAddToCart(data:any){
+		return this.http.post(`${this.endpoint}/store/main-store-add-to-cart`, data);
+	}
+
+	public mainStoreRemoveFromCart(item_id:number){
+		return this.http.get(`${this.endpoint}/store/main-store-remove-from-cart/${item_id}`);
+	}
+
+	public mainStorePlaceOrder(formData:any){
+		return this.http.post(`${this.endpoint}/store/main-store-place-order`, formData);
 	}
 }

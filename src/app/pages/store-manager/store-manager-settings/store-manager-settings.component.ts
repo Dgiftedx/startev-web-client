@@ -147,7 +147,7 @@ export class StoreManagerSettingsComponent implements OnInit {
 		.subscribe( data => {
 			this.sendingSettings = false;
 			this.closeModificationBox();
-			this.alert.snotSuccess("Settings Updated successfully");
+			this.alert.snotSimpleSuccess("Settings Updated successfully");
 		});
 	}
 

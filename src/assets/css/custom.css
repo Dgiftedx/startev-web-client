@@ -1,4 +1,4 @@
-html, body { height: 100%; }
+html, body { height: 100%; font-style: 12px; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .zero-margin{
 	margin-top: 0 !important;
@@ -616,3 +616,12 @@ background-position: center center;*/
   justify-content: center
 }
 
+.cart-box{
+	width:140px !important;
+	height: 50px !important;
+}
+
+.cart-count {
+	color: red;
+	padding: 3px;
+}

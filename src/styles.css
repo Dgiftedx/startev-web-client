@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "assets/lib/bootstrap/css/bootstrap.min.css";
+@import "assets/chat/css/bootstrap.min.css";
 @import "assets/lib/bootstrap-select/css/bootstrap-select.css";
 @import "assets/css/main.css";
 @import "assets/css/mentors.css";
@@ -8,6 +8,9 @@
 @import "assets/css/color_skins.css";
 @import "assets/lib/dropzone/dropzone.css";
 @import "assets/lib/cropper.css";
+@import "assets/chat/emoji.css";
+@import "assets/chat/css/perfect-scrollbar.min.css";
+@import "assets/chat/css/themify-icons.css";
 
 /*------------- Plugins Css ----------------------*/
 @import "~ngx-toastr/toastr.css";

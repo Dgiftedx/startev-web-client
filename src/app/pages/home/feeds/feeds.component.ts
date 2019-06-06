@@ -379,7 +379,7 @@ export class FeedsComponent implements OnInit {
     .post(`${this.authenticationService.endpoint}/feed-post-article`, formData)
     .toPromise()
     .then((data: { message: string; status: boolean }) => {
-      this.alert.successMsg(data.message,"Success");
+      this.alert.snotSimpleSuccess(data.message);
       $(document).find('.modal').each(function() {
         $(this).modal('hide');
       })
@@ -397,7 +397,7 @@ export class FeedsComponent implements OnInit {
 
   handleFollowResponse(data){
     this.people = data.people;
-    this.alert.successMsg("You started following this user","Now Following");
+    this.alert.snotSimpleSuccess("You started following this user");
   }
 
 

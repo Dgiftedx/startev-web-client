@@ -235,7 +235,7 @@ export class StoreManagerProductsComponent implements OnInit {
 		this.storeService.storeManagerAddProduct(formData,this.currentUser.id, this.formUrl)
 		.subscribe(data => {
 			this.cleanForm();
-			this.alert.snotSuccess("Success. You can now assign to your ventures if you have one.");
+			this.alert.snotSimpleSuccess("Success. You can now assign to your ventures if you have one.");
 		},
 
 		error => {this.submitting = false;});
@@ -310,7 +310,7 @@ export class StoreManagerProductsComponent implements OnInit {
 	deleteProduct(value) {
 		this.storeService.storeManagerDeleteSingleProduct(value)
 		.subscribe(data => {
-			this.alert.snotSuccess("Product Removed successfully");
+			this.alert.snotSimpleSuccess("Product Removed successfully");
 			this.stableData();
 		});
 	}
@@ -384,7 +384,7 @@ export class StoreManagerProductsComponent implements OnInit {
 		.subscribe( data => {
 			this.sendingAssignment = false;
 
-			this.alert.snotSuccess("Products have been assigned to venture.");
+			this.alert.snotSimpleSuccess("Products have been assigned to venture.");
 			this.closeVentureSelect();
 			this.selectedProducts = [];
 			this.stableData();

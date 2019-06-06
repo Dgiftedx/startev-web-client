@@ -19,9 +19,10 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 export class ProductViewComponent implements OnInit {
 	currentUser : User;
 
-
+	public cart:any = [];
 	public singleProduct:any = {};
 	public selectedSingleImage:any = '';
+	private cartSubscription: Subscription;
 	private productSubscription: Subscription;
 
 	constructor(
@@ -41,6 +42,12 @@ export class ProductViewComponent implements OnInit {
 		this.router.routeReuseStrategy.shouldReuseRoute = function () {
 			return false;
 		};
+
+		//user cart items
+	    this.cartSubscription = this.storeService.mainStoreGetCartItems()
+	    .subscribe(items => {
+	      this.cart = items;
+	    });
 
 		//subscribe to product
 		this.productSubscription = this.storeService.mainStoreSingleProduct(this.route.snapshot.params.id)
@@ -79,6 +86,38 @@ export class ProductViewComponent implements OnInit {
 	getFirstLetter(word:string){
 		return word.charAt(0);
 	}
+
+
+	 //================== Add to cart ==============================//
+
+
+  checkForError(data:any){
+    if (data.message) {
+      this.alert.infoMsg(data.message,"Info");
+      return true;
+    }
+  }
+
+  addToCart(productSku: any, productId:number) {
+
+      let toCart = {
+        product_id: productId, 
+        product_sku: productSku,
+        store_identifier: this.route.snapshot.params.identifier,
+        user_id: this.currentUser.id
+      };
+
+      this.storeService.mainStoreAddToCart(toCart)
+      .subscribe( items => {
+
+        //first check for notice
+        if (!this.checkForError(items)) {
+          this.cart = items;
+          this.alert.snotSimpleSuccess("Added to cart");
+        }
+        
+      });
+  }
 
 
 

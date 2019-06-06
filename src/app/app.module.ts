@@ -1,4 +1,5 @@
 import { NgChatModule } from 'ng-chat';
+import { NgxPrintModule} from 'ngx-print';
 import { BaseService } from './_services';
 import { ToastrModule } from 'ngx-toastr';
 import { OrderModule } from 'ngx-order-pipe';
@@ -13,6 +14,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { VgControlsModule} from 'videogular2/controls';
 import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { OnlineStatusModule } from 'ngx-online-status';
+import { Angular4PaystackModule } from 'angular4-paystack';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { VgBufferingModule} from 'videogular2/buffering';
@@ -101,6 +104,7 @@ import { StoreManagerTrackerComponent } from './pages/store-manager/store-manage
 import { NoAccessComponent } from './pages/no-access/no-access.component';
 import { MainStoreComponent } from './pages/main-store/main-store.component';
 import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
+import { CartViewComponent } from './pages/main-store/cart-view/cart-view.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -156,6 +160,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     NoAccessComponent,
     MainStoreComponent,
     ProductViewComponent,
+    CartViewComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -204,6 +209,9 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      NgxUploadModule.forRoot(ngxDropTargetOptions),
      FilePickerModule,
      SweetAlert2Module.forRoot(),
+     Angular4PaystackModule,
+     NgxPrintModule,
+     OnlineStatusModule
   ],
 
   exports : [

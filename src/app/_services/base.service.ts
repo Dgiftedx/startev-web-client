@@ -221,4 +221,14 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/toggle-connection/${userId}/${target_id}`);
     }
 
+
+
+    //================================= Chat Service ====================================//
+    public getContacts(user_id:number): Observable<any>{
+        return this.http.get<any>(`${this.endpoint}/chat-get-contacts/${user_id}`);
+    }
+
+    public getMessages(user_id:number): Observable<any>{
+        return this.http.get<any>(`${this.endpoint}/chat-get-messages/${user_id}`);
+    }
 }

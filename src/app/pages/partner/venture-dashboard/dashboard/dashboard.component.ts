@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
 
 	currentUser: User;
 
+	public recentOrders:Array<any> = [];
 	dashboardData:any = [];
 	private dashboardSubscription : Subscription;
 
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
 		};
 
 		this.dashboardSubscription = this.storeService.dashboardData(this.currentUser.id)
-		.subscribe(data => {this.dashboardData = data});
+		.subscribe(data => {this.dashboardData = data; this.handleRecentOrders(data);});
 	}
 
 	ngOnInit() {
@@ -46,6 +47,17 @@ export class DashboardComponent implements OnInit {
 		//
 	}
 
+
+
+  
+	handleRecentOrders(data:any) {
+		let orders = data.recent_orders;
+		for ( let identifier in orders ) {
+			for (let index in orders[identifier]) {
+				this.recentOrders.push(orders[identifier][index]);
+			}
+		}
+	}
 
 	
   //====== Getter method for Current User Profile =======//

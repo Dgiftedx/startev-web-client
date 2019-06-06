@@ -29,6 +29,7 @@ import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 import { PublicationResolve } from './_resolvers/publications.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { StoreManagerComponent } from './pages/store-manager/store-manager.component';
+import { CartViewComponent } from './pages/main-store/cart-view/cart-view.component';
 import { DashboardComponent } from './pages/partner/venture-dashboard/dashboard/dashboard.component';
 import { VenturesComponent } from './pages/partner/venture-dashboard/ventures/ventures.component';
 import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders.component';
@@ -163,6 +164,12 @@ const routes: Routes = [
 	component: MainStoreComponent,
 	resolve: {store : MainStoreResolve},
 	// data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'store/cart-view',
+	component: CartViewComponent,
 	canActivate : [AuthGuard]
 },
 
