@@ -30,7 +30,7 @@
 					</div>
 					<div class="border"></div>
 
-					<div *ngIf="!isVentureOwner(profile,venture)">
+					<div *ngIf="!isVentureOwner(profile,partner.venture)">
 						<button type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-5 btn btn-block btn-info waves-effect">Apply To Partner</button>
 
 						<div *ngIf="userIsPartner && isAccepted(userIsPartner, partner)" class="m-3 alert alert-success"> You already partnered with {{ partner.venture.venture_name }}</div>

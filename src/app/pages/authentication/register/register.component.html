@@ -16,7 +16,7 @@
             <h5>Sign Up</h5>
           </div>
 
-          <form [formGroup]="registrationForm" [ngClass]="form" (ngSubmit)="onSubmit()">                            
+          <form [formGroup]="registrationForm" class="form" (ngSubmit)="onSubmit()">                            
             <div class="row">
               <div class="col-md-6">
                 <div class="input-group">
@@ -52,7 +52,7 @@
               <div class="col-md-12">
                <div class="form-group">
                 <label class="">who are you?</label>
-                <ng-select formControlName="role" id="register-select" [ngClass]="{'is-invalid': submitted && f.role.erorrs}">
+                <ng-select formControlName="role" id="register-select" [ngClass]="{'is-invalid': submitted && f.role.errors}">
                   <ng-option *ngFor="let role of roles" [value]="role.alias">{{role.name}}</ng-option>
               </ng-select>
               

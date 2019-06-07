@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 export class IndustryListComponent implements OnInit {
 
   currentUser : User;
-  industries = [];
+  public industries:any = [];
   public people: Array<any> = [];
   private peopleSubscription : Subscription;
   
@@ -33,7 +33,7 @@ export class IndustryListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.industries = this.route.snapshot.data.industries;
+    this.industries = this.route.snapshot.data.industries.industries;
   }
 
    get profile(){

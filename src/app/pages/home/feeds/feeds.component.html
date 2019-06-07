@@ -10,7 +10,7 @@
           <div class="member-img">
 
             <a href="#" class="">
-              <img src="{{ checkValue(currentUser.avatar,'avatar') }}" class="rounded-circle" alt="profile-image">
+              <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" class="rounded-circle" alt="profile-image">
             </a>
           </div>
           <div class="body">
@@ -483,7 +483,7 @@
       </section>
 
       <!-- Modal Section -->
-      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
@@ -508,7 +508,7 @@
     </div>
 
 
-      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #imagePostModal id="imagePostModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #imagePostModal id="imagePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 

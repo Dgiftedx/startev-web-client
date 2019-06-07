@@ -14,7 +14,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { VgControlsModule} from 'videogular2/controls';
 import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { OnlineStatusModule } from 'ngx-online-status';
 import { Angular4PaystackModule } from 'angular4-paystack';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
@@ -210,8 +209,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      FilePickerModule,
      SweetAlert2Module.forRoot(),
      Angular4PaystackModule,
-     NgxPrintModule,
-     OnlineStatusModule
+     NgxPrintModule
   ],
 
   exports : [

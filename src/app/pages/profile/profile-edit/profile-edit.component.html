@@ -57,9 +57,9 @@
                                     formControlName="name" 
                                     class="form-control" 
                                     placeholder="Full Name" 
-                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                                    [ngClass]="{ 'is-invalid': userFormSubmitted && f.name.errors }"
                                     >
-                                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="userFormSubmitted && f.name.errors" class="invalid-feedback">
                                       <div *ngIf="f.name.errors.required">Full Name can't be empty</div>
                                   </div>
                                 </div>
@@ -71,8 +71,8 @@
                                     type="email" 
                                     formControlName="email" 
                                     class="form-control"
-                                    placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-                                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    placeholder="E-mail" [ngClass]="{ 'is-invalid': userFormSubmitted && f.email.errors }">
+                                    <div *ngIf="userFormSubmitted && f.email.errors" class="invalid-feedback">
                                       <div *ngIf="f.email.errors.required">Full Name can't be empty</div>
                                   </div>
                                 </div>
@@ -84,8 +84,8 @@
                                     type="text" 
                                     formControlName="phone" 
                                     class="form-control" 
-                                    placeholder="Phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
-                                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                    placeholder="Phone" [ngClass]="{ 'is-invalid': userFormSubmitted && f.phone.errors }">
+                                    <div *ngIf="userFormSubmitted && f.phone.errors" class="invalid-feedback">
                                       <div *ngIf="f.phone.errors.required">Full Name can't be empty</div>
                                   </div>
                                 </div>
@@ -490,7 +490,7 @@
 	</div>
 </section>
 <!-- Page Modals -->
-  <div class="modal fade" #imageCropperModal id="imageCropperModal" [attr.tabindex]="-1" [attr.role]="dialog" [attr.aria-hidden]="true" style="display: none;">
+  <div class="modal fade" #imageCropperModal id="imageCropperModal" tabindex="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
   <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
           <div class="modal-body"> 
