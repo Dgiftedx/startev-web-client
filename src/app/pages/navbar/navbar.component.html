@@ -60,13 +60,14 @@
                             <span class="inline-icon">
                                 <fa-icon [icon]="['fas','bell']" size="lg"></fa-icon>
                             </span>
-                            <span class="label-count">5</span></a>
+                            <!-- <span class="label-count">5</span> -->
+                        </a>
                         <ul class="dropdown-menu">
                             <li class="header">New Message</li>
                             <li class="body">
                                 <ul class="menu list-unstyled">
                                     <li>
-                                        <a href="javascript:void(0);">
+                                       <!--  <a href="javascript:void(0);">
                                             <div class="media">
                                                 <img class="media-object" src="assets/images/xs/avatar5.jpg" alt="">
                                                 <div class="media-body">
@@ -74,7 +75,7 @@
                                                     <span class="message">Meeting with Shawn at Stark Tower by 8 o'clock.</span>                                        
                                                 </div>
                                             </div>
-                                        </a>
+                                        </a> -->
                                     </li>
                                   
                                 </ul>
@@ -100,7 +101,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" class="js-right-sidebar">
+                        <a href="javascript:void(0);" (click)="toggleNav()">
                             <span class="inline-icon">
                                 <fa-icon [icon]="['fas','adjust']" size="lg" [spin]="true"></fa-icon>
                             </span>
@@ -181,10 +182,10 @@
 
 <!-- Right Bar Section -->
 <!-- Right Sidebar -->
-<aside id="rightsidebar" class="right-sidebar">
+<aside id="rightsidebar" class="right-sidebar" [ngClass]="{'open': show}">
     <div class="slim_scroll">
         <div class="text-center">
-            <button (click)="toggleMenu()" class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
+            <button (click)="toggleNav()" class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
                 <fa-icon [icon]="['fas','window-close']" size='lg'></fa-icon>
             </button>
         </div>
@@ -195,13 +196,15 @@
                 <div class="media-body pt-1">
                     <h4 class="media-heading">{{ currentUser.name }}</h4>
                     <span *ngIf="profile.role === 'student'" 
-                    class="text-muted"><strong>{{ profile.role }}</strong></span><br/>
+                    class="text-muted"><strong>{{ profile.role }}</strong></span>
+                    <span *ngIf="profile.role === 'business'" 
+                    class="text-muted"><strong>{{ profile.roleData.name }}</strong></span>
 
                      <span *ngIf="profile.role === 'mentor'" 
-                     class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></span><br/>
+                     class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></span>
 
-                    <span *ngIf="profile.role === 'student'" 
-                    class="text-muted"><strong>Trainers 18/25</strong></span>
+                   <!--  <span *ngIf="profile.role === 'student'" 
+                    class="text-muted"><strong>Trainers 18/25</strong></span> -->
                 </div>
             </div>
         </div>

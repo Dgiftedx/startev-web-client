@@ -100,11 +100,11 @@
                                             <button type="button" class="btn btn-link loop"><i class="ti-search"></i></button>
                                         </form>
 
-                                        <button 
+                                        <!-- <button 
                                         class="btn btn-white btn-icon btn-icon-mini waves-effect btn-round create" 
                                         data-toggle="modal" 
                                         data-target="#startnewchat"><i class="ti-pencil"></i>
-                                        </button>
+                                        </button> -->
 
                                     </div>
 
@@ -127,11 +127,11 @@
                                                     class="dropdown-item">
                                                     <i class="ti-comment-alt"></i>New Chat +</a>
 
-                                                    <a 
+                                                   <!--  <a 
                                                     (click)="newGroup()"
                                                     [routerLink]="" 
                                                     class="dropdown-item">
-                                                        <i class="ti-user"></i>New Group +</a>
+                                                        <i class="ti-user"></i>New Group +</a> -->
                                                     <hr>
                                                    
                                                 </div>
@@ -139,7 +139,7 @@
                                           </div>
                                         <div class="list-group" id="chats" role="tablist" *ngIf="count(messages$) > 0">
 
-                                            <a *ngFor="let user of messages$ | async" 
+                                            <a *ngFor="let user of messages$" 
                                             [routerLink]=""
                                             (click)="openChatWindow(user)"
                                             [class.read]="user.messages[0].status === read"
@@ -185,7 +185,7 @@
                                             
                                         </div>
 
-                                        <div class="list-group" id="chats" role="tablist" *ngIf="!(messages$ | async)">
+                                        <div class="list-group" id="chats" role="tablist" *ngIf="count(messages$) === 0">
                                              <a [routerLink]=""
                                              (click)="newChat('discussion')"
                                             class="filterDiscussions all single" data-toggle="list" role="tab">
@@ -458,6 +458,7 @@
                                     <div class="bottom">
                                         <div class="text-area">
                                             <textarea
+                                            (keyup.enter)="sendMessage(activeChat)"
                                             (focus)="typingEvent($event, activeChat.id)"
                                             (blur)="stopTypingEvent($event, activeChat.id)"
                                             class="messenger-form-control" 
@@ -465,7 +466,7 @@
                                             [(ngModel)]="chatMessage"
                                             rows="1"></textarea>
 
-                                            <div class="add-smiles">
+                                           <!--  <div class="add-smiles">
                                                 <span title="add icon" class="em em-blush"></span>
                                             </div>
                                             <div class="smiles-bunch">
@@ -489,7 +490,7 @@
                                                 <i class="em em-tada"></i>
                                                 <i class="em em-us"></i>
                                                 <i class="em em-rose"></i>
-                                            </div>
+                                            </div> -->
                                             <button type="button" 
                                             (click)="sendMessage(activeChat)"
                                             class="btn btn-white waves-effect send"><i class="ti-location-arrow"></i>

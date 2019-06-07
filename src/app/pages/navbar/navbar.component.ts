@@ -37,6 +37,12 @@ export class NavbarComponent implements OnInit {
   }
 
 
+
+  toggleNav() {
+    this.show = !this.show;
+  }
+
+
   handleIndustriesResponse(data: any){
     this.industries = data.industries;
     this.industries.forEach(item => {

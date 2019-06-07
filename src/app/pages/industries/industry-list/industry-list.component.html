@@ -23,35 +23,13 @@
 </div>
 </div>
 <div class="col-sm-12 col-md-12 col-lg-3 sticky">
-  <div class="card feeds-container fadeIn">
-    <div class="body zero-m">
-        <div class="bg_grey">
-            <p class="follow-suggestion-text">People you might like to follow_</p>
-        </div>
-      <ul class="list-group custom-list zero-m">
-        <li class="list-group-item" *ngFor="let person of people">
-          <img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
-          <div class="list-content">
-            <h6 class="list-title">{{ person.name | titlecase }}</h6>
-            <span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
-          </div>
-          <button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
-                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
-                 </button>
-        </li>
-      </ul>
-        <div class="bg_grey pb-0 mb-0">
-          <p class="follow-suggestion-text mb-0"><a href="#">we think you might be interested</a></p>
-      </div>
-      <div class="">
-          <img src="assets/images/adverts/2.png" class="pt-0 mt-0 img-thumbnail" />
-      </div>
-      <div class="bg_grey pb-0 mb-0">
-          <p class="follow-suggestion-text mb-0"><a href="#">Popular Business Partners</a></p>
+    <div class="row clearfix">
+      <div class="col-md-12">
+        <app-follow></app-follow>
       </div>
     </div>
+    
   </div>
-</div>
 </div>
 </div>
 </section>

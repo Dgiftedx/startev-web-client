@@ -1,39 +1,31 @@
-<div class="card feeds-container min-height-400">
-	<div class="body">
-		<ul class="list-group custom-list">
-			<li class="list-group-item">
-				<img src="assets/images/sm/avatar1.jpg" height="50" class="rounded-circle float-left" />
-				<div class="list-content">
-					<h6 class="list-title">John Gidado</h6>
-					<span class="list-position">Manager Sunflex</span>
-				</div>
-				<button class="btn btn-primary btn-sm btn-simple">Follow</button>
-			</li>
-			<li class="list-group-item">
-				<img src="assets/images/sm/avatar2.jpg" height="50" class="rounded-circle float-left" />
-				<div class="list-content">
-					<h6 class="list-title">Kelvin Black</h6>
-					<span class="list-position">CEO Grand More Inc.</span>
-				</div>
-				<button class="btn btn-primary btn-sm btn-simple">Follow</button>
-			</li>
-			<li class="list-group-item">
-				<img src="assets/images/sm/avatar3.jpg" height="50" class="rounded-circle float-left" />
-				<div class="list-content">
-					<h6 class="list-title">Malcon Malvin</h6>
-					<span class="list-position">Entrepreneur</span>
-				</div>
-				<button class="btn btn-primary btn-sm btn-simple">Follow</button>
-			</li>
+<div class="card feeds-container fadeIn" *ngIf="count(people) > 0">
+	<div class="body zero-m">
+        <div class="bg_grey">
+            <p class="follow-suggestion-text">People you might like to follow_</p>
+        </div>
+    	<ul class="list-group custom-list zero-m">
+    		<li class="list-group-item" *ngFor="let person of people">
+    			<img src="{{ checkValue(person.avatar,'avatar') }}" 
+    			height="50" class="rounded-circle float-left" />
+    			<div class="list-content">
+    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
+    				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
+    			</div>
+    			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
+                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
+                 </button>
+    		</li>
+    	</ul>
+    </div>
+</div>
 
-			<li class="list-group-item">
-				<img src="assets/images/sm/avatar4.jpg" height="50" class="rounded-circle float-left" />
-				<div class="list-content">
-					<h6 class="list-title">Bamidele Joshua</h6>
-					<span class="list-position">CEO Health Ko.</span>
-				</div>
-				<button class="btn btn-primary btn-sm btn-simple">Follow</button>
-			</li>
-		</ul>
-	</div>
+<div class="card feeds-container fadeIn" *ngIf="count(people) < 2">
+    <div class="body zero-m">
+        <div class="bg_grey">
+            <p class="follow-suggestion-text">Suggested ads</p>
+        </div>
+        <div class="zero-m">
+            <img src="assets/images/adverts/2.png" />
+        </div>
+    </div>
 </div>

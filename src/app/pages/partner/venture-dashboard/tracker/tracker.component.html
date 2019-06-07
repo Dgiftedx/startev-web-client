@@ -16,7 +16,7 @@
 			</div>
 		</div>
 
-		<div class="card feeds-container fadeIn" *ngIf="showNotice">
+		<div class="card feeds-container fadeIn" *ngIf="showNotice" id="print-order-tracking">
 			<div class="header">
 				<h2><strong>Order </strong> Details</h2>
 				<button (click)="closeNoticeBox()" class="float-right btn btn-icon btn-icon-mini btn-white btn-round waves-effect">
@@ -26,12 +26,65 @@
 			<div class="body mt-3">
 				<div class="alert alert-info" *ngIf="noticeMsg" [innerHtml]="noticeMsg"></div>
 
-				<table class="table" *ngIf="count(order) > 0">
-					<tr>
-						<td>Order Details Found</td>
-					</tr>
-				</table>
-			</div>
+				<div  *ngIf="count(order) > 0">
+
+				 <table  class="table" *ngFor="let item of order">
+                  <tr>
+                    <td>Transaction Refference: </td>
+                    <td>
+                      <strong class="text-success">{{ item.transaction_ref }}</strong>
+                    </td>
+                  </tr>
+
+                  <tr>
+                  	<td><strong>Order Store: </strong></td>
+                  	<td>{{ item.store.store_name }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Buyer Name: </strong></td>
+                    <td>{{ item.buyer.name }}</td>
+                  </tr>
+
+                  <tr>
+                    <td><strong>Delivery Address: </strong></td>
+                    <td>{{ item.delivery_address }}</td>
+                  </tr>
+
+                  <tr>
+                    <td><strong>Order Date: </strong></td>
+                    <td>{{ item.created_at | date: 'longDate' }}</td>
+                  </tr>
+
+                  <tr>
+                  	<td><strong>Product Ordered For: </strong></td>
+                  	<td>{{ item.product.product_name }}</td>
+                  </tr>
+
+                  <tr>
+                  	<td>
+                  		<strong>Total Amount Paid: </strong>
+                  	</td>
+                  	<td class="color-purple">
+                  		NGN {{ item.amount|number:0 }} (Unit price: NGN {{ item.product.product_price |number:0}} X Quantity {{ item.quantity }})
+                  	</td>
+                  </tr>
+
+                  <tr>
+                    <td><strong>Order Status: </strong></td>
+                    <td><button type="button" class="btn btn-simple btn-info btn-lg color-white waves-effect">{{ item.status }}</button></td>
+                  </tr>
+                </table>
+
+                <div class="text-center">
+                	 <button
+                        printTitle="Order Status"
+                        [useExistingCss]="true"
+                        ngxPrint 
+                        printSectionId="print-order-tracking" 
+                        class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                </div>
+            </div>
+		</div>
 			
 	</div>
 </div>

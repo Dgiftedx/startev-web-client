@@ -73,7 +73,12 @@
                 </table>
 
                 <div class="">
-                  <button type="button" class="btn btn-sm bg-purple color-white waves-effect">Forward Orders To Venture</button>
+                  <button 
+                  (click)="forwardOrders(singleOrder)"
+                  type="button"
+                  [disabled]="singleOrder.forwarded"
+                  [ladda]="sendingOrder"
+                  class="btn btn-sm btn-warning color-white waves-effect">Forward Orders To Venture</button>
                 </div>
                 </div>
             </div>

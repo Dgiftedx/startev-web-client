@@ -20,17 +20,12 @@ export class StoreManagerOrdersComponent implements OnInit {
 	currentUser: User;
 
 	public orders:any = [];
-	public columns:any[] = [
-	{name: 'Name', prop: 'name'},
-	{name : 'Order ID', prop: 'order_id'},
-	{name: 'Image', },
-	{name: 'Product Name', prop:'product_name'},
-	{name: 'Amount', prop:'amount'},
-	{name: 'Quantity', prop:'quantity'},
-	{name: 'Date', prop:'date'},
-	{name: 'Status', prop:'status'}];
+	public temp:any[] = [];
 
+	public singleOrder:any = {};
 	public selectedOrders:any[] = [];
+	public showModBox:boolean = false;
+	public showMainOrders:boolean = true;
 	private ordersSubscription:Subscription;
 
 	constructor(
@@ -47,14 +42,43 @@ export class StoreManagerOrdersComponent implements OnInit {
 		this.router.routeReuseStrategy.shouldReuseRoute = function () {
 			return false;
 		};
-		//Get orders
-		this.ordersSubscription = this.storeService.storeManagerGetOrders(this.currentUser.id)
-		.subscribe(data => this.orders = data);
+		
 	}
 
 	ngOnInit() {
 
-		//
+		//Get orders
+		this.ordersSubscription = this.storeService.storeManagerGetOrders(this.currentUser.id)
+		.subscribe(data => {
+			this.handleOrdersInit(data);
+		});
+	}
+
+
+
+	stableCall(){
+		//Get orders
+		this.ordersSubscription = this.storeService.storeManagerGetOrders(this.currentUser.id)
+		.subscribe(data => {
+			this.handleOrdersInit(data);
+		});
+	}
+
+
+	handleOrdersInit(data:any) {
+		this.orders = [];
+		
+		for ( let identifier in data ) {
+			this.orders.push({
+				name: data[identifier][0].name,
+				order_id: identifier,
+				items: this.count(data[identifier]),
+				date: data[identifier][0].date,
+				status: data[identifier][0].status
+			});
+		}
+
+		this.temp = [...this.orders];
 	}
 
 
@@ -62,7 +86,6 @@ export class StoreManagerOrdersComponent implements OnInit {
 		this.selectedOrders.splice(0, this.selectedOrders.length);
 		this.selectedOrders.push(...selected);
 	}
-
 	
 	//====== Getter method for Current User Profile =======//
 
@@ -73,6 +96,63 @@ export class StoreManagerOrdersComponent implements OnInit {
 	count(items:any)
 	{
 		return _.size(items);
+	}
+
+
+
+	//================ table filtering ===================//
+
+	updateFilter(event) {
+		const val = event.target.value.toLowerCase();
+
+		// filter our data
+		const temp = this.temp.filter(function(d) {
+			return d.order_id.toLowerCase().indexOf(val) !== -1 || !val;
+		});
+
+		// update the rows
+		this.orders = temp;
+		// Whenever the filter changes, always go back to the first page
+		// this.table.offset = 0;
+	}
+
+
+	// ==================== Edit Order ===============================//
+
+	editOrder(order_id: number) {
+
+		this.storeService.getSingleOrder(order_id)
+		.subscribe(data => {
+			this.singleOrder = data;
+
+			setTimeout(() => {
+				this.showMainOrders = false;
+				this.showModBox = true;
+			});
+		});
+	}
+
+
+
+	closeModBox(){
+		this.showModBox = false;
+		this.showMainOrders = true;
+	}
+
+
+
+	finallizeOrder(action:string, identifier:any) {
+
+		let data = {
+			action: action,
+			order_id: identifier
+		};
+
+		this.storeService.storeManagerOrderAction(data)
+		.subscribe( data => {
+			this.stableCall();
+			this.closeModBox();
+		})
 	}
 
 

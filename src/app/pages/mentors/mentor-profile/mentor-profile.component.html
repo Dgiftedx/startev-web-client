@@ -168,7 +168,7 @@
 			<div class="col-md-3 m-t-80 sticky">
 				<div class="card fadeIn feeds-container min-height-400">
 					<div class="body">
-						<p><strong>Similar Mentors </strong> <span>refresh </span> <span>view all</span></p>
+						<p><strong>Similar Mentors</strong></p>
 						<ul class="follow_us list-unstyled m-b-0">
 	                        <li class="online" *ngFor="let mentor of profile.mentors">
 	                            <a [routerLink]="['/mentor',mentor.slug]" *ngIf="mentor.id !== profile.user.id">

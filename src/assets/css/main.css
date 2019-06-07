@@ -5,6 +5,7 @@
     font-weight: 400;
     src: local("Material Icons"), local("MaterialIcons-Regular"), url(https://fonts.gstatic.com/s/materialicons/v19/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format("woff2")
 }
+
 .topSideNav{
     visibility: hidden;
 }
@@ -2534,8 +2535,9 @@ fieldset[disabled] .btn-success.active {
 }
 
 .btn-info {
-    background-color: #2CA8FF;
-    color: #fff
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
+    color: #fff;
+    border-radius: 0;
 }
 
 .btn-info:hover,
@@ -2614,7 +2616,7 @@ fieldset[disabled] .btn-info.active {
 }
 
 .btn-warning {
-    background-color: #FFB236;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #a1862f 100%) repeat scroll 0 0 !important;
     color: #fff
 }
 
@@ -2694,7 +2696,7 @@ fieldset[disabled] .btn-warning.active {
 }
 
 .btn-danger {
-    background-color: #FF3636;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #007bff 0%, #D40711 100%) repeat scroll 0 0 !important;
     color: #fff
 }
 
@@ -3953,7 +3955,12 @@ h6,
 .h6 {
     font-size: 1em;
     font-weight: 700;
-    text-transform: uppercase
+    text-transform: uppercase;
+    color: #0073B1;
+}
+
+.dropdown-menu li a span {
+    color: #0073B1;
 }
 
 p {
@@ -15682,13 +15689,13 @@ img {
     z-index: 11;
     width: 100%;
     padding: 0;
-    background: #283E4A;
-    min-height: 53px;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
+    min-height: 43px;
     box-shadow: none;
-    border-bottom: 1px solid #262e3c
+    border-bottom: 1px solid #f5f5f5
 }
 
-/*.sticky {
+/*.sticky {background: #283E4A;
 	position: static;
 	width: 100%;
 	height: 100%;
@@ -15921,12 +15928,12 @@ img {
 }
 
 .navbar-nav > li > a:hover {
-	background: #243742;
+	background: rgba(0,0,0,0.1);
 	transition: 0.5s;
 }
 
 .navbar-nav > li > .active {
-	background: #243742;	
+	background: rgba(0,0,0,0.2);	
 }
 
 .navbar-nav>li>a i {
@@ -19017,6 +19024,10 @@ img {
 .bg-purple {
     background-color: #a27ce6 !important;
     color: #fff
+}
+
+.color-purple{
+    color: #a27ce6 !important;
 }
 
 .bg-purple .content .text,

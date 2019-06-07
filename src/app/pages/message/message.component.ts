@@ -1,11 +1,12 @@
 declare var $: any;
 import * as _ from 'lodash';
-import { User, Typing } from '../../_models';
+import { User, Typing, Message } from '../../_models';
 import { HttpClient } from '@angular/common/http';
 import { Subscription, Observable, interval} from 'rxjs';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { switchMap, first, startWith, map} from "rxjs/operators";
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { MessageService } from '../../_services/message.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService, TypingService} from '../../_services';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -26,6 +27,10 @@ export class MessageComponent implements OnInit {
 	public processedImage = '';
 	public sendingForm:boolean = false;
 
+	//===== Real Time Messaging Observable ======//
+	public messages: Message[] = [];
+	private messagingSubscription: Subscription;
+	private localMessageSubscription: Subscription;
 
 	public conversation: Array<any> = [];
 	public navigation:Array<any> = [
@@ -39,7 +44,7 @@ export class MessageComponent implements OnInit {
 
 	//Observables
 	public contacts$: Observable<any>;
-	public messages$: Observable<any>;
+	public messages$:any = [];
 
 	public chatMessage:string = '';
 
@@ -57,6 +62,7 @@ export class MessageComponent implements OnInit {
 		private config: NgSelectConfig,
 		private route: ActivatedRoute,
 		private typingService : TypingService,
+		private messageService : MessageService,
 		private alert: AlertService,
 		private baseService : BaseService,
 		private authenticationService: AuthenticationService) {
@@ -70,7 +76,7 @@ export class MessageComponent implements OnInit {
 
 
 
-		//Push cuccurrent feeds
+		//Broadcast Typing events
 	    this.typingSubscription = typingService
 	    .getTypingState()
 	    .subscribe((typing: Typing) => {
@@ -81,13 +87,53 @@ export class MessageComponent implements OnInit {
 	     
 	    });
 
+	    //First fetch local messages
+	    this.localMessageSubscription = baseService.getMessages(this.currentUser.id)
+	    .subscribe(data => {
+	    	this.messages$ = data;
+	    	
+	    });
+
+
+	    //Push cuccurrent messages
+	    this.messagingSubscription = messageService
+	    .getMessagesItems()
+	    .subscribe((message: Message) => {
+	    	
+	      //push incoming global message to respective user
+	     	this.messages$.forEach(item => {
+	      		if ( item.id === message.receiver_id) {
+	      			item.messages.unshift(message);
+	      		}
+
+	      		if (item.id === message.sender_id) {
+	      			item.messages.unshift(message);
+	      		}
+	      	})
+
+	      	//find active use and update conversation
+	      	if (this.count(this.activeChat) > 0) {
+	      		let search = _.findLast(this.messages$, ['id', this.activeChat.id]);
+
+	      		if (search) {
+	      			this.activeChat = search;
+	      		}
+	      	}
+
+	    });
+
 	}
 
 	ngOnInit() {
 
 		this.getContacts();
 
-		this.getMessages();
+		//First fetch local messages
+	    this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
+	    .subscribe(data => {
+	    	this.messages$ = data;
+	    	
+	    });
 
 		setTimeout(() => {
 			this.jQueryMethods();
@@ -104,7 +150,12 @@ export class MessageComponent implements OnInit {
 	// ================ Get Messages ===================================//
 
 	getMessages() {
-		this.messages$ = this.baseService.getMessages(this.currentUser.id);
+		//First fetch local messages
+	    this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
+	    .subscribe(data => {
+	    	this.messages$ = data;
+	    	
+	    });
 	}
 
 
@@ -263,7 +314,7 @@ export class MessageComponent implements OnInit {
 		}
 
 		if (nav.id === 3) {
-			this.getMessages();
+			// this.getMessages();
 		}
 		this.selectedNav = nav;
 
@@ -366,16 +417,17 @@ export class MessageComponent implements OnInit {
 			sender_id: this.currentUser.id,
 			receiver_id: activeChat.id,
 			message: this.chatMessage,
+			type: 'text'
 		};
+
+		this.chatMessage = '';
 
 
 		this.http
 		    .post(`${this.authenticationService.endpoint}/send-message`, payload)
 		    .toPromise()
 		    .then((data: { message: string; status: boolean }) => {
-		      // this.getMessages();
-		      this.chatMessage = '';
-		      this.activeChat.messages = data;
+		    	//message sent
 		    })
 		    .catch(error => {
 		      //

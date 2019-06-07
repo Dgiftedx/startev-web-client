@@ -336,7 +336,7 @@
                             <div class="details col-lg-8 col-md-12">
                                 <h3 class="product-title m-b-0">{{ singleProduct.product_name | titlecase }}</h3>
                                 <h4 class="price m-t-0">Current Price: <span class="col-amber">NGN {{ singleProduct.product_price | number:0 }}</span></h4>
-                                <div class="rating">
+                                <!-- <div class="rating">
                                     <div class="stars">
                                         <span class="zmdi zmdi-star col-amber"></span>
                                         <span class="zmdi zmdi-star col-amber"></span>
@@ -345,10 +345,10 @@
                                         <span class="zmdi zmdi-star-outline"></span>
                                     </div>
                                     <span class="m-l-10">41 reviews</span>
-                                </div>
+                                </div> -->
                                 <hr>
                                 <p class="product-description">{{ singleProduct.highlight }}</p>
-                                <p class="vote"><strong>78%</strong> of buyers enjoyed this product! <strong>(23 votes)</strong></p>
+                                <!-- <p class="vote"><strong>78%</strong> of buyers enjoyed this product! <strong>(23 votes)</strong></p> -->
                                 <h5 class="sizes">sizes:
                                     <span 
                                     *ngFor="let size of singleProduct.sizes" 
@@ -363,13 +363,9 @@
                                 <hr>
                                 <div class="action">
                                     <button 
-                                    class="btn btn-warning btn-round waves-effect" 
-                                    type="button">Edit Product</button>
-
-                                    <button 
                                     class="btn btn-round btn-info waves-effect"
                                     type="button"
-                                    (click)="closeViewProduct()">Go Bank</button>
+                                    (click)="closeViewProduct()">Go Back</button>
                                 </div>
                             </div>
                         </div>

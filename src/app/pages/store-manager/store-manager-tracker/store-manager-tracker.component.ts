@@ -75,13 +75,14 @@ export class StoreManagerTrackerComponent implements OnInit {
 
 	//================= Track Order ==================//
 	trackOrder(){
-		this.tracking = true;
 
-
-		if (this.orderId && this.count(this.orderId.toString()) === 0) {
+		if (this.count(this.orderId) < 8) {
 			this.alert.infoMsg("Enter valid orderId","Some Value Missing");
 			return;
 		}
+
+		this.tracking = true;
+		
 		this.storeService.storeManagerTrackOrder(this.orderId, this.profile.roleData.id)
 		.subscribe(data => {this.handleTrackingResponse(data); this.showNotice = true; this.tracking = false;});
 	}

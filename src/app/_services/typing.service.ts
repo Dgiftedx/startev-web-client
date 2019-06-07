@@ -14,7 +14,7 @@ export class TypingService {
 
 	constructor(private baseService : BaseService) { 
 
-		this.pusherClient = new Pusher('6085b4683ce0a0859c61', { cluster: 'eu' });
+		this.pusherClient = new Pusher('665a0aa142c9152d0cf0', { cluster: 'eu' });
 
 		const channel = this.pusherClient.subscribe('single-chat');
 

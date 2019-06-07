@@ -1,5 +1,7 @@
-html, body { height: 100%; font-style: 12px; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { height: 100%; }
+body { 
+	margin: 0; 
+	font-family: apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Fira Sans",Ubuntu,Oxygen,"Oxygen Sans",Cantarell,"Droid Sans","Apple Color Emoji","Segoe UI Emoji","Segoe UI Emoji","Segoe UI Symbol","Lucida Grande",Helvetica,Arial,sans-serif; }
 .zero-margin{
 	margin-top: 0 !important;
 }
@@ -55,7 +57,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .custom-modal-header{
-	background-color: rgba(177,32,0,0.8) !important;
+	background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
 	min-height: 40px;
 }
 
@@ -551,23 +553,26 @@ background-position: center center;*/
 	display: block;
 	width: 100%;
 	padding: 8px;
+	color: #0073B1;
 }
 
 .venture-nav li:hover{
-	border-left-color: #C90C0C;
-	background-color: rgba(0,115,177,0.1);
+	border-left-color: #ccc;
+	background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
 }
 
 .venture-nav li:hover a{
 	font-weight: 500;
+	color: #fff;
 }
 
 .venture-nav .active{
-	border-left-color: #C90C0C;
-	background-color: rgba(0,115,177,0.1);
+	border-left-color: #ccc;
+	background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
 }
 .venture-nav .active a{
 	font-weight: 500;
+	color: #fff;
 }
 
 .no-access-box{

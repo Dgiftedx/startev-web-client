@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                    <button type="button" (click)="applyFilter()" class="btn btn-block btn-danger waves-effect">Apply Filter</button>
+                    <button type="button" (click)="applyFilter()" class="btn btn-block btn-info waves-effect">Apply Filter</button>
 
                 </div>
             </div>
@@ -75,12 +75,12 @@
                                     <button
                                     type="button"
                                     (click)="triggerView(product.id)"
-                                     class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-eye"></i></button>
+                                     class="btn btn-danger btn-sm waves-effect"><i class="zmdi zmdi-eye"></i></button>
 
                                     <button 
                                     type="button"
                                     (click)="addToCart(product.sku, product.id)"
-                                    class="btn btn-primary btn-sm waves-effect">
+                                    class="btn btn-danger btn-sm waves-effect">
                                     <i class="zmdi zmdi-shopping-cart"></i></button>
                                 </div>
                             </div>
@@ -97,48 +97,7 @@
                     </div>                
                 </div>
                
-            
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                <img src="../assets/images/ecommerce/8.png" alt="Product" class="img-fluid">
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_details">
-                                <h5><a href="ec-product-detail.html">Wood Simple Clock</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="old_price">$16.00</li>
-                                    <li class="new_price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <div class="card product_item">
-                        <div class="body">
-                            <div class="cp_img">
-                                <img src="../assets/images/ecommerce/9.png" alt="Product" class="img-fluid">
-                                <div class="hover">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <div class="product_details">
-                                <h5><a href="ec-product-detail.html">Wood Long TV Board</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="old_price">$16.00</li>
-                                    <li class="new_price">$10.00</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>                
-                </div>
-
+        
             </div>
         </div>
 
@@ -202,7 +161,7 @@
                         type="button">Edit Product</button> -->
 
                         <button 
-                        class="btn btn-round btn-danger waves-effect"
+                        class="btn btn-round btn-info waves-effect"
                         type="button"
                         (click)="closeModal()">Close</button>
                     </div>

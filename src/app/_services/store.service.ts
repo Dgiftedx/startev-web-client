@@ -75,6 +75,11 @@ export class StoreService {
 	}
 
 
+	public forwardOrder(data:any){
+		return this.http.post(`${this.endpoint}/store/forward-order`, data);
+	}
+
+
 	public storeManagerDashboardData(user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${user_id}`);
 	}
@@ -127,7 +132,9 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/store-manager/track-order/${order_id}/${business_id}`);
 	}
 
-
+	public storeManagerOrderAction(data:any){
+		return this.http.post(`${this.endpoint}/store/store-manager/order-action`, data);
+	}
 
 
 
@@ -160,4 +167,6 @@ export class StoreService {
 	public mainStorePlaceOrder(formData:any){
 		return this.http.post(`${this.endpoint}/store/main-store-place-order`, formData);
 	}
+
+	
 }

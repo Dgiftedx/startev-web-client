@@ -150,7 +150,7 @@
                             </div>
                             
                             <div class="col-md-12">
-                                <button class="btn btn-danger btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
+                                <button class="btn btn-warning btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
                             </div>
                         </div>
                        </form>
@@ -282,7 +282,7 @@
 
                                                   <div class="text-center mt-2 mb-2 p-2">{{ i+1 }}
                                                     <button type=" button" *ngIf="i !== 0" 
-                                                    class="btn btn-round btn-danger btn-sm" 
+                                                    class="btn btn-round btn-warning btn-sm" 
                                                     (click)="removeWorkExperience(i)"> remove</button>
                                                 </div>
 
@@ -319,7 +319,7 @@
 
                                                   <div class="text-center mt-1 mb-1 p-1">{{ i+1 }}
                                                     <button type="button" *ngIf="i !== 0" 
-                                                    class="btn btn-round btn-danger btn-sm" 
+                                                    class="btn btn-round btn-warning btn-sm" 
                                                     (click)="removeEducation(i)"> remove</button>
                                                 </div>
 
@@ -346,7 +346,7 @@
 
 
                                         <div class="col-md-12 mt-4">
-                                            <button class="btn btn-danger btn-round" [ladda]="mentorFormLoading">Save Changes</button>
+                                            <button class="btn btn-warning btn-round" [ladda]="mentorFormLoading">Save Changes</button>
                                         </div>
                                     </div>
                                 </form>
@@ -410,7 +410,7 @@
 
                                           <div class="text-center mt-1 mb-1 p-1">{{ i+1 }}
                                             <button type="button" *ngIf="i !== 0" 
-                                            class="btn btn-round btn-danger btn-sm" 
+                                            class="btn btn-round btn-warning btn-sm" 
                                             (click)="removeSocialHandle(i)"> remove</button>
                                         </div>
 
@@ -425,7 +425,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <button type="submit" 
-                                    class="btn btn-danger btn-round waves-effect" 
+                                    class="btn btn-warning btn-round waves-effect" 
                                     [ladda]="companyFormLoading">Save Changes</button>
                                 </div>
                             </div>
@@ -481,7 +481,7 @@
                                   <div *ngIf="pass.confirmPassword.errors.mustMatch">Passwords must match</div>
                                 </div>
                             </div>
-                            <button class="btn btn-danger btn-round waves-effect">Save Changes</button> 
+                            <button class="btn btn-warning btn-round waves-effect">Save Changes</button> 
                         </form>                              
                     </div>
                 </div>
@@ -513,7 +513,7 @@
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-success btn-round waves-effect" (click)="saveImage()" [ladda]="avatarLoading">SAVE CHANGES</button>
-              <button id="closeImageModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+              <button id="closeImageModal" type="button" class="btn btn-warning btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
           </div>
       </div>
     </div>

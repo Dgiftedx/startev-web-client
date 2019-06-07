@@ -18,6 +18,7 @@ export class StoreManagerDashboardComponent implements OnInit {
 
 	currentUser: User;
 
+	public recentOrders:Array<any> = [];
 	dashboardData:any = [];
 	private dashboardSubscription : Subscription;
 
@@ -38,12 +39,23 @@ export class StoreManagerDashboardComponent implements OnInit {
 		};
 
 		this.dashboardSubscription = this.storeService.storeManagerDashboardData(this.currentUser.id)
-		.subscribe(data => {this.dashboardData = data});
+		.subscribe(data => {this.dashboardData = data; this.handleRecentOrders(data);});
 	}
 
 	ngOnInit() {
 
 		//
+	}
+
+
+
+	handleRecentOrders(data:any) {
+		let orders = data.recent_orders;
+		for ( let identifier in orders ) {
+			for (let index in orders[identifier]) {
+				this.recentOrders.push(orders[identifier][index]);
+			}
+		}
 	}
 
 

@@ -228,7 +228,7 @@ export class BaseService {
         return this.http.get<any>(`${this.endpoint}/chat-get-contacts/${user_id}`);
     }
 
-    public getMessages(user_id:number): Observable<any>{
-        return this.http.get<any>(`${this.endpoint}/chat-get-messages/${user_id}`);
+    public getMessages(user_id:number){
+        return this.http.get(`${this.endpoint}/chat-get-messages/${user_id}`);
     }
 }

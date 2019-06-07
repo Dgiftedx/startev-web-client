@@ -6,7 +6,7 @@
             </div>
             <div class="body">
             <h3 class="m-b-0">NGN {{ dashboardData.orders_amount|number:0 }}</h3>
-            <small class="displayblock">0% Average</small>                    
+            <small class="displayblock">{{ dashboardData.orders_amount_avg|number:0 }} Average</small>                    
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 	        </div>
 	        <div class="body">
 	            <h3 class="m-b-0">NGN {{ dashboardData.delivered_orders | number:0 }}</h3>
-	            <small class="displayblock">0% Average</small>                        
+	            <small class="displayblock">{{ dashboardData.delivered_orders_avg | number:0 }} Average</small>                        
 	        </div>
 	    </div>
 	</div>
@@ -27,7 +27,7 @@
 	<div class="col-lg-4 col-md-12">
         <div class="card slideDown">
             <div class="header mb-0">
-                <h2><strong>Total</strong> Partners</h2>                        
+                <h2><strong>Partners</strong></h2>                        
             </div>
             <div class="body mt-0">
                 <h3 class="m-b-0 m-t-0">{{ dashboardData.total_partners | number:0 }}</h3>
@@ -49,20 +49,15 @@
                             <th style="width:60px;">#</th>
                             <th>Name</th>
                             <th>Item</th>
-                            <th>Address</th>
                             <th>Quantity</th>                                    
                             <th>Status</th>
                         </tr>
                     </thead>
-                     <tbody>
-                        
-                    </tbody>
-                    <tbody *ngIf="count(dashboardData.recent_orders) > 0">
-                        <tr *ngFor="let order of dashboardData.recent_orders">
-                            <td><img src="http://via.placeholder.com/60x50" alt="Product img"></td>
-                            <td>{{ order.buyer.name }}</td>
-                            <td>{{ order.product.product_name }}</td>
-                            <td>{{ order.buyer.address }}</td>
+                    <tbody *ngIf="count(recentOrders) > 0">
+                        <tr *ngFor="let order of recentOrders">
+                            <td><img [src]="order.image" alt="Product img" width="45"></td>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.product_name }}</td>
                             <td>{{ order.quantity }}</td>
                             <td><span class="badge badge-success">{{ order.status }}</span></td>
                         </tr>

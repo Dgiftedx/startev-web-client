@@ -19,6 +19,7 @@ export class OrdersComponent implements OnInit {
 
 	currentUser:User;
 
+	public sendingOrder:boolean = false;
 	public page:number = 1;
 	public orders:any = [];
 	public temp:any[] = [];
@@ -132,6 +133,36 @@ export class OrdersComponent implements OnInit {
 	closeModBox(){
 		this.showModBox = false;
 		this.showMainOrders = true;
+	}
+
+
+
+	// =================== Forward orders =====================//
+	forwardOrders(combinedOrder:any) {
+		let orderIds = [];
+
+		combinedOrder.orders.forEach(item  => {
+			orderIds.push(item.product_id);
+		});
+
+		let data = {
+			identifier: combinedOrder.orders[0].identifier,
+			store_id: combinedOrder.orders[0].store_id,
+			order_ids: orderIds
+		};
+
+		this.sendingOrder = true;
+
+		this.storeService.forwardOrder(data)
+		.subscribe(data => {
+			this.alert.snotSimpleSuccess("Order has been forwarded for delivery");
+			this.sendingOrder = false;
+			this.singleOrder.forwarded = true;
+			this.storeService.getOrders(this.currentUser.id)
+			.subscribe(data => {
+				this.handleOrdersInit(data);
+			});
+		})
 	}
 
 

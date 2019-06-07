@@ -45,14 +45,10 @@
 										(click)="toggleConnect(mentor.id)"
 										class="btn btn-warning btn-sm waves-effect">
 											<fa-icon [icon]="['fas','plus']"></fa-icon> 
-										<span *ngIf="mentor.is_connected">Disconnect</span>
-										<span *ngIf="!mentor.is_connected">Connect</span>
+										<span *ngIf="mentor.is_connected"> Disconnect</span>
+										<span *ngIf="!mentor.is_connected"> Connect</span>
 									</button>
 										
-
-										<a [routerLink]="" class="btn btn-warning btn-sm waves-effect">
-											<i class="zmdi zmdi-comment"></i>
-										</a>
 									</div>
 								</div>
 								<div class="product_details">
@@ -68,29 +64,32 @@
 							</div>
 						</div>
 
-						<div class="card mentor_list feeds-container fadeIn" *ngIf="industry.industry.business">
+						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.business">
 							<div class="body">
 								<div class="cp_img">
 									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
 									<div class="hover">
 
-										<button 
+										<button *ngIf="mentor.id !== currentUser.id"
 										type="button" 
 										(click)="toggleConnect(mentor.id)"
 										class="btn btn-warning btn-sm waves-effect">
 											<fa-icon [icon]="['fas','plus']"></fa-icon> 
-										<span *ngIf="mentor.is_connected">Disconnect</span>
-										<span *ngIf="!mentor.is_connected">Connect</span>
+										<span *ngIf="mentor.is_connected"> Disconnect</span>
+										<span *ngIf="!mentor.is_connected"> Connect</span>
 									</button>
 
-										
-										<a href="javascript:void(0);" class="btn btn-warning btn-sm waves-effect"><i class="zmdi zmdi-comment"></i></a>
+									<a [routerLink]="['/profile']" *ngIf="mentor.id === currentUser.id"
+										class="btn btn-warning btn-sm waves-effect">
+										Profile
+									</a>
+
 									</div>
 								</div>
 								<div class="product_details">
-									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.name | titlecase }}</a></h5>
+									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.business.name | titlecase }}</a></h5>
 									<ul class="product_price list-unstyled">
-										<li class="profession">{{ mentor.business.name?mentor.business.name:'Business' }}</li>
+										<li class="profession"><small style="font-size: 9px;">{{ mentor.business.website }}</small></li>
 										<li class="trainer">Services: {{ count(mentor.business.services) }}</li>
 									</ul>
 								</div>
@@ -101,35 +100,12 @@
 				</div>
 			</div>
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="card feeds-container fadeIn">
-					<div class="body zero-m">
-                        <div class="bg_grey">
-                            <p class="follow-suggestion-text">People you might like to follow_</p>
-                        </div>
-                    	<ul class="list-group custom-list zero-m">
-                    		<li class="list-group-item" *ngFor="let person of people">
-                    			<img src="{{ checkValue(person.avatar,'avatar') }}" 
-                    			height="50" class="rounded-circle float-left" />
-                    			<div class="list-content">
-                    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
-                    				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
-                    			</div>
-                    			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
-                                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
-                                 </button>
-                    		</li>
-                    	</ul>
-                         <div class="bg_grey pb-0 mb-0">
-                            <p class="follow-suggestion-text mb-0"><a href="#">we think you might be interested</a></p>
-                        </div>
-                        <div class="">
-                            <img src="assets/images/adverts/4.jpg" class="pt-0 mt-0 img-thumbnail" />
-                        </div>
-                        <div class="bg_grey pb-0 mb-0">
-                            <p class="follow-suggestion-text mb-0"><a href="#">Popular Business Partners</a></p>
-                        </div>
-                    </div>
+				<div class="row clearfix">
+					<div class="col-md-12">
+						<app-follow></app-follow>
+					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>

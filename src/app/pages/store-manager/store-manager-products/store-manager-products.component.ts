@@ -143,7 +143,6 @@ export class StoreManagerProductsComponent implements OnInit {
 	}
 
 	onFileAdded(file: FilePreviewModel) {
-		console.log(file);
 		this.productImages.push(file);
 	}
 
@@ -195,8 +194,6 @@ export class StoreManagerProductsComponent implements OnInit {
 		this.uploadNotice = false;
 		this.closeNewProductForm();
 
-		this.stableData();
-
 	}
 
 	closeNewProductForm(){
@@ -219,6 +216,7 @@ export class StoreManagerProductsComponent implements OnInit {
 			return;
 		}
 
+
 		//clear formData;
 		this.formData = new FormData();
 		
@@ -234,6 +232,7 @@ export class StoreManagerProductsComponent implements OnInit {
 		let formData = this.convertToFormData(this.newProductForm.value);
 		this.storeService.storeManagerAddProduct(formData,this.currentUser.id, this.formUrl)
 		.subscribe(data => {
+			this.stableData();
 			this.cleanForm();
 			this.alert.snotSimpleSuccess("Success. You can now assign to your ventures if you have one.");
 		},
@@ -319,14 +318,15 @@ export class StoreManagerProductsComponent implements OnInit {
 
 	// ================= Edit Product ======================//
 	editProduct(value) {
-
-		this.alert.infoMsg("Please Wait....", "Fetching Product Data");
 		this.getProductToView(value);
 		this.formUrl = 'edit-product/'+value;
 		this.uploadNotice = true;
+		this.productImages = [];
 
-		setTimeout(() => {
-			//set formData
+
+		this.storeService.storeManagerGetSingleProduct(value)
+		.subscribe(data => {
+			this.singleProduct = data; 
 			this.newProductForm.get('product_name').setValue(this.singleProduct.product_name);
 			this.newProductForm.get('product_price').setValue(this.singleProduct.product_price);
 			this.newProductForm.get('sku').setValue(this.singleProduct.sku);
@@ -335,13 +335,15 @@ export class StoreManagerProductsComponent implements OnInit {
 			this.newProductForm.get('sizes').setValue(this.singleProduct.sizes);
 			this.newProductForm.get('colors').setValue(this.singleProduct.colors);
 			this.newProductForm.get('product_description').setValue(this.singleProduct.product_description);
-			
+		});
+	
+		this.alert.infoMsg("Please Wait....", "Fetching Product Data");
 
-			setTimeout(() => {
-				this.showAddNew = true;
-				this.showMainBox = false;
-			}, 1000);
-		}, 1000);
+
+		setTimeout(() => {
+			this.showAddNew = true;
+			this.showMainBox = false;
+		}, 1500);
 	}
 
 
