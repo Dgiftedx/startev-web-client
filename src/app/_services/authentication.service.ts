@@ -20,7 +20,7 @@ export class AuthenticationService {
     // public endPointAuth = 'http://startev.server/api/auth';
 
     //Server
-    public endpoint = 'http://37.139.29.190/api/v1';
+    public endpoint = 'http://37.139.29.190/api';
     public baseurl = 'http://37.139.29.190';
     public endPointAuth = 'http://37.139.29.190/api/auth';
 
