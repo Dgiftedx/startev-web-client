@@ -213,7 +213,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      SweetAlert2Module.forRoot(),
      Angular4PaystackModule,
      NgxPrintModule,
-     CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
+     // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 
   exports : [

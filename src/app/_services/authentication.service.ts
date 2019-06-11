@@ -15,14 +15,14 @@ export class AuthenticationService {
     }
 
     //Local
-    // public endpoint = 'http://startev.server/api';
-    // public baseurl = 'http://startev.server';
-    // public endPointAuth = 'http://startev.server/api/auth';
+    public endpoint = 'http://startev.server/api';
+    public baseurl = 'http://startev.server';
+    public endPointAuth = 'http://startev.server/api/auth';
 
     //Server
-    public endpoint = 'http://37.139.29.190/api';
-    public baseurl = 'http://37.139.29.190';
-    public endPointAuth = 'http://37.139.29.190/api/auth';
+    // public endpoint = 'http://37.139.29.190/api';
+    // public baseurl = 'http://37.139.29.190';
+    // public endPointAuth = 'http://37.139.29.190/api/auth';
 
 
     private iss = {
