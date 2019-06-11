@@ -264,6 +264,7 @@ export class FeedsComponent implements OnInit {
 
   closeModal(element : any): void {
     $(document).find('#'+element).modal('hide');
+    this.cleanForm();
   }
 
 

@@ -14,6 +14,7 @@ An Online Community for African students to learn, connect, and launch their ent
 - Fixed Messaging Panel Switches
 - Fixed City Entry in user profile
 - Fixed Mobile View
+- Major improvements
 
 ### 07-06-2019
 Ist Test Version Released

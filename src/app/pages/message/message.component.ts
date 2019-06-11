@@ -141,6 +141,13 @@ export class MessageComponent implements OnInit {
 	}
 
 
+
+	updateScrollDirection() {
+		$("#content").scrollTop( $( "#content" ).prop( "scrollHeight" ) );
+		$("#content").perfectScrollbar('update');
+	}
+
+
 	// ================= Get Contacts =================================//
 	getContacts() {
 		this.contacts$ = this.baseService.getContacts(this.currentUser.id);
@@ -184,7 +191,24 @@ export class MessageComponent implements OnInit {
 	}
 
 
+	  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
 
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
+  
 	//========================= create mockup ===============================//
 	/**
 	*
@@ -495,6 +519,7 @@ export class MessageComponent implements OnInit {
 		    .toPromise()
 		    .then((data: { message: string; status: boolean }) => {
 		    	//message sent
+		    	this.updateScrollDirection();
 		    })
 		    .catch(error => {
 		      //

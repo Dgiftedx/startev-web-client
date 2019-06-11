@@ -70,14 +70,15 @@
                                             [class.online]="contact.status === true" 
                                             [class.offline]="contact.status === false" 
                                             data-toggle="list">
-                                                <img class="avatar-md" [src]="contact.avatar" 
+                                                <img class="avatar-md" src="{{ checkValue(contact.avatar, 'avatar', 'null') }}" 
                                                 data-toggle="tooltip" data-placement="top" title="{{ contact.name }}" alt="avatar">
                                                 <div class="status"
                                                 [class.online]="contact.status" 
                                                 [class.offline]="!contact.status"></div>
                                                 <div class="data">
                                                     <h5>{{ contact.name }}</h5>
-                                                    <p>{{ contact.state }}, {{ contact.country }}</p>
+                                                    <p *ngIf="contact.state && contact.country">{{ contact.state }}, {{ contact.country }}</p>
+                                                    <p *ngIf="!contact.state && !contact.country">New User</p>
                                                 </div>
                                                
                                             </a>
@@ -149,7 +150,7 @@
                                             id="list-chat-list" data-toggle="list" role="tab">
 
                                                 <img class="avatar-md" 
-                                                [src]="user.avatar" 
+                                                src="{{ checkValue(user.avatar, 'avatar', 'null') }}" 
                                                 data-toggle="tooltip" 
                                                 data-placement="top" 
                                                 title="{{ user.name }}" alt="avatar">
@@ -207,7 +208,7 @@
 
                                     <div class="settings">
                                         <div class="profile">
-                                            <img class="avatar-xl" [src]="currentUser.avatar" alt="avatar">
+                                            <img class="avatar-xl" src="{{ checkValue(currentUser.avatar, 'avatar', 'null') }}" alt="avatar">
                                             <h1><a href="#">{{ currentUser.name }}</a></h1>
                                         
                                         </div>
@@ -384,11 +385,11 @@
                             <div class="content fadeIn" id="content" *ngIf="count(activeChat) > 0">
                                 <div class="container">
                                     <div class="col-md-12">
-                                        <div class="date">
+                                        <!-- <div class="date">
                                             <hr>
                                             <span>Yesterday</span>
                                             <hr>
-                                        </div>
+                                        </div> -->
 
                                         <div class="message" 
                                         *ngFor="let message of activeChat.messages | orderBy: 'created_at':false"
@@ -396,7 +397,7 @@
                                             <img 
                                             *ngIf="message.sender_id !== currentUser.id" 
                                             class="avatar-md" 
-                                            [src]="activeChat.avatar" 
+                                            src="{{ checkValue(activeChat.avatar, 'avatar', 'null') }}" 
                                             data-toggle="tooltip" 
                                             data-placement="top" 
                                             title="{{ activeChat.name }}" 
@@ -424,7 +425,10 @@
                                         <div class="message slideUp" 
                                         [ngClass]="{'mb-4':checkTypingEvent(activeChat.id)}" 
                                         *ngIf="checkTypingEvent(activeChat.id)">
-                                            <img class="avatar-md" [src]="activeChat.avatar" data-toggle="tooltip" data-placement="top" title="{{ activeChat.name }}" alt="avatar">
+                                            <img class="avatar-md" 
+                                            src="{{ checkValue(activeChat.avatar, 'avatar', 'null') }}" 
+                                            data-toggle="tooltip" 
+                                            data-placement="top" title="{{ activeChat.name }}" alt="avatar">
                                             <div class="text-main">
                                                 <div class="text-group">
                                                     <div class="text typing">
@@ -453,18 +457,26 @@
                                 </div>
                             </div>
 
-                            <div class="container">
-                                <div class="col-md-12"  *ngIf="count(activeChat) > 0">
-                                    <div class="bottom">
+                            <div class="container row bottom"  *ngIf="count(activeChat) > 0">
+                                <div class="col-1"></div>
+                                <div class="col-10">
+                                    <div class="">
                                         <div class="text-area">
-                                            <textarea
+                                            <div class="input-group">
+                                            <input
+                                            id="chat-field"
+                                            type="text"
                                             (keyup.enter)="sendMessage(activeChat)"
                                             (focus)="typingEvent($event, activeChat.id)"
                                             (blur)="stopTypingEvent($event, activeChat.id)"
-                                            class="messenger-form-control" 
-                                            placeholder="Start typing for reply..."
+                                            class="form-control"
+                                            placeholder="Type your message..."
                                             [(ngModel)]="chatMessage"
-                                            rows="1"></textarea>
+                                            >
+                                            <span class="input-group-addon pointer-move" (click)="sendMessage(activeChat)">
+                                                <i class="zmdi zmdi-mail-send"></i>
+                                              </span>
+                                          </div>
 
                                            <!--  <div class="add-smiles">
                                                 <span title="add icon" class="em em-blush"></span>
@@ -491,16 +503,19 @@
                                                 <i class="em em-us"></i>
                                                 <i class="em em-rose"></i>
                                             </div> -->
-                                            <button type="button" 
+                                           <!--  <button type="button" 
                                             (click)="sendMessage(activeChat)"
                                             class="btn btn-white waves-effect send"><i class="ti-location-arrow"></i>
-                                            </button>
+                                            </button> -->
                                         </div>
-                                        <label>
-                                            <input type="file">
-                                            <span class="btn bg-blue btn-icon btn-icon-mini waves-effect attach"><i class="ti-clip"></i></span>
-                                        </label> 
+                                       
                                     </div>
+                                </div>
+                                <div class="col-1">
+                                     <label>
+                                        <input type="file">
+                                        <span class="btn bg-blue btn-icon btn-icon-mini waves-effect attach"><i class="ti-clip"></i></span>
+                                    </label> 
                                 </div>
                             </div>
                         </div>
