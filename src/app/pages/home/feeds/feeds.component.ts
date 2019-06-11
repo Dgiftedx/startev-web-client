@@ -5,7 +5,7 @@ import { User } from '../../../_models';
 import { Feed } from '../../../_models/feed';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
-import { Cloudinary } from '@cloudinary/angular-5.x';
+// import { Cloudinary } from '@cloudinary/angular-5.x';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
 import { StoreService } from '../../../_services/store.service';
@@ -90,7 +90,7 @@ export class FeedsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private feedService : FeedService,
     private alert: AlertService,
-    private uploader: Cloudinary,
+    // private uploader: Cloudinary,
     private store: StoreService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
