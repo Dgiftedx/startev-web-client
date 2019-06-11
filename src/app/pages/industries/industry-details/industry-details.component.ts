@@ -64,7 +64,8 @@ export class IndustryDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.industries = this.route.snapshot.data.industries;
+    this.industries = this.route.snapshot.data.industries.industries;
+
     this.createSearchForm();
     //make request for new single industry details
     this.industry = this.route.snapshot.data.industry;

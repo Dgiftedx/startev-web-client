@@ -5,6 +5,7 @@ import { User } from '../../../_models';
 import { Feed } from '../../../_models/feed';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
+import { Cloudinary } from '@cloudinary/angular-5.x';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
 import { StoreService } from '../../../_services/store.service';
@@ -89,6 +90,7 @@ export class FeedsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private feedService : FeedService,
     private alert: AlertService,
+    private uploader: Cloudinary,
     private store: StoreService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
@@ -391,6 +393,51 @@ export class FeedsComponent implements OnInit {
     });
   }
 
+
+
+
+  //============== Fetch Feed ==================//
+  removeFeedFromThread(feed_id:number) {
+    let index =  _.findIndex(this.feeds, ['id', feed_id]);
+    //remove feed item
+    this.feeds.splice(index, 1);
+  }
+
+  //============= Hide Feed ====================//
+
+  hideFeed(feed_id:number) {
+
+      //first remove from feeds collection
+      this.removeFeedFromThread(feed_id);
+
+      let data = {
+        user_id : this.currentUser.id,
+        feed_id: feed_id
+      };
+
+      //effect the changes on server
+      this.baseService.FeedManageAction(data, 'hide-feed')
+      .subscribe(data => {
+        this.alert.snotSimpleSuccess("Feed hidden");
+      })
+  }
+
+
+  //============== Delete Feed ====================//
+  deleteFeed(feed:any){
+      //first remove from feeds collection
+      this.removeFeedFromThread(feed.id);
+
+      let data = {
+        user_id : this.currentUser.id,
+        feed_id: feed.id
+      };
+
+      this.baseService.FeedManageAction(data, 'delete-feed')
+      .subscribe(data => {
+        this.alert.snotSimpleSuccess("feed has been removed");
+      });
+  }
 
 
   //====== Handle Follow & Unfollow ===========//

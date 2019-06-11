@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<div class="row clearfix m-t-123">
 			<div class="col-md-12">
-				<div class="card text-white feeds-container" style="margin: 0 !important;">
+				<div class="card fadeIn text-white feeds-container" style="margin: 0 !important;">
 					<div class="body bg-pink profile-header">
                         <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}"/>
 					</div>
@@ -13,7 +13,7 @@
 	<div class="container">
 		<div class="row clearfix">
 			<div class="col-md-3 m-t--30">
-				<div class="card member-card transparent">
+				<div class="card member-card transparent fadeIn">
                     <div class="member-img">
                         <a href="#" class="">
                         <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg'}}" class="user_pic rounded-circle img-raised" alt="profile-image">
@@ -51,7 +51,7 @@
 
             <!-- For Business -->
 			<div class="col-md-6" *ngIf="profile.role ==='business'">
-				<div class="profile-pane"> 
+				<div class="profile-pane fadeIn"> 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 					  <li class="nav-item" *ngFor="let tab of profileTabs; let first = first">
 					    <a class="nav-link" [class.active]="selectedTab === tab" [attr.data-toggle]="tab" href="javascript:void(0);" (click)="selectedTab = tab" role="tab" [attr.aria-controls]="tab" [attr.aria-selected]="{true: first}">{{ tab|titlecase }} </a>
@@ -60,7 +60,7 @@
 				</div>
 				<div class="row clearfix m-t-20"> 
 					<div class="col-sm-12 col-md-12">
-					<div class="tab-content">
+					<div class="tab-content fadeIn">
                 		<div
                 		*ngIf="selectedTab === profileTabs[0]" 
                 		role="tabpanel" class="tab-pane active" 

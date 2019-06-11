@@ -135,8 +135,8 @@ export class ProfileEditComponent implements OnInit {
 			bio : [''],
 			country : [''],
 			state : [''],
-			city : [''],
-			address: ['']
+			city : ['',Validators.required],
+			address: ['',Validators.required]
 		});
 
 		this.mentorForm = this.formBuilder.group({
@@ -230,29 +230,7 @@ export class ProfileEditComponent implements OnInit {
 
 		}
 
-		//set city value if it's set.
-		if (_.size(this.user.city) > 0 ) {
-
-			//fetch all states and pull user state
-			let country3 = this.findStackByName(this.countries, this.user.country);
-			// console.log(country3);
-			//fetch cities
-			setTimeout(() => {
-				this.getCities(country3.id);
-				setTimeout(() => {
-					if (_.size(this.cities) > 0) {
-						let city = this.findStackByName(this.cities, this.user.city);
-
-						if (city) {
-							this.userForm.get('city').setValue(city.id);
-						}
-						
-					}
-				}, 800)
-			}, 1400)
-
-		}
-		
+		this.userForm.get('city').setValue(this.user.city);
 		this.userForm.get('address').setValue(this.user.address);
 
 		//toggle Disable State
@@ -381,12 +359,6 @@ export class ProfileEditComponent implements OnInit {
 			this.userForm.controls['state'].disable();
 		}else{
 			this.userForm.controls['state'].enable();
-		}
-
-		if (_.size(this.cities) === 0) {
-			this.userForm.controls['city'].disable();
-		}else{
-			this.userForm.controls['city'].enable();
 		}
 	}
 
@@ -523,10 +495,6 @@ export class ProfileEditComponent implements OnInit {
 
 	countryChange(e){
 		return this.getStates(this.userForm.controls['country'].value);
-	}
-
-	stateChange(e){
-		return this.getCities(this.userForm.controls['country'].value);
 	}
 
 	getCareerPaths(){
@@ -765,7 +733,6 @@ export class ProfileEditComponent implements OnInit {
           .subscribe(
               data => {
                   // Update user data
-                  console.log(data);
                   this.alert.successMsg("Industry List updated successfully","Account Update Successful");
               },
               error => {

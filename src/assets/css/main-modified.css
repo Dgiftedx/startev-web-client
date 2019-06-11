@@ -1,12 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,600,700");
+﻿@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,600,700");
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
     src: local("Material Icons"), local("MaterialIcons-Regular"), url(https://fonts.gstatic.com/s/materialicons/v19/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format("woff2")
 }
-
-
 
 .topSideNav{
     visibility: hidden;
@@ -4072,11 +4070,10 @@ p.description {
 
 body {
     color: #2c2c2c;
-    font-size: calc(12px + (26 - 12) * ((100vw - 300px) / (1600 - 300)));
-    line-height: calc(1.1em + (1.5 - 1.2) * ((100vw - 300px)/(1600 - 300)));
+    font-size: 14px;
+    font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
     -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-family: apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Fira Sans",Ubuntu,Oxygen,"Oxygen Sans",Cantarell,"Droid Sans","Apple Color Emoji","Segoe UI Emoji","Segoe UI Emoji","Segoe UI Symbol","Lucida Grande",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased
 }
 
 .nav-pills .nav-link,
@@ -7639,7 +7636,6 @@ img {
         right: 2%;
         max-width: 216px
     }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -7664,10 +7660,6 @@ img {
     .negative-margin-50,
     .negative-margin-30{
         margin-left: 0;
-    }
-
-    #logo-container .auth-logo {
-    height: 90px !important;
     }
 }
 
@@ -7694,7 +7686,6 @@ img {
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
-
     .section-images .hero-images-container,
     .section-images .hero-images-container-1,
     .section-images .hero-images-container-2 {
@@ -7724,10 +7715,6 @@ img {
         top: 50%;
         transform: translateY(-50%)
     }
-
-    #logo-container .auth-logo {
-    height: 60px !important;
-    }
 }
 
 @media screen and (max-width: 480px) {
@@ -7735,16 +7722,8 @@ img {
         display: none !important;
     }
 
-    .floating-nav{
-    	display: none !important;
-    }
-
     .h_menu{
         visibility: visible !important; 
-    }
-
-    #logo-container .auth-logo {
-    height: 50px !important;
     }
 }
 
@@ -20025,22 +20004,6 @@ section small {
   
     .m-t-125, .m-t-120 {
         margin-top: 60px;
-    }
-
-    .topSideNav{
-    	visibility: visible !important;
-    }
-
-     .visible-menu a{
-        display: none !important;
-    }
-
-    .floating-nav{
-    	display: none !important;
-    }
-
-    .h_menu{
-        visibility: visible !important; 
     }
    
 }
