@@ -2176,7 +2176,7 @@ input:checked+.slider:before {
 
 .main .chat .content .message .text.me .attachment .file span {
   color: #fff;
-  text-align: left;
+  text-align: center;
 }
 
 .main .chat .content .message .text p {
@@ -2259,7 +2259,7 @@ input:checked+.slider:before {
   -ms-align-items: center;
   -o-align-items: center;
   align-items: center;
-  padding: 40px 0 0;
+  padding: 20px 0 0;
   border-top: 2px solid #fbfbfb;
 }
 
@@ -2268,6 +2268,14 @@ input:checked+.slider:before {
   height: 56px;
   resize: none;
   font-weight: 400;
+}
+
+.main .chat .bottom #chat-field{
+  /*background: #fff !important;*/
+}
+
+.main .chat .bottom #chat-field span {
+  padding-right: 20px;
 }
 
 .main .chat .bottom .messenger-form-control::placeholder {
@@ -2314,9 +2322,7 @@ input:checked+.slider:before {
   margin-bottom: 0;
 }
 
-.main .chat .bottom input {
-  display: none;
-}
+
 
 .main .chat .bottom .btn.attach {
   color: #fff;
@@ -2325,6 +2331,7 @@ input:checked+.slider:before {
   line-height: 56px;
   margin-left: 20px;
   width: 56px;
+  margin-top: -20px;
 }
 
 .main .chat .bottom .btn.attach:hover {
@@ -2803,13 +2810,14 @@ input:checked+.slider:before {
 }
 
 .main .call,
-.main .chat .bottom input {
+.main .chat .bottom input[type="file"],
+.main .chat .bottom input[type="phone"] {
   -webkit-opacity: 0;
   -moz-opacity: 0;
   -ms-opacity: 0;
   -o-opacity: 0;
   opacity: 0;
-  visibility: hidden;
+  visibility: visible;
 }
 
 .main .chat .content .no-messages .options .button {

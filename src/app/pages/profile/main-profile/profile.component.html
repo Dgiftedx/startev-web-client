@@ -86,7 +86,7 @@
                                                     alt="">
                                                     <div class="media-body">
                                                         <span class="name">{{ user.name | titlecase }}</span>
-                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} <small *ngIf="user.state || user.country">- {{ user.state }}, {{ user.country }}</small></span>
                                                     </div>
                                                     <div class="float-right">
                                                         <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">

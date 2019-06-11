@@ -133,7 +133,7 @@
                     <div class="chat-header clearfix post-feed-header">
                       <div class="row">
                         <div class="col-lg-12 zero-margin">
-                          <img [src]="feed.user.avatar" alt="avatar">
+                          <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" alt="avatar">
                           <div class="chat-about feed-meta">
                             <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
                             <small class="feed-title">{{ feed.title }}</small><br/>
@@ -166,8 +166,8 @@
                         </div>
                         <div class="post-feed-inner bg_grey">
                           <div class="" class="">
-                            <p class="post-content p-3">{{ feed.content | excerpt: 137 : feed.title }}
-                              <a *ngIf="isMore(feed.content, 137)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
+                            <p class="post-content p-3">{{ feed.content | excerpt: 257 : feed.title }}
+                              <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
                             </p>
                           </div>
                         </div>
@@ -248,7 +248,7 @@
                        <ul class="chat-widget m-r-2 clearfix">
                         <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
                           <img 
-                          src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
+                          src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" 
                           class="rounded-circle" alt="">
                           <div class="chat-info">
                             <span class="message">
@@ -271,7 +271,7 @@
                <div class="chat-header clearfix post-feed-header">
                 <div class="row">
                   <div class="col-lg-12 zero-margin">
-                    <img [src]="feed.user.avatar" alt="avatar">
+                    <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" alt="avatar">
                     <div class="chat-about feed-meta">
                       <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
                       <small class="feed-title">{{ feed.title }}</small><br/>
@@ -372,11 +372,11 @@
               <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                 <div class="row clearfix m-1">
                   <div class="col-1 pt-2"  style="margin:0 !important; padding-right: 0 !important; padding-left:0 !important;">
-                    <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
+                    <img src="{{ checkValue(currentUser.avatar, 'avatar', 'null') }}" class="rounded-circle" height="40" width="40"/>
                   </div>
                   <div class="col-11 pt-2">
 
-                    <div class="input-group negative-margin-50">
+                    <div class="input-group">
                       <input 
                       type="text" 
                       placeholder="enter comment..." 
@@ -397,7 +397,7 @@
                    <ul class="chat-widget m-r-2 clearfix">
                     <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
                       <img 
-                      src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
+                      src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" 
                       class="rounded-circle" alt="">
                       <div class="chat-info">
                         <span class="message">

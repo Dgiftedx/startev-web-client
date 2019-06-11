@@ -24,7 +24,11 @@ export class BaseService {
   //Algorithm to show user Job title
   echoJobTitle(roleData: any, role: string){
     if (role === 'student') {
-      return roleData.institution;
+      if (roleData.institution) {
+          return roleData.institution;
+      }else{
+          return "New User";
+      }
     }
 
     if (role === 'mentor') {
@@ -43,11 +47,17 @@ export class BaseService {
         });
 
         return presentWork.position;
-      }
+      }else{
+        return "New User";
+       }
     }
 
     if (role === 'business') {
-    	return roleData.name;
+    	if (roleData.name) {
+            return roleData.name;
+        }else{
+            return "New User";
+        }
     }
   }
 
