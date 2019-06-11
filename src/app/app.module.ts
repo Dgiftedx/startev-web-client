@@ -8,6 +8,7 @@ import { CKEditorModule } from 'ngx-ckeditor';
 import { LaddaModule } from  'angular7-ladda';
 import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
+import * as  Cloudinary from 'cloudinary-core';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { InputSearchModule } from 'ngx-input-search';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -21,6 +22,8 @@ import { VgBufferingModule} from 'videogular2/buffering';
 import { FilePickerModule } from  'ngx-awesome-uploader';
 import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
+import { environment } from '../environments/environment';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VgOverlayPlayModule} from 'videogular2/overlay-play';
@@ -209,7 +212,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      FilePickerModule,
      SweetAlert2Module.forRoot(),
      Angular4PaystackModule,
-     NgxPrintModule
+     NgxPrintModule,
+     CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 
   exports : [

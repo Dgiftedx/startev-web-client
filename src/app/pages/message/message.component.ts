@@ -159,6 +159,72 @@ export class MessageComponent implements OnInit {
 	}
 
 
+	//==================== check if no messages ======================//
+
+	checkLocalMessages(): boolean{
+		return this.count(this.messages$) > 0 ?true:false;
+	}
+
+
+	//==================== fetchContact ===============================//
+	fetchContact(contact_id:number){
+		return _.findLast(this.messages$, ['id',contact_id]);
+	}
+
+
+	//==================== check if there is already existing conversation ======================//
+	checkExistingConversation(contact_id:number) {
+		if (!this.checkLocalMessages()) {
+			return false;
+		}
+
+		//return if chat was found or not
+		return typeof this.fetchContact(contact_id) ===  'undefined' ? false:true;
+		
+	}
+
+
+
+	//========================= create mockup ===============================//
+	/**
+	*
+	* Create a mockup for the new chat if message is actually sent, log messge and call
+	* call local messages method to fetch saved messaged.
+	*/
+	createMockup (contact:any) {
+		contact.messages = [];
+		return contact;
+	}
+
+
+
+
+	//===================== Set New chat ===============================//
+	setNewChat(contact:any){
+		//if no previous messages
+		if (!this.checkExistingConversation(contact.id)) {
+			//set current chat to a new mockup using user contact
+			let currentChat = this.createMockup(contact);
+			//push mockup to messages array and set it as current chat
+			this.messages$.push(currentChat);
+			this.activeChat = currentChat;
+		}else{
+
+			//if chat with this contact is found,
+			//get user conversation and set it to current chat
+			let currentChat = this.fetchContact(contact.id);
+			this.activeChat = currentChat;
+		}
+
+
+		//switch view to recent chats.
+		setTimeout(() => {
+			this.setNavigation(this.navigation[2]);
+		});
+
+	}
+
+
 
 	//================= Check Typing Event ===========================//
 	checkTypingEvent(activeChat_id:number){
@@ -313,9 +379,6 @@ export class MessageComponent implements OnInit {
 			this.getContacts();
 		}
 
-		if (nav.id === 3) {
-			// this.getMessages();
-		}
 		this.selectedNav = nav;
 
 		setTimeout(() => {
@@ -364,7 +427,7 @@ export class MessageComponent implements OnInit {
 
 
 	stopTypingEvent(event:any, receiver_id:number){
-		let message = "Typing...";
+		let message = "Stopped typing...";
 
 			let data = {
 				sender_id : this.currentUser.id,
@@ -413,12 +476,16 @@ export class MessageComponent implements OnInit {
 
 	sendMessage(activeChat:any) {
 
-		let payload = {
+		let payload:any = {
 			sender_id: this.currentUser.id,
 			receiver_id: activeChat.id,
 			message: this.chatMessage,
 			type: 'text'
 		};
+
+		if (activeChat.status === 'online') {
+			payload.status = 'read';
+		}
 
 		this.chatMessage = '';
 

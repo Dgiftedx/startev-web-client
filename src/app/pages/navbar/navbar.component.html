@@ -10,12 +10,12 @@
                     <a class="navbar-brand" href="/"><img src="assets/logo/logo_.png" width="40" alt="Startev"><span class="m-l-10">Startev</span></a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li class="search_bar hidden-xs hidden-md">
+                    <li class="search_bar hidden-xs">
                         <div class="input-group">                
                             <input type="text" class="form-control" placeholder="Find your stuff...">
                         </div>
                     </li>
-                    <li class="hidden-sm hidden-xs hidden-md">
+                    <li class="hidden-sm visible-menu">
                         <a 
                         [routerLink]="['/']" 
                         routerLinkActive="active" 
@@ -26,7 +26,7 @@
                             <span class="inline-text"> Home</span>
                         </a>
                     </li>
-                     <li class="hidden-sm">
+                     <li class="hidden-sm visible-menu">
                         <a
                         [routerLink]="['/knowledge-hub']" 
                         routerLinkActive="active" 
@@ -37,7 +37,7 @@
                             </span><span class="inline-text"> Knowledge Hub</span>
                         </a>
                     </li>
-                     <li class="hidden-sm">
+                     <li class="hidden-sm visible-menu">
                         <a 
                         [routerLink]="['/venture-hub']" 
                         routerLinkActive="active"
@@ -48,14 +48,14 @@
                             </span><span class="inline-text"> Venture Hub</span>
                         </a>
                     </li>
-                    <li class="hidden-sm">
+                    <li class="hidden-sm visible-menu">
                         <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
                             <span class="inline-icon">
                                 <fa-icon [icon]="['fas','comment-alt']" size="lg"></fa-icon>
                             </span><span class="inline-text"> Messages</span>
                         </a>
                     </li>
-                    <li class="dropdown notifications">
+                    <li class="dropdown notifications visible-menu">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <span class="inline-icon">
                                 <fa-icon [icon]="['fas','bell']" size="lg"></fa-icon>
@@ -119,13 +119,14 @@
             <div class="col-12">
                 <div class="menu">
                     <ul class="list" style="max-height: 50px;">
-                         <li *ngFor="let industry of industries" class="hidden-sm"> 
+                        <li class="header">Menu</li>
+                         <li *ngFor="let industry of industries" class="floating-nav"> 
                             <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
                                 <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
                             </a>
                         </li>
                        
-                         <li class="hidden-sm"> 
+                         <li class="floating-nav"> 
                             <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
                         </li>
 
@@ -177,7 +178,7 @@
 </aside>
 
 <div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">
-    <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you viible to other users on the platform</span>
+    <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you visible to other users on the platform</span>
 </div>
 
 <!-- Right Bar Section -->

@@ -185,6 +185,10 @@ export class BaseService {
 		return this.http.get(`${this.endpoint}/single-feed/${feed_id}`).pipe(delay(500));
 	}
 
+    public FeedManageAction(formData: any, url:string){
+        return this.http.post<any>(`${this.endpoint}/${url}`, formData);
+    }
+
 	//Publish publication
 	public publishPublication(formData: any){
         return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);

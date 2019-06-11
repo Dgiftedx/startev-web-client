@@ -91,11 +91,11 @@
                  <div class="col-sm-12 col-md-12">
                   <div class="card feeds-container fadeIn">
                     <div class="body zero-m">
-                      <div class="row zero-m">
-                        <div class="col-lg-10 col-sm-12">
+                      <div class="row zero-m justify-content-md-center">
+                        <div class="col-10">
                           <button #articlePost (click)="writePost('article')" type="button" class="btn btn-white btn-block waves-effect"> Write an article</button>
                         </div>
-                        <div class="col-lg-2 col-sm-12 text-right">
+                        <div class="col-2">
                           <button type="button" #imagePost (click)="writePost('image')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
 
                           <!-- <button type="button" #videoPost (click)="writePost('video')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
@@ -133,9 +133,9 @@
                     <div class="chat-header clearfix post-feed-header">
                       <div class="row">
                         <div class="col-lg-12 zero-margin">
-                          <img [src]="feed.user[0].avatar" alt="avatar">
+                          <img [src]="feed.user.avatar" alt="avatar">
                           <div class="chat-about feed-meta">
-                            <h6 class="m-b-0 feed-user">{{ feed.user[0].name }}</h6>
+                            <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
                             <small class="feed-title">{{ feed.title }}</small><br/>
                             <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                           </div>
@@ -149,17 +149,17 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li>
-                            <a [routerLink]="">
+                            <a [routerLink]="" (click)="hideFeed(feed.id)">
                               <fa-icon [icon]="['fas','tag']"></fa-icon>
                               <span class="pl-1 dropdown-link">Hide this post</span>
                             </a>
                           </li>
-                              <!-- <li>
-                                  <a [routerLink]="">
-                                      <fa-icon [icon]="['fas','ban']"></fa-icon>
-                                      <span class="pl-1 dropdown-link">Unfollow {{ feed.user[0].name }}</span>
-                                  </a>
-                                </li> -->
+                              <li>
+                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
+                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
+                                    <span class="pl-1 dropdown-link">Delete Feed</span>
+                                </a>
+                              </li>
                               </ul>
                             </div>
                           </div>
@@ -175,7 +175,7 @@
                         <!-- Post Type Like Box -->
                         <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
                           <div class="row clearfix zero-m">
-                            <div class="col-md-2 pt-0">
+                            <div class="col-4 pt-0">
                               <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                               <span class="pl-2">
                                 {{ count(feed.likers) }}
@@ -183,7 +183,7 @@
                                 <em *ngIf="count(feed.likers) <= 1">like</em>
                               </span>
                             </div>
-                            <div class="col-md-3 negative-margin-30">
+                            <div class="col-8 negative-margin-30">
                               <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                               <span class="pl-2">
                                 {{ count(feed.comments) }} 
@@ -191,6 +191,7 @@
                                 <em *ngIf="count(feed.comments) <= 1">comment</em>
                               </span>
                             </div>
+                            <!-- <div class="col-1"></div> -->
                           </div>
                           <div class="border"></div>
                         </div>
@@ -198,7 +199,7 @@
                         <!-- Post Type Reaction Box -->
                         <div class="">
                          <div class="row clearfix zero-m">
-                          <div class="col-lg-12 pl-2">
+                          <div class="col-12 pl-2">
                             <button 
                             (click)="toggleLike(feed.id)" 
                             [ngClass]="{'liked': feed.hasLiked}"
@@ -221,12 +222,12 @@
                   <!-- Post Type Comment Box -->
                   <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                     <div class="row clearfix m-1">
-                      <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
+                      <div class="col-1 pt-2" style="margin:0 !important; padding-right: 0 !important; padding-left:0 !important;">
                         <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
                       </div>
-                      <div class="col-md-10 col-sm-10 col-xs-10 pt-2">
+                      <div class="col-11 pt-2">
 
-                        <div class="input-group negative-margin-50">
+                        <div class="input-group">
                           <input 
                           type="text" 
                           placeholder="enter comment..." 
@@ -270,9 +271,9 @@
                <div class="chat-header clearfix post-feed-header">
                 <div class="row">
                   <div class="col-lg-12 zero-margin">
-                    <img [src]="feed.user[0].avatar" alt="avatar">
+                    <img [src]="feed.user.avatar" alt="avatar">
                     <div class="chat-about feed-meta">
-                      <h6 class="m-b-0 feed-user">{{ feed.user[0].name }}</h6>
+                      <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
                       <small class="feed-title">{{ feed.title }}</small><br/>
                       <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                     </div>
@@ -284,19 +285,19 @@
                     class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
                     <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
                   </button>
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    <li>
-                      <a [routerLink]="">
-                        <fa-icon [icon]="['fas','tag']"></fa-icon>
-                        <span class="pl-1 dropdown-link">Hide this post</span>
-                      </a>
-                    </li>
-                            <!-- <li>
-                                <a [routerLink]="">
-                                    <fa-icon [icon]="['fas','ban']"></fa-icon>
-                                    <span class="pl-1 dropdown-link">Unfollow {{ feed.user[0].name }}</span>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li>
+                            <a [routerLink]="" (click)="hideFeed(feed.id)">
+                              <fa-icon [icon]="['fas','tag']"></fa-icon>
+                              <span class="pl-1 dropdown-link">Hide this post</span>
+                            </a>
+                          </li>
+                            <li>
+                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
+                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
+                                    <span class="pl-1 dropdown-link">Delete Feed</span>
                                 </a>
-                              </li> -->
+                              </li>
                             </ul>
 
                           </div>
@@ -304,6 +305,11 @@
                       </div>
                       <div class="post-feed-inner bg_grey">
                         <div class="" class="">
+                         <!--  <cl-image
+                            public-id={{feed.image}}
+                            class="thumbnail inline" 
+                            format="jpg">
+                        </cl-image> -->
                           <img [src]="feed.image" alt="" [ngStyle]="{'height': '350px','width':'100%'}"/>
                         </div>
                       </div>
@@ -318,7 +324,7 @@
                     <!-- Picture Post Type like Box -->
                     <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
                       <div class="row clearfix zero-m">
-                        <div class="col-md-2 pt-0">
+                        <div class="col-4 pt-0">
                           <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                           <span class="pl-2">
                             {{ count(feed.likers) }}
@@ -326,7 +332,7 @@
                             <em *ngIf="count(feed.likers) <= 1">like</em>
                           </span>
                         </div>
-                        <div class="col-md-3 negative-margin-30">
+                        <div class="col-8 negative-margin-30">
                           <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                           <span class="pl-2">
                             {{ count(feed.comments) }} 
@@ -337,7 +343,6 @@
                       </div>
                       <div class="border"></div>
                     </div>
-
 
 
                     <!-- Picture Post Type Reaction Box -->
@@ -366,10 +371,10 @@
               <!-- Picture Post Type Comment Box -->
               <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                 <div class="row clearfix m-1">
-                  <div class="col-md-2 pt-2 col-sm-2 col-xs-2">
+                  <div class="col-1 pt-2"  style="margin:0 !important; padding-right: 0 !important; padding-left:0 !important;">
                     <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
                   </div>
-                  <div class="col-md-10 col-sm-10 col-xs-10 pt-2">
+                  <div class="col-11 pt-2">
 
                     <div class="input-group negative-margin-50">
                       <input 
@@ -417,9 +422,9 @@
             <div class="chat-header clearfix post-feed-header">
               <div class="row">
                 <div class="col-lg-12 zero-margin">
-                  <img [src]="feed.user[0].avatar" alt="avatar">
+                  <img [src]="feed.user.avatar" alt="avatar">
                   <div class="chat-about feed-meta">
-                    <h6 class="m-b-0 feed-user">{{ feed.user[0].name }}</h6>
+                    <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
                     <small class="feed-title">{{ feed.title }}</small><br/>
                     <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
                   </div>
@@ -438,12 +443,12 @@
                       <span class="pl-1 dropdown-link">Hide this post</span>
                     </a>
                   </li>
-                            <!-- <li>
-                                <a [routerLink]="">
-                                    <fa-icon [icon]="['fas','ban']"></fa-icon>
-                                    <span class="pl-1 dropdown-link">Unfollow {{ feed.user[0].name }}</span>
+                             <li>
+                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
+                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
+                                    <span class="pl-1 dropdown-link">Delete Feed</span>
                                 </a>
-                              </li> -->
+                              </li>
                             </ul>
 
                           </div>

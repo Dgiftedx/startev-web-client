@@ -65,7 +65,7 @@
 
                                             <a *ngFor="let contact of contacts$ | async" 
                                             [routerLink]=""
-                                            (click)="openChatWindow(contact)"
+                                            (click)="setNewChat(contact)"
                                             class="filterMembers all contact" 
                                             [class.online]="contact.status === true" 
                                             [class.offline]="contact.status === false" 
@@ -142,8 +142,8 @@
                                             <a *ngFor="let user of messages$" 
                                             [routerLink]=""
                                             (click)="openChatWindow(user)"
-                                            [class.read]="user.messages[0].status === read"
-                                            [class.unread]="user.messages[0].status === unread"
+                                            [class.read]="count(user.messages) > 0 && user.messages[0].status === read"
+                                            [class.unread]="count(user.messages) > 0 && user.messages[0].status === unread"
                                             class="filterDiscussions all single"
                                             [class.active]="activeChat.id === user.id" 
                                             id="list-chat-list" data-toggle="list" role="tab">
