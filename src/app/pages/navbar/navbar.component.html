@@ -12,7 +12,7 @@
                 <ul class="nav navbar-nav">
                     <li class="search_bar hidden-xs">
                         <div class="input-group">                
-                            <input type="text" class="form-control" placeholder="Find your stuff...">
+                            <input type="text" class="form-control" #search (ngxInputSearch)="doTheSearch($event)" placeholder="Find your stuff...">
                         </div>
                     </li>
                     <li class="hidden-sm visible-menu">

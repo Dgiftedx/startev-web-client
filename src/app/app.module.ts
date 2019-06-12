@@ -107,6 +107,7 @@ import { NoAccessComponent } from './pages/no-access/no-access.component';
 import { MainStoreComponent } from './pages/main-store/main-store.component';
 import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
 import { CartViewComponent } from './pages/main-store/cart-view/cart-view.component';
+import { SearchResultComponent } from './pages/search-result/search-result.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -163,6 +164,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     MainStoreComponent,
     ProductViewComponent,
     CartViewComponent,
+    SearchResultComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
