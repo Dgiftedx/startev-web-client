@@ -13,5 +13,6 @@ export class User {
     address : string;
     role: string;
     bg_image: string;
+    email_verified_at: Date;
     access_token?: string;
 }
