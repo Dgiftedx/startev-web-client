@@ -37,6 +37,13 @@ export class NavbarComponent implements OnInit {
   }
 
 
+    //===================== Search Handler ===================//
+  doTheSearch($event: Event) {
+    const stringEmitted = ($event.target as HTMLInputElement).value;
+    // Your request...
+    console.log(stringEmitted);
+  }
+
 
   toggleNav() {
     this.show = !this.show;
