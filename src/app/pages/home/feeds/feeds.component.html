@@ -18,7 +18,7 @@
             <div class="row">
               <!-- Publish to knowledge hub for Business Entity & Mentors -->
               <div class="col-md-12 zero-m">
-               <div *ngIf="profile.role ==='mentor' || profile.role ==='business'">
+               <div *ngIf="profile.role ==='business'">
                  <a 
                  [routerLink]="['/store-manager']"
                  class="btn btn-info btn-block waves-effect p-2"> Open Store Manager</a>
@@ -475,7 +475,7 @@
 
               </div>
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-3 sticky">
+            <div class="col-sm-12 col-md-12 col-lg-3">
               <div class="row clearfix">
                 <div class="col-md-12">
                   <app-follow></app-follow>
