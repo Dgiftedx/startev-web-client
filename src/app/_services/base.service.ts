@@ -12,124 +12,143 @@ import { AuthenticationService } from './authentication.service';
 })
 export class BaseService {
 
-	constructor(
-		private http: HttpClient,
-		private authenticationService : AuthenticationService) { }
+    private querySource: BehaviorSubject<any> = new BehaviorSubject('');
+    currentSearchQuery = this.querySource.asObservable();
+
+    constructor(
+        private http: HttpClient,
+        private authenticationService : AuthenticationService) { }
 
 
-	endpoint = this.authenticationService.endpoint;
-	endPointAuth = this.authenticationService.endPointAuth;
 
+    //get emdpoints
+    endpoint = this.authenticationService.endpoint;
+    endPointAuth = this.authenticationService.endPointAuth;
 
-  //Algorithm to show user Job title
-  echoJobTitle(roleData: any, role: string){
-    if (role === 'student') {
-      if (roleData.institution) {
-          return roleData.institution;
-      }else{
-          return "New User";
-      }
+    //set a new query parameter
+    changeQuery(query:string):void {
+        this.querySource.next(query);
     }
 
-    if (role === 'mentor') {
-      
-      if (roleData.employmentStatus === 'Own a Business') {
-        return 'Business Owner';
-      }
 
-      if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
-        let presentWork;
-
-        roleData.workExperience.forEach((experience, index) => {
-          if (experience.till_present) {
-            presentWork = roleData.workExperience[index];
-          }
-        });
-
-        return presentWork.position;
-      }else{
-        return "New User";
-       }
+     public getSearchResults( query:any ){
+        return this.http.post(`${this.endpoint}/get-search-results`, query);
     }
 
-    if (role === 'business') {
-    	if (roleData.name) {
-            return roleData.name;
-        }else{
-            return "New User";
+    //Algorithm to show user Job title
+    echoJobTitle(roleData: any, role: string){
+        if (role === 'student') {
+            if (roleData.institution) {
+                return roleData.institution;
+            }else{
+                return "New User";
+            }
+        }
+
+        if (role === 'mentor') {
+
+            if (roleData.employmentStatus === 'Own a Business') {
+                return 'Business Owner';
+            }
+
+            if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
+                let presentWork;
+
+                roleData.workExperience.forEach((experience, index) => {
+                    if (experience.till_present) {
+                        presentWork = roleData.workExperience[index];
+                    }
+                });
+
+                return presentWork.position;
+            }else{
+                return "New User";
+            }
+        }
+
+        if (role === 'business') {
+            if (roleData.name) {
+                return roleData.name;
+            }else{
+                return "New User";
+            }
         }
     }
-  }
 
-	public fetchIndustries(){
-		return this.http.get(`${this.endpoint}/industries`);
-	}
+    public fetchIndustries(){
+        return this.http.get(`${this.endpoint}/industries`);
+    }
 
-	public fetchAllIndustries(){
-		return this.http.get(`${this.endpoint}/all-industries`);
-	}
-
-
-	public getSingleIndustry(slug : any){
-		return this.http.get(`${this.endpoint}/single-industry/${slug}`);
-	}
-
-	public fetchUserProfile(){
-		return this.http.get(`${this.endpoint}/get-profile`);
-	}
+    public fetchAllIndustries(){
+        return this.http.get(`${this.endpoint}/all-industries`);
+    }
 
 
-	public fetchCountries(){
-		return this.http.get(`${this.endpoint}/countries`);
-	}
+    public getSingleIndustry(slug : any){
+        return this.http.get(`${this.endpoint}/single-industry/${slug}`);
+    }
 
-	public getStates(id : any){
-		return this.http.get(`${this.endpoint}/states/${id}`);
-	}
+    public fetchUserProfile(){
+        return this.http.get(`${this.endpoint}/get-profile`);
+    }
 
 
-	public getCities(id : any){
-		return this.http.get(`${this.endpoint}/cities/${id}`);
-	}
+    public fetchGeneralProfile( slug:string ){
+        return this.http.get(`${this.endpoint}/get-general-profile/${slug}`).pipe(delay(500));
+    }
 
-	// Register a new user
+
+    public fetchCountries(){
+        return this.http.get(`${this.endpoint}/countries`);
+    }
+
+    public getStates(id : any){
+        return this.http.get(`${this.endpoint}/states/${id}`);
+    }
+
+
+    public getCities(id : any){
+        return this.http.get(`${this.endpoint}/cities/${id}`);
+    }
+
+    // Register a new user
     public updateUserData(formData: any, url : string, id : number){
         return this.http.post<any>(`${this.endpoint}/${url}/${id}`, formData);
     }
 
     public fetchCareerPaths(){
-		return this.http.get(`${this.endpoint}/career-paths`);
-	}
+        return this.http.get(`${this.endpoint}/career-paths`);
+    }
 
-	public updateImage(imageData: any, id: number) {
-		return this.http.post<any>(`${this.endpoint}/update-user-avatar/${id}`, imageData);
-	}
+    public updateImage(imageData: any, id: number) {
+        return this.http.post<any>(`${this.endpoint}/update-user-avatar/${id}`, imageData);
+    }
 
-	public updateHeaderImage(imageData: any, id: number){
-		let formData = new FormData();
-		formData.append('image', imageData);
-		return this.http.post<any>(`${this.endpoint}/update-user-header-image/${id}`, formData);
-	}
-
-
-	public promiseAllIndustries(){
-		return this.http.get(`${this.endpoint}/all-industries`).pipe(delay(500));
-	}
-
-	public promiseSingleIndustry(slug: any){
-		return this.http.get(`${this.endpoint}/single-industry/${slug}`).pipe(delay(500));
-	}
+    public updateHeaderImage(imageData: any, id: number){
+        let formData = new FormData();
+        formData.append('image', imageData);
+        return this.http.post<any>(`${this.endpoint}/update-user-header-image/${id}`, formData);
+    }
 
 
-	public promiseUserProfile(){
-		return this.http.get(`${this.endpoint}/get-profile`).pipe(delay(500));
-	}
+    public promiseAllIndustries(){
+        return this.http.get(`${this.endpoint}/all-industries`).pipe(delay(500));
+    }
 
-	public promiseMentorProfile(slug : any){
-		return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(500));
-	}
+    public promiseSingleIndustry(slug: any){
+        return this.http.get(`${this.endpoint}/single-industry/${slug}`).pipe(delay(500));
+    }
 
-	public getFeeds(){
+
+    public promiseUserProfile(){
+        return this.http.get(`${this.endpoint}/get-profile`).pipe(delay(500));
+    }
+
+    public promiseMentorProfile(slug : any){
+        return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(500));
+    }
+
+    public getFeeds(){
         return this.http.get(`${this.endpoint}/get-feeds`);
     }
 
@@ -156,12 +175,12 @@ export class BaseService {
     }
 
     public businessVentures(id: number){
-		return this.http.get(`${this.endpoint}/business-ventures/${id}`);
-	}
+        return this.http.get(`${this.endpoint}/business-ventures/${id}`);
+    }
 
-	public ventureByBusiness(id: number){
-		return this.http.get(`${this.endpoint}/venture-by-business/${id}`);
-	}
+    public ventureByBusiness(id: number){
+        return this.http.get(`${this.endpoint}/venture-by-business/${id}`);
+    }
 
     // Register a new user
     public updateVenture(formData: any, url : string){
@@ -173,14 +192,14 @@ export class BaseService {
     }
 
     public singleVenture(identifier: any){
-		return this.http.get(`${this.endpoint}/single-venture/${identifier}`).pipe(delay(500));
-	}
+        return this.http.get(`${this.endpoint}/single-venture/${identifier}`).pipe(delay(500));
+    }
 
-	public applyToPartner(id : number, user_id: number, url : string) {
-		return this.http.get(`${this.endpoint}/${url}/${id}/${user_id}`);
-	}
+    public applyToPartner(id : number, user_id: number, url : string) {
+        return this.http.get(`${this.endpoint}/${url}/${id}/${user_id}`);
+    }
 
-	//User Likes & Un-like reaction on feeds 
+    //User Likes & Un-like reaction on feeds 
     public toggleLike(userId: number, target_id : number){
     	return this.http.get(`${this.endpoint}/toggle-like/${userId}/${target_id}`);
     }
@@ -192,17 +211,23 @@ export class BaseService {
 
     //Get single feed data
     public singleFeed(feed_id: any){
-		return this.http.get(`${this.endpoint}/single-feed/${feed_id}`).pipe(delay(500));
-	}
+        return this.http.get(`${this.endpoint}/single-feed/${feed_id}`).pipe(delay(500));
+    }
 
     public FeedManageAction(formData: any, url:string){
         return this.http.post<any>(`${this.endpoint}/${url}`, formData);
     }
 
-	//Publish publication
-	public publishPublication(formData: any){
+    //Publish publication
+    public publishPublication(formData: any){
         return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);
     }
+
+    //Delete publication from knowledge Hub
+    public deletePublication( pub_id:number ){
+        return this.http.get(`${this.endpoint}/delete-publication/${pub_id}`);
+    }
+
 
     //Pull publications for knowledge Hub
     public getPublications(){
@@ -236,6 +261,10 @@ export class BaseService {
     }
 
 
+    //Nav Widget Notification
+    public getWidgetNotifications(userId: number ){
+        return this.http.get(`${this.endpoint}/get-widget-notifications/${userId}`);
+    }
 
     //================================= Chat Service ====================================//
     public getContacts(user_id:number): Observable<any>{

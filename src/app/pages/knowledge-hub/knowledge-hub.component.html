@@ -35,11 +35,11 @@
           <strong>{{ initials(pub.user.business.name) }}</strong> - {{ pub.user.business.name |titlecase }} 
           <small>{{ pub.audience|titlecase }}</small>
         </h2>                        
-        <ul class="header-dropdown">
+        <ul class="header-dropdown" *ngIf="pub.user_id === profile.roleData.user_id">
           <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="javascript:void(0);">Action</a></li>
-              <li><a href="javascript:void(0);" class="boxs-close">Delete</a></li>
+              <li><a [routerLink]="" (click)="editPublication">Edit</a></li>
+              <li><a [routerLink]="" (click)="deletePublication(pub)" class="boxs-close">Delete</a></li>
             </ul>
           </li>
         </ul>

@@ -29,9 +29,11 @@
 				<div class="card feeds-container fadeIn">
 					<div class="body business">
 						<div class="business-content min-height-200">
-							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />
+							<a [routerLink]="['/general-profile', venture.business.user.slug]">
+								<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />
 							<h5>{{ venture.venture_name | titlecase }}</h5>
 							<span>{{ venture.business.name | titlecase }}</span>
+						</a>
 							<p class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</p>
 						</div>
 						

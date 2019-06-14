@@ -1,0 +1,255 @@
+<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+	<div class="container">
+		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
+			 <div class="col-sm-12 col-md-12 col-lg-9">
+    			<div class="row clearfix">
+    				<div class="col-md-12">
+    					<div class="card feeds-container">
+    						<div class="card member-card feeds-container fadeIn">
+						          <div class="header" [ngStyle]="{'background-image': 'url('+profile.user.bg_image+')', 'background-position': 'center top', 'height' : '250px'}">
+						            <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
+						            &nbsp;
+						          </div>
+						          <div class="member-img float-left p-3" style="margin-top: -80px;">
+						              <img src="{{ checkValue(profile.user.avatar,'avatar','null') }}" class="rounded-circle" alt="profile-image">
+						          </div>
+						          <div class="p-3">
+						          	 <button 
+			                          data-toggle="dropdown"
+			                          [attr.aria-haspopup]="true"
+			                          [attr.aria-expanded]="false"
+			                          class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
+			                          <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
+			                        </button>
+			                        <ul class="dropdown-menu dropdown-menu-right">
+			                          <li>
+			                            <a [routerLink]="">
+			                              <fa-icon [icon]="['fas','tag']"></fa-icon>
+			                              <span class="pl-1 dropdown-link">Save Profile</span>
+			                            </a>
+			                          </li>
+		                              <li>
+		                                <a [routerLink]="">
+		                                    <fa-icon [icon]="['fas','ban']"></fa-icon>
+		                                    <span class="pl-1 dropdown-link">Remove Connection</span>
+		                                </a>
+		                              </li>
+		                            </ul>
+						          </div>
+
+						          <div class="body">
+
+						          	<!-- Mentors & Student -->
+						            <div class="row clearfix"  *ngIf="profile.role !== 'business'">
+						             
+							             <div class="col-md-12 p-2 align-left">
+							             	<span class="apple-font" style="font-size: 28px;">{{ profile.user.name | titlecase }}</span>
+
+							             <p class="apple-font" *ngIf="profile.role === 'student'" style="font-size: 20px;"> Studying At {{ profile.roleData.institution }}</p>
+
+							             <p class="apple-font" *ngIf="profile.role === 'mentor'" style="font-size: 20px;"> {{ profile.roleData.current_job_position }} 
+
+							             	<span *ngIf="profile.roleData.employmentStatus ==='Own a Business'">at Owned Business</span>
+
+							             	<span *ngIf="profile.roleData.employmentStatus ==='Employed' && profile.roleData.workExperience"> {{ profile.roleData.workExperience[0].company }}</span>
+							             </p>
+
+							             <span>{{ profile.user.country }} . <a class="btn-link rigid" [routerLink]="">See connections</a> . <a class="btn-link rigid" [routerLink]="">contact info</a></span>
+
+							             <p class="float-right icon-heading" *ngIf="profile.role === 'mentor' && profile.roleData.workExperience"><i class="icon-briefcase"></i> 
+							             	<span *ngIf="!profile.roleData.workExperience[0].till_present">Former:</span> {{profile.roleData.workExperience[0].position}} at {{ profile.roleData.workExperience[0].company }}</p>
+
+							             
+							             </div>
+						            </div>
+
+						             <div class="row clearfix"  *ngIf="profile.role === 'business'">
+
+							             <div class="col-md-12 p-2 align-left">
+							             	<span class="apple-font" style="font-size: 28px;">{{ profile.roleData.name | titlecase }}</span>
+							             	<p>{{ profile.roleData.description }}</p>
+
+							             	 <span>{{ profile.user.country }} . <a class="btn-link rigid" [routerLink]="">See connections</a> . <a class="btn-link rigid" [routerLink]="">contact info</a></span>
+
+							             	 <p class="float-right icon-heading"><i class="icon-briefcase"></i> 
+							             	{{ profile.roleData.website }}</p>
+
+							             </div>
+						             </div>
+
+						         </div>
+						          
+						       </div>
+						       
+
+						        
+    					</div>
+    				</div>
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="profile.role === 'business' && count(profile.roleData.services) > 0">
+    						<div class="header">
+    							<h2><strong>Services</strong></h2>
+    						</div>
+    						<div class="body">
+    							<ul class="list-styled m-b-0">
+    								<li *ngFor="let service of profile.roleData.services">
+    									{{ service }}
+    								</li>
+    							</ul>
+    						</div>
+
+    					</div>
+    				</div>
+
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="profile.role === 'mentor' && profile.roleData.education">
+    						<div class="header">
+    							<h2><strong>Education</strong></h2>
+    						</div>
+    						<div class="body">
+    							<ul class="list-unstyled edu-list">
+    								<li *ngFor="let education of profile.roleData.education">
+    									<div class="edu-icon float-left">
+    										<i class="icon-briefcase"></i>
+    									</div>
+    									<div class="edu-contents">
+    										<strong class="apple-font">{{ education.institution }}</strong>
+    										<p>{{ education.program }}</p>
+    										<small>{{ education.from_date | date:'mediumDate' }} - {{ education.to_date | date:'mediumDate' }}</small>
+    									</div>
+    								</li>
+    							</ul>
+    						</div>
+    					</div>
+    				</div>
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="profile.role === 'mentor' && profile.roleData.workExperience">
+    						<div class="header">
+    							<h2><strong>Work Experience</strong></h2>
+    						</div>
+    						<div class="body">
+    							<ul class="list-unstyled edu-list">
+    								<li *ngFor="let work of profile.roleData.workExperience">
+    									<div class="edu-icon float-left">
+    										<i class="icon-briefcase"></i>
+    									</div>
+    									<div class="">
+    										<strong class="apple-font">{{ work.position }}</strong><br/>
+    										<span>{{ work.company }}</span><br/>
+    										<small>{{ work.location }}</small><br/>
+    										<small>{{ work.from_date | date:'mediumDate' }} - 
+    											<span *ngIf="work.to_date">{{ work.to_date | date:'mediumDate' }}</span>
+    											<span *ngIf="work.till_present">Till present</span>
+    										</small>
+    									</div>
+    								</li>
+    							</ul>
+    						</div>
+    					</div>
+    				</div>
+
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="count(profile.followers) > 0">
+    						<div class="header">
+    							<h2><strong>Followers</strong> People following 
+    								<span *ngIf="profile.role !== 'business'">{{ profile.user.name }}</span>
+    								<span *ngIf="profile.role === 'business'">{{ profile.roleData.name }}</span>
+    							</h2>
+    						</div>
+    						<div class="body">
+    							<ul class="follow_us list-unstyled m-b-0">                            
+                                        <li class="online" *ngFor="let user of profile.followers">
+                                            <a [routerLink]="['/general-profile', user.slug]">
+                                                <div class="media">
+                                                    <img 
+                                                    class="media-object" 
+                                                    src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
+                                                    alt="">
+                                                    <div class="media-body">
+                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} <small *ngIf="user.state || user.country">- {{ user.state }}, {{ user.country }}</small></span>
+                                                    </div>
+                                                  
+                                                </div>
+                                            </a>                            
+                                        </li>            
+                                    </ul>
+    						</div>
+
+    					</div>
+    				</div>
+
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="count(profile.following) > 0">
+    						<div class="header">
+    							<h2><strong>Following</strong> People who 
+    							<span *ngIf="profile.role !== 'business'">{{ profile.user.name }}</span>
+    								<span *ngIf="profile.role === 'business'">{{ profile.roleData.name }}</span>
+    							 is following</h2>
+    						</div>
+    						<div class="body">
+    							<ul class="follow_us list-unstyled m-b-0">                            
+                                        <li class="online" *ngFor="let user of profile.following">
+                                            <a [routerLink]="['/general-profile', user.slug]">
+                                                <div class="media">
+                                                    <img 
+                                                    class="media-object" 
+                                                    src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
+                                                    alt="">
+                                                    <div class="media-body">
+                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} <small *ngIf="user.state || user.country">- {{ user.state }}, {{ user.country }}</small></span>
+                                                    </div>
+                                                   <!--  <div class="float-right">
+                                                        <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                                        </button>
+                                                        <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                                        </button>
+                                                    </div> -->
+                                                </div>
+                                            </a>                            
+                                        </li>            
+                                    </ul>
+    						</div>
+
+    					</div>
+    				</div>
+
+
+    				<div class="col-md-12">
+    					<div class="card feeds-container" *ngIf="count(profile.user.industries) > 0">
+    						<div class="header">
+    							<h2><strong>Interests & Career Fields</strong></h2>
+    						</div>
+    						<div class="body">
+    							<ul class="list-styled m-b-0">
+    								<li *ngFor="let field of profile.user.industries">
+    									{{ field.name }}
+    								</li>
+    							</ul>
+    						</div>
+
+    					</div>
+    				</div>
+
+    			</div>
+    		</div>
+
+    		 <div class="col-sm-12 col-md-12 col-lg-3">
+              <div class="row clearfix">
+                <div class="col-md-12">
+                  <app-follow></app-follow>
+                </div>
+              </div>
+
+            </div>
+		</div>
+	</div>
+</section>

@@ -15,7 +15,7 @@
 			<div class="col-md-3 m-t--30">
 				<div class="card member-card transparent fadeIn">
                     <div class="member-img">
-                        <a href="#" class="">
+                        <a [routerLink]="['/general-profile', currentUser.slug]" class="">
                         <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg'}}" class="user_pic rounded-circle img-raised" alt="profile-image">
                         </a>
                     </div>
@@ -78,7 +78,7 @@
                                 <div class="body">
                                     <ul class="follow_us list-unstyled m-b-0">                            
                                         <li class="online" *ngFor="let user of profile.followers">
-                                            <a href="javascript:void(0);">
+                                            <a [routerLink]="['/general-profile', user.slug]">
                                                 <div class="media">
                                                     <img 
                                                     class="media-object" 
@@ -126,7 +126,7 @@
                                 <div class="body">
                                     <ul class="follow_us list-unstyled m-b-0">                            
                                         <li class="online" *ngFor="let user of profile.following">
-                                            <a href="javascript:void(0);">
+                                            <a [routerLink]="['/general-profile', user.slug]">
                                                 <div class="media">
                                                     <img 
                                                     class="media-object" 
@@ -396,33 +396,12 @@
 
 
 			<div class="col-md-3 m-t-80 sticky">
-				<div class="card feeds-container zero-m">
-                    <div class="body zero-m" *ngIf="people.length > 0">
-                        <div class="bg_grey">
-                            <p class="follow-suggestion-text">People you might like to follow_</p>
-                        </div>
-                    	<ul class="list-group custom-list zero-m">
-                    		<li class="list-group-item" *ngFor="let person of people">
-                    			<img src="{{ person.avatar?person.avatar : 'assets/images/default/avatar.jpg' }}" height="50" class="rounded-circle float-left" />
-                    			<div class="list-content">
-                    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
-                    				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
-                    			</div>
-                    			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
-                                   <fa-icon [icon]="['fas','plus']"></fa-icon>  Follow
-                                 </button>
-                    		</li>
-                    	</ul>
-                    </div>
-                    <div class="body zero-m" *ngIf="people.length === 0">
-                        <div class="bg_grey">
-                            <p class="follow-suggestion-text">Recommendations for you!</p>
-                        </div>
-                        <p class="p-3">
-                            Nice business adverts
-                        </p>
-                    </div>
+              <div class="row clearfix">
+                <div class="col-md-12">
+                  <app-follow></app-follow>
                 </div>
+              </div>
+
 			</div>
 		</div>
 	</div>

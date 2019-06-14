@@ -1,3 +1,88 @@
-<p>
-  search-result works!
-</p>
+<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+	<div class="container">
+		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
+
+			<div class="col-md-12">
+                <div class="card slideDown feeds-container">
+                    <div class="body">
+                        <ul class="nav nav-tabs p-l-0 p-r-0">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#All">All</a></li>
+                           <!--  <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Feeds">Feeds</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Videos">Videos</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#InfiniO">InfiniO</a></li> -->
+                        </ul>                        
+                       <div class="" *ngIf="count(searchQuery) > 0">
+                       	 <p class="m-b-0">Search Results For <span class="rigid text-danger">"{{ searchQuery }}"</span></p>
+                         <strong> About {{ count(searchResults) | number:0 }} result ( 0.13 seconds)</strong>
+                       </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane card feeds-container active" id="All">
+                       <div *ngIf="count(searchResults) > 0">
+                       	 <div class="body" *ngFor="let item of searchResults">
+
+                           <div *ngIf="item.type === 'feeds'">
+                           	 <h5 class="title"><a [routerLink]="[item.url]">{{item.type | titlecase}} - {{ item.title }}</a></h5>
+                            <small class="rigid text-success">https://startev.africa{{ item.url }}</small>
+                            <p class="m-t-10 search-result-content">
+                            	{{ item.searchable.body | excerpt : 170 }}
+                            </p>
+                            <span class="m-r-20"> <small>Date: {{ item.searchable.time | date:'mediumDate' }}</small></span>
+                           </div>
+
+                           <div *ngIf="item.type === 'users'">
+                           	<h5 class="title"><a [routerLink]="[item.url]">{{item.type | titlecase}} - {{ item.searchable.name }}</a></h5>
+                           	<img [src]="item.searchable.avatar" class="rounded-circle" width="100" alt="Avatar">
+                           	<p class="pt-3">{{ item.searchable.bio }}</p>
+                           
+                           </div>
+
+                           <div *ngIf="item.type === 'businesses'">
+                           		<h5 class="title"><a [routerLink]="[item.url]">{{item.type | titlecase}} - {{ item.title }}</a></h5>
+	                           	<p class="pt-3">{{ item.searchable.description | excerpt : 150 }}</p>
+	                           	<small>Company Services</small>
+	                           	<ul class="list-unstyle">
+	                           		<li *ngFor="let service of item.searchable.services">
+	                           			{{ service }}
+	                           		</li>
+	                           	</ul>
+                           </div>
+
+                        </div>
+                       
+                       <!--  <ul class="body pagination pagination-primary">
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                        </ul> -->
+                       </div>
+                       <div *ngIf="count(searchResults) === 0">
+                       	<div class="body text-center">
+                            <div class="not_found">
+                                <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
+                                <h4 class="m-b-0">Sorry No result found.</h4>
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+                   
+                    <div class="tab-pane card" id="Videos">
+                        <div class="body text-center">
+                            <div class="not_found">
+                                <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
+                                <h4 class="m-b-0">Sorry No result found.</h4>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+
+                </div>                
+            </div>
+
+		</div>
+	</div>
+</section>
