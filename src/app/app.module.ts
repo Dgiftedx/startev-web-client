@@ -45,6 +45,7 @@ import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
 import { MainStoreResolve } from './_resolvers/store.resolver';
+import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
@@ -108,6 +109,8 @@ import { MainStoreComponent } from './pages/main-store/main-store.component';
 import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
 import { CartViewComponent } from './pages/main-store/cart-view/cart-view.component';
 import { SearchResultComponent } from './pages/search-result/search-result.component';
+import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
+import { NotificationsComponent } from './pages/widgets/notifications/notifications.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -165,6 +168,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     ProductViewComponent,
     CartViewComponent,
     SearchResultComponent,
+    GeneralProfileComponent,
+    NotificationsComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -239,7 +244,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
         SingleFeedResolve,
         PublicationResolve,
         SinglePublicationResolve,
-        MainStoreResolve
+        MainStoreResolve,
+        SingleProfileResolve
   ],
   bootstrap: [AppComponent]
 })

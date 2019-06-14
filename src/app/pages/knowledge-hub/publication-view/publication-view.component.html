@@ -10,7 +10,9 @@
 
 						<div> 
 							<span>
-	                        <img src="{{ currentPublication.user.avatar?currentPublication.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
+	                       <a [routerLink]="['/general-profile', currentPublication.user.slug]">
+	                        <img src="{{ currentPublication.user.avatar?currentPublication.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90">
+	                    </a></span>
 	                    </div>
 	                    <h6 *ngIf="currentPublication.user.mentor">{{ currentPublication.user.name | titlecase }}</h6>
 	                    <h6 *ngIf="currentPublication.user.business">{{ currentPublication.user.business.name | titlecase }}</h6>

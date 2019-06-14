@@ -136,6 +136,7 @@ export class StoreManagerSettingsComponent implements OnInit {
 	//================ Submit Settings Form =====================//
 
 	onSubmitSettings(){
+
 		this.sendingSettings = true;
 
 		this.storeService.storeManagerUpdateSettings(this.profile.roleData.id, {

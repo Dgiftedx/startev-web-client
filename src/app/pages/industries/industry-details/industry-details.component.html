@@ -8,7 +8,7 @@
 						<div class="feeds-container slideDown"> 
 							<div class="body text-center p-2">
 								<form [formGroup]="industryForm">
-									<label>Select Industry</label>
+									<label>Select Career Field</label>
 									 <ng-select 
 									 		   [items]="industries"
 	                                           bindLabel="name"
@@ -36,7 +36,7 @@
 						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.mentor">
 							<div class="body">
 								<div class="cp_img">
-									<a [routerLink]="['/mentor',mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
+									<a [routerLink]="['/general-profile', mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
 									<div class="hover">
 
 
@@ -67,10 +67,10 @@
 						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.business">
 							<div class="body">
 								<div class="cp_img">
-									<img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid">
+									<a [routerLink]="['/general-profile', mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
 									<div class="hover">
 
-										<button *ngIf="mentor.id !== currentUser.id"
+										<button *ngIf="mentor.id !== currentUser.id && !mentor.business"
 										type="button" 
 										(click)="toggleConnect(mentor.id)"
 										class="btn btn-warning btn-sm waves-effect">
@@ -79,9 +79,9 @@
 										<span *ngIf="!mentor.is_connected"> Connect</span>
 									</button>
 
-									<a [routerLink]="['/profile']" *ngIf="mentor.id === currentUser.id"
+									<a [routerLink]="['/general-profile', mentor.slug]"
 										class="btn btn-warning btn-sm waves-effect">
-										Profile
+										View Page
 									</a>
 
 									</div>

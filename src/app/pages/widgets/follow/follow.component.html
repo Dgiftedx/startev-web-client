@@ -1,14 +1,17 @@
 <div class="card feeds-container fadeIn" *ngIf="count(people) > 0">
 	<div class="body zero-m">
         <div class="bg_grey">
-            <p class="follow-suggestion-text">People you might like to follow_</p>
+            <p class="follow-suggestion-text">People you might like to follow</p>
         </div>
     	<ul class="list-group custom-list zero-m">
     		<li class="list-group-item" *ngFor="let person of people">
-    			<img src="{{ checkValue(person.avatar,'avatar') }}" 
-    			height="50" class="rounded-circle float-left" />
+    			<a [routerLink]="['/general-profile', person.slug]">
+                <img src="{{ checkValue(person.avatar,'avatar') }}" 
+                height="50" class="rounded-circle img-raised float-left" />         
+                </a>
     			<div class="list-content">
-    				<h6 class="list-title">{{ person.name | titlecase }}</h6>
+    				<a [routerLink]="['/general-profile', person.slug]">
+                        <h6 class="list-title">{{ person.name | titlecase }}</h6></a>
     				<span class="list-position">{{ echoJobTitle(person.roleData.data, person.roleData.role) }}</span>
     			</div>
     			<button (click)="followUser(person.id)" class="btn btn-follow btn-sm waves-effect">
@@ -19,11 +22,8 @@
     </div>
 </div>
 
-<div class="card feeds-container fadeIn" *ngIf="count(people) < 2">
+<div class="card feeds-container fadeIn" *ngIf="count(people) < 4">
     <div class="body zero-m">
-        <div class="bg_grey">
-            <p class="follow-suggestion-text">Suggested ads</p>
-        </div>
         <div class="zero-m">
             <img src="assets/images/adverts/2.png" />
         </div>

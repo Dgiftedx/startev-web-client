@@ -144,4 +144,24 @@ export class KnowledgeHubComponent implements OnInit {
     return true;
   }
 
+
+
+  //============== Fetch Publication ==================//
+  removePublication(pub_id:number) {
+    let index =  _.findIndex(this.publications, ['id', pub_id]);
+    //remove feed item
+    this.publications.splice(index, 1);
+  }
+
+  //=============== Delete Publication if pub author ==================//
+  deletePublication(pub:any){
+
+    this.removePublication(pub.id);
+
+    this.baseService.deletePublication(pub.id)
+    .subscribe( data => {
+      this.alert.snotSimpleSuccess("publicaiton removed");
+    });
+  }
+
 }

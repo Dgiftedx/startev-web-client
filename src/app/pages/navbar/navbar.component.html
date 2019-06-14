@@ -12,7 +12,7 @@
                 <ul class="nav navbar-nav">
                     <li class="search_bar hidden-xs">
                         <div class="input-group">                
-                            <input type="text" class="form-control" #search (ngxInputSearch)="doTheSearch($event)" placeholder="Find your stuff...">
+                            <input type="text" class="form-control" #search (keyup.enter)="doTheSearch($event)" placeholder="Find your stuff...">
                         </div>
                     </li>
                     <li class="hidden-sm visible-menu">
@@ -56,31 +56,42 @@
                         </a>
                     </li>
                     <li class="dropdown notifications visible-menu">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <a href="javascript:void(0);" (click)="toggleNoty" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <span class="inline-icon">
                                 <fa-icon [icon]="['fas','bell']" size="lg"></fa-icon>
                             </span>
-                            <!-- <span class="label-count">5</span> -->
+                            <span class="label-count">{{ count(notifications) }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">New Message</li>
+                            <li class="header">New Notifications</li>
                             <li class="body">
-                                <ul class="menu list-unstyled">
-                                    <li>
-                                       <!--  <a href="javascript:void(0);">
+                                <ul class="menu list-unstyled" *ngIf="count(notifications) > 0">
+                                    <li *ngFor="let item of notifications">
+                                        <a [routerLink]="">
                                             <div class="media">
-                                                <img class="media-object" src="assets/images/xs/avatar5.jpg" alt="">
+                                                <img class="media-object" [src]="item.user.avatar" alt="">
                                                 <div class="media-body">
-                                                    <span class="name">Alexander <span class="time">13min ago</span></span>
-                                                    <span class="message">Meeting with Shawn at Stark Tower by 8 o'clock.</span>                                        
+                                                    <span class="name">{{ item.user.name }} <span class="time">{{ item.created_at | dateAgo }}</span></span>
+                                                    <span class="message">{{ item.content }}</span>                               
                                                 </div>
                                             </div>
-                                        </a> -->
+                                        </a>
                                     </li>
-                                  
+                                </ul>
+
+                                 <ul class="menu list-unstyled" *ngIf="count(notifications) === 0">
+                                    <li>
+                                        <a [routerLink]="">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <span class="message">No New Notifications</span>                               
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="footer"> <a href="javascript:void(0);">View All</a> </li>
+                            <li class="footer" *ngIf="count(notifications) > 0"> <a [routerLink]="">View All</a> </li>
                         </ul>
                     </li>
                     
@@ -127,7 +138,7 @@
                         </li>
                        
                          <li class="floating-nav"> 
-                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Industries ...</span></a>
+                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Career Fields ...</span></a>
                         </li>
 
                     <li class="topSideNav">

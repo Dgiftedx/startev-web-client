@@ -1,5 +1,6 @@
 export class User {
     id: any;
+    slug: string;
     name: string;
     username: string;
     avatar: string;

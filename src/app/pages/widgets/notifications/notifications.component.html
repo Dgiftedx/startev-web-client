@@ -1,0 +1,25 @@
+ <ul class="menu list-unstyled" *ngIf="count(notifications) > 0">
+    <li *ngFor="let item of notifications">
+        <a [routerLink]="">
+            <div class="media">
+                <img class="media-object" [src]="item.user.avatar" alt="">
+                <div class="media-body">
+                    <span class="name">{{ item.user.name }} <span class="time">{{ item.created_at | dateAgo }}</span></span>
+                    <span class="message">{{ item.content }}</span>                               
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
+
+ <ul class="menu list-unstyled" *ngIf="count(notifications) === 0">
+    <li>
+        <a [routerLink]="">
+            <div class="media">
+                <div class="media-body">
+                    <span class="message">No New Notifications</span>                               
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
