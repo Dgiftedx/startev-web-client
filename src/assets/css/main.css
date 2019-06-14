@@ -7728,6 +7728,11 @@ img {
     #logo-container .auth-logo {
     height: 60px !important;
     }
+
+    .search_bar{
+        display: block !important;
+        width: 200px !important;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -19958,6 +19963,9 @@ section small {
     .container {
         max-width: 1300px
     }
+    .search_bar {
+        display: block;
+    }
 }
 
 @media only screen and (max-width: 1359px) {
@@ -19972,7 +19980,7 @@ section small {
     }
 
     .search_bar{
-        display: none !important;
+        width: 260px !important;
     }
 }
 
