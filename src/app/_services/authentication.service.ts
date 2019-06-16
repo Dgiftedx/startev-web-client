@@ -20,9 +20,9 @@ export class AuthenticationService {
     // public endPointAuth = 'http://startev.server/api/auth';
 
     //Server
-    public endpoint = 'http://37.139.29.190:8086/api';
-    public baseurl = 'http://37.139.29.190:8086';
-    public endPointAuth = 'http://37.139.29.190:8086/api/auth';
+    public endpoint = 'https://server.startev.africa/api';
+    public baseurl = 'https://server.startev.africa';
+    public endPointAuth = 'https://server.startev.africa/api/auth';
 
 
     private iss = {
