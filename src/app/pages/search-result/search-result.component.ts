@@ -53,7 +53,6 @@ export class SearchResultComponent implements OnInit {
   	this.baseService.getSearchResults(search)
   	.subscribe(data => {
   		this.searchResults = data;
-  		console.log(data);
   	})
   }
 

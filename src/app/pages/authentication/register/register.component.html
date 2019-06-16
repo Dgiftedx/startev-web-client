@@ -131,7 +131,8 @@
           </div>
         </div>
 
-      </div>                      
+      </div>
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>              
     </form>
     <a class="link" [routerLink]="'/login'">You already have a membership?</a>
 

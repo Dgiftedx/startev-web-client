@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
 	loading = false;
 	submitted = false;
 	returnUrl: string;
-	error =  '';
+	public error:string = '';
 
 	constructor(
 		private http: HttpClient,
