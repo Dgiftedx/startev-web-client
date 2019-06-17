@@ -1,11 +1,16 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-			 <div class="col-sm-12 col-md-12 col-lg-9">
+<section class="content" [ngClass]="{'zero-margin': currentProfile.progress < 82}">
+    <div class="container-fluid">
+        <div class="row clearfix" [ngClass]="{'m-t-125': currentProfile.progress >= 82, 'zero-margin': currentProfile.progress < 82}">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-sm-12 col-lg-9">
     			<div class="row clearfix">
     				<div class="col-md-12">
     					<div class="card feeds-container">
-    						<div class="card member-card feeds-container fadeIn">
+    						<div class="card member-card fadeIn">
 						          <div class="header" [ngStyle]="{'background-image': 'url('+profile.user.bg_image+')', 'background-position': 'center top', 'height' : '250px'}">
 						            <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
 						            &nbsp;
@@ -47,7 +52,7 @@
 
 							             <p class="apple-font" *ngIf="profile.role === 'student'" style="font-size: 20px;"> Studying At {{ profile.roleData.institution }}</p>
 
-							             <p class="apple-font" *ngIf="profile.role === 'mentor'" style="font-size: 20px;"> {{ profile.roleData.current_job_position }} 
+							             <p class="apple-font" *ngIf="profile.role === 'mentor'" style="font-size: 15px; width: 170px;"> {{ profile.roleData.current_job_position }} 
 
 							             	<span *ngIf="profile.roleData.employmentStatus ==='Own a Business'">at Owned Business</span>
 
@@ -58,8 +63,6 @@
 
 							             <p class="float-right icon-heading" *ngIf="profile.role === 'mentor' && profile.roleData.workExperience"><i class="icon-briefcase"></i> 
 							             	<span *ngIf="!profile.roleData.workExperience[0].till_present">Former:</span> {{profile.roleData.workExperience[0].position}} at {{ profile.roleData.workExperience[0].company }}</p>
-
-							             
 							             </div>
 						            </div>
 
@@ -109,18 +112,23 @@
     							<h2><strong>Education</strong></h2>
     						</div>
     						<div class="body">
-    							<ul class="list-unstyled edu-list">
-    								<li *ngFor="let education of profile.roleData.education">
-    									<div class="edu-icon float-left">
-    										<i class="icon-briefcase"></i>
-    									</div>
-    									<div class="edu-contents">
-    										<strong class="apple-font">{{ education.institution }}</strong>
-    										<p>{{ education.program }}</p>
-    										<small>{{ education.from_date | date:'mediumDate' }} - {{ education.to_date | date:'mediumDate' }}</small>
-    									</div>
-    								</li>
-    							</ul>
+                                <table class="table table-responsive">
+                                    <tr *ngFor="let education of profile.roleData.education">
+                                        <td>
+                                            <div class="edu-icon">
+                                            <i class="icon-briefcase"></i>
+                                        </div>
+                                        </td>
+                                        <td>
+                                            <div class="">
+                                            <strong class="apple-font">{{ education.institution }}</strong>
+                                            <p>{{ education.program }}</p>
+                                            <small>{{ education.from_date | date:'mediumDate' }} - {{ education.to_date | date:'mediumDate' }}</small>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                </table>
+    						
     						</div>
     					</div>
     				</div>
@@ -131,22 +139,27 @@
     							<h2><strong>Work Experience</strong></h2>
     						</div>
     						<div class="body">
-    							<ul class="list-unstyled edu-list">
-    								<li *ngFor="let work of profile.roleData.workExperience">
-    									<div class="edu-icon float-left">
-    										<i class="icon-briefcase"></i>
-    									</div>
-    									<div class="">
-    										<strong class="apple-font">{{ work.position }}</strong><br/>
-    										<span>{{ work.company }}</span><br/>
-    										<small>{{ work.location }}</small><br/>
-    										<small>{{ work.from_date | date:'mediumDate' }} - 
-    											<span *ngIf="work.to_date">{{ work.to_date | date:'mediumDate' }}</span>
-    											<span *ngIf="work.till_present">Till present</span>
-    										</small>
-    									</div>
-    								</li>
-    							</ul>
+                                <table class="table table-responsive">
+                                    <tr *ngFor="let work of profile.roleData.workExperience">
+                                        <td>
+                                            <div class="edu-icon float-left">
+                                                <i class="icon-briefcase"></i>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="">
+                                            <strong class="apple-font">{{ work.position }}</strong><br/>
+                                            <span>{{ work.company }}</span><br/>
+                                            <small>{{ work.location }}</small><br/>
+                                            <small>{{ work.from_date | date:'mediumDate' }} - 
+                                                <span *ngIf="work.to_date">{{ work.to_date | date:'mediumDate' }}</span>
+                                                <span *ngIf="work.till_present">Till present</span>
+                                            </small>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                </table>
+    							
     						</div>
     					</div>
     				</div>

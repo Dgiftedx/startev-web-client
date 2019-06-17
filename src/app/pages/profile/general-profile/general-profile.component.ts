@@ -69,6 +69,11 @@ export class GeneralProfileComponent implements OnInit {
 		return this.profileData;
 	}
 
+
+	get currentProfile () {
+		return JSON.parse(this.authenticationService.getUserData());
+	}
+
 	//============= Item counter ==============//
 	public count( items:any ) {
 		return _.size(items);

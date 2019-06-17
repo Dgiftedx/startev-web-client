@@ -128,7 +128,7 @@
                 </div>
               </div>
 
-              <div class="col-sm-12 col-md-12" *ngFor="let feed of feeds|orderBy:'createdAt':true">
+              <div class="col-sm-12 col-md-12" *ngFor="let feed of feeds">
                 <div class="card feeds-container" *ngIf="feed.postType === 'post'" [@fadeAnimation]>
                   <div class="body chat post-container">
                     <div class="chat-header clearfix post-feed-header">

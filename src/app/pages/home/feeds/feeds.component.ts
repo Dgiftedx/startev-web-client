@@ -115,7 +115,7 @@ export class FeedsComponent implements OnInit {
     .getFeedItems()
     .subscribe((feed: Feed) => {
       if (_.size(feed) > 0) {
-        this.feeds.push(feed);
+        this.feeds.unshift(feed);
       }
     });
 
