@@ -121,6 +121,10 @@ export class PublishComponent implements OnInit {
   	return _.size(this.videoSource) > 0 && _.size(this.videoLink) > 0?true:false; 
   }
 
+  validateImage() {
+    return _.size(this.publicationImage) === 0 || this.publicationImage === null || typeof this.processedImage === 'undefined'? false:true;
+  }
+
   //=================== Submit Publication =================//
 
 
@@ -146,7 +150,7 @@ export class PublishComponent implements OnInit {
   		return;
   	}
 
-  	if (!this.validateVideoField() && typeof this.publicationImage === 'undefined') {
+  	if (!this.validateVideoField() && !this.validateImage()) {
   		this.alert.errorMsg("You can either upload a cover image or a video training which is not more than 10mins","Error");
   		return;
   	}

@@ -29,8 +29,9 @@ export class RegisterComponent implements OnInit {
 
 	roles = [
 		{id: 1, name: "A Student", alias: "student"},
-		{id: 1, name: "A Mentor", alias: "mentor"},
-		{id: 1, name: "A Business Body", alias: "business"}
+		{id: 2, name: "A Graduate", alias: "student"},
+		{id: 3, name: "A Mentor", alias: "mentor"},
+		{id: 4, name: "A Business Body", alias: "business"}
 	];
 
 	checkPasswords(group: FormGroup){
