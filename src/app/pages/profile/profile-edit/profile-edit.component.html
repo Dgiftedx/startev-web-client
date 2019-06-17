@@ -208,7 +208,7 @@
                                         <input type="text" 
                                         formControlName="level" 
                                         class="form-control" 
-                                        placeholder="Level/Year" 
+                                        placeholder="Level/Year ( enter Graduated if graduate )" 
                                         [ngClass]="{ 'is-invalid': studentFormSubmitted && s.level.errors }">
                                          <div *ngIf="studentFormSubmitted && s.level.errors" class="invalid-feedback">
                                           <div *ngIf="s.level.errors.required">Field can't be empty</div>

@@ -10,7 +10,7 @@
 								<div class="feed-detail-header">
 									
 									<h2 class="apple-font text-center text-info">{{ feed.title | uppercase }}</h2>
-									<img *ngIf="feed.image" [src]="feed.image" class="" alt="">
+									<img *ngIf="feed.image" [src]="feed.image" class="" style="width: 100%; height: 250px;" alt="">
 									<div class="border"></div>
 									 <!-- Post Type Like Box -->
 	                                <div class="p-t-10" *ngIf="count(likers) > 0 || count(feed.feed_comments) > 0">
@@ -42,7 +42,7 @@
 	                                </div>
 								</div>
 								<div class="feed-details-body m-t-40 bg_grey">
-									<div [innerHtml]="feed.body" class="apple-font p-5"></div>
+									<div [innerHtml]="feed.body | linkify" class="apple-font p-5"></div>
 								</div>
 								
 								<div class="m-t-30">

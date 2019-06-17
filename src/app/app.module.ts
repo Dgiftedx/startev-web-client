@@ -9,6 +9,7 @@ import { LaddaModule } from  'angular7-ladda';
 import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
 import * as  Cloudinary from 'cloudinary-core';
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { InputSearchModule } from 'ngx-input-search';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -220,6 +221,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      SweetAlert2Module.forRoot(),
      Angular4PaystackModule,
      NgxPrintModule,
+     NgxLinkifyjsModule.forRoot()
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

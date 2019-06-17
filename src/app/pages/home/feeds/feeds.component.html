@@ -168,17 +168,17 @@
                           </div>
                         </div>
                         <div class="post-feed-inner bg_grey">
-                          <div class="" class="">
-                            <p class="post-content p-3">{{ feed.content | excerpt: 257 : feed.title }}
-                              <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
+                          <div class="" class="p-3">
+                            <p class="post-content" [innerHtml]="feed.content | linkify | excerpt: 257 : feed.title">
                             </p>
+                             <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect pb-3">read more</a>
                           </div>
                         </div>
 
                         <!-- Post Type Like Box -->
                         <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
                           <div class="row clearfix zero-m">
-                            <div class="col-4 pt-0">
+                            <div class="col-4 p-2">
                               <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                               <span class="pl-2">
                                 {{ count(feed.likers) }}
@@ -186,7 +186,7 @@
                                 <em *ngIf="count(feed.likers) <= 1">like</em>
                               </span>
                             </div>
-                            <div class="col-8 negative-margin-30">
+                            <div class="col-8 negative-margin-30 p-2">
                               <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
                               <span class="pl-2">
                                 {{ count(feed.comments) }} 
@@ -194,6 +194,7 @@
                                 <em *ngIf="count(feed.comments) <= 1">comment</em>
                               </span>
                             </div>
+                            <div class="p-1"></div>
                             <!-- <div class="col-1"></div> -->
                           </div>
                           <div class="border"></div>
@@ -328,28 +329,31 @@
                     </div>
 
 
-                    <!-- Picture Post Type like Box -->
-                    <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
-                      <div class="row clearfix zero-m">
-                        <div class="col-4 pt-0">
-                          <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                          <span class="pl-2">
-                            {{ count(feed.likers) }}
-                            <em *ngIf="count(feed.likers) > 1">likes</em>
-                            <em *ngIf="count(feed.likers) <= 1">like</em>
-                          </span>
+                    <!-- Post Type Like Box -->
+                      <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
+                        <div class="row clearfix zero-m">
+                          <div class="col-4 p-2">
+                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                            <span class="pl-2">
+                              {{ count(feed.likers) }}
+                              <em *ngIf="count(feed.likers) > 1">likes</em>
+                              <em *ngIf="count(feed.likers) <= 1">like</em>
+                            </span>
+                          </div>
+                          <div class="col-8 negative-margin-30 p-2">
+                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
+                            <span class="pl-2">
+                              {{ count(feed.comments) }} 
+                              <em *ngIf="count(feed.comments) > 1">comments</em>
+                              <em *ngIf="count(feed.comments) <= 1">comment</em>
+                            </span>
+                          </div>
+                          <div class="p-1"></div>
+                          <!-- <div class="col-1"></div> -->
                         </div>
-                        <div class="col-8 negative-margin-30">
-                          <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                          <span class="pl-2">
-                            {{ count(feed.comments) }} 
-                            <em *ngIf="count(feed.comments) > 1">comments</em>
-                            <em *ngIf="count(feed.comments) <= 1">comment</em>
-                          </span>
-                        </div>
+                        <div class="border"></div>
                       </div>
-                      <div class="border"></div>
-                    </div>
+
 
 
                     <!-- Picture Post Type Reaction Box -->
