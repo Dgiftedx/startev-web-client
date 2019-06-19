@@ -19,6 +19,11 @@ export class AuthenticationService {
     // public baseurl = 'http://startev.server';
     // public endPointAuth = 'http://startev.server/api/auth';
 
+    //Mobile
+    // public endpoint = 'http://192.168.1.142/api';
+    // public baseurl = 'http://192.168.1.142';
+    // public endPointAuth = 'http://192.168.1.142/api/auth';
+
     //Server
     public endpoint = 'https://server.startev.africa/api';
     public baseurl = 'https://server.startev.africa';

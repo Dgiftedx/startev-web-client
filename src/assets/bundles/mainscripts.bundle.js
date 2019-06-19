@@ -69,7 +69,7 @@ $(function() {
     }, 50)
 }), $.Startev = {}, $.Startev.options = {
     colors: {
-        red: "#ec3b57",
+        red: "#ec3b57",    
         pink: "#E91E63",
         purple: "#ba3bd0",
         deepPurple: "#673AB7",
@@ -152,7 +152,8 @@ $(function() {
     isOpen: function() {
         return $(".right_chat").hasClass("open")
     }
-}, $.Startev.navbar = {
+},
+ $.Startev.navbar = {
     activate: function() {
         var a = $("body"),
             b = $(".overlay");
@@ -162,11 +163,11 @@ $(function() {
             var a = $(".navbar-toggle").is(":visible"),
                 b = $(".navbar-collapse");
             a && b.slideUp(function() {
-                b.removeClass("in").removeAttr("style")
-            })
-        })
+                b.removeClass("in").removeAttr("style");
+            });
+        });
     }
-}, $.Startev.select = {
+},$.Startev.select = {
     activate: function() {
         $.fn.selectpicker && $("select:not(.ms)").selectpicker()
     }

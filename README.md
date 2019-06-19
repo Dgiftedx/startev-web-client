@@ -18,3 +18,5 @@ An Online Community for African students to learn, connect, and launch their ent
 
 ### 07-06-2019
 Ist Test Version Released
+
+Mobile server: ng serve --host 192.168.1.142 --port 4200
