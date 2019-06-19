@@ -133,7 +133,41 @@
                     <ul class="list">
                         <button id="closeBars" class="bars btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
                         </button>
-                         <li *ngFor="let industry of industries" class="floating-nav"> 
+                         
+                    <li class="topSideNav">
+                    <a 
+                    [routerLink]="['/']" 
+                    routerLinkActive="active" 
+                    [routerLinkActiveOptions]="{exact:true}" class="">
+                        <i class="icon-grid"></i>
+                        <span class=""> Home</span>
+                    </a>
+                    </li>
+                     <li class="topSideNav">
+                        <a
+                        [routerLink]="['/knowledge-hub']" 
+                        routerLinkActive="active" 
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="">
+                            <i class="icon-grid"></i><span class=""> Knowledge Hub</span>
+                        </a>
+                    </li>
+                     <li class="topSideNav">
+                        <a 
+                        [routerLink]="['/venture-hub']" 
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact:true}"
+                        class="">
+                            <i class="icon-grid"></i><span class=""> Venture Hub</span>
+                        </a>
+                    </li>
+                    <li class="topSideNav">
+                        <a [routerLink]="['/messages']" routerLinkActive="active" class="">
+                            <i class="icon-grid"></i><span class=""> Messages</span>
+                        </a>
+                    </li>
+
+                    <li *ngFor="let industry of industries" class="floating-nav"> 
                             <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
                                 <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
                             </a>
@@ -143,46 +177,6 @@
                             <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Career Fields ...</span></a>
                         </li>
 
-                    <li class="topSideNav">
-                    <a 
-                    [routerLink]="['/']" 
-                    routerLinkActive="active" 
-                    [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
-                        <span class="inline-icon">
-                            <fa-icon [icon]="['fas','home']" size="lg"></fa-icon>
-                        </span>
-                        <span class="inline-text"> Home</span>
-                    </a>
-                    </li>
-                     <li class="topSideNav">
-                        <a
-                        [routerLink]="['/knowledge-hub']" 
-                        routerLinkActive="active" 
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','universal-access']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Knowledge Hub</span>
-                        </a>
-                    </li>
-                     <li class="topSideNav">
-                        <a 
-                        [routerLink]="['/venture-hub']" 
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','archive']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Venture Hub</span>
-                        </a>
-                    </li>
-                    <li class="topSideNav">
-                        <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','comment-alt']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Messages</span>
-                        </a>
-                    </li>
                     </ul>
                 </div>
             </div>

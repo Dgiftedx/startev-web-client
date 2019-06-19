@@ -7739,10 +7739,6 @@ img {
         display: none !important;
     }
 
-    .floating-nav{
-    	display: none !important;
-    }
-
     .h_menu{
         visibility: visible !important; 
     }
@@ -20065,9 +20061,6 @@ section small {
         display: none !important;
     }
 
-    .floating-nav{
-    	display: none !important;
-    }
 
     .h_menu{
         visibility: visible !important; 
