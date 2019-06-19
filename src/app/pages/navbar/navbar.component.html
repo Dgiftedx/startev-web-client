@@ -133,6 +133,16 @@
                     <ul class="list">
                         <button id="closeBars" class="bars btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
                         </button>
+
+                         <li *ngFor="let industry of industries" class="floating-nav"> 
+                            <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
+                                <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
+                            </a>
+                        </li>
+                       
+                         <li class="floating-nav"> 
+                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Career Fields ...</span></a>
+                        </li>
                          
                     <li class="topSideNav">
                     <a 
@@ -166,16 +176,6 @@
                             <i class="icon-grid"></i><span class=""> Messages</span>
                         </a>
                     </li>
-
-                    <li *ngFor="let industry of industries" class="floating-nav"> 
-                            <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
-                                <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
-                            </a>
-                        </li>
-                       
-                         <li class="floating-nav"> 
-                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Career Fields ...</span></a>
-                        </li>
 
                     </ul>
                 </div>
