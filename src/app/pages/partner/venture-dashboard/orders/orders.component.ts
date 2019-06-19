@@ -24,13 +24,6 @@ export class OrdersComponent implements OnInit {
 	public orders:any = [];
 	public temp:any[] = [];
 
-	public columns:any[] = [
-	{name: 'Name', prop: 'name'},
-	{name: 'Order ID', prop: 'order_id'},
-	{name: 'Items', prop:'quantity'},
-	{name: 'Date', prop:'date'},
-	{name: 'Status', prop:'status'}];
-
 	public singleOrder:any = {};
 	public selectedOrders:any[] = [];
 	public showModBox:boolean = false;
@@ -70,7 +63,7 @@ export class OrdersComponent implements OnInit {
 				name: data[identifier][0].name,
 				order_id: identifier,
 				items: this.count(data[identifier]),
-				date: data[identifier][0].date,
+				date: data[identifier][0].date.date,
 				status: data[identifier][0].status
 			});
 		}

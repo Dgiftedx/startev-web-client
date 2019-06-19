@@ -3,10 +3,17 @@
 		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
 			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
 				<div class="card member-card feeds-container fadeIn">
-          <div class="header" [ngStyle]="{'background-image': 'url('+currentUser.bg_image+')', 'background-position': 'center top'}">
+          <div *ngIf="currentUser.bg_image" class="header" [ngStyle]="{'background-image': 'url('+currentUser.bg_image+')', 'background-position': 'center top'}">
             <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
             &nbsp;
           </div>
+
+
+          <div *ngIf="!currentUser.bg_image" class="header bg-pink">
+            <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
+            &nbsp;
+          </div>
+
           <div class="member-img">
 
             <a href="#" class="">

@@ -1,6 +1,8 @@
-html, body { height: 100%; }
+html, body { 
+	height: 100% !important;
+ }
 body { 
-	margin: 0; 
+	margin: 0;
 	font-family: apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Fira Sans",Ubuntu,Oxygen,"Oxygen Sans",Cantarell,"Droid Sans","Apple Color Emoji","Segoe UI Emoji","Segoe UI Emoji","Segoe UI Symbol","Lucida Grande",Helvetica,Arial,sans-serif; }
 .zero-margin{
 	margin-top: 0 !important;
@@ -57,7 +59,7 @@ body {
 }
 
 .custom-modal-header{
-	background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
+	background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #007bff 0%, #D40711 100%) repeat scroll 0 0 !important;
 	min-height: 40px;
 }
 
@@ -636,9 +638,9 @@ background-position: center center;*/
 }
 
 .icon-heading {
-	margin-top: -50px !important;
 	font-size: 17px;
 	font-weight: 500;
+
 }
 .icon-heading i{
 	font-size: 20px;
@@ -660,4 +662,15 @@ background-position: center center;*/
 	padding: 15px;
 	background-color: #ccc;
 	margin-right: 18px;
+}
+
+
+.bg_head_buttons {
+	width: 300px;
+	position: absolute;
+	top: 25%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
 }

@@ -6,7 +6,7 @@
             </div>
             <div class="body">
             <h3 class="m-b-0">NGN {{ dashboardData.orders_amount|number:0 }}</h3>
-            <small class="displayblock">0% Average</small>                    
+            <small class="displayblock">{{ dashboardData.orders_amount_avg }} on average</small>                    
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 	        </div>
 	        <div class="body">
 	            <h3 class="m-b-0">NGN {{ dashboardData.delivered_orders|number:0 }}</h3>
-	            <small class="displayblock">0% Average</small>                        
+	            <small class="displayblock">{{ dashboardData.delivered_orders_avg }} on average</small>                        
 	        </div>
 	    </div>
 	</div>
@@ -31,7 +31,7 @@
             </div>
             <div class="body mt-0">
                 <h3 class="m-b-0 m-t-0">NGN {{ dashboardData.total_commission }}</h3>
-                <small class="displayblock">0% Average</small>                        
+                <small class="displayblock">&nbsp;</small>                        
             </div>
         </div>
     </div>

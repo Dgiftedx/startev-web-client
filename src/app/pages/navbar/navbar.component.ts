@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart, NavigationError } from '@angular/router';
+import { Event as routerEvent }from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AuthenticationService, AlertService, UserService, BaseService } from '../../_services';
 import { User } from '../../_models';
@@ -32,6 +33,21 @@ export class NavbarComponent implements OnInit {
     private baseService: BaseService,
     private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+
+    this.router.events.subscribe((event: routerEvent) => {
+
+        if (event instanceof NavigationEnd) {
+            // Hide loading indicator
+            if ($('body').hasClass('overlay-open')) {
+              $('#closeBars').click();
+            }
+
+            if (this.show) {
+              this.toggleNav();
+            }
+        }
+    });
+
   }
 
   get profile(){

@@ -2,13 +2,18 @@
 	<div class="col-sm-12 col-md-12" *ngIf="ventureList">
         <div class="card feeds-container">
             <div class="header">
-                <h2><strong>Ventures</strong> List</h2>
+                <h2><strong>Venture</strong> List</h2>
             </div>
             <div class="body">
                 <div class="table-responsive">
                     <table class="table m-b-0">
                         <tbody>
-                            <tr *ngFor="let list of ventureList">
+                            <tr>
+                              <td colspan="3"><p class="text-info"> Please not that copy of the same product that already exists on any of the ventures will not be re-imported.<br/>
+                                Only unique products will be imported.</p>
+                              </td>
+                            </tr>
+                            <tr *ngFor="let list of ventureList; let index = index">
                                 <td>
                                     <img [src]="list.business.user.avatar" width="40" class="rounded-circle img-raised" />
                                 </td>
@@ -21,23 +26,26 @@
                                 	<button 
                                     type="button" 
                                     [disabled]="list.is_products_imported"
-                                    (click)="importProducts(list.venture.id)"
-                                    [ladda]="importLadda"
-                                    class="btn btn-round btn-sm btn-success waves-effect">Import Products</button>
+                                    (click)="importProducts(list.venture_id)"
+                                    class="btn btn-round btn-sm btn-success waves-effect">Import Products 
+                                    <small *ngIf=" importingId === list.venture_id"> importing..</small>
+                                  </button>
 
                                 	<button
                                     type="button"
                                     [swal]="syncSwal"
-                                    (confirm)="syncronizeProducts(list.venture.id)"
-                                    [ladda]="syncLadda"
-                                    class="btn btn-round btn-sm btn-warning waves-effect">Sync Products</button>
+                                    (confirm)="syncronizeProducts(list.venture_id)"
+                                    class="btn btn-round btn-sm btn-warning waves-effect">Sync Products
+                                    <small *ngIf=" syncId === list.venture_id"> ...</small>
+                                  </button>
 
                                 	<button 
                                     type="button"
                                     [swal]="detachSwal" 
-                                    (confirm)="detachProducts(list.venture.id)"
-                                    [ladda]="detachLadda"
-                                    class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
+                                    (confirm)="detachProducts(list.venture_id)"
+                                    class="btn btn-round btn-sm btn-danger waves-effect">Detach Products
+                                    <small *ngIf=" detachId === list.venture_id"> ...</small>
+                                  </button>
                                 </td>
 
                             </tr>

@@ -41,7 +41,7 @@
                         <hr>
                         <div class="row text-center">
                             <div class="col-12">
-                               <a [routerLink]="'/edit-profile'" class="btn btn-primary btn-round wave">Edit Profile</a>
+                               <a [routerLink]="'/edit-profile'" class="btn btn-warning btn-round wave">Edit Profile</a>
                             </div>
                         </div>
                     </div>
@@ -76,30 +76,31 @@
 							</div>
                             <div class="card feeds-container" *ngIf="profile.followers.length > 0">
                                 <div class="body">
-                                    <ul class="follow_us list-unstyled m-b-0">                            
-                                        <li class="online" *ngFor="let user of profile.followers">
-                                            <a [routerLink]="['/general-profile', user.slug]">
-                                                <div class="media">
+                                   <div class="row clearfix mb-2" *ngFor="let user of profile.followers">
+                                        <div class="col-md-9">
+                                            <a [routerLink]="">
                                                     <img 
-                                                    class="media-object" 
+                                                    class="" 
                                                     src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
-                                                    alt="">
+                                                    alt="" width="40" class="rounded-circle">
                                                     <div class="media-body">
-                                                        <span class="name">{{ user.name | titlecase }}</span>
-                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} <small *ngIf="user.state || user.country">- {{ user.state }}, {{ user.country }}</small></span>
+                                                        <span class="name">{{ user.name | titlecase }}</span><br/>
+                                                        <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+
                                                     </div>
-                                                    <div class="float-right">
-                                                        <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
-                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
-                                                        </button>
-                                                        <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
-                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </a>                            
-                                        </li>            
-                                    </ul>
+                                                   
+                                                </a>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                             <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                            </button>
+                                            <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                            </button>  
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -124,25 +125,32 @@
 							</div>
                             <div class="card feeds-container" *ngIf="profile.following.length > 0">
                                 <div class="body">
-                                    <ul class="follow_us list-unstyled m-b-0">                            
-                                        <li class="online" *ngFor="let user of profile.following">
-                                            <a [routerLink]="['/general-profile', user.slug]">
-                                                <div class="media">
+                                    <div class="row clearfix mb-1" *ngFor="let user of profile.following">
+                                        <div class="col-md-9">
+                                            <a [routerLink]="">
                                                     <img 
-                                                    class="media-object" 
+                                                    class="" 
                                                     src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
-                                                    alt="">
+                                                    alt="" width="45" class="rounded-circle">
                                                     <div class="media-body">
-                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="name">{{ user.name | titlecase }}</span><br/>
                                                         <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+
                                                     </div>
-                                                    <div class="float-right">
-                                                        <button (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">Unfollow</button>
-                                                    </div>
-                                                </div>
-                                            </a>                            
-                                        </li>            
-                                    </ul>
+                                                   
+                                                </a>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                             <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                            </button>
+                                            <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                            </button>  
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -173,7 +181,7 @@
                                 <div class="card feeds-container">
                                     <div class="body text-center">
                                         <div> <span>
-                                            <img src="{{ partner.user.avatar?partner.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90"></span>
+                                            <img src="{{ partner.user.avatar?partner.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" width="70"></span>
                                         </div>
                                         <h6>{{ partner.user.name | titlecase }}</h6>
                                         <h6 class="text-muted">Venture: {{ partner.venture.venture_name | titlecase }}</h6>
@@ -227,9 +235,9 @@
                                                         </div>
                                                         <hr>
                                                         <div class="action">
-                                                            <button (click)="editVenture(venture.id)" type="button" class="btn btn-sm btn-danger btn-simple waves-effect" title="Edit"><i class="icon-note"></i></button>
+                                                            <button (click)="editVenture(venture.id)" type="button" class="btn btn-sm btn-warning waves-effect" title="Edit"><i class="icon-note"></i></button>
 
-                                                            <button (click)="deleteVenture(venture.id)" type="button" class="btn btn-sm btn-danger btn-simple waves-effect" title="Delete"><i class="icon-trash"></i></button>
+                                                            <button (click)="deleteVenture(venture.id)" type="button" class="btn btn-sm btn-warning waves-effect" title="Delete"><i class="icon-trash"></i></button>
                                                         </div>
                                                     </div>
                                                 </li>                                    
@@ -277,30 +285,32 @@
                             </div>
                             <div class="card feeds-container" *ngIf="profile.followers.length > 0">
                                 <div class="body">
-                                    <ul class="follow_us list-unstyled m-b-0">                            
-                                        <li class="online" *ngFor="let user of profile.followers">
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
+                                    <div class="row clearfix mb-1" *ngFor="let user of profile.followers">
+                                        <div class="col-md-9">
+                                            <a [routerLink]="">
                                                     <img 
-                                                    class="media-object" 
+                                                    class="" 
                                                     src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
-                                                    alt="">
+                                                    alt="" width="45" class="rounded-circle">
                                                     <div class="media-body">
-                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="name">{{ user.name | titlecase }}</span><br/>
                                                         <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+
                                                     </div>
-                                                    <div class="float-right">
-                                                        <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
-                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
-                                                        </button>
-                                                        <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
-                                                            <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </a>                            
-                                        </li>            
-                                    </ul>
+                                                   
+                                                </a>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                             <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                            </button>
+                                            <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                            </button>  
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -324,25 +334,32 @@
                             </div>
                             <div class="card feeds-container" *ngIf="profile.following.length > 0">
                                 <div class="body">
-                                    <ul class="follow_us list-unstyled m-b-0">                            
-                                        <li class="online" *ngFor="let user of profile.following">
-                                            <a href="javascript:void(0);">
-                                                <div class="media">
+                                    <div class="row clearfix mb-1"  *ngFor="let user of profile.following">
+                                         <div class="col-md-9">
+                                            <a [routerLink]="">
                                                     <img 
-                                                    class="media-object" 
+                                                    class="" 
                                                     src="{{ user.avatar?user.avatar : 'assets/images/default/avatar.jpg'}}" 
-                                                    alt="">
+                                                    alt="" width="45" class="rounded-circle">
                                                     <div class="media-body">
-                                                        <span class="name">{{ user.name | titlecase }}</span>
+                                                        <span class="name">{{ user.name | titlecase }}</span><br/>
                                                         <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+
                                                     </div>
-                                                    <div class="float-right">
-                                                        <button (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">Unfollow</button>
-                                                    </div>
-                                                </div>
-                                            </a>                            
-                                        </li>            
-                                    </ul>
+                                                   
+                                                </a>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                             <button *ngIf="!isFollowing(user.id)" (click)="followUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                            </button>
+                                            <button *ngIf="isFollowing(user.id)" (click)="unFollowUser(user.id)" class="btn btn-follow waves-effect">
+                                                <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                            </button>  
+                                        </div>
+                                    </div>
+                                   
                                 </div>
                             </div>
 

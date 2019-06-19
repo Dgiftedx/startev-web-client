@@ -73,7 +73,7 @@
        <div class="col-md-4">
         <button 
         (click)="toggleLike(pub.id)" 
-        class="btn btn-default btn-icon waves-effect btn-icon-mini btn-round">
+        class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
           <span *ngIf="count(pub.likers) > 0">+ {{ count(pub.likers) }}</span>
           <span *ngIf="count(pub.likers) === 0">0</span>
         </button>
@@ -89,7 +89,7 @@
  </div>
  <div class="row clearfix zero-m">
    <div class="col-12 zero-m">
-     <a [routerLink]="['/publication-view',pub.id]" class="btn btn-block color-white waves-effect text-center mb-0">View Details</a>
+     <a [routerLink]="['/publication-view',pub.id]" class="btn btn-warning btn-block color-white waves-effect text-center mb-0">View Details</a>
    </div>
  </div>
 </div>

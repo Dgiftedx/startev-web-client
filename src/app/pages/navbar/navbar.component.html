@@ -12,7 +12,7 @@
                 <ul class="nav navbar-nav">
                     <li class="search_bar">
                         <div class="input-group">                
-                            <input type="text" class="form-control" #search (keyup.enter)="doTheSearch($event)" placeholder="Find your stuff...">
+                            <input type="text" class="form-control" #search (keyup.enter)="doTheSearch($event)" placeholder="Search...">
                         </div>
                     </li>
                     <li class="hidden-sm visible-menu">
@@ -129,8 +129,9 @@
         <div class="row clearfix">
             <div class="col-12">
                 <div class="menu">
-                    <ul class="list" style="max-height: 50px;">
-                        <li class="header">Menu</li>
+                    <ul class="list">
+                        <button id="closeBars" class="bars btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
+                        </button>
                          <li *ngFor="let industry of industries" class="floating-nav"> 
                             <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
                                 <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>

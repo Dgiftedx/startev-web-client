@@ -216,7 +216,7 @@ export class SettingsComponent implements OnInit {
   	// Validate account number
   	if (this.count(formValues.account_number.toString()) < 10) {
   		this.alert.errorMsg("Please enter a valid account number.",errorTitle);
-  		return;
+  		return false;
   	}
 
   }
@@ -241,7 +241,7 @@ export class SettingsComponent implements OnInit {
 
   	//send Form
   	this.storeService.saveStoreSettings(this.currentUser.id, formData)
-  	.subscribe(data => {this.settings = data; this.sendingForm = true; this.alert.snotSuccess("Your Store has been updated.")});
+  	.subscribe(data => {this.settings = data; this.sendingForm = false; this.alert.snotSuccess("Your Store has been updated.")});
   }
 
 }

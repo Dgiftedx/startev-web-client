@@ -20,6 +20,7 @@ export class SearchResultComponent implements OnInit {
   searchQuery:string;
   searchResults: any = [];
   totalSearchCount:number = 0;
+  showSearchResults:boolean = false;
 
   constructor(
     private router: Router,
@@ -53,7 +54,11 @@ export class SearchResultComponent implements OnInit {
   	this.baseService.getSearchResults(search)
   	.subscribe(data => {
   		this.searchResults = data;
-  	})
+  	});
+
+    setTimeout(() => {
+      this.showSearchResults = true;
+    }, 300);
   }
 
 

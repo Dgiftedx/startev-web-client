@@ -92,6 +92,10 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-profile`);
     }
 
+    public removeHeaderImage(user_id:number) {
+         return this.http.get(`${this.endpoint}/remove-header-image/${user_id}`);   
+    }
+
 
     public fetchGeneralProfile( slug:string ){
         return this.http.get(`${this.endpoint}/get-general-profile/${slug}`).pipe(delay(500));
@@ -274,4 +278,13 @@ export class BaseService {
     public getMessages(user_id:number){
         return this.http.get(`${this.endpoint}/chat-get-messages/${user_id}`);
     }
+
+
+
+    //================== Account Deletion ========================//
+    //Get help tips
+    public removeAccount(data:any){
+        return this.http.post(`${this.endPointAuth}/remove-user-account`, data);
+    }
+
 }

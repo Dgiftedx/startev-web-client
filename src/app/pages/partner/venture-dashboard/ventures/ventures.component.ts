@@ -18,9 +18,9 @@ export class VenturesComponent implements OnInit {
 
 	currentUser:User;
 
-	public importLadda:boolean = false;
-	public syncLadda:boolean = false;
-	public detachLadda:boolean = false;
+	public importingId:number = 0;
+	public syncId:number = 0;
+	public detachId:number = 0;
 	public manageLadda:boolean = false;
 
 	public ventureList:any = [];
@@ -72,42 +72,43 @@ export class VenturesComponent implements OnInit {
 
 
 	handleSuccessResponse(data:any){
-		this.alert.snotSuccess(data.message);
+		this.alert.snotSimpleSuccess(data.message);
 		this.updateResources();
 	}
 
 	//================== Import Products From Venture ===============//
 	importProducts( ventureId: number ){
-		this.importLadda = true;
+		
+		this.importingId = ventureId;
 		
 		this.storeService.importProducts(this.currentUser.id, ventureId)
 		.subscribe(data => {
 			this.handleSuccessResponse(data);
-			this.importLadda = false;
+			this.importingId = 0;
 		});
 	}
 
 
 	//================== Syncronize Products ========================//
 	syncronizeProducts( ventureId: number ){
-		this.syncLadda = true;
+		this.syncId = ventureId;
 
 		this.storeService.syncProducts(this.currentUser.id, ventureId)
 		.subscribe(data => {
 			this.handleSuccessResponse(data);
-			this.syncLadda = false;
+			this.syncId = 0;
 		});
 	}
 
 
 	//=================== Detach Imported Products ====================//
 	detachProducts( ventureId: number ){
-		this.detachLadda = true;
+		this.detachId = ventureId;
 		
 		this.storeService.detachProducts(this.currentUser.id, ventureId)
 		.subscribe(data => {
 			this.handleSuccessResponse(data);
-			this.detachLadda = false;
+			this.detachId = 0
 		});
 	}
 

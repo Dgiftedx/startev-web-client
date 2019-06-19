@@ -17,7 +17,7 @@
                        </div>
                     </div>
                 </div>
-                <div class="tab-content">
+                <div class="tab-content" *ngIf="showSearchResults">
                     <div class="tab-pane card feeds-container active" id="All">
                        <div *ngIf="count(searchResults) > 0">
                        	 <div class="body" *ngFor="let item of searchResults">

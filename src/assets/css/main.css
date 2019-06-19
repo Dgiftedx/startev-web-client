@@ -24,7 +24,7 @@
     word-wrap: normal;
     direction: ltr;
     -webkit-font-feature-settings: 'liga';
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
 }
 
 @font-face {
@@ -2537,7 +2537,7 @@ fieldset[disabled] .btn-success.active {
 }
 
 .btn-info {
-    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #007bff 0%, #D40711 100%) repeat scroll 0 0 !important;
     color: #fff;
     border-radius: 0;
 }
@@ -2618,7 +2618,7 @@ fieldset[disabled] .btn-info.active {
 }
 
 .btn-warning {
-    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #a1862f 100%) repeat scroll 0 0 !important;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #D40711  0%, #a1862f 100%) repeat scroll 0 0 !important;
     color: #fff
 }
 
@@ -15725,7 +15725,7 @@ img {
     z-index: 11;
     width: 100%;
     padding: 0;
-    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #0073B1  0%, #283E4A 100%) repeat scroll 0 0 !important;
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #007bff 10%, #D40711 90%, #eedc26 100%) repeat scroll 0 0 !important;
     min-height: 43px;
     box-shadow: none;
     border-bottom: 1px solid #f5f5f5
@@ -17075,7 +17075,7 @@ img {
     }
     .sidebar .slimScrollDiv,
     .sidebar .list {
-        height: 100vh !important
+        height: 100vh;
     }
 }
 
@@ -19956,6 +19956,10 @@ section small {
     .container {
         max-width: 1500px
     }
+
+    .sidebar .menu .list {
+        max-height: 50px !important;
+    }
 }
 
 @media screen and (max-width: 1600px) and (min-width: 1359px) {
@@ -19964,6 +19968,10 @@ section small {
     }
     .search_bar {
         display: block;
+    }
+
+    .sidebar .menu .list {
+        max-height: 50px !important;
     }
 }
 
@@ -19981,11 +19989,19 @@ section small {
     .search_bar{
         width: 260px !important;
     }
+
+    .sidebar .menu .list {
+        max-height: 50px !important;
+    }
 }
 
 @media only screen and (max-width: 1080px) {
     .search_bar{
         display: none !important;
+    }
+
+    .sidebar .menu .list {
+        max-height: 50px !important;
     }
     
 }
@@ -20005,6 +20021,10 @@ section small {
 
     }
 
+    .sidebar .menu .list {
+        max-height: 50px !important;
+    }
+
 }
 
 @media only screen and (max-width: 992px) {
@@ -20012,6 +20032,9 @@ section small {
     .h_menu,
     .search_bar {
         display: none !important
+    }
+    .sidebar .menu .list {
+        max-height: 100vh !important;
     }
 
     .sticky {
@@ -23063,7 +23086,7 @@ section small {
   background-image: url(../images/bg-d.jpg);
 
   /* Set a specific height */
-  height: 130%;
+  height: 100vh;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
