@@ -200,7 +200,7 @@ $(function () {
             }
         }, $(function() {
             "use strict";
-            CustomScrollbar(), initCounters(), CustomPageJS()
+            CustomScrollbar(),CustomPageJS()
         });
 
     })

@@ -27,7 +27,6 @@ import { environment } from '../environments/environment';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { VgOverlayPlayModule} from 'videogular2/overlay-play';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -35,7 +34,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatButtonModule, MatCheckboxModule, MatTabsModule} from '@angular/material';
 import { NgxUploadModule, MineTypeEnum, DropTargetOptions} from '@wkoza/ngx-upload';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
@@ -49,22 +47,8 @@ import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
-import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
-
-// import { SnotifyDefaults } from './snotify-defaults';
 
 library.add(fas);
-
-const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  fgsColor: '#C90C0C',
-  bgsPosition: "bottom-center",
-  bgsSize: 40,
-  fgsType: SPINNER.chasingDots, // foreground spinner type
-  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
-  pbColor: "#C90C0C",
-  overlayColor: "rgba(40, 40, 40, 0.9)",
-  pbThickness: 5, // progress bar thickness
-};
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
@@ -112,6 +96,7 @@ import { CartViewComponent } from './pages/main-store/cart-view/cart-view.compon
 import { SearchResultComponent } from './pages/search-result/search-result.component';
 import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
 import { NotificationsComponent } from './pages/widgets/notifications/notifications.component';
+import { LandingComponent } from './pages/landing/landing.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -171,6 +156,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     SearchResultComponent,
     GeneralProfileComponent,
     NotificationsComponent,
+    LandingComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -179,20 +165,12 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxUiLoaderModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxUiLoaderRouterModule,
-    NgxUiLoaderRouterModule.forRoot({ showForeground: true }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatTabsModule,
     VgCoreModule,
     VgControlsModule,
-    VgOverlayPlayModule,
     VgBufferingModule,
     ToastrModule.forRoot({
       closeButton: true,
@@ -204,7 +182,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
         spinnerSize: 35,
         spinnerLines: 15
     }),
-     OwlDateTimeModule, 
+     OwlDateTimeModule,
      OwlNativeDateTimeModule,
      ImageCropperModule,
      FontAwesomeModule,
@@ -225,11 +203,6 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 
-  exports : [
-    MatButtonModule,
-    MatCheckboxModule,
-    MatTabsModule,
-  ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

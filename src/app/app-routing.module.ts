@@ -40,7 +40,7 @@ import { VentureDashboardComponent } from './pages/partner/venture-dashboard/ven
 import { ProductViewComponent } from './pages/main-store/product-view/product-view.component';
 import { SearchResultComponent } from './pages/search-result/search-result.component';
 import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
-
+import { LandingComponent } from './pages/landing/landing.component';
 
 
 const routes: Routes = [
