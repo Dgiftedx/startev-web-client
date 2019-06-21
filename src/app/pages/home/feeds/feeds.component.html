@@ -325,7 +325,7 @@
                             class="thumbnail inline" 
                             format="jpg">
                         </cl-image> -->
-                          <img [src]="feed.image" alt="" [ngStyle]="{'height': '350px','width':'100%'}"/>
+                          <img [src]="feed.image" (click)="openImage(feed)" alt="" [ngStyle]="{'max-height': '350px','width':'100%'}" class="feed-image" />
                         </div>
                       </div>
                       <div class="post-feed-inner bg_grey">

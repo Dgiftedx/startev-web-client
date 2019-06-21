@@ -41,6 +41,7 @@ import { ProductViewComponent } from './pages/main-store/product-view/product-vi
 import { SearchResultComponent } from './pages/search-result/search-result.component';
 import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 
 
 const routes: Routes = [
@@ -187,6 +188,7 @@ const routes: Routes = [
 	canActivate : [AuthGuard]
 },
 
+{path: 'confirm-email', component: ConfirmEmailComponent },
 {path: 'forgot-password', component: ForgotPasswordComponent },
 {path: 'reset-password', component: ResetPasswordComponent },
 {path: 'login', component: LoginComponent},

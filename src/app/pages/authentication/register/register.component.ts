@@ -1,7 +1,9 @@
+import * as _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { AlertService, BaseService } from '../../../_services';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthenticationService } from '../../../_services';
@@ -18,8 +20,14 @@ export class RegisterComponent implements OnInit {
 	submitted = false;
 	returnUrl: string;
 	public error:string = '';
+	public showMain:boolean = true;
+	public showAfterRegister: boolean = false;
+	public returnedMail : string = '';
+	public returnedSlug: string = '';
+	public sendingResendMailLadda:boolean = false;
 
 	constructor(
+		private alert : AlertService,
 		private http: HttpClient,
 		private formBuilder: FormBuilder,
 		private route: ActivatedRoute,
@@ -59,6 +67,9 @@ export class RegisterComponent implements OnInit {
 	}
 
 
+	public count(items:any) {
+		return _.size(items);
+	}
 
 	handleResponse(data)
 	{
@@ -73,6 +84,35 @@ export class RegisterComponent implements OnInit {
         this.authenticationService.setUserData(data.accessData);
         this.router.navigate([this.returnUrl]);
       }
+	}
+
+
+	handleRegistration(data:any) {
+		this.showMain = false;
+		this.showAfterRegister = true;
+		this.returnedMail = data.email;
+		this.returnedSlug = data.slug;
+	}
+
+
+	resendMail() {
+		if (_.size(this.returnedMail) === 0) {
+			this.error = "Please enter your email address";
+			return;
+		}
+
+		this.sendingResendMailLadda = true;
+
+		let data = {
+			email : this.returnedMail,
+			slug : this.returnedSlug
+		}
+
+		this.authenticationService.resendEmailConfirmation(data)
+		.subscribe(data => {
+			this.alert.snotSimpleSuccess("Confirmation Mail Sent");
+			this.sendingResendMailLadda = false;
+		});
 	}
 
 	onSubmit(){
@@ -90,7 +130,7 @@ export class RegisterComponent implements OnInit {
           .pipe(first())
           .subscribe(
           		data => {
-          			this.handleResponse(data);
+          			this.handleRegistration(data);
           			this.loading = false;
           		},
 

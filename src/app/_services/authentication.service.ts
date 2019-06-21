@@ -57,9 +57,19 @@ export class AuthenticationService {
         return this.http.post<any>(`${this.endpoint}/reset-password`, email);
     }
 
+     // Re-Send Email Confirmation Mail
+    public resendEmailConfirmation(data : any) {
+        return this.http.post<any>(`${this.endpoint}/resend-email-confirmation`, data);
+    }
+
     // change Password
     public changePassword(resetData : object) {
         return this.http.post<any>(`${this.endpoint}/change-password`, resetData);
+    }
+
+    // Verify Email
+    public verifyEmail(data : any) {
+        return this.http.post<any>(`${this.endPointAuth}/verify`, data);
     }
 
 

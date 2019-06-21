@@ -9,6 +9,7 @@ import { LaddaModule } from  'angular7-ladda';
 import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
 import * as  Cloudinary from 'cloudinary-core';
+import { LightboxModule } from 'ngx-lightbox';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { InputSearchModule } from 'ngx-input-search';
@@ -97,6 +98,7 @@ import { SearchResultComponent } from './pages/search-result/search-result.compo
 import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
 import { NotificationsComponent } from './pages/widgets/notifications/notifications.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -157,6 +159,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     GeneralProfileComponent,
     NotificationsComponent,
     LandingComponent,
+    ConfirmEmailComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -199,7 +202,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      SweetAlert2Module.forRoot(),
      Angular4PaystackModule,
      NgxPrintModule,
-     NgxLinkifyjsModule.forRoot()
+     NgxLinkifyjsModule.forRoot(),
+     LightboxModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

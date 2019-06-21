@@ -2,6 +2,7 @@ declare var $: any;
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { User } from '../../../_models';
+import { Lightbox } from 'ngx-lightbox';
 import { Feed } from '../../../_models/feed';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationEnd } from '@angular/router';
@@ -90,7 +91,7 @@ export class FeedsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private feedService : FeedService,
     private alert: AlertService,
-    // private uploader: Cloudinary,
+    private lightbox: Lightbox,
     private store: StoreService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
@@ -265,6 +266,20 @@ export class FeedsComponent implements OnInit {
   closeModal(element : any): void {
     $(document).find('#'+element).modal('hide');
     this.cleanForm();
+  }
+
+
+  //============= Open Image ===============//
+  openImage(feed:any) {
+    console.log("clicked");
+    let imageArray: Array<any> = [];
+
+    imageArray.push({
+      src : feed.image,
+      caption : feed.title
+    });
+    
+    this.lightbox.open(imageArray, 0);
   }
 
 
