@@ -48,16 +48,6 @@ export class FollowComponent implements OnInit {
 	}
 
 
-	count(items:any){
-		return _.size(items);
-	}
-
-
-
-	followUser(id: number){
-		this.onFollow(id);
-	}
-
 	// ============ check null item and return default as required =======//
 	checkValue(item:any,  type:string, nullValue:string) {
 		if (type === 'text') {
@@ -76,14 +66,19 @@ export class FollowComponent implements OnInit {
 		}
 	}
 
+	count(items:any){
+		return _.size(items);
+	}
 
-	//Algorithm to show user Job title
+		//Algorithm to show user Job title
 	echoJobTitle(roleData: any, role: string){
 		return this.baseService.echoJobTitle(roleData, role);
 	}
 
 
-
+	followUser(id: number){
+		this.onFollow(id);
+	}
 
 	//========================= Follow Toggle ==========================//
 

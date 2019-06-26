@@ -1,236 +1,118 @@
-<!-- Overlay For Sidebars -->
-<!-- <div class="overlay"></div> -->
-<!-- Top Bar -->
-<nav class="top_navbar">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-12">
-                <div class="navbar-logo">
-                    <a href="javascript:void(0);"  class="bars"></a>
-                    <!-- <a href="javascript:void(0);"  class="bars"></a> -->
-                    <a class="navbar-brand" href="/"><img src="assets/logo/logo_.png" width="40" alt="Startev"><span class="m-l-10">Startev</span></a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li class="search_bar">
-                        <div class="input-group">                
-                            <input type="text" class="form-control" #search (keyup.enter)="doTheSearch($event)" placeholder="Search...">
-                        </div>
-                    </li>
-                    <li class="hidden-sm visible-menu">
+
+<header class="sticky-top">
+    <div class="container-fluid">
+        <div class="header-data">
+            <div class="logo">
+                <a href="#" title=""><img src="/assets/images/logo_1.png" width="138" alt="Startev"></a>
+            </div><!--logo end-->
+            <div class="search-bar">
+                <form>
+                    <input type="text" #search (keyup.enter)="doTheSearch($event)" name="search" placeholder="Search...">
+                    <button type="button" (click)="doTheSearch($event)"><i class="la la-search"></i></button>
+                </form>
+            </div><!--search-bar end-->
+            <nav>
+                <ul>
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
                         <a 
-                        [routerLink]="['/']" 
-                        routerLinkActive="active" 
-                        [routerLinkActiveOptions]="{exact:true}" class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','home']" size="lg"></fa-icon>
-                            </span>
-                            <span class="inline-text"> Home</span>
-                        </a>
-                    </li>
-                     <li class="hidden-sm visible-menu">
-                        <a
-                        [routerLink]="['/knowledge-hub']" 
-                        routerLinkActive="active" 
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','universal-access']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Knowledge Hub</span>
-                        </a>
-                    </li>
-                     <li class="hidden-sm visible-menu">
-                        <a 
-                        [routerLink]="['/venture-hub']" 
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','archive']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Venture Hub</span>
-                        </a>
-                    </li>
-                    <li class="hidden-sm visible-menu">
-                        <a [routerLink]="['/messages']" routerLinkActive="active" class="inline-bar">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','comment-alt']" size="lg"></fa-icon>
-                            </span><span class="inline-text"> Messages</span>
-                        </a>
-                    </li>
-                    <li class="dropdown notifications visible-menu">
-                        <a href="javascript:void(0);" (click)="toggleNoty" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','bell']" size="lg"></fa-icon>
-                            </span>
-                            <span class="label-count">{{ count(notifications) }}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">New Notifications</li>
-                            <li class="body">
-                                <ul class="menu list-unstyled" *ngIf="count(notifications) > 0">
-                                    <li *ngFor="let item of notifications">
-                                        <a [routerLink]="">
-                                            <div class="media">
-                                                <img class="media-object" [src]="item.user.avatar" alt="">
-                                                <div class="media-body">
-                                                    <span class="name">{{ item.user.name }} <span class="time">{{ item.created_at | dateAgo }}</span></span>
-                                                    <span class="message">{{ item.content }}</span>                               
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-
-                                 <ul class="menu list-unstyled" *ngIf="count(notifications) === 0">
-                                    <li>
-                                        <a [routerLink]="">
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <span class="message">No New Notifications</span>                               
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer" *ngIf="count(notifications) > 0"> <a [routerLink]="">View All</a> </li>
-                        </ul>
-                    </li>
-                    
-                    <li class="dropdown profile">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <img class="rounded-circle" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" alt="User">
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <div class="user-info">
-                                    <h6 class="user-name m-b-1">{{ currentUser.name }}</h6>
-                                    <p class="user-position">{{ profile.role | titlecase }}</p>
-                                    <hr>
-                                </div>
-                            </li>                            
-                            <li><a [routerLink]="['/profile']"><i class="icon-user m-r-10"></i> <span>My Profile</span> <span class="badge badge-success float-right">{{ profile.progress }}%</span></a></li>                  
-                            <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power m-r-10"></i><span>Sign Out</span></a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" (click)="toggleNav()">
-                            <span class="inline-icon">
-                                <fa-icon [icon]="['fas','adjust']" size="lg" [spin]="true"></fa-icon>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>        
-    </div>
-</nav>
-
-<aside id="leftsidebar" class="sidebar h_menu">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-12">
-                <div class="menu">
-                    <ul class="list">
-                        <button id="closeBars" class="bars btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
-                        </button>
-
-                         <li *ngFor="let industry of industries" class="floating-nav"> 
-                            <a [routerLink]="['/industry', industry.slug]" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-grid"></i>
-                                <span>{{ industry.name | excerpt: 12}} ( {{ industry.totalMentors }} )</span>
-                            </a>
-                        </li>
-                       
-                         <li class="floating-nav"> 
-                            <a [routerLink]="['/industry']" [ngClass]="{'waves-effect waves-block': true}"><i class="icon-screen-desktop"></i><span>All Career Fields ...</span></a>
-                        </li>
-                         
-                    <li class="topSideNav">
-                    <a 
-                    [routerLink]="['/']" 
-                    routerLinkActive="active" 
-                    [routerLinkActiveOptions]="{exact:true}" class="">
-                        <i class="icon-grid"></i>
-                        <span class=""> Home</span>
+                        [routerLink]="['/']"
+                        title="">
+                        <span><i class="fa fa-home"></i></span>
+                        Home
                     </a>
-                    </li>
-                     <li class="topSideNav">
-                        <a
-                        [routerLink]="['/knowledge-hub']" 
-                        routerLinkActive="active" 
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="">
-                            <i class="icon-grid"></i><span class=""> Knowledge Hub</span>
-                        </a>
-                    </li>
-                     <li class="topSideNav">
-                        <a 
-                        [routerLink]="['/venture-hub']" 
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="">
-                            <i class="icon-grid"></i><span class=""> Venture Hub</span>
-                        </a>
-                    </li>
-                    <li class="topSideNav">
-                        <a [routerLink]="['/messages']" routerLinkActive="active" class="">
-                            <i class="icon-grid"></i><span class=""> Messages</span>
-                        </a>
-                    </li>
+                </li>
 
-                    </ul>
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                    <a 
+                    [routerLink]="['/knowledge-hub']" 
+                    title="">
+                    <span><i class="fa fa-universal-access"></i></span>
+                    Knowledge Hub
+                </a>
+            </li>
+
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <a 
+                [routerLink]="['/venture-hub']" 
+                title="">
+                <span><i class="fa fa-archive"></i></span>
+                Ventures Hub
+            </a>
+        </li>
+        <li routerLinkActive="active">
+            <a [routerLink]="['/industry']">
+                <span><i class="fa fa-briefcase"></i></span>
+                Industries
+            </a>
+        </li>
+
+        <li routerLinkActive="active">
+            <a [routerLink]="['/messages']">
+                <span><i class="fa fa-comment"></i></span>
+                Messages
+            </a>
+        </li>
+
+        <!-- <li>
+            <a href="#" title="" class="not-box-open">
+                <span><i class="fa fa-bell"></i></span>
+                Notifications
+            </a>
+            <div class="notification-box msg" *ngIf="count(notifications) > 0">
+                <div class="nt-title">
+                    <h4>Setting</h4>
+                    <a href="#" title="">Clear all</a>
                 </div>
-            </div>
-        </div>
-    </div>
-</aside>
+                <div class="nott-list">
 
-<div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">
-    <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you visible to other users on the platform</span>
+                    <div class="notfication-details" *ngFor="let item of notifications">
+                        <div class="noty-user-img">
+                            <img [src]="item.user.avatar" alt="">
+                        </div>
+                        <div class="notification-info">
+                            <h3><a href="#" title="">{{ item.user.name }}</a> </h3>
+                            <p>{{ item.content }}</p>
+                            <span>{{ item.created_at | dateAgo }}</span>
+                        </div><!--notification-info -->
+                    <!-- </div>
+
+                    <div class="view-all-nots">
+                        <a href="#" title="">View All Messsages</a>
+                    </div>
+                </div><!--nott-list end-->
+
+           <!--  </div>
+
+            <div class="" *ngIf="count(notifications) === 0">
+                <span class="message">No New Notifications</span>
+            </div>
+        </li>   -->
+
+    </ul>
+</nav><!--nav end-->
+<div class="menu-btn">
+    <a href="#" title=""><i class="fa fa-bars"></i></a>
+</div><!--menu-btn end-->
+<div class="user-account">
+    <div class="user-info">
+        <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="32" alt="">
+        <a href="#" title="">{{ splitName(currentUser.name) }}</a>
+        <i class="la la-sort-down"></i>
+    </div>
+    <div class="user-account-settingss">
+        <h3>Account</h3>
+        <h3 class="tc"><a href="#" title="">Setting</a></h3>
+        <h3>Manage</h3>
+        <h3 class="tc"><a href="#" title="">Post & Activity</a></h3>
+
+        <h3 class="tc"><a [routerLink]="" (click)="logout()" title="">Logout</a></h3>
+    </div><!--user-account-settingss end-->
 </div>
+</div><!--header-data end-->
+</div>
+</header><!--header end-->  
 
-<!-- Right Bar Section -->
-<!-- Right Sidebar -->
-<aside id="rightsidebar" class="right-sidebar" [ngClass]="{'open': show}">
-    <div class="slim_scroll">
-        <div class="text-center">
-            <button (click)="toggleNav()" class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
-                <fa-icon [icon]="['fas','window-close']" size='lg'></fa-icon>
-            </button>
-        </div>
-        <div class="card">
-           <div class="media">
-                <div class="media-left p-2"> <a href="javascript:void(0);"> <img alt="" class="media-object rounded-circle img-raised" src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" width="64" height="64"> </a> 
-                </div>
-                <div class="media-body pt-1">
-                    <h4 class="media-heading">{{ currentUser.name }}</h4>
-                    <span *ngIf="profile.role === 'student'" 
-                    class="text-muted"><strong>{{ profile.role }}</strong></span>
-                    <span *ngIf="profile.role === 'business'" 
-                    class="text-muted"><strong>{{ profile.roleData.name }}</strong></span>
 
-                     <span *ngIf="profile.role === 'mentor'" 
-                     class="text-muted"><strong>{{ profile.roleData.current_job_position }}</strong></span>
-
-                   <!--  <span *ngIf="profile.role === 'student'" 
-                    class="text-muted"><strong>Trainers 18/25</strong></span> -->
-                </div>
-            </div>
-        </div>
-        <div class="card transparent text-center">
-             <p> {{ currentUser.bio?currentUser.bio : 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.' }} </p>
-            <p class="text-muted text-left">
-                <i class="icon-pointer"></i> 
-                <span *ngIf="currentUser.state"> {{ currentUser.state }}, </span> 
-                {{ currentUser.country? currentUser.country : 'Address not set' }}
-            </p>
-            <p class="text-muted text-left"><i class="icon-link"></i> {{ currentUser.email }}</p>
-            <p class="text-muted text-left"><i class="icon-calendar"></i> Joined April 2019</p>
-        </div>
-        <div class="card text-center">
-            <h6>Profile Completion</h6>
-            <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="profile.progress" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': profile.progress+'%'}"> {{ profile.progress }}% </div>
-            <br/>
-            <a [routerLink] = "'/edit-profile'" class="btn btn-sm btn-simple btn-round btn-primary">Edit Profile</a>
-        </div>
-    </div>
-</aside>
+<!-- <div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">
+    <span style="font-weight: 400; color: #222 !important;"> <strong>Incomplete Profile &nbsp; </strong> Please complete your profile to make you visible to other users on the platform</span>
+</div> -->

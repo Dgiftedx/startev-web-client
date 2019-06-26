@@ -48,6 +48,9 @@ const routes: Routes = [
 {
 	path: '', 
 	component: FeedsComponent, 
+	resolve: {
+		profile: ProfileEditResolve
+	},
 	canActivate : [AuthGuard] 
 },
 {

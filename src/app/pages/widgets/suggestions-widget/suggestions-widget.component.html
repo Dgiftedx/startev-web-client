@@ -1,0 +1,21 @@
+ <div class="suggestions full-width feeds-container" *ngIf="showSuggestions">
+    <div class="sd-title">
+      <h3>Suggestions</h3>
+      <!-- <i class="la la-ellipsis-v"></i> -->
+    </div><!--sd-title end-->
+    <div class="suggestions-list">
+
+      <div class="suggestion-usd" *ngFor="let user of suggestions">
+        <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="user.name" width="40">
+        <div class="sgt-text">
+          <h4>{{ user.name | titlecase }}</h4>
+          <span>{{ echoJobTitle(user.roleData.data, user.roleData.role) | titlecase }}</span>
+        </div>
+        <a [routerLink]="['/general-profile', user.slug]"><span><i class="la la-eye"></i></span></a>
+      </div>
+     
+      <!-- <div class="view-more">
+        <a href="#" title="">View More</a>
+      </div> -->
+    </div><!--suggestions-list end-->
+  </div><!--suggestions end-->

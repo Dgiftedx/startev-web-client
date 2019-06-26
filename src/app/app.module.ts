@@ -6,7 +6,6 @@ import { OrderModule } from 'ngx-order-pipe';
 import { EmbedVideo } from 'ngx-embed-video';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { LaddaModule } from  'angular7-ladda';
-import { VgCoreModule} from 'videogular2/core';
 import { AppComponent } from './app.component';
 import * as  Cloudinary from 'cloudinary-core';
 import { LightboxModule } from 'ngx-lightbox';
@@ -14,13 +13,12 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { NgxPaginationModule} from 'ngx-pagination';
 import { InputSearchModule } from 'ngx-input-search';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { VgControlsModule} from 'videogular2/controls';
 import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Angular4PaystackModule } from 'angular4-paystack';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
-import { VgBufferingModule} from 'videogular2/buffering';
 import { FilePickerModule } from  'ngx-awesome-uploader';
 import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
@@ -69,8 +67,6 @@ import { ResetPasswordComponent } from './pages/password/reset-password/reset-pa
 import { IndustryListComponent } from './pages/industries/industry-list/industry-list.component';
 import { IndustryDetailsComponent } from './pages/industries/industry-details/industry-details.component';
 import { FollowComponent } from './pages/widgets/follow/follow.component';
-import { ConnectComponent } from './pages/widgets/connect/connect.component';
-import { MentorsComponent } from './pages/widgets/mentors/mentors.component';
 import { MentorProfileComponent } from './pages/mentors/mentor-profile/mentor-profile.component';
 import { PartnerViewComponent } from './pages/partner/partner-view/partner-view.component';
 import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.component';
@@ -99,6 +95,11 @@ import { GeneralProfileComponent } from './pages/profile/general-profile/general
 import { NotificationsComponent } from './pages/widgets/notifications/notifications.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { SuggestionsWidgetComponent } from './pages/widgets/suggestions-widget/suggestions-widget.component';
+import { AdsWidgetComponent } from './pages/widgets/ads-widget/ads-widget.component';
+import { MentorsWidgetComponent } from './pages/widgets/mentors-widget/mentors-widget.component';
+import { SignUpsWidgetComponent } from './pages/widgets/sign-ups-widget/sign-ups-widget.component';
+import { FooterWidgetComponent } from './pages/widgets/footer-widget/footer-widget.component';
 
 
 export const ngxDropTargetOptions: DropTargetOptions = {
@@ -130,8 +131,6 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     IndustryListComponent,
     IndustryDetailsComponent,
     FollowComponent,
-    ConnectComponent,
-    MentorsComponent,
     MentorProfileComponent,
     PartnerViewComponent,
     FeedDetailsComponent,
@@ -160,6 +159,11 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     NotificationsComponent,
     LandingComponent,
     ConfirmEmailComponent,
+    SuggestionsWidgetComponent,
+    AdsWidgetComponent,
+    MentorsWidgetComponent,
+    SignUpsWidgetComponent,
+    FooterWidgetComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -172,9 +176,6 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    VgCoreModule,
-    VgControlsModule,
-    VgBufferingModule,
     ToastrModule.forRoot({
       closeButton: true,
       progressBar: true,
@@ -203,7 +204,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      Angular4PaystackModule,
      NgxPrintModule,
      NgxLinkifyjsModule.forRoot(),
-     LightboxModule
+     LightboxModule,
+     SlickCarouselModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

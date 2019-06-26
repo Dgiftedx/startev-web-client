@@ -37,12 +37,8 @@ export class BaseService {
 
     //Algorithm to show user Job title
     echoJobTitle(roleData: any, role: string){
-        if (role === 'student') {
-            if (roleData.institution) {
-                return roleData.institution;
-            }else{
-                return "New User";
-            }
+        if (role === 'student' || role === 'graduate') {
+            return role;
         }
 
         if (role === 'mentor') {
@@ -62,7 +58,7 @@ export class BaseService {
 
                 return presentWork.position;
             }else{
-                return "New User";
+                return role;
             }
         }
 
@@ -90,6 +86,22 @@ export class BaseService {
 
     public fetchUserProfile(){
         return this.http.get(`${this.endpoint}/get-profile`);
+    }
+
+    public fetchTopProfiles(){
+        return this.http.get(`${this.endpoint}/get-top-profiles`);
+    }
+
+    public fetchFeaturedMentors(){
+        return this.http.get(`${this.endpoint}/get-featured-mentors`);
+    }
+
+    public fetchNewSignup(){
+        return this.http.get(`${this.endpoint}/get-new-sign-ups`);
+    }
+
+     public fetchSuggestions( user_id:number ){
+        return this.http.get(`${this.endpoint}/get-suggestions/${user_id}`);
     }
 
     public removeHeaderImage(user_id:number) {

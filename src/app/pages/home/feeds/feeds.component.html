@@ -1,123 +1,112 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="card member-card feeds-container fadeIn">
-          <div *ngIf="currentUser.bg_image" class="header" [ngStyle]="{'background-image': 'url('+currentUser.bg_image+')', 'background-position': 'center top'}">
-            <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
-            &nbsp;
-          </div>
-
-
-          <div *ngIf="!currentUser.bg_image" class="header bg-pink">
-            <!-- <h4 class="m-t-10">{{ currentUser.name }}</h4> -->
-            &nbsp;
-          </div>
-
-          <div class="member-img">
-
-            <a href="#" class="">
-              <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" class="rounded-circle" alt="profile-image">
-            </a>
-          </div>
-          <div class="body">
-
+<main>
+      <div class="main-section">
+        <div class="container">
+          <div class="main-section-data">
             <div class="row">
-              <!-- Publish to knowledge hub for Business Entity & Mentors -->
-              <div class="col-md-12 zero-m">
-               <div *ngIf="profile.role ==='business'">
-                 <a 
-                 [routerLink]="['/store-manager']"
-                 class="btn btn-info btn-block waves-effect p-2"> Open Store Manager</a>
-               </div>
+              <div class="col-lg-3 col-md-4 pd-left-none no-pd">
 
-               <div *ngIf="profile.role !== 'student'">
-                  <a 
-                 [routerLink]="['/publish-to-hub']" 
-                 class="btn btn-info btn-block waves-effect p-2">Publish To Knowledge Hub</a>
-               </div>
-             </div>
 
-             <div class="col-md-12 zero-m">
-               <!-- Direct Access Hub For Students -->
-               <div *ngIf="profile.role ==='student'">
-                <!-- if user has at least a partner, activate venture dashboard -->
-                <a
-                *ngIf="hasStore"
-                [routerLink]="['/venture-dashboard']" 
-                class="btn btn-info btn-block waves-effect p-2">Open Venture Dashboard</a>
+                <!-- Left seidebar starts here -->
+                <div class="main-left-sidebar no-margin">
 
-                <a 
-                [routerLink]="['/knowledge-hub']" 
-                class="btn btn-info btn-block waves-effect p-2">Access Knowledge Hub</a>
-              </div>
-            </div>
 
-            <!-- View approved partnerships -->
-            <div class="col-md-12 zero-m">
-             <a 
-             [routerLink]="['/profile']"  
-             class="btn btn-warning btn-block waves-effect p-2">View Partnership Profile</a>
-           </div>
-
-         </div>
-       </div>
-     </div>
-   </div>
-
-   <div class="col-sm-12 col-md-12 col-lg-6">
-    <div class="row clearfix">
-					<!-- <div class="col-sm-12 col-md-12">
-						<div class="card feeds-container">
-		                    <div class="body">
-		                    	<div class="chat">
-			                        <div class="chat-header clearfix zero-m">
-			                            <div class="row zero-m">
-			                                <div class="col-lg-6 col-sm-12">
-			                                  <h5> Write an article</h5>
-			                                </div>
-			                                <div class="col-lg-6 col-sm-12 text-right">
-			                                    <button class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
-			                                    <button class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
-			                                    <button class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-link"></i></button>
-			                                    <button class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button>
-			                                </div>
-			                            </div>
-			                        </div>
-			                        <div class="chat-history zero-m">
-			                            <div class="form-group">
-			                            	<textarea [(ngModel)]="content" rows="3" class="form-control"></textarea>
-			                            </div>
-			                        </div>
-			                        <div class=" zero-m clearfix">
-			                           <button type="button" (click)="submitPost()" class="btn btn-warning btn-round waves-effect"><i class="zmdi zmdi-favorite-outline6"></i> Post</button>
-			                        </div>
-			                    </div>
-		                    </div>
-		                </div>
-                 </div> -->
-                 <div class="col-sm-12 col-md-12">
-                  <div class="card feeds-container fadeIn">
-                    <div class="body zero-m">
-                      <div class="row zero-m justify-content-md-center">
-                        <div class="col-10">
-                          <button #articlePost (click)="writePost('article')" type="button" class="btn btn-white btn-block waves-effect"> Share an update</button>
+                  <!-- user Box Panel -->
+                  <div class="user-data full-width feeds-container">
+                    <div class="user-profile">
+                      <div class="username-dt">
+                        <div class="usr-pic">
+                          <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
                         </div>
-                        <div class="col-2">
-                          <button type="button" #imagePost (click)="writePost('image')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camera"></i></button>
+                      </div><!--username-dt end-->
+                      <div class="user-specs">
+                        <h3>{{ currentUser.name }}</h3>
+                        <span *ngIf="profileData.role === 'student'">
+                          <span *ngIf="profileData.roleData.institution"> Student at {{ profileData.roleData.institution }}</span>
+                          <span *ngIf="!profileData.roleData.institution"> in Africa</span>
+                        </span>
 
-                          <!-- <button type="button" #videoPost (click)="writePost('video')" class="btn btn-white btn-icon waves-effect  btn-icon-mini btn-round"><i class="icon-camcorder"></i></button>
+                        <span *ngIf="profileData.role === 'mentor'">
+                        {{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
 
-                          <button type="button" class="btn btn-white btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-settings"></i></button> -->
+                        <span  *ngIf="profileData.role === 'business'">{{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
 
-                        </div>
+                        <span  *ngIf="profileData.role === 'graduate'">Graduated from {{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
+
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </div><!--user-profile end-->
+                    <ul class="user-fw-status">
+                      <li>
+                        <h4>Following</h4>
+                        <span>{{ count(profileData.following) }}</span>
+                      </li>
+                      <li>
+                        <h4>Followers</h4>
+                        <span>{{ count(profileData.followers) }}</span>
+                      </li>
+                      <li>
+                        <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
+                      </li>
+
+                      <li *ngIf="profile.role ==='business'">
+                        <a 
+                         [routerLink]="['/store-manager']"
+                         class=""> Open Store Manager</a>
+                      </li>
+
+                      <li *ngIf="profile.role !== 'student'">
+                         <a 
+                           [routerLink]="['/publish-to-hub']" 
+                           class="">Publish To Knowledge Hub</a>
+                      </li>
+
+                      <li *ngIf="profile.role ==='student'">
+                         <a
+                          *ngIf="hasStore"
+                          [routerLink]="['/venture-dashboard']" 
+                          class="">Open Venture Dashboard</a>
+                      </li>
+
+                      <li>
+                         <a 
+                          [routerLink]="['/knowledge-hub']" 
+                          class="">Access Knowledge Hub</a>
+                      </li>
+                    </ul>
+                  </div><!--user-data end-->
+
+                    <!-- suggestion widget -->
+                    <app-suggestions-widget></app-suggestions-widget>
+                    <!--// end suggestions widget -->
+
+                </div> <!--// end sidebar -->
+              </div>
+
+
+              <div class="col-lg-6 col-md-8 no-pd">
+                <div class="main-ws-sec">
+                  <div class="post-topbar feeds-container">
+                   <div class="row">
+                     <div class="col-2">
+                        <div class="user-picy">
+                          <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}"
+                          class="rounded-circle" 
+                          width="40" alt="">
+                        </div>
+                        
+                     </div>
+                     <div class="col-9">
+                       <button #articlePost (click)="writePost('article')" type="button" class="btn btn-block waves-effect"> Share an update</button>
+                     </div>
+
+                     <div class="col-1">
+                       <button type="button" #imagePost (click)="writePost('image')" class="btn btn-icon waves-effect  btn-icon-mini btn-round"><i class="fa fa-camera"></i></button>
+                     </div>
+                   </div>
+                  </div><!--post-topbar end-->
+				
 
                 <!-- Help Tips Box -->
-                <div class="col-sm-12 col-md-12">
+               <!--  <div class="col-sm-12 col-md-12">
                   <div class="card feeds-container" *ngIf="showHelpTip && helpTip" [@fadeAnimation]>
                     <div class="body chat post-container">
                      <div class="bg_grey">
@@ -133,381 +122,180 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="col-sm-12 col-md-12" *ngFor="let feed of feeds">
-                <div class="card feeds-container" *ngIf="feed.postType === 'post'" [@fadeAnimation]>
-                  <div class="body chat post-container">
-                    <div class="chat-header clearfix post-feed-header">
-                      <div class="row">
-                        <div class="col-lg-12 zero-margin">
-                          <a [routerLink]="['/general-profile', feed.user.slug]">
-                            <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" class="img-raised" alt="avatar"></a>
-                          <div class="chat-about feed-meta">
-                            <a [routerLink]="['/general-profile', feed.user.slug]">
-                              <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6></a>
-                            <small class="feed-title">{{ feed.title }}</small><br/>
-                            <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
-                          </div>
 
-                          <button 
-                          data-toggle="dropdown"
-                          [attr.aria-haspopup]="true"
-                          [attr.aria-expanded]="false"
-                          class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
-                          <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                          <li>
-                            <a [routerLink]="" (click)="hideFeed(feed.id)">
-                              <fa-icon [icon]="['fas','tag']"></fa-icon>
-                              <span class="pl-1 dropdown-link">Hide this post</span>
-                            </a>
-                          </li>
-                              <li>
-                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
-                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
-                                    <span class="pl-1 dropdown-link">Delete Feed</span>
-                                </a>
-                              </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="post-feed-inner bg_grey">
-                          <div class="" class="p-3">
-                            <p class="post-content" [innerHtml]="feed.content | linkify | excerpt: 257 : feed.title">
-                            </p>
-                             <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect pb-3">read more</a>
-                          </div>
-                        </div>
 
-                        <!-- Post Type Like Box -->
-                        <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
-                          <div class="row clearfix zero-m">
-                            <div class="col-4 p-2">
-                              <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                              <span class="pl-2">
-                                {{ count(feed.likers) }}
-                                <em *ngIf="count(feed.likers) > 1">likes</em>
-                                <em *ngIf="count(feed.likers) <= 1">like</em>
+              <div class="posts-section">
+
+
+                    <div class="top-profiles" *ngIf="showTopProfiles">
+                      <div class="pf-hd">
+                        <h3>Top Profiles</h3>
+                        
+                      </div>
+                      <div class="profiles-slider">
+                         <ngx-slick-carousel class="carousel" 
+                              #slickModal="slick-carousel" 
+                              [config]="slideConfig">
+                             
+                             <div class="user-profy" ngxSlickItem *ngFor="let top of topProfiles">
+                                <img src="{{ checkValue(top.avatar, 'avatar', 'null') }}" width="50" class="rounded-circle" alt="">
+                                <h3>{{ top.name | titlecase }}</h3>
+                                <span>{{ echoJobTitle(top.roleData.data, top.roleData.role) }}</span>
+                                <ul>
+                                  <li>
+                                    <button *ngIf="!isFollowing(top.id) && top.id !== currentUser.id" (click)="followUser(top.id)" class="btn btn-simple btn-sm waves-effect">
+                                        <fa-icon [icon]="['fas','plus']"></fa-icon> Follow
+                                    </button>
+
+                                    <button *ngIf="isFollowing(top.id) && top.id !== currentUser.id" (click)="unFollowUser(top.id)" class="btn btn-simple btn-sm waves-effect">
+                                        <fa-icon [icon]="['fas','plus']"></fa-icon> UnFollow
+                                    </button>
+
+                                    <a [routerLink]="['/profile']" *ngIf="top.id === currentUser.id" class="btn btn-simple btn-sm waves-effect">
+                                        <fa-icon [icon]="['fas','eye']"></fa-icon> My profile
+                                    </a>  
+                                  </li>
+                                  <li><a href="#" title="" class="envlp"><i class="fa fa-envelope"></i></a></li>
+                                </ul>
+                                <a [routerLink]="['/general-profile', top.slug]" title="">View Profile</a>
+                              </div><!--user-profy end-->
+                          
+                      </ngx-slick-carousel>
+                      </div><!--profiles-slider end-->
+                    </div> 
+
+                    <div class="post-bar feeds-container" *ngFor="let feed of feeds">
+                      <div class="" [@fadeAnimation]>
+                        <div class="post_topbar">
+                          <div class="usy-dt">
+                            <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" width="40" alt="">
+                            <div class="usy-name">
+                              <h3>{{ feed.user.name }}</h3>
+                              <span>
+                                <img  src="/assets/images/clock.png" alt="">{{ feed.createdAt | date: 'medium' }}
                               </span>
                             </div>
-                            <div class="col-8 negative-margin-30 p-2">
-                              <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                              <span class="pl-2">
-                                {{ count(feed.comments) }} 
-                                <em *ngIf="count(feed.comments) > 1">comments</em>
-                                <em *ngIf="count(feed.comments) <= 1">comment</em>
-                              </span>
+                          </div>
+                          <div class="ed-opts">
+                            <button type="button" class="ed-options btn btn-round btn-icon btn-icon-mini btn-white waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-ellipsis-v"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                              <button 
+                              class="dropdown-item" 
+                              type="button" (click)="hideFeed(feed.id)"> <i class="fa fa-ban"></i> Hide</button>
+                              <button 
+                              *ngIf="feed.user.id === currentUser.id" 
+                              class="dropdown-item" type="button" (click)="deleteFeed(feed)">  <i class="fa fa-trash"></i> Remove</button>
                             </div>
-                            <div class="p-1"></div>
-                            <!-- <div class="col-1"></div> -->
+                          
                           </div>
-                          <div class="border"></div>
                         </div>
 
-                        <!-- Post Type Reaction Box -->
-                        <div class="">
-                         <div class="row clearfix zero-m">
-                          <div class="col-12 pl-2">
-                            <button 
-                            (click)="toggleLike(feed.id)" 
-                            [ngClass]="{'liked': feed.hasLiked}"
-                            class="btn btn-white btn-icon  btn-icon-mini btn-round">
-                            <i class="icon-like"></i>
-                          </button>
-
-                          <button 
-                          (click)="toggleCommentBox(feed.id)" 
-                          class="btn btn-white btn-icon  btn-icon-mini btn-round">
-                          <i class="icon-speech"></i>
-                        </button>
-
-                        <!-- <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button> -->
-                      </div>
-                    </div>
-                    <div class="border" *ngIf="showCommentBox && comment.feedId == feed.id"></div>
-                  </div>
-
-                  <!-- Post Type Comment Box -->
-                  <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
-                    <div class="row clearfix m-1">
-                      <div class="col-1 pt-2" style="margin:0 !important; padding-right: 0 !important; padding-left:0 !important;">
-                        <img [src]="currentUser.avatar" class="rounded-circle" height="40" width="40"/>
-                      </div>
-                      <div class="col-11 pt-2">
-
-                        <div class="input-group">
-                          <input 
-                          type="text" 
-                          placeholder="enter comment..." 
-                          class="form-control"
-                          (keyup.enter)="submitComment()"
-                          [(ngModel)]="comment.text">
-                          <span class="input-group-addon pointer-move" (click)="submitComment()">
-                            <i class="zmdi zmdi-mail-send"></i>
-                          </span>
+                        <div class="job_descp">
+                        <h3>{{ feed.title }}</h3>
+                        <div class="feed-image" *ngIf="feed.image">
+                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                        </div>
+                        <p class="post-content" [innerHtml]="feed.content | linkify | excerpt: 257"></p>
+                          <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn-sm btn btn-round btn-white">read more</a>
                         </div>
 
-                      </div>
-                    </div>
-
-                    <!-- Comments -->
-                    <div class="row clearfix" *ngIf="count(feed.comments) > 0">
-                      <div class="col-12 ml-4 p-2">
-                       <ul class="chat-widget m-r-2 clearfix">
-                        <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
-                         <a [routerLink]="['/general-profile', comment.user.slug]">
-                          <img 
-                          src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" 
-                          class="rounded-circle" alt=""></a>
-                          <div class="chat-info">
-                            <span class="message">
-                              {{ comment.comment }}
-                              <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
-                            </span>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-
-                  </div>
-                </div>
-
-
-              </div>
-            </div>
-            <div class="card feeds-container min-height-400 fadeIn" *ngIf="feed.postType === 'picture'">
-              <div class="body chat post-container">
-               <div class="chat-header clearfix post-feed-header">
-                <div class="row">
-                  <div class="col-lg-12 zero-margin">
-                    <a [routerLink]="['/general-profile', feed.user.slug]">
-                      <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" class="img-raised" alt="avatar"></a>
-                    <div class="chat-about feed-meta">
-                      <a [routerLink]="['/general-profile', feed.user.slug]">
-                        <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
-                      </a>
-                      <small class="feed-title">{{ feed.title }}</small><br/>
-                      <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
-                    </div>
-
-                    <button 
-                    data-toggle="dropdown"
-                    [attr.aria-haspopup]="true"
-                    [attr.aria-expanded]="false"
-                    class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
-                    <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
-                  </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
+                      <div class="job-status-bar">
+                        <ul class="like-com">
                           <li>
-                            <a [routerLink]="" (click)="hideFeed(feed.id)">
-                              <fa-icon [icon]="['fas','tag']"></fa-icon>
-                              <span class="pl-1 dropdown-link">Hide this post</span>
-                            </a>
-                          </li>
-                            <li>
-                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
-                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
-                                    <span class="pl-1 dropdown-link">Delete Feed</span>
-                                </a>
-                              </li>
-                            </ul>
+                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i> Like</a>
+                            <span>{{ count(feed.likers) }}</span>
 
+                            <a [routerLink]="" (click)="toggleCommentBox(feed.id)" class="comment-tc"><i class="la la-comment-o"></i> Comment {{ count(feed.comments) }}</a>
+                          </li> 
+                         
+                        </ul>
+                        <!-- <a><i class="la la-eye"></i>Views 50</a> -->
+                      </div>
+
+                      <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+
+                        <div class="comment-section feeds-container">
+                        <div class="comment-sec" *ngIf="count(feed.comments) > 0">
+                          <ul>
+                            
+                            <li *ngFor="let comment of feed.comments|orderBy:'id':true">
+                              <div class="comment-list">
+                                <div class="bg-img">
+                                  <img src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" alt="{{ comment.user.name }}" width="40" />
+                                </div>
+                                <div class="comment">
+                                  <h3>{{ comment.user.name | titlecase }}</h3>
+                                  <span><img src="images/clock.png" alt=""> {{ comment.created_at | dateAgo }}</span>
+                                  <p>{{ comment.comment }}</p>
+                                </div>
+                              </div><!--comment-list end-->
+                            </li>
+                          </ul>
+                        </div><!--comment-sec end-->
+                        <div class="post-comment">
+                          <div class="cm_img">
+                            <img [src]="currentUser.avatar" class="rounded-circle" width="35"/>
                           </div>
-                        </div>
+                          <div class="comment_box">
+                              <input 
+                              type="text" 
+                              placeholder="enter comment..." 
+                              class="form-control"
+                              (keyup.enter)="submitComment()"
+                              [(ngModel)]="comment.text">
+                          </div>
+                          <div class="comment-action">
+                            <button class="btn btn-primary waves-effect btn-round" type="button" (click)="submitComment()">Send</button>
+                          </div>
+                        </div><!--post-comment end-->
                       </div>
-                      <div class="post-feed-inner bg_grey">
-                        <div class="" class="">
-                         <!--  <cl-image
-                            public-id={{feed.image}}
-                            class="thumbnail inline" 
-                            format="jpg">
-                        </cl-image> -->
-                          <img [src]="feed.image" (click)="openImage(feed)" alt="" [ngStyle]="{'max-height': '350px','width':'100%'}" class="feed-image" />
-                        </div>
+
                       </div>
-                      <div class="post-feed-inner bg_grey">
-                       <p class="post-content p-3">{{ feed.content | excerpt: 137 }}
-                        <a *ngIf="isMore(feed.content, 137)" [routerLink]="['/feed', feed.id]" class="btn btn-link read-more waves-effect">read more</a>
-                      </p>
 
                     </div>
-
-
-                    <!-- Post Type Like Box -->
-                      <div class="" [@enterAnimation] *ngIf="count(feed.likers) > 0 || count(feed.comments) > 0">
-                        <div class="row clearfix zero-m">
-                          <div class="col-4 p-2">
-                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                            <span class="pl-2">
-                              {{ count(feed.likers) }}
-                              <em *ngIf="count(feed.likers) > 1">likes</em>
-                              <em *ngIf="count(feed.likers) <= 1">like</em>
-                            </span>
-                          </div>
-                          <div class="col-8 negative-margin-30 p-2">
-                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-                            <span class="pl-2">
-                              {{ count(feed.comments) }} 
-                              <em *ngIf="count(feed.comments) > 1">comments</em>
-                              <em *ngIf="count(feed.comments) <= 1">comment</em>
-                            </span>
-                          </div>
-                          <div class="p-1"></div>
-                          <!-- <div class="col-1"></div> -->
-                        </div>
-                        <div class="border"></div>
-                      </div>
-
-
-
-                    <!-- Picture Post Type Reaction Box -->
-                    <div class="">
-                     <div class="row zero-m">
-                      <div class="col-lg-12 pl-2">
-                        <button 
-                        (click)="toggleLike(feed.id)"
-                        [ngClass]="{'liked': feed.hasLiked}"
-                        class="btn btn-white btn-icon  btn-icon-mini btn-round">
-                        <i class="icon-like"></i>
-                      </button>
-
-                      <button 
-                      (click)="toggleCommentBox(feed.id)" 
-                      class="btn btn-white btn-icon  btn-icon-mini btn-round">
-                      <i class="icon-speech"></i>
-                    </button>
-
-                    <!-- <button class="btn btn-white btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button> -->
                   </div>
+
                 </div>
-                <div class="border" *ngIf="showCommentBox && comment.feedId == feed.id"></div>
-              </div>
-
-              <!-- Picture Post Type Comment Box -->
-              <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
-                <div class="row clearfix m-1">
-                  <div class="col-1 pt-2"  style="margin:0 !important; padding-right: 0 !important; padding-left:0 !important;">
-                    <img src="{{ checkValue(currentUser.avatar, 'avatar', 'null') }}" class="rounded-circle" height="40" width="40"/>
-                  </div>
-                  <div class="col-11 pt-2">
-
-                    <div class="input-group">
-                      <input 
-                      type="text" 
-                      placeholder="enter comment..." 
-                      class="form-control"
-                      (keyup.enter)="submitComment()"
-                      [(ngModel)]="comment.text">
-                      <span class="input-group-addon pointer-move" (click)="submitComment()">
-                        <i class="zmdi zmdi-mail-send"></i>
-                      </span>
-                    </div>
-
-                  </div>
-                </div>
-
-                <!-- Comments -->
-                <div class="row clearfix" *ngIf="count(feed.comments) > 0">
-                  <div class="col-12 ml-4 p-2">
-                   <ul class="chat-widget m-r-2 clearfix">
-                    <li class="left float-left" *ngFor="let comment of feed.comments|orderBy:'id':true">
-                     <a [routerLink]="['/general-profile', comment.user.slug]">
-                      <img 
-                      src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" 
-                      class="rounded-circle" alt=""></a>
-                      <div class="chat-info">
-                        <span class="message">
-                          {{ comment.comment }}
-                          <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
               </div>
             </div>
 
-            <!--// Reaction Box ends -->
+              <div class="col-lg-3 pd-right-none no-pd">
+                <div class="right-sidebar">
+
+                  <!-- Advert Widget -->
+                  <app-ads-widget></app-ads-widget>
+                  <!--// end advert Widget -->
+                 
+                 
+                  <!-- Featured Mentors -->
+                  <app-mentors-widget></app-mentors-widget>
+
+
+                  <!-- New Sign ups -->
+                  <app-sign-ups-widget></app-sign-ups-widget>
+
+                  <!-- Footer Widget -->
+                  <app-footer-widget></app-footer-widget>
+
+                </div><!--right-sidebar end-->
+              </div>
+
+            </div>
+
 
           </div>
+
         </div>
 
-        <div class="card feeds-container min-height-400" *ngIf="feed.postType === 'video'">
-          <div class="body chat">
-            <div class="chat-header clearfix post-feed-header">
-              <div class="row">
-                <div class="col-lg-12 zero-margin">
-                  <img [src]="feed.user.avatar" alt="avatar">
-                  <div class="chat-about feed-meta">
-                    <h6 class="m-b-0 feed-user">{{ feed.user.name }}</h6>
-                    <small class="feed-title">{{ feed.title }}</small><br/>
-                    <small class="feed-time">{{ feed.createdAt | date: 'medium' }}</small>
-                  </div>
+      </div>
+    </main>
 
-                  <button 
-                  data-toggle="dropdown"
-                  [attr.aria-haspopup]="true"
-                  [attr.aria-expanded]="false"
-                  class="float-right btn btn-white btn-icon waves-effect btn-icon-mini btn-round">
-                  <fa-icon [icon]="['fas','ellipsis-h']" size="lg"></fa-icon>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li>
-                    <a [routerLink]="">
-                      <fa-icon [icon]="['fas','tag']"></fa-icon>
-                      <span class="pl-1 dropdown-link">Hide this post</span>
-                    </a>
-                  </li>
-                             <li>
-                                <a *ngIf="feed.user.id === currentUser.id" [routerLink]="" (click)="deleteFeed(feed)">
-                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
-                                    <span class="pl-1 dropdown-link">Delete Feed</span>
-                                </a>
-                              </li>
-                            </ul>
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="pb-2 video-player">
-
-                      </div>
-                      <div class="">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <p class="text-muted pt-3">26 Likes | 8 Comment</p>
-                          </div>
-                          <div class="col-lg-6 text-right">
-                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-like"></i></button>
-                            <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-speech"></i></button>
-                            <!--  <button class="btn btn-default btn-icon  btn-icon-mini btn-round"><i class="icon-action-redo"></i></button> -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-3">
-              <div class="row clearfix">
-                <div class="col-md-12">
-                  <app-follow></app-follow>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- Modal Section -->
-      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+     <!--  <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
@@ -539,7 +327,7 @@
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
                <!--  <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
                </h6> -->
-               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+               <!-- <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
              <div class="modal-body"> 
               <br/>
@@ -567,5 +355,5 @@
               <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-danger waves-effect">Close</button>
             </div>
           </div>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->

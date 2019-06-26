@@ -1,16 +1,18 @@
-@import "assets/css/normalize.css";
-@import "assets/chat/css/bootstrap.min.css";
-@import "assets/lib/bootstrap-select/css/bootstrap-select.css";
-@import "assets/css/main.css";
-@import "assets/css/mentors.css";
-@import "assets/css/chatapp.css";
-@import "assets/css/feed-box.css";
-@import "assets/css/color_skins.css";
+@import "assets/css/animate.css";
+@import "assets/css/bootstrap.min.css";
+@import "assets/css/flatpickr.min.css";
+@import "assets/css/font-awesome.min.css";
+@import "assets/css/jquery.mCustomScrollbar.min.css";
+@import "assets/css/jquery.range.css";
+@import "assets/css/line-awesome-font-awesome.min.css";
+@import "assets/css/line-awesome.css";
 @import "assets/lib/dropzone/dropzone.css";
 @import "assets/lib/cropper.css";
-@import "assets/chat/emoji.css";
-@import "assets/chat/css/perfect-scrollbar.min.css";
-@import "assets/chat/css/themify-icons.css";
+@import "assets/lib/slick/slick.css";
+@import "assets/lib/slick/slick-theme.css";
+@import "assets/css/style.css";
+@import "assets/css/responsive.css";
+@import "assets/css/waves.css";
 
 /*------------- Plugins Css ----------------------*/
 @import "~ngx-toastr/toastr.css";
@@ -18,17 +20,12 @@
 /*@import "~ng-snotify/styles/simple";*/
 @import "~ladda/dist/ladda-themeless.min.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
-@import '~@swimlane/ngx-datatable/release/index.css';
-@import '~@swimlane/ngx-datatable/release/themes/material.css';
-@import '~@swimlane/ngx-datatable/release/assets/icons.css';
-
 /*------------- Main Custom Css -----------------*/
-@import "assets/css/custom.css";
 
-*,
+
+/**,
 *::before,
 *::after{box-sizing:border-box !important;}
 a{text-decoration:none; color:inherit; cursor:pointer;}
@@ -39,4 +36,4 @@ ul, ol, dd{margin:0; padding:0; list-style:none;}
 h1, h2, h3, h4, h5, h6{margin:0; font-size:inherit; font-weight:inherit;}
 p{margin:0;}
 cite {font-style:normal;}
-fieldset{border-width:0; padding:0; margin:0;}
+fieldset{border-width:0; padding:0; margin:0;}*/

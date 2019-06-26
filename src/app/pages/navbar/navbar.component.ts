@@ -53,33 +53,7 @@ export class NavbarComponent implements OnInit {
 
   jQueryEvents() {
 
-   let  a = $("body"),
-        b = $(".overlay");
-
-        $(".bars").on("click", function() {
-
-            if (a.hasClass('overlay-open')) {
-              a.removeClass('overlay-open');
-              $("#leftsidebar").addClass('h_menu');
-              b.fadeIn();
-
-              return false;
-            }else{
-              a.addClass("overlay-open");
-              $("#leftsidebar").removeClass('h_menu');
-              b.fadeOut();
-
-              return false;
-            }
-        });
-
-        $('.nav [data-close="true"]').on("click", function() {
-            var a = $(".navbar-toggle").is(":visible"),
-            b = $(".navbar-collapse");
-            a && b.slideUp(function() {
-                b.removeClass("in").removeAttr("style");
-            });
-        });
+     //
   }
 
 
@@ -89,11 +63,33 @@ export class NavbarComponent implements OnInit {
     this.jQueryEvents();
   }
 
+// ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
 
   public count( items:any ){
     return _.size(items);
   }
 
+
+  splitName(name:string) {
+    let splitted = name.split(" ");
+    return splitted[0];
+  }
 
 
     get profile(){

@@ -5,7 +5,7 @@ import { User } from '../../../_models';
 import { Lightbox } from 'ngx-lightbox';
 import { Feed } from '../../../_models/feed';
 import { HttpClient } from '@angular/common/http';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 // import { Cloudinary } from '@cloudinary/angular-5.x';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
@@ -53,6 +53,8 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
 export class FeedsComponent implements OnInit {
 
   currentUser : User;
+
+  public profileData:any;
   public isImage = false;
   public processedImage = '';
   public content : string = '';
@@ -75,17 +77,22 @@ export class FeedsComponent implements OnInit {
   private localFeedSubscription : Subscription;
   private peopleSubscription : Subscription;
   private partnersSubscription: Subscription;
+  private topProfileSubscription: Subscription;
 
   public showHelpTip:boolean = false;
   public helpInterval;
   public helpTip:any;
   public partners:any;
-
-
+  public topProfiles:any;
+  public showTopProfiles:boolean = false;
 
   public hasStore:boolean = false;
+  public followingIds: Array<any> = [];
+
+  slideConfig = {"slidesToShow": 3, "slidesToScroll": 1, "autoplay": true, "autoplaySpeed": 2000};
 
   constructor(
+    private route : ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
@@ -129,10 +136,19 @@ export class FeedsComponent implements OnInit {
     this.partnersSubscription = this.baseService.getPartners()
     .subscribe((partners:any) => {
       this.partners = partners;
-    })
+    });
+
+
+    this.getTopProfiles();
+
+
   }
 
   ngOnInit() {
+
+    this.profileData = this.route.snapshot.data.profile.profileData;
+    this.updateFollowingIds(this.profileData.following);
+
     this.commentForm = this.formBuilder.group({
       feedId: [null],
       text: ['']
@@ -144,6 +160,54 @@ export class FeedsComponent implements OnInit {
     }, 6000 * 3);
   }
 
+  getTopProfiles(){
+    this.topProfileSubscription = this.baseService.fetchTopProfiles()
+    .subscribe(data => {
+      this.topProfiles = data;
+      this.showTopProfiles = true;
+    });
+  }
+
+  updateFollowingIds(followers: any){
+    this.followingIds = [];
+    followers.forEach((item) => {
+      this.followingIds.push(item.id);
+    });
+  }
+
+
+  public isFollowing(target: number){
+    return this.followingIds.includes(target)?true:false;
+  }
+
+   unFollowUser(id: number){
+    this.onToggleFollow(id);
+  }
+
+   handleFollowToggleResponse(data: any){
+    //Update people to follow
+    this.people = data.people;
+    this.profileData.followers = data.followers;
+    this.profileData.following = data.following;
+    //update following Ids
+    this.updateFollowingIds(data.following);
+    this.alert.successMsg(data.message,"Updates");
+  }
+
+
+  onToggleFollow(target: number){
+    this.baseService.toggleFollow(this.currentUser.id, target)
+    .subscribe(
+
+      data => {
+        this.handleFollowToggleResponse(data);
+      });
+  }
+
+
+  jqueryMethods() {
+   //
+  }
 
 
   // ============ check null item and return default as required =======//
@@ -209,13 +273,13 @@ export class FeedsComponent implements OnInit {
   }
 
 
-  followUser(id: number){
-    this.onFollow(id);
+   followUser(id: number){
+    this.onToggleFollow(id);
   }
 
 
   isMore(text: string, level: number): boolean {
-    return text.length > level;
+    return this.count(text) > level ? true:  false;
   }
 
 
@@ -453,25 +517,6 @@ export class FeedsComponent implements OnInit {
       .subscribe(data => {
         this.alert.snotSimpleSuccess("feed has been removed");
       });
-  }
-
-
-  //====== Handle Follow & Unfollow ===========//
-
-  handleFollowResponse(data){
-    this.people = data.people;
-    this.alert.snotSimpleSuccess("You started following this user");
-  }
-
-
-  onFollow(target: number){
-    this.baseService.follow(this.currentUser.id, target)
-    .subscribe(
-
-        data => {
-            this.handleFollowResponse(data);
-        }
-      )
   }
 
 
