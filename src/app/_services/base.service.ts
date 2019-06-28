@@ -56,6 +56,8 @@ export class BaseService {
                     }
                 });
 
+                if(!presentWork)
+                    return 'Owner';
                 return presentWork.position;
             }else{
                 return role;
