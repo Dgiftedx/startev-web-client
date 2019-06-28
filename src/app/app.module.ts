@@ -46,6 +46,7 @@ import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 library.add(fas);
 
@@ -100,7 +101,12 @@ import { AdsWidgetComponent } from './pages/widgets/ads-widget/ads-widget.compon
 import { MentorsWidgetComponent } from './pages/widgets/mentors-widget/mentors-widget.component';
 import { SignUpsWidgetComponent } from './pages/widgets/sign-ups-widget/sign-ups-widget.component';
 import { FooterWidgetComponent } from './pages/widgets/footer-widget/footer-widget.component';
-
+import { KnowledgeHubCareersComponent } from './pages/knowledge-hub/knowledge-hub-careers/knowledge-hub-careers.component';
+import { KnowledgeHubCareerDevComponent } from './pages/knowledge-hub/knowledge-hub-career-dev/knowledge-hub-career-dev.component';
+import { KnowledgeHubGeneralKnowledgeComponent } from './pages/knowledge-hub/knowledge-hub-general-knowledge/knowledge-hub-general-knowledge.component';
+import { KnowledgeHubBusinessManagementComponent } from './pages/knowledge-hub/knowledge-hub-business-management/knowledge-hub-business-management.component';
+import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
+import { UserManageProductsComponent } from './pages/partner/venture-dashboard/user-manage-products/user-manage-products.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -164,6 +170,12 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     MentorsWidgetComponent,
     SignUpsWidgetComponent,
     FooterWidgetComponent,
+    KnowledgeHubCareersComponent,
+    KnowledgeHubCareerDevComponent,
+    KnowledgeHubGeneralKnowledgeComponent,
+    KnowledgeHubBusinessManagementComponent,
+    MyPublicationsComponent,
+    UserManageProductsComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -205,7 +217,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      NgxPrintModule,
      NgxLinkifyjsModule.forRoot(),
      LightboxModule,
-     SlickCarouselModule
+     SlickCarouselModule,
+     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

@@ -3,14 +3,14 @@
 
         <div class="card feeds-container fadeIn" *ngIf="showModBox">
 
-            <div class="header">
+            <div class="card-header">
               <h2><strong>View/Modify</strong> Order</h2>
 
               <button type="button" (click)="closeModBox()" class="float-right btn btn-icon btn-round btn-icon-mini btn-white waves-effect">
-                  <i class="zmdi zmdi-close 2x"></i>
+                  <i class="la la-close"></i>
               </button>
             </div>
-            <div class="body" *ngIf="singleOrder">
+            <div class="card-body" *ngIf="singleOrder">
                 <table class="table">
                   <tr>
                     <td>
@@ -72,7 +72,7 @@
                   </tr>
                 </table>
 
-                <div class="">
+                <div class="" *ngIf="!singleOrder.forwarded">
                   <button 
                   (click)="forwardOrders(singleOrder)"
                   type="button"
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="card slideDown product_item_list product-order-list feeds-container" *ngIf="showMainOrders">
-            <div class="body">
+            <div class="card-body">
                 <div class="mt-3 text-center">
                      <div class="form-group">
                             <input
@@ -129,9 +129,9 @@
                             <td>
                               <!-- Edit product -->
                             <button 
-                            class="btn btn-icon btn-icon-mini btn-round btn-warning waves-effect" 
+                            class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" 
                             (click)="editOrder(item.order_id)">
-                             <i class="zmdi zmdi-edit"></i>
+                             <i class="la la-edit"></i>
                             </button>
 
                             </td>

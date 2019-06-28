@@ -19,18 +19,26 @@
                         </div>
                       </div><!--username-dt end-->
                       <div class="user-specs">
-                        <h3>{{ currentUser.name }}</h3>
-                        <span *ngIf="profileData.role === 'student'">
+                        <h3 
+                        *ngIf="profileData.role ==='student' || profileData.role ==='graduate'">{{ currentUser.name }}</h3>
+
+                        <h3 
+                        *ngIf="profileData.role !=='student'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
+
+                        <span *ngIf="profileData.role === 'student' || profileData.role === 'graduate'">
                           <span *ngIf="profileData.roleData.institution"> Student at {{ profileData.roleData.institution }}</span>
                           <span *ngIf="!profileData.roleData.institution"> in Africa</span>
                         </span>
 
                         <span *ngIf="profileData.role === 'mentor'">
-                        {{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
 
-                        <span  *ngIf="profileData.role === 'business'">{{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
+                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Mentor on Startev
 
-                        <span  *ngIf="profileData.role === 'graduate'">Graduated from {{ echoJobTitle(profileData.role, profileData.roleData) }}</span>
+                         </span>
+
+                        <span  *ngIf="profileData.role === 'business'">
+                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Business on Startev
+                        </span>
 
                       </div>
                     </div><!--user-profile end-->
@@ -47,29 +55,29 @@
                         <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
                       </li>
 
+                       <li *ngIf="profile.role !== 'student' && profile.role !== 'graduate'">
+                         <a 
+                           [routerLink]="['/my-publications']" 
+                           class="waves-effect">My Publications</a>
+                      </li>
+
                       <li *ngIf="profile.role ==='business'">
                         <a 
                          [routerLink]="['/store-manager']"
-                         class=""> Open Store Manager</a>
-                      </li>
-
-                      <li *ngIf="profile.role !== 'student'">
-                         <a 
-                           [routerLink]="['/publish-to-hub']" 
-                           class="">Publish To Knowledge Hub</a>
+                         class="waves-effect"> Open Store Manager</a>
                       </li>
 
                       <li *ngIf="profile.role ==='student'">
                          <a
                           *ngIf="hasStore"
                           [routerLink]="['/venture-dashboard']" 
-                          class="">Open Venture Dashboard</a>
+                          class="waves-effect">Open Venture Dashboard</a>
                       </li>
 
                       <li>
                          <a 
                           [routerLink]="['/knowledge-hub']" 
-                          class="">Access Knowledge Hub</a>
+                          class="waves-effect">Access Knowledge Hub</a>
                       </li>
                     </ul>
                   </div><!--user-data end-->
@@ -174,7 +182,7 @@
                             <div class="usy-name">
                               <h3>{{ feed.user.name }}</h3>
                               <span>
-                                <img  src="/assets/images/clock.png" alt="">{{ feed.createdAt | date: 'medium' }}
+                                <img  src="/assets/images/clock.png" alt="">{{ feed.time | date: 'medium' }}
                               </span>
                             </div>
                           </div>
@@ -194,9 +202,18 @@
 
                         <div class="job_descp">
                         <h3>{{ feed.title }}</h3>
-                        <div class="feed-image" *ngIf="feed.image">
+                        <div class="feed-image" *ngIf="feed.image && !feed.images">
                           <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
                         </div>
+
+                        <div class="feed-image" *ngIf="feed.images && !feed.image">
+                           <ngx-slick-carousel class="carousel" 
+                              #feedSlickModal="slick-carousel" 
+                              [config]="feedSlideConfig">
+                              <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed.images, feed.title)" [src]="image" class="feed-image-responsive"/>
+                            </ngx-slick-carousel>
+                        </div>
+
                         <p class="post-content" [innerHtml]="feed.content | linkify | excerpt: 257"></p>
                           <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn-sm btn btn-round btn-white">read more</a>
                         </div>
@@ -295,7 +312,7 @@
 
 
       <!-- Modal Section -->
-     <!--  <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #articlePostModal id="articlePostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
@@ -308,12 +325,12 @@
               <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
             </div>
             <div class="form-group">
-              <textarea [(ngModel)]="content" rows="4" class="form-control" placeholder="What do you want to talk about"></textarea>
+              <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" (click)="submitArticlePost()" class="btn btn-sm btn-warning waves-effect">Publish</button>
-            <button (click)="closeModal('articlePostModal')" type="button" class="btn btn-sm btn-danger waves-effect">Close</button>
+            <button type="button" (click)="submitArticlePost()" class="btn btn-sm btn-simple waves-effect">Publish</button>
+            <button (click)="closeModal('articlePostModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
           </div>
         </div>
       </div>
@@ -325,35 +342,36 @@
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-               <!--  <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
-               </h6> -->
-               <!-- <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+               </h6>
+               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
              <div class="modal-body"> 
               <br/>
               <div class="form-group text-center">
-                <input
-                type="file" 
-                name="file" 
-                id="file" 
-                (change)="processPostImage(postImage)" 
-                class="inputfile" #postImage/>
-                <label for="file" class="waves-effect"><i class="icon-camera"></i></label>
+                <label for="file-upload" class="custom-file-upload waves-effect">
+                    <i class="fa fa-cloud-upload"></i> Upload Images
+                </label>
+                <input id="file-upload" type="file" multiple (change)="processPostImage(postImage)" #postImage/>
+                
               </div>
               <div class="form-group">
                 <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
               </div>
               <div class="form-group">
-                <textarea [(ngModel)]="content" rows="4" class="form-control" placeholder="What do you want to talk about"></textarea>
+                <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea>
               </div>
             </div>
             <div class="modal-footer">
-              <div class="float-left">
-                <img *ngIf="isImage" [src]="processedImage" alt="" class="img-raised" height="50" width="50">
+              <div class="float-left modal-image-container">
+                <div class="" *ngIf="isImage">
+                  <img *ngFor="let image of processedImages"  [src]="image" alt="" class="img-raised" height="50" width="58">
+                </div>
+                
               </div>
-              <button type="button" (click)="submitImagePost()" class="btn btn-sm btn-warning waves-effect">Publish</button>
-              <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-danger waves-effect">Close</button>
+              <button type="button" (click)="submitImagePost()" class="btn btn-sm btn-simple waves-effect">Publish</button>
+              <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
             </div>
           </div>
-        </div> -->
-      <!-- </div> -->
+        </div>
+      </div>

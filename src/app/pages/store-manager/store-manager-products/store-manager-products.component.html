@@ -1,19 +1,19 @@
 <div class="row clearfix">
 	<div class="col-lg-12">
 		<div class="card product_item_list fadeIn" *ngIf="showMainBox">
-            <div class="body">
+            <div class="card-body">
                 <div class="row clearfix">
                     <div class="col-md-6">
                         <button 
                         type="button"
                         (click)="triggerAddNew()"
-                        class="btn btn-lg btn-block btn-info waves-effect">Add New Product</button>
+                        class="btn btn-lg btn-block waves-effect">Add New Product</button>
                     </div>
                     <div class="col-md-6">
                         <button 
                         type="button"
                         (click)="assignSelected()"
-                        class="btn btn-lg btn-block bg-orange waves-effect"
+                        class="btn btn-lg btn-block waves-effect"
                         role="button">
                             Assign Selected
                         </button>
@@ -33,10 +33,10 @@
                     </div>
                     <div class="col-md-12 col-sm-12 mt-1 fadeIn" *ngIf="showVentureSelect">
                         <div class="card shadow">
-                            <button type="button" (click)="closeVentureSelect()" class="float-right btn btn-icon btn-icon-mini btn-white waves-effect">
-                                <i class="zmdi zmdi-close 2x"></i>
+                            <button type="button" (click)="closeVentureSelect()" class="btn-round btn btn-icon btn-icon-mini btn-white waves-effect">
+                                <i class="la la-close 2x"></i>
                             </button>
-                            <div class="body mt-1">
+                            <div class="card-body mt-1">
                                 <div class="alert alert-info mt-3">
                                     <span>If there are products already assigned, they'll automatically be skipped.</span>
                                 </div>
@@ -48,7 +48,7 @@
                                 </ng-select>
                                 </div>
                                 <div class="form-group">
-                                    <button type="button" [ladda]="sendingAssignment" (click)="assignSelected()" class="btn btn-danger btn-round waves-effect">Assign</button>
+                                    <button type="button" [ladda]="sendingAssignment" (click)="assignSelected()" class="btn btn-sm btn-round waves-effect">Assign</button>
                                 </div>
                             </div>
                         </div>
@@ -136,26 +136,26 @@
 
                             <!-- Edit product -->
                             <button 
-                            class="btn btn-icon btn-icon-mini btn-round btn-warning waves-effect" 
+                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
                             (click)="editProduct(value)">
-                             <i class="zmdi zmdi-edit"></i>
+                             <i class="la la-edit"></i>
                             </button>
 
 
                             <!-- Remove Product From Store -->
                             <button 
                             [swal]="deleteSwal" (confirm)="deleteProduct(value)"
-                            class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect">
-                                <i class="zmdi zmdi-delete"></i>
+                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect">
+                                <i class="la la-remove"></i>
                             </button>
 
 
                             <!-- View Product -->
-                            <button 
-                            class="btn btn-icon btn-icon-mini btn-round btn-info waves-effect" 
+                            <!-- <button 
+                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
                             (click)="viewProduct(value)">
-                                <i class="zmdi zmdi-eye"></i>
-                            </button>
+                                <i class="la la-eye"></i>
+                            </button> -->
 
                         </ng-template>
                     </ngx-datatable-column>
@@ -181,8 +181,8 @@
         <div class="row clearfix fadeIn" *ngIf="showAddNew">
             <div class="col-md-12">
                 <div class="card feeds-container">
-                    <div class="header"><h2><strong>Add New </strong> Product</h2></div>
-                    <div class="body">
+                    <div class="card-header"><h2><strong>Add New </strong> Product</h2></div>
+                    <div class="card-body">
                         <form [formGroup]="newProductForm">
                             <div class="form-group">
                                 <label>Product Name</label>
@@ -219,6 +219,17 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Product Commission in percentage</label>
+                                <input 
+                                class="form-control" 
+                                [ngClass]="{ 'is-invalid': submitted && p.product_commission.errors }"
+                                type="number" formControlName="product_commission"/>
+                                <div *ngIf="submitted && p.product_commission.errors" class="invalid-feedback">
+                                      <div *ngIf="p.product_commission.errors.required">Product Commission is required</div>
+                                  </div>
+                            </div>
+
+                          <!--   <div class="form-group">
                                  <label>Enter Sizes and hit enter ( If applicable )</label>
                                  <ng-select [items]="[]"
                                            [addTag]="true"
@@ -236,7 +247,7 @@
                                            [isOpen]="false"
                                            formControlName="colors">
                                 </ng-select>
-                            </div>
+                            </div> -->
 
                              <div class="form-group">
                                 <label>Discount Price ( If applicable )</label>
@@ -259,7 +270,7 @@
 
                             </div>
 
-                            <div class="form-group mt-4">
+                           <!--  <div class="form-group mt-4">
                                 <label>Product's Detailed Description</label>
                                 <ck-editor 
                                 name="editor2" 
@@ -269,13 +280,13 @@
                                 [config]="{'height':'300'}"
                                 [fullPage]="true">
                                 </ck-editor>
-                           </div>
+                           </div> -->
 
                            <div class="text-center">
                                <span>Upload Your Product Images </span>
                                <p class="apple-font text-danger" *ngIf="uploadNotice">Any image you upload will replace old ones.</p>
                            </div>
-                           <div class="uploader-wrapper">
+                           <div class="uploader-wrapper text-center">
                                <ngx-file-picker 
                                 [totalMaxSize]="14"
                                 [fileMaxCount]="4"
@@ -295,13 +306,13 @@
                            <div class="form-group text-center">
                                <button type="submit"
                                (click)="onSubmitProduct()"
-                               class="btn btn-lg btn-round btn-success waves-effect" 
+                               class="btn btn-sm btn-round btn-primary waves-effect" 
                                [ladda]="submitting">Submit</button>
                                <button type="button"
 
 
                                (click)="closeNewProductForm()"
-                               class="btn btn-lg btn-round btn-warning waves-effect">Close</button>
+                               class="btn btn-sm btn-round btn-primary waves-effect">Close</button>
                            </div>
                         </form>
                     </div>
@@ -312,7 +323,7 @@
 
         <div class="row clearfix" *ngIf="showProduct">
             <div class="card fadeIn feeds-container">
-                <div class="body" *ngIf="singleProduct">
+                <div class="card-body" *ngIf="singleProduct">
                         <div class="row">
                             <div class="preview col-lg-4 col-md-12">
                                 <div class="preview-pic tab-content">
@@ -336,16 +347,7 @@
                             <div class="details col-lg-8 col-md-12">
                                 <h3 class="product-title m-b-0">{{ singleProduct.product_name | titlecase }}</h3>
                                 <h4 class="price m-t-0">Current Price: <span class="col-amber">NGN {{ singleProduct.product_price | number:0 }}</span></h4>
-                                <!-- <div class="rating">
-                                    <div class="stars">
-                                        <span class="zmdi zmdi-star col-amber"></span>
-                                        <span class="zmdi zmdi-star col-amber"></span>
-                                        <span class="zmdi zmdi-star col-amber"></span>
-                                        <span class="zmdi zmdi-star col-amber"></span>
-                                        <span class="zmdi zmdi-star-outline"></span>
-                                    </div>
-                                    <span class="m-l-10">41 reviews</span>
-                                </div> -->
+                                
                                 <hr>
                                 <p class="product-description">{{ singleProduct.highlight }}</p>
                                 <!-- <p class="vote"><strong>78%</strong> of buyers enjoyed this product! <strong>(23 votes)</strong></p> -->

@@ -1,103 +1,38 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-  <div class="container">
-    <div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-      <div class="col-sm-12 col-md-12">
-        <div class="row clearfix justify-content-md-center">
-          <!-- only used to center search bar -->
-          <div class="col"></div>
+<section class="profile-account-setting">
+      <div class="container">
+        <div class="account-tabs-setting">
+          <div class="row mt-3">
+            <div class="col-lg-4">
+              <div class="acc-leftbar">
+                <div class="nav nav-tabs" id="nav-tab" >
+                    <a *ngFor="let nav of navigation" 
+                    [ngClass]="{'active': selectedNavigation.id === nav.id}"
+                    class="nav-item nav-link" id="nav-acc-tab" 
+                    [routerLink]="" 
+                    (click)="setActiveNavigation(nav)"><i class="la la-arrow-right"></i> 
+                    {{ nav.name | titlecase }}
+                  </a>
+                  </div>
+              </div><!--acc-leftbar end-->
+            </div>
+            <div class="col-lg-8">
+              <div *ngIf="selectedNavigation.alias === 'career_fields'">
+                <app-knowledge-hub-careers></app-knowledge-hub-careers>
+              </div>
 
-          <div class="col-md-auto m-b-40">
-             <div class="form-group text-center slideDown">
-              <label for="search">Search for entrepreneurship contents</label>
-              <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
+               <div *ngIf="selectedNavigation.alias === 'career_development'">
+                <app-knowledge-hub-career-dev></app-knowledge-hub-career-dev>
+              </div>
+
+               <div *ngIf="selectedNavigation.alias === 'general_knowledge'">
+                <app-knowledge-hub-general-knowledge></app-knowledge-hub-general-knowledge>
+              </div>
+
+               <div *ngIf="selectedNavigation.alias === 'business_management'">
+                <app-knowledge-hub-business-management></app-knowledge-hub-business-management>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- only used to center search bar -->
-        <div class="col"></div>
+        </div><!--account-tabs-setting end-->
       </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="container"> 
-  <div class="row clearfix">
-
-   <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12" *ngFor="let pub of publications">
-    <div class="card feeds-container fadeIn" *ngIf="checkAudience(pub.audience,pub.user_id)">
-      <div class="header">
-        <h2 *ngIf="count(pub.user.mentor) > 0">
-          <strong>{{ initials(pub.user.name) }}</strong> - {{ pub.user.name|titlecase }} 
-          <small>{{ pub.audience|titlecase }}</small>
-        </h2>
-        <h2 *ngIf="count(pub.user.mentor) === 0">
-          <strong>{{ initials(pub.user.business.name) }}</strong> - {{ pub.user.business.name |titlecase }} 
-          <small>{{ pub.audience|titlecase }}</small>
-        </h2>                        
-        <ul class="header-dropdown" *ngIf="pub.user_id === profile.roleData.user_id">
-          <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a [routerLink]="" (click)="editPublication">Edit</a></li>
-              <li><a [routerLink]="" (click)="deletePublication(pub)" class="boxs-close">Delete</a></li>
-            </ul>
-          </li>
-        </ul>
-        <div class="lesson-body-top">
-         {{ pub.title | titlecase }} 
-         <!-- <span class="badge badge-success float-right">New</span> -->
-       </div>
-     </div>
-     <div class="body lesson-box mb-0 pb-0">
-    
-    <div class="lesson-content">
-      <div class="lesson-image">
-       <img *ngIf="hasCoverImage(pub)" [src]="pub.image" alt="">
-     </div>
-     <div *ngIf="hasTrainingVideo(pub)" class="video-container">
-       <div [innerHtml]="showEmbededVideo(pub.videoSource, pub.videoLink)"></div>
-     </div>
-    </div>
-
-     <div class="lesson-body-bottom mb-0">
-      <div class="border"></div>
-      <!--  <div class="progress-container l-black m-b-20">
-        <span class="progress-badge">Progress</span>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;">
-            <span class="progress-value">68%</span>
-          </div>
-        </div>
-      </div> -->
-      <div class="row">
-       <div class="col-md-4">
-        <button 
-        (click)="toggleLike(pub.id)" 
-        class="btn btn-danger btn-icon waves-effect btn-icon-mini btn-round">
-          <span *ngIf="count(pub.likers) > 0">+ {{ count(pub.likers) }}</span>
-          <span *ngIf="count(pub.likers) === 0">0</span>
-        </button>
-
-      </div>
-      <!-- <div class="col-md-9">
-        <div class="float-right">
-           <button class="btn btn-default btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-speech"></i></button>
-           <button class="btn btn-default btn-icon waves-effect btn-icon-mini btn-round"><i class="icon-share"></i></button>
-         </div>
-       </div> -->
-     </div>
- </div>
- <div class="row clearfix zero-m">
-   <div class="col-12 zero-m">
-     <a [routerLink]="['/publication-view',pub.id]" class="btn btn-warning btn-block color-white waves-effect text-center mb-0">View Details</a>
-   </div>
- </div>
-</div>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</section>
+    </section>

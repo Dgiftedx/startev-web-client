@@ -1,13 +1,13 @@
 <div class="row clearfix">
 	<div class="col-sm-12 col-md-12">
         <div class="card feeds-container fadeIn" *ngIf="showMainView">
-            <div class="header">
+            <div class="card-header">
                 <h2><strong>Ventures</strong> List</h2>
             </div>
-            <div class="body" *ngIf="ventures">
+            <div class="card-body" *ngIf="ventures">
                 <div class="row clearfix">
                     <div class="col-md-6 offset-3 text-center">
-                        <button type="button" (click)="addNewVenture()" class="btn btn-round btn-warning waves-effect">
+                        <button type="button" (click)="addNewVenture()" class="btn btn-round btn-sm btn-primary waves-effect">
                             <fa-icon [icon]="['fas','plus']" size="lg"></fa-icon> Add New Venture</button>
                     </div>
                 </div>
@@ -27,12 +27,12 @@
                                 	<button 
                                     type="button"
                                     [swal]="detachSwal" (confirm)="detachProducts(venture.id)"
-                                    class="btn btn-round btn-sm btn-danger waves-effect">Detach Products</button>
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Detach Products</button>
 
                                 	<button 
                                     type="button" 
                                     (click)="editVenture(venture.id)"
-                                    class="btn btn-round btn-sm btn-info waves-effect">Edit Venture</button>
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Edit Venture</button>
                                 </td>
 
                             </tr>
@@ -53,13 +53,13 @@
         </div>
 
         <div class="card feeds-container fadeIn" *ngIf="showModificationBox">
-            <div class="header">
+            <div class="card-header">
                 <h2><strong>{{ formTitle }} </strong> Venture</h2>
                 <button (click)="closeModificationBox()" class="float-right btn  btn-icon btn-icon-mini btn-white btn-round waves-effect">
-                    <i class="zmdi zmdi-close 2x"></i>
+                    <i class="la la-close 2x"></i>
                 </button>
             </div>
-            <div class="body mt-4">
+            <div class="card-body mt-4">
                 <div class="alert alert-info mb-4" *ngIf="showMaxVentureNotice">
                     <span [innerHtml]="noticeText"></span>
                 </div>
@@ -82,7 +82,7 @@
                     <button type="button" 
                     (click)="onSubmitVenture()" 
                     [ladda]="updateVentureLadda" 
-                    class="btn btn-round btn-danger btn-sm waves-effect">{{ buttonTitle }}</button>
+                    class="btn btn-round btn-primary btn-sm waves-effect">{{ buttonTitle }}</button>
                 </div>
             </div>
         </div>

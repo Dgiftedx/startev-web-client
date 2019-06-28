@@ -1,10 +1,10 @@
 <div class="row clearfix">
 	<div class="col-md-12">
 		<div class="card feeds-container">
-			<div class="header">
+			<div class="card-header">
 				<h2><strong>Track </strong> Order</h2>
 			</div>
-			<div class="body text-center mt-5">
+			<div class="card-body text-center mt-5">
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Enter Order ID" [(ngModel)]="orderId">
 				</div>
@@ -12,18 +12,18 @@
 				type="button"
 				(click)="trackOrder()"
 				[ladda]="tracking"
-				class="btn btn-lg btn-warning btn-round waves-effect">Track Order</button>
+				class="btn btn-lg btn-primary btn-round waves-effect">Track Order</button>
 			</div>
 		</div>
 
 		<div class="card feeds-container fadeIn" *ngIf="showNotice" id="print-order-tracking">
-			<div class="header">
+			<div class="card-header">
 				<h2><strong>Order </strong> Details</h2>
 				<button (click)="closeNoticeBox()" class="float-right btn btn-icon btn-icon-mini btn-white btn-round waves-effect">
                     <i class="zmdi zmdi-close 2x"></i>
                 </button>
 			</div>
-			<div class="body mt-3">
+			<div class="card-body mt-3">
 				<div class="alert alert-info" *ngIf="noticeMsg" [innerHtml]="noticeMsg"></div>
 
 				<div  *ngIf="count(order) > 0">
@@ -71,7 +71,7 @@
 
                   <tr>
                     <td><strong>Order Status: </strong></td>
-                    <td><button type="button" class="btn btn-simple btn-info btn-lg color-white waves-effect">{{ item.status }}</button></td>
+                    <td><button type="button" class="btn btn-simple btn-primary btn-sm color-white waves-effect">{{ item.status }}</button></td>
                   </tr>
                 </table>
 
@@ -81,7 +81,7 @@
                         [useExistingCss]="true"
                         ngxPrint 
                         printSectionId="print-order-tracking" 
-                        class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                        class="btn btn-rprimary btn-icon  btn-icon-mini btn-round"><i class="la la-print"></i></button>
                 </div>
             </div>
 		</div>

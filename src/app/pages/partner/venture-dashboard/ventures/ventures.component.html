@@ -1,10 +1,10 @@
 <div class="row clearfix">
 	<div class="col-sm-12 col-md-12" *ngIf="ventureList">
         <div class="card feeds-container">
-            <div class="header">
+            <div class="card-header">
                 <h2><strong>Venture</strong> List</h2>
             </div>
-            <div class="body">
+            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table m-b-0">
                         <tbody>
@@ -27,7 +27,7 @@
                                     type="button" 
                                     [disabled]="list.is_products_imported"
                                     (click)="importProducts(list.venture_id)"
-                                    class="btn btn-round btn-sm btn-success waves-effect">Import Products 
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Import Products 
                                     <small *ngIf=" importingId === list.venture_id"> importing..</small>
                                   </button>
 
@@ -35,7 +35,7 @@
                                     type="button"
                                     [swal]="syncSwal"
                                     (confirm)="syncronizeProducts(list.venture_id)"
-                                    class="btn btn-round btn-sm btn-warning waves-effect">Sync Products
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Sync Products
                                     <small *ngIf=" syncId === list.venture_id"> ...</small>
                                   </button>
 
@@ -43,7 +43,7 @@
                                     type="button"
                                     [swal]="detachSwal" 
                                     (confirm)="detachProducts(list.venture_id)"
-                                    class="btn btn-round btn-sm btn-danger waves-effect">Detach Products
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Detach Products
                                     <small *ngIf=" detachId === list.venture_id"> ...</small>
                                   </button>
                                 </td>

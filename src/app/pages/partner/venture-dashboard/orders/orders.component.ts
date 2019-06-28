@@ -113,7 +113,6 @@ export class OrdersComponent implements OnInit {
 		this.storeService.getSingleOrder(order_id)
 		.subscribe(data => {
 			this.singleOrder = data;
-
 			setTimeout(() => {
 				this.showMainOrders = false;
 				this.showModBox = true;

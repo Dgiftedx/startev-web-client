@@ -100,8 +100,32 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-new-sign-ups`);
     }
 
+    public fetchPublicationCat(){
+        return this.http.get(`${this.endpoint}/get-pub-cat`);
+    }
+
      public fetchSuggestions( user_id:number ){
         return this.http.get(`${this.endpoint}/get-suggestions/${user_id}`);
+    }
+
+    public fetchMyFeeds( user_id:number ){
+        return this.http.get(`${this.endpoint}/get-my-feeds/${user_id}`);
+    }
+
+     public fetchMyPublications( user_id:number ){
+        return this.http.get(`${this.endpoint}/get-my-publications/${user_id}`);
+    }
+
+    public fetchMyPartners( user_id:number ){
+        return this.http.get(`${this.endpoint}/get-my-partners/${user_id}`);
+    }
+
+    public fetchBusinessPartners( user_id:number ){
+        return this.http.get(`${this.endpoint}/get-business-partners/${user_id}`);
+    }
+
+    public fetchHubMaterials( url:string ){
+        return this.http.get(`${this.endpoint}/get-hub-materials${url}`);
     }
 
     public removeHeaderImage(user_id:number) {
@@ -237,6 +261,11 @@ export class BaseService {
     //Publish publication
     public publishPublication(formData: any){
         return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);
+    }
+
+     //Publish publication
+    public updatePublication(formData: any, pub_id:number){
+        return this.http.post<any>(`${this.endpoint}/update-publication/${pub_id}`, formData);
     }
 
     //Delete publication from knowledge Hub

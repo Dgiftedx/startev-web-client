@@ -39,12 +39,6 @@
                 Ventures Hub
             </a>
         </li>
-        <li routerLinkActive="active">
-            <a [routerLink]="['/industry']">
-                <span><i class="fa fa-briefcase"></i></span>
-                Industries
-            </a>
-        </li>
 
         <li routerLinkActive="active">
             <a [routerLink]="['/messages']">
@@ -91,19 +85,19 @@
     </ul>
 </nav><!--nav end-->
 <div class="menu-btn">
-    <a href="#" title=""><i class="fa fa-bars"></i></a>
+    <a [routerLink]=""><i class="fa fa-bars"></i></a>
 </div><!--menu-btn end-->
 <div class="user-account">
     <div class="user-info">
         <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="32" alt="">
-        <a href="#" title="">{{ splitName(currentUser.name) }}</a>
+        <a href="javascript:;">{{ splitName(currentUser.name) }}</a>
         <i class="la la-sort-down"></i>
     </div>
     <div class="user-account-settingss">
-        <h3>Account</h3>
+        <!-- <h3>Account</h3>
         <h3 class="tc"><a href="#" title="">Setting</a></h3>
         <h3>Manage</h3>
-        <h3 class="tc"><a href="#" title="">Post & Activity</a></h3>
+        <h3 class="tc"><a href="#" title="">Post & Activity</a></h3> -->
 
         <h3 class="tc"><a [routerLink]="" (click)="logout()" title="">Logout</a></h3>
     </div><!--user-account-settingss end-->

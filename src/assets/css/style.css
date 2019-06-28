@@ -2234,6 +2234,14 @@ main {
     font-weight: 600;
     margin-bottom: 20px;
 }
+
+.job_descp h5 {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
 .job-dt {
     float: left;
     width: 100%;
@@ -2271,6 +2279,26 @@ main {
 .job_descp > p a {
     color: #00507b;
     font-weight: 600;
+}
+
+.apple-font{
+    font-family:  -apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Fira Sans,Ubuntu,Oxygen,Oxygen Sans,Cantarell,Droid Sans,Apple Color Emoji,Segoe UI Emoji,Segoe UI Emoji,Segoe UI Symbol,Lucida Grande,Helvetica,Arial,sans-serif;
+    font-kerning: normal;
+    font-weight: 400;
+}
+
+.partner-count{
+    line-height: 80px;
+    text-align: center;
+}
+
+.partner-count h1 {
+    font-family: sans-serif;
+    font-weight: 600;
+    color: #716d6d;
+    font-size: 100px;
+    margin: 10px 0 0 0 !important;
+    padding-bottom: 0 !important;
 }
 
 /* ============= skill-tags =========== */
@@ -2464,7 +2492,7 @@ main {
     text-transform: capitalize;
 }
 .followw {
-    background-color: #53d690;
+    background-color: #00507b;
 }
 .envlp {
     background-color: #00507b;
@@ -2901,11 +2929,51 @@ main {
     padding: 15px;
     height: 130px;
 }
+
+.images-container-single,
+.images-box {
+    float: none;
+    width: 100%;
+    height: auto;
+    margin: 20px 5px;
+}
+
+.images-container-single img,
+.images-box img {
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    transition: all 1.5s;
+}
+
+.images-container-single img:hover,
+.images-box img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.publication-card .ed-opts{
+    float: right;
+}
+
+.custom-list li {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin-top: 5px;
+}
+
+.custom-list li img{
+    margin-right: 25px;
+}
+
 .post-project-fields form input,
 .post-project-fields form textarea,
-.post-project-fields form select {
+.post-project-fields form select,
+.modal-body .form-group textarea,
+textarea {
     width: 100%;
-    color: #b2b2b2;
+    color: #000;
     font-size: 14px;
     border: 1px solid #e5e5e5;
     margin-bottom: 20px;
@@ -4135,6 +4203,50 @@ footer {
     padding-left: 15px;
     margin-bottom: 20px;
 }
+
+.modal-body .form-group textarea {
+    border-radius: 0 !important;
+}
+
+#file-upload,
+#pub-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.modal-image-container {
+    margin-right: 10px;
+}
+
+.modal-image-container img {
+    padding-right: 5px;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-modal-header{
+    background: rgba(0, 0, 0, 0) linear-gradient(-135deg, #007bff 0%, #00507b 100%) repeat scroll 0 0 !important;
+    min-height: 40px;
+}
+
+.custom-modal-header img {
+    position: absolute;
+    top: 6%;
+    left: 45%;
+    bottom: 0;
+    right: 0;
+}
+
 .overview-edit form textarea,
 .overview-edit form input,
 .overview-edit form select {
@@ -4561,6 +4673,7 @@ a:hover {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 10px;
+    min-height: 60px;
 }
 .company-up-info h4 {
     color: #686868;
@@ -4718,17 +4831,27 @@ a:hover {
     position: relative;
 }
 .filter-dd form input,
-.filter-dd form select {
+.filter-dd form select,
+.custom-select {
     width: 100%;
-    height: 30px;
-    background-color: #f2f2f2;
+    height: 38px;
+    background-color: #fff;
     padding: 0 10px;
     color: #b2b2b2;
-    font-size: 12px;
     font-weight: 600;
     border: 0;
     border: 1px solid #e5e5e5;
 }
+
+.filter-dd form input,
+.filter-dd form select {
+    font-size: 12px;
+}
+
+.custom-select {
+    font-size: 20px;
+}
+
 .job-tp i {
     color: #000000;
     position: absolute;
@@ -5385,11 +5508,11 @@ a:hover {
     background: none;
     cursor: pointer;
 }
-.save-stngs ul li button:hover {
+/*.save-stngs ul li button:hover {
     background-color: #00507b;
     color: #fff;
     border-color: transparent;
-}
+}*/
 
 /* =============== Password Update ============ */
 

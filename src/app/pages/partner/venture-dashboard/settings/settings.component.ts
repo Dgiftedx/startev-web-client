@@ -58,6 +58,7 @@ export class SettingsComponent implements OnInit {
 	public store_name:string = '';
 	public store_url:string = '';
 	public bank_name:string = '';
+  public auto_forward:boolean;
 	public account_name:string = '';
 	public account_number:number = 0;
 
@@ -99,23 +100,41 @@ export class SettingsComponent implements OnInit {
 	}
 
 
-	// ============ check null item and return default as required =======//
-	checkValue(item:any,  type:string, nullValue:string) {
-		if (type === 'text') {
-			if (this.count(item) === 0) {
-				return nullValue;
-			}
-			return item;
-		}
+// ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
 
-		if (type === 'avatar') {
+    if (type === 'bool') {
+      if (item) {
+        return 'Yes';
+      }
 
-			if (this.count(item) === 0) {
-				return 'assets/images/default/avatar.jpg';
-			}
-			return item;
-		}
-	}
+      return nullValue;
+    }
+
+
+    if (type === 'integer') {
+      
+      if (item && this.count(item.toString()) === 0) {
+        return nullValue;
+      }
+
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
 
 
 	//============== Lock Account Number if set or set default ================//
@@ -153,6 +172,7 @@ export class SettingsComponent implements OnInit {
   openForModification(){
   	this.store_name  = this.settings.store_name;
   	this.store_url = this.settings.store_url;
+    this.auto_forward = Boolean(this.settings.auto_forward);
   	
   	if (this.settings.store_logo) {
   		this.processedImage = this.settings.store_logo;
@@ -181,6 +201,11 @@ export class SettingsComponent implements OnInit {
   	}
 
   	return formData;
+  }
+
+
+  changeAutoForward() {
+    this.auto_forward = !this.auto_forward
   }
 
 
@@ -227,6 +252,7 @@ export class SettingsComponent implements OnInit {
   		store_logo: this.image,
   		store_url: this.store_url,
   		bank_name: this.bank_name,
+      auto_forward : this.auto_forward,
   		account_name: this.account_name,
   		account_number: this.account_number
   	};

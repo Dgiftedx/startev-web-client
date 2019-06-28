@@ -1,48 +1,65 @@
 <div class="row clearfix" *ngIf="dashboardData">
 	<div class="col-lg-4 col-md-12">
-        <div class="card slideDown">
-            <div class="header">
-                <h2><strong>Orders</strong> Received</h2>                        
+        <div class="card mb-3 bg-teal" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="/assets/images/orders.png" class="card-img" alt="">
             </div>
-            <div class="body">
-            <h3 class="m-b-0">NGN {{ dashboardData.orders_amount|number:0 }}</h3>
-            <small class="displayblock">{{ dashboardData.orders_amount_avg|number:0 }} Average</small>                    
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2><strong>Orders</strong> Received</h2> 
+                <p class="card-text">NGN {{ dashboardData.orders_amount|number:0 }}</p>
+                <p class="card-text"><small class="text-muted">{{ dashboardData.orders_amount_avg | number : '1.2-2' }} Average</small></p>
+              </div>
             </div>
+          </div>
         </div>
     </div>
 
 
     <div class="col-lg-4 col-md-12">
-	    <div class="card slideDown">
-	        <div class="header">
-	            <h2><strong>Delivered</strong> Orders</h2>                        
-	        </div>
-	        <div class="body">
-	            <h3 class="m-b-0">NGN {{ dashboardData.delivered_orders | number:0 }}</h3>
-	            <small class="displayblock">{{ dashboardData.delivered_orders_avg | number:0 }} Average</small>                        
-	        </div>
-	    </div>
+        <div class="card mb-3 bg-teal" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="/assets/images/delivered.jpg" class="card-img" alt="">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2><strong>Delivered</strong> Orders</h2> 
+                <p class="card-text">NGN {{ dashboardData.delivered_orders|number:0 }}</p>
+                <p class="card-text"><small class="text-muted">{{ dashboardData.delivered_orders_avg | number : '1.2-2' }} Average</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
 	</div>
 
 	<div class="col-lg-4 col-md-12">
-        <div class="card slideDown">
-            <div class="header mb-0">
-                <h2><strong>Partners</strong></h2>                        
+
+         <div class="card mb-3 bg-teal" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="/assets/images/partners.png" class="card-img" width="40" alt="">
             </div>
-            <div class="body mt-0">
-                <h3 class="m-b-0 m-t-0">{{ dashboardData.total_partners | number:0 }}</h3>
-                <small class="displayblock">Entrpreneurs in partnership</small>                        
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2><strong>Partners</strong></h2>  
+                <p class="card-text">{{ dashboardData.total_partners | number:0 }}</p>
+                <p class="card-text"><small class="text-muted">&nbsp;</small></p>
+              </div>
             </div>
+          </div>
         </div>
+        
     </div>
 
     <!-- recent Orders -->
     <div class="col-sm-12 col-md-12 col-lg-12">
         <div class="card slideDown">
-            <div class="header">
+            <div class="card-header">
                 <h2><strong>Recent</strong> Orders</h2>
             </div>
-            <div class="body table-responsive members_profiles">
+            <div class="card-body table-responsive members_profiles">
                 <table class="table table-hover">
                     <thead>
                         <tr>

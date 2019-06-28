@@ -2,14 +2,14 @@
 	<div class="col-lg-12">
     <div class="card feeds-container fadeIn" *ngIf="showModBox">
 
-            <div class="header">
+            <div class="card-header">
               <h2><strong>View/Modify</strong> Order</h2>
 
               <button type="button" (click)="closeModBox()" class="float-right btn btn-icon btn-round btn-icon-mini btn-white waves-effect">
-                  <i class="zmdi zmdi-close 2x"></i>
+                  <i class="la la-close 2x"></i>
               </button>
             </div>
-            <div class="body" *ngIf="singleOrder">
+            <div class="card-body" *ngIf="singleOrder">
                 <table class="table">
                   <tr>
                     <td>
@@ -74,13 +74,13 @@
                 (click)="finallizeOrder('shipped', singleOrder.orders[0].identifier)" 
                 type="button" 
                 *ngIf="singleOrder.orders[0].status === 'pending' || singleOrder.orders[0].status === 'processing'" 
-                class="btn btn-warning waves-effect">
+                class="btn btn-primary waves-effect">
                   Product Shipped
                 </button>
 
                 <button 
                 (click)="finallizeOrder('delivered', singleOrder.orders[0].identifier)" 
-                class="btn btn-warning waves-effect" 
+                class="btn btn-primary waves-effect" 
                 *ngIf="singleOrder.orders[0].status === 'shipped'" 
                 type="button">
                   Product Delivered
@@ -132,12 +132,12 @@
                              class="badge badge-warning bg-warning text-white" 
                              *ngIf="item.status !== 'delivered'">{{ item.status | titlecase }}</span>
                             </td>
-                            <td>
+                            <td class="align-top">
                               <!-- Edit product -->
                             <button 
-                            class="btn btn-icon btn-icon-mini btn-round btn-warning waves-effect" 
+                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
                             (click)="editOrder(item.order_id)">
-                             <i class="zmdi zmdi-edit"></i>
+                             <i class="fa fa-edit"></i>
                             </button>
 
                             </td>

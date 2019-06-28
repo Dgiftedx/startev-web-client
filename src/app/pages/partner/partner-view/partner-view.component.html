@@ -1,11 +1,10 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container-fluid">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-		</div>
-	</div>
-
-	<div class="container"> 
-		<div class="row clearfix">
+<section class="companies-info">
+	<div class="container">
+		<div class="company-title">
+			<h3>All Companies / Ventures</h3>
+		</div><!--company-title end-->
+		<div class="companies-list">
+		<div class="row">
 			<div class="col-12 col-md-8">
 				<div class="card feeds-container">
 					<div class="row clearfix">
@@ -14,8 +13,8 @@
 							<h6 class="apple-font p-4 text-center">{{ partner.venture.business.name }}</h6>
 						</div>
 						<div class="col-md-9 p-3">
-							<h5 class="apple-font pl-3">{{ partner.venture.venture_name }}</h5>
-							<h6 class="title text-muted pl-3">Description</h6>
+							<h5 class="apple-font pl-3 mb-2">{{ partner.venture.venture_name }}</h5>
+							<h6 class="title text-muted pl-3">About {{ partner.venture.venture_name }}</h6>
 							<div class="border"></div>
 							<p class="p-3 partner-desc" [innerHtml]="partner.venture.venture_description"></p>
 						</div>
@@ -31,7 +30,7 @@
 					<div class="border"></div>
 
 					<div *ngIf="!isVentureOwner(profile,partner.venture)">
-						<button type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-5 btn btn-block btn-info waves-effect">Apply To Partner</button>
+						<button type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-5 btn btn-block btn-secondary waves-effect">Apply To Partner</button>
 
 						<div *ngIf="userIsPartner && isAccepted(userIsPartner, partner)" class="m-3 alert alert-success"> You already partnered with {{ partner.venture.venture_name }}</div>
 						<div 
@@ -47,29 +46,28 @@
 			</div>
 			
 		</div>
-
-		<div class="row clearfix">
-			<div class="col-12 col-md-12 mb-3">
+		<div class="row">
+			<div class="col-12 col-md-12 mb-3 mt-3">
 				<div class="border p-2">Similar offer from {{ partner.venture.business.name | titlecase }}</div>
 			</div>
-			<div class="col-md-3 col-lg-3 col-sm-12" *ngFor="let venture of similar">
-				<div class="card feeds-container" *ngIf="venture.id !== partner.venture.id">
-					<div class="body business">
-						<div class="business-content min-height-200">
-							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />
-							<h5>{{ venture.venture_name | titlecase }}</h5>
+
+			<div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let venture of similar">
+					<div class="company_profile_info pl-2 pr-2" *ngIf="venture.id !== partner.venture.id">
+						<div class="company-up-info">
+							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" width="110" />
+							<h3>{{ venture.venture_name | titlecase }}</h3>
 							<span>{{ venture.business.name | titlecase }}</span>
-							<p class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</p>
+							<h4>Joined {{ venture.created_at | date:'mediumDate' }}</h4>
+							<!-- <small class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</small> -->
+							<ul>
+								<li><a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" title="" class="followw">Partner</a></li>
+								<li><a href="#" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+							</ul>
 						</div>
-						
-						<div class="border"></div>
-						<div class="">
-							<span class="text-muted">{{ venture.created_at | dateAgo }}</span>
-							<a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
-						</div>
-					</div>
+						<a [routerLink]="['/general-profile', venture.business.user.slug]" title="" class="view-more-pro">View Profile</a>
+					</div><!--company_profile_info end-->
 				</div>
-			</div>
 		</div>
 	</div>
+</div>
 </section>

@@ -28,6 +28,7 @@ export class FeedService {
 				title: string; 
 				body: string; 
 				image: string,
+				images: Array<any>,
 				video: string,
 				link: string,
 				likers : any,
@@ -42,12 +43,13 @@ export class FeedService {
 					data.title, 
 					data.body,
 					data.image,
+					data.images,
 					data.video,
 					data.link,
 					data.likers,
 					data.hasLiked,
 					data.comments,
-					new Date(data.time)));
+					new Date()));
 			});
 	}
 

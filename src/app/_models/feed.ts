@@ -7,12 +7,13 @@
         public title: string,
         public content: string,
         public image: string,
+        public images: Array<any>,
         public video: string,
         public link: any,
         public likers: any,
         public comments:any,
         public hasLiked: boolean,
-        public createdAt: Date
+        public time: Date
       ) {
         this.id = id;
         this.roleData = roleData; 
@@ -21,11 +22,12 @@
         this.title = title;
         this.content = content;
         this.image = image;
+        this.images = images;
         this.video = video;
         this.link = link;
         this.likers = likers;
         this.comments = comments;
         this.hasLiked = hasLiked;
-        this.createdAt = createdAt;
+        this.time = time;
       }
     }

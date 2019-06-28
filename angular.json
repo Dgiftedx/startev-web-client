@@ -24,10 +24,13 @@
             ],
             "styles": [
               "./node_modules/ngx-lightbox/lightbox.css",
-              "./node_modules/slick-carousel/slick/slick.min.js",
+              "./node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+              "./node_modules/froala-editor/css/froala_style.min.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/slick-carousel/slick/slick.min.js",
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {

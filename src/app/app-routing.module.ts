@@ -42,6 +42,7 @@ import { SearchResultComponent } from './pages/search-result/search-result.compo
 import { GeneralProfileComponent } from './pages/profile/general-profile/general-profile.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
 
 
 const routes: Routes = [
@@ -127,9 +128,9 @@ const routes: Routes = [
 	canActivate : [AuthGuard]
 },
 {
-	path: 'publish-to-hub', 
-	component: PublishComponent,
-	canActivate : [AuthGuard] 
+	path: 'my-publications',
+	component: MyPublicationsComponent,
+	canActivate : [AuthGuard]
 },
 
 {

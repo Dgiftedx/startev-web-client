@@ -29,6 +29,7 @@
     "@sweetalert2/ngx-sweetalert2": "^5.0.3",
     "@swimlane/ngx-datatable": "^15.0.0",
     "@wkoza/ngx-upload": "^6.4.0",
+    "angular-froala-wysiwyg": "^3.0.1",
     "angular-paystack": "^1.0.0",
     "angular4-paystack": "^2.3.3",
     "angular7-ladda": "^2.0.1",

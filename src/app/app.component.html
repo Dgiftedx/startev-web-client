@@ -1,8 +1,12 @@
 <app-navbar *ngIf="currentUser"></app-navbar>
 <!-- App Content -->
-<router-outlet></router-outlet>
-<!-- Snotify -->
-<ng-snotify></ng-snotify>
+<div [@routeAnimations]="o && o.activatedRouteData 
+      && o.activatedRouteData['animation']">
+
+	<router-outlet  #o="outlet"></router-outlet>
+	<!-- Snotify -->
+	<ng-snotify></ng-snotify>
+</div>
 <!-- <div *ngIf="currentUser">
 <ng-chat
     [adapter]="adapter"

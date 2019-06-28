@@ -1,9 +1,13 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
+<section class="companies-info">
 	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-			<div class="col-sm-12 col-md-12">
+		<div class="company-title">
+			<h3>All Companies / Ventures</h3>
+		</div><!--company-title end-->
+		<div class="companies-list">
+			<div class="row">
+				<div class="col-sm-12 col-md-12 mb-5">
 				<div class="row clearfix justify-content-md-center">
-					<div class="col-md-6 m-b-40 text-center slideDown">
+					<div class="col-md-6 text-center slideDown">
 
 						<form [formGroup]="businessForm">
 							<label class="text-center">Select Business/Organzation</label>
@@ -20,32 +24,27 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<div class="container"> 
-		<div class="row clearfix">
-			<div class="col-md-3 col-lg-3 col-sm-12" *ngFor="let venture of ventures">
-				<div class="card feeds-container fadeIn">
-					<div class="body business">
-						<div class="business-content min-height-200">
-							<a [routerLink]="['/general-profile', venture.business.user.slug]">
-								<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" />
-							<h5>{{ venture.venture_name | titlecase }}</h5>
-							<span>{{ venture.business.name | titlecase }}</span>
-						</a>
-							<p class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</p>
+				<div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let venture of ventures">
+					<div class="company_profile_info pl-2 pr-2">
+						<div class="company-up-info">
+							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" width="110" />
+							<h3>{{ venture.venture_name | titlecase }}</h3>
+							<h4>Joined {{ venture.created_at | date:'mediumDate' }}</h4>
+							<!-- <small class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</small> -->
+							<ul>
+								<li><a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" title="" class="followw">Partner</a></li>
+								<li><a href="#" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+							</ul>
 						</div>
-						
-						<div class="border"></div>
-						<div class="">
-							<span class="text-muted">{{ venture.created_at | dateAgo }}</span>
-							<a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" class="btn btn-sm btn-warning float-right waves-effect">Partner</a>
-						</div>
-					</div>
+						<a [routerLink]="['/general-profile', venture.business.user.slug]" title="" class="view-more-pro">View Profile</a>
+					</div><!--company_profile_info end-->
 				</div>
+				
 			</div>
-			
-		</div>
+		</div><!--companies-list end-->
+		<!-- <div class="process-comm">
+			<a href="companies.html#" title=""><img src="images/process-icon.png" alt=""></a>
+		</div> -->
 	</div>
-</section>
+</section><!--companies-info end-->

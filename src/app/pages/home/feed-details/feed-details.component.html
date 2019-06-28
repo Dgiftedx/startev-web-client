@@ -1,78 +1,224 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-			<div class="col-sm-12 col-md-12">
-				<div class="row clearfix">
-					<div class="col-md-9 m-b-40">
+<main>
+      <div class="main-section">
+        <div class="container">
+          <div class="main-section-data">
+            <div class="row">
+              <div class="col-lg-3 col-md-4 pd-left-none no-pd">
 
-						<div class="card feeds-container fadeIn">
-							<div class="body">
-								<div class="feed-detail-header">
-									
-									<h2 class="apple-font text-center text-info">{{ feed.title | uppercase }}</h2>
-									<img *ngIf="feed.image" [src]="feed.image" class="" style="width: 100%; height: 250px;" alt="">
-									<div class="border"></div>
-									 <!-- Post Type Like Box -->
-	                                <div class="p-t-10" *ngIf="count(likers) > 0 || count(feed.feed_comments) > 0">
-	                                    <div class="row clearfix zero-m">
-	                                        <div class="col-md-2 pt-0">
-	                                            <fa-icon [icon]="['fas','thumbs-up']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-	                                            <span class="pl-2">
-	                                            {{ count(likers) }}
-	                                             <em *ngIf="count(likers) > 1">likes</em>
-	                                             <em *ngIf="count(likers) <= 1">like</em>
-	                                            </span>
-	                                        </div>
-	                                        <div class="col-md-3">
-	                                            <fa-icon [icon]="['fas','comment']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-	                                            <span class="pl-2">
-	                                            {{ count(feed.feed_comments) }} 
-	                                            <em *ngIf="count(feed.feed_comments) > 1">comments</em>
-	                                            <em *ngIf="count(feed.feed_comments) <= 1">comment</em>
-	                                            </span>
-	                                        </div>
-	                                        <div class="col-md-3">
-	                                        	 <fa-icon [icon]="['fas','user']" [ngStyle]="{'color':'#0073B1'}"></fa-icon>
-	                                        	  <span class="pl-2">
-	                                        	  	By - {{ feed.user.name | titlecase }}
-	                                        	  </span>
-	                                        </div>
-	                                    </div>
-	                                    <div class="border"></div>
-	                                </div>
-								</div>
-								<div class="feed-details-body m-t-40 bg_grey">
-									<div [innerHtml]="feed.body | linkify" class="apple-font p-5"></div>
-								</div>
-								
-								<div class="m-t-30">
-									<ul class="chat-widget m-r-2 clearfix" *ngIf="count(feed.feed_comments) > 0">
-                                        <li class="left float-left" *ngFor="let comment of feed.feed_comments|orderBy:'id':true">
-                                            <img 
-                                            src="{{ comment.user.avatar?comment.user.avatar : 'assets/images/default/avatar.jpg' }}" 
-                                            class="rounded-circle" alt="">
-                                            <div class="chat-info">
-                                                <span class="message">
-                                                    {{ comment.comment }}
-                                                    <em class="text-muted comment-time">{{ comment.created_at | dateAgo }}</em>
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-								</div>
-							</div>
-						</div>
-					</div>
 
-					<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				        <div class="row clearfix">
-				          <div class="col-md-12">
-				            <app-follow></app-follow>
-				          </div>
-				        </div>
-				        
-				      </div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- Left seidebar starts here -->
+                <div class="main-left-sidebar no-margin">
+
+
+                  <!-- user Box Panel -->
+                  <div class="user-data full-width feeds-container">
+                    <div class="user-profile">
+                      <div class="username-dt">
+                        <div class="usr-pic">
+                          <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+                        </div>
+                      </div><!--username-dt end-->
+                      <div class="user-specs">
+                        <h3 
+                        *ngIf="profile.role ==='student' || profile.role ==='graduate'">{{ currentUser.name }}</h3>
+
+                        <h3 
+                        *ngIf="profile.role !=='student'">{{ echoJobTitle(profile.roleData, profile.role) }}</h3>
+
+                        <span *ngIf="profile.role === 'student' || profile.role === 'graduate'">
+                          <span *ngIf="profile.roleData.institution"> Student at {{ profile.roleData.institution }}</span>
+                          <span *ngIf="!profile.roleData.institution"> in Africa</span>
+                        </span>
+
+                        <span *ngIf="profile.role === 'mentor'">
+
+                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Mentor on Startev
+
+                         </span>
+
+                        <span  *ngIf="profile.role === 'business'">
+                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Business on Startev
+                        </span>
+
+                      </div>
+                    </div><!--user-profile end-->
+                    <ul class="user-fw-status">
+                     
+                      <li>
+                        <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
+                      </li>
+
+                       <li *ngIf="profile.role !== 'student' && profile.role !== 'graduate'">
+                         <a 
+                           [routerLink]="['/my-publications']" 
+                           class="">My Publications</a>
+                      </li>
+
+                      <li *ngIf="profile.role ==='business'">
+                        <a 
+                         [routerLink]="['/store-manager']"
+                         class=""> Open Store Manager</a>
+                      </li>
+
+                      <li *ngIf="profile.role ==='student' && profile.role !== 'graduate'">
+                         <a
+                          *ngIf="hasStore"
+                          [routerLink]="['/venture-dashboard']" 
+                          class="">Open Venture Dashboard</a>
+                      </li>
+
+                      <li>
+                         <a 
+                          [routerLink]="['/knowledge-hub']" 
+                          class="">Access Knowledge Hub</a>
+                      </li>
+                    </ul>
+                  </div><!--user-data end-->
+
+                    <!-- suggestion widget -->
+                    <app-suggestions-widget></app-suggestions-widget>
+                    <!--// end suggestions widget -->
+
+                </div> <!--// end sidebar -->
+              </div>
+
+
+              <div class="col-lg-6 col-md-8 no-pd">
+                <div class="main-ws-sec">
+
+              		<div class="posts-section">
+
+                    <div class="post-bar feeds-container">
+                      <div class="" [@fadeAnimation]>
+                        <div class="post_topbar">
+                          <div class="usy-dt">
+                            <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" width="40" alt="">
+                            <div class="usy-name">
+                              <h3>{{ feed.user.name }}</h3>
+                              <span>
+                                <img  src="/assets/images/clock.png" alt="">{{ feed.time | date: 'medium' }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="job_descp">
+                        <h3>{{ feed.title }}</h3>
+                        <div class="feed-image mb-3" *ngIf="feed.image && !feed.images">
+                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                        </div>
+
+                        <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) < 2">
+                           <ngx-slick-carousel class="carousel" 
+                              #feedSlickModal="slick-carousel"
+                              [config]="feedSlideConfig">
+                              <img ngxSlickItem *ngFor="let image of feed.images; let index = index" 
+                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class="feed-image-responsive"/>
+                            </ngx-slick-carousel>
+                        </div>
+
+                         <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) > 1">
+                           <div class="images-container-single">
+                              <img *ngFor="let image of feed.images; let index = index" 
+                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class=""/>
+                            </div>
+                        </div>
+
+                        <p class="post-content">{{ feed.content | linkify }}</p>
+
+
+                        </div>
+
+                      <div class="job-status-bar">
+                        <ul class="like-com">
+                          <li>
+                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i> Like</a>
+                            <span>{{ count(feed.likers) }}</span>
+
+                            <a [routerLink]="" (click)="toggleCommentBox(feed.id)" class="comment-tc"><i class="la la-comment-o"></i> Comment {{ count(feed.comments) }}</a>
+                          </li> 
+                         
+                        </ul>
+                       
+                      </div>
+
+                      <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+
+                        <div class="comment-section feeds-container">
+                        <div class="comment-sec" *ngIf="count(feed.comments) > 0">
+                          <ul>
+                            
+                            <li *ngFor="let comment of feed.comments|orderBy:'id':true">
+                              <div class="comment-list">
+                                <div class="bg-img">
+                                  <img src="{{ checkValue(comment.user.avatar, 'avatar', 'null') }}" alt="{{ comment.user.name }}" width="40" />
+                                </div>
+                                <div class="comment">
+                                  <h3>{{ comment.user.name | titlecase }}</h3>
+                                  <span><img src="/assets/images/clock.png" alt=""> {{ comment.created_at | dateAgo }}</span>
+                                  <p>{{ comment.comment }}</p>
+                                </div>
+                              </div><!--comment-list end-->
+                            </li>
+                          </ul>
+                        </div><!--comment-sec end-->
+                        <div class="post-comment">
+                          <div class="cm_img">
+                            <img [src]="currentUser.avatar" class="rounded-circle" width="35"/>
+                          </div>
+                          <div class="comment_box">
+                              <input 
+                              type="text" 
+                              placeholder="enter comment..." 
+                              class="form-control"
+                              (keyup.enter)="submitComment()"
+                              [(ngModel)]="comment.text">
+                          </div>
+                          <div class="comment-action">
+                            <button class="btn btn-primary waves-effect btn-round" type="button" (click)="submitComment()">Send</button>
+                          </div>
+                        </div><!--post-comment end-->
+                      </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+              <div class="col-lg-3 pd-right-none no-pd">
+                <div class="right-sidebar">
+
+                  <!-- Advert Widget -->
+                  <app-ads-widget></app-ads-widget>
+                  <!--// end advert Widget -->
+                 
+                 
+                  <!-- Featured Mentors -->
+                  <app-mentors-widget></app-mentors-widget>
+
+
+                  <!-- New Sign ups -->
+                  <app-sign-ups-widget></app-sign-ups-widget>
+
+                  <!-- Footer Widget -->
+                  <app-footer-widget></app-footer-widget>
+
+                </div><!--right-sidebar end-->
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+
+    

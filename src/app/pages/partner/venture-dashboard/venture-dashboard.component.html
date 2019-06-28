@@ -1,37 +1,39 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-
-			<div class="col-md-3 sticky m-b-40" *ngIf="hasAccess()">
-				<div class="card feeds-container zero-m">
-					<div class="header"><h2><strong>Manage</strong> Your Store</h2></div>
-					<div class="body zero-m">
-						<ul class="venture-nav">
-							<li *ngFor="let nav of navigation" [ngClass]="{'active': selectedNavigation.id === nav.id}">
-								<a [routerLink]="" (click)="setActiveNavigation(nav)">{{ nav.name }}</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+<section class="profile-account-setting">
+      <div class="container">
+        <div class="account-tabs-setting">
+          <div class="row mt-3">
+            <div class="col-lg-3">
+            	<!-- <div class="header"><h2><strong>Manage</strong> Your Store</h2></div> -->
+	              <div class="acc-leftbar">
+	                <div class="nav nav-tabs" id="nav-tab" >
+	                    <a *ngFor="let nav of navigation" 
+	                    [ngClass]="{'active': selectedNavigation.id === nav.id}"
+	                    class="nav-item nav-link" id="nav-acc-tab" 
+	                    [routerLink]="" 
+	                    (click)="setActiveNavigation(nav)"><i class="la la-arrow-right"></i> 
+	                    {{ nav.name | titlecase }}
+	                  </a>
+	                  </div>
+	              </div><!--acc-leftbar end-->
+	         </div>
 
 			<div class="col-md-9" *ngIf="hasAccess()">
-				<div *ngIf="selectedNavigation.alias === 'dashboard'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'dashboard'">
 					<app-user-dashboard></app-user-dashboard>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'manage_orders'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'manage_orders'">
 					<app-user-orders></app-user-orders>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'venture_products'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'venture_products'">
 					<app-user-ventures></app-user-ventures>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'customer_reviews'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'customer_reviews'">
 					<app-user-reviews></app-user-reviews>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'store_settings'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'store_settings'">
 					<app-user-settings></app-user-settings>
 				</div>
-				<div *ngIf="selectedNavigation.alias === 'order_tracking'" [@fadeAnimation]>
+				<div *ngIf="selectedNavigation.alias === 'order_tracking'">
 					<app-user-tracker></app-user-tracker>
 				</div>
 			</div>
@@ -42,4 +44,5 @@
 
 		</div>
 	</div>
+</div>
 </section>

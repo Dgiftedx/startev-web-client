@@ -55,8 +55,8 @@ export class VentureDashboardComponent implements OnInit {
   	{id: 2, alias: "manage_orders", name: "Manage Orders"},
   	{id: 3, alias: "venture_products", name: "Venture Products"},
   	{id: 4, alias: "customer_reviews", name: "Customer Reviews"},
-  	{id: 5, alias: "store_settings", name: "General Store Settings"},
-  	{id: 6, alias: "order_tracking", name: "Track Order & Deliveries"}
+  	{id: 5, alias: "store_settings", name: "Store Settings"},
+  	{id: 6, alias: "order_tracking", name: "Track Order"}
 
   ];
 

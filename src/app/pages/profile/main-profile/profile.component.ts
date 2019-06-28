@@ -3,14 +3,43 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs'
 import { User } from '../../../_models';
 import { Component, OnInit } from '@angular/core';
+import { Lightbox } from 'ngx-lightbox';
 import { StoreService } from '../../../_services/store.service';
 import { Router, NavigationEnd , ActivatedRoute} from '@angular/router';
+import { trigger, style, animate,state, transition } from '@angular/animations';
 import { AuthenticationService, AlertService, UserService, BaseService } from '../../../_services';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+   animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+        style({transform: 'translateY(-100%)'}),
+        animate('200ms ease-in', style({transform: 'translateY(0%)'}))
+        ]),
+        transition(':leave', [
+          animate('200ms ease-out', style({transform: 'translateY(-100%)'}))
+        ])
+      ]),
+    trigger('fadeAnimation', [
+
+      // the "in" style determines the "resting" state of the element when it is visible.
+      state('in', style({opacity: 1})),
+
+      // fade in when created. this could also be written as transition('void => *')
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(600 )
+      ]),
+
+      // fade out when destroyed. this could also be written as transition('void => *')
+      transition(':leave',
+        animate(600, style({opacity: 0})))
+    ])
+  ],
 })
 export class ProfileComponent implements OnInit {
   public people: Array<any> = [];
@@ -27,6 +56,17 @@ export class ProfileComponent implements OnInit {
   ventureDescription: string = '';
   ventureUrl:string = '';
   ventureButton = '';
+
+  public showCommentBox:boolean = false;
+    public comment = {
+    feedId: null,
+    text: ''
+  };
+
+  public userFeeds:any;
+  private feedsSubscription: Subscription;
+
+  feedSlideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "autoplay": true, "autoplaySpeed": 3000};
   
   defaultBio = 'Your bio is not yet updated, but you can set it right  now as it captures the attention of other users on the platform.';
 
@@ -35,6 +75,7 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private alert: AlertService,
     private userService : UserService,
+    private lightbox: Lightbox,
     private baseService: BaseService,
     private storeservice: StoreService,
     private authenticationService: AuthenticationService) {
@@ -44,11 +85,27 @@ export class ProfileComponent implements OnInit {
       this.people = people;
     });
 
+    this.getMyFeeds();
     
   }
 
-  profileTabs: string[] = ['followers','following','partnerships'];
-  selectedTab = this.profileTabs[0];
+  profileTabs:any = [
+    {id: 1, name: "My Feeds", alias: "feeds", image: "/assets/images/ic1.png"},
+    {id: 2, name : "basic", alias : "Basic Info", image: "/assets/images/ic2.png"},
+    {id: 3, name : "followers", alias : "Followers", image: "/assets/images/ic2.png"},
+    {id: 4, name : "following", alias : "Following", image: "/assets/images/ic2.png"},
+    {id: 5, name: "partnerships", alias : "Partnerships", image: "/assets/images/ic3.png"}
+
+  ];
+
+  public selectedTab = this.profileTabs[0];
+
+  getMyFeeds(){
+    this.feedsSubscription = this.baseService.fetchMyFeeds(this.currentUser.id)
+    .subscribe( data => {
+      this.userFeeds = data;
+    });
+  }
 
 
   //Algorithm to show user Job title
@@ -57,20 +114,80 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return 'assets/images/default/avatar.jpg';
+      }
+      return item;
+    }
+  }
+
+
+  selectTab (tabIndex) {
+    if (this.profileTabs[tabIndex].alias === 'feed') {
+      // this.getMyFeeds();
+    }
+
+    this.selectedTab = this.profileTabs[tabIndex];
+  }
+
+
   ngOnInit() {
     this.profileData = this.route.snapshot.data.profile.profileData;
     this.getProfileData();
+
     if (this.profileData.role === 'business') {
-      this.profileTabs = ['followers','following','partners','ventures'];
+        this.profileTabs = [
+          {id: 1, name: "My Feeds", alias: "feeds", image: "/assets/images/ic1.png"},
+          {id: 2, name : "basic", alias : "Basic Info", image: "/assets/images/ic2.png"},
+          {id: 3, name : "followers", alias : "Followers", image: "/assets/images/ic2.png"},
+          {id: 4, name : "following", alias : "Following", image: "/assets/images/ic2.png"},
+          {id: 5, name: "partnerships", alias : "Partnerships", image: "/assets/images/ic3.png"}
+        ];
+
+
+      this.ventureSubscription = this.baseService.fetchBusinessPartners(this.currentUser.id)
+      .subscribe((data: any) => {
+        this.partners = data;
+        this.ventures = [];
+      });
     }
 
-    this.ventureSubscription = this.baseService.businessVentures(this.profileData.roleData.id)
-    .subscribe((ventures: any) => {
-      this.ventures = ventures.ventures;
-      this.partners = ventures.partners;
-    })
+
+    if (this.profileData.role !== 'business') {
+  
+      this.ventureSubscription = this.baseService.fetchMyPartners(this.currentUser.id)
+      .subscribe( (data : any) => {
+        this.partners = data;
+        this.ventures = [];
+      });
+
+    }
 
     // this.getVentures(this.profileData.roleData.id);
+
+    this.selectTab(0);
+  }
+
+
+  //============= Count Items ================//
+  count(items:any) {
+    return _.size(items);
+  }
+
+
+  isMore(text: string, level: number): boolean {
+    return this.count(text) > level ? true:  false;
   }
 
 
@@ -79,7 +196,7 @@ export class ProfileComponent implements OnInit {
     .subscribe((ventures: any) => {
       this.ventures = ventures.ventures;
       this.partners = ventures.partners;
-    })
+    });
   }
 
   updateFollowingIds(followers: any){
@@ -95,8 +212,7 @@ export class ProfileComponent implements OnInit {
     .subscribe(
       data => {
         this.partners = data;
-      }
-      )
+      })
   }
 
   newVenture(): void {
@@ -125,6 +241,34 @@ export class ProfileComponent implements OnInit {
   }
 
 
+   toggleCommentBox(feedId: number){
+    //check if the user has toggle the comment for this coming feed
+
+    if (this.showCommentBox) {
+      
+      if (parseInt(this.comment.feedId) === feedId) {
+        this.showCommentBox = false;
+        this.comment.feedId = null,
+        this.comment.text = '';
+      }else{
+
+        this.showCommentBox = false;
+        this.comment.feedId = null,
+        this.comment.text = '';
+
+        setTimeout(() => {
+          this.comment.feedId = feedId;
+          this.showCommentBox = true;
+          
+        }, 100);
+      }
+
+    }else{
+      this.showCommentBox = true;
+      this.comment.feedId = feedId;
+    }
+    
+  }
 
   public isFollowing(target: number){
     return this.followingIds.includes(target)?true:false;
@@ -135,6 +279,50 @@ export class ProfileComponent implements OnInit {
     $(document).find('.modal').each(function() {
       $(this).modal('hide');
     })
+  }
+
+
+
+  //============== Fetch Feed ==================//
+  removeFeedFromThread(feed_id:number) {
+    let index =  _.findIndex(this.userFeeds, ['id', feed_id]);
+    //remove feed item
+    this.userFeeds.splice(index, 1);
+  }
+
+  //============= Hide Feed ====================//
+
+  hideFeed(feed_id:number) {
+
+      //first remove from feeds collection
+      this.removeFeedFromThread(feed_id);
+
+      let data = {
+        user_id : this.currentUser.id,
+        feed_id: feed_id
+      };
+
+      //effect the changes on server
+      this.baseService.FeedManageAction(data, 'hide-feed')
+      .subscribe(data => {
+        this.alert.snotSimpleSuccess("Feed hidden");
+      })
+  }
+
+    //============== Delete Feed ====================//
+  deleteFeed(feed:any){
+      //first remove from feeds collection
+      this.removeFeedFromThread(feed.id);
+
+      let data = {
+        user_id : this.currentUser.id,
+        feed_id: feed.id
+      };
+
+      this.baseService.FeedManageAction(data, 'delete-feed')
+      .subscribe(data => {
+        this.alert.snotSimpleSuccess("feed has been removed");
+      });
   }
 
 
@@ -202,6 +390,33 @@ export class ProfileComponent implements OnInit {
         this.alert.errorMsg(error.error,"Request Failed");
       }
       )
+  }
+
+
+   //============= Open Image ===============//
+  openImage(feed:any) {
+    let imageArray: Array<any> = [];
+
+    imageArray.push({
+      src : feed.image,
+      caption : feed.title
+    });
+    
+    this.lightbox.open(imageArray, 0);
+  }
+
+  //============= Open Image ===============//
+  openMultipleImages(images:Array<any>, title:string) {
+    let imageArray: Array<any> = [];
+
+    images.forEach((item) => {
+      imageArray.push({
+        src : item,
+        caption : title
+      });
+    });
+    
+    this.lightbox.open(imageArray, 0);
   }
 
 

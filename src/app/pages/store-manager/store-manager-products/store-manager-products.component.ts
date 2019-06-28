@@ -115,9 +115,7 @@ export class StoreManagerProductsComponent implements OnInit {
 			sku : ['', Validators.required],
 			product_price : [0,[Validators.required, Validators.minLength(3)]],
 			highlight: ['', Validators.required],
-			sizes : [],
-			colors: [],
-			product_description: [''],
+			product_commission : [0, Validators.required],
 			discount_price: [0, Validators.required]
 		});
 	}
@@ -182,12 +180,10 @@ export class StoreManagerProductsComponent implements OnInit {
 
 		this.newProductForm.get('product_name').setValue("");
 		this.newProductForm.get('sku').setValue("");
-		this.newProductForm.get('product_price').setValue("");
+		this.newProductForm.get('product_price').setValue(0);
 		this.newProductForm.get('highlight').setValue("");
-		this.newProductForm.get('sizes').setValue([]);
-		this.newProductForm.get('colors').setValue([]);
-		this.newProductForm.get('discount_price').setValue("");
-		this.newProductForm.get('product_description').setValue("");
+		this.newProductForm.get('product_commission').setValue(0);
+		this.newProductForm.get('discount_price').setValue(0);
 
 		this.productImages = [];
 		this.formData = new FormData();
@@ -332,9 +328,7 @@ export class StoreManagerProductsComponent implements OnInit {
 			this.newProductForm.get('sku').setValue(this.singleProduct.sku);
 			this.newProductForm.get('highlight').setValue(this.singleProduct.highlight);
 			this.newProductForm.get('discount_price').setValue(this.singleProduct.discount_price);
-			this.newProductForm.get('sizes').setValue(this.singleProduct.sizes);
-			this.newProductForm.get('colors').setValue(this.singleProduct.colors);
-			this.newProductForm.get('product_description').setValue(this.singleProduct.product_description);
+			this.newProductForm.get('product_commission').setValue(this.singleProduct.product_commission);
 		});
 	
 		this.alert.infoMsg("Please Wait....", "Fetching Product Data");

@@ -1,0 +1,304 @@
+<main>
+	<div class="main-section">
+		<div class="container">
+			<div class="main-section-data">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 pd-left-none no-pd">
+
+
+						<!-- Left seidebar starts here -->
+						<div class="main-left-sidebar no-margin">
+
+
+							<!-- user Box Panel -->
+							<div class="user-data full-width feeds-container">
+								<div class="user-profile">
+									<div class="username-dt">
+										<div class="usr-pic">
+											<img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+										</div>
+									</div><!--username-dt end-->
+									<div class="user-specs">
+										<h3 
+										*ngIf="profile.role ==='student' || profile.role ==='graduate'">{{ currentUser.name }}</h3>
+
+										<h3 
+										*ngIf="profile.role !=='student'">{{ echoJobTitle(profile.roleData, profile.role) }}</h3>
+
+										<span *ngIf="profile.role === 'student' || profile.role === 'graduate'">
+											<span *ngIf="profile.roleData.institution"> Student at {{ profile.roleData.institution }}</span>
+											<span *ngIf="!profile.roleData.institution"> in Africa</span>
+										</span>
+
+										<span *ngIf="profile.role === 'mentor'">
+
+											<span *ngIf="currentUser.email_verified_at"> Verified</span> Mentor on Startev
+
+										</span>
+
+										<span  *ngIf="profile.role === 'business'">
+											<span *ngIf="currentUser.email_verified_at"> Verified</span> Business on Startev
+										</span>
+
+									</div>
+								</div><!--user-profile end-->
+								<ul class="user-fw-status">
+
+									<li>
+										<a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
+									</li>
+
+									<li *ngIf="profile.role !== 'student' || profile.role !== 'graduate'">
+										<a 
+										[routerLink]="['/my-publications']" 
+										class="waves-effect">My Publications</a>
+									</li>
+
+									<li *ngIf="profile.role ==='business'">
+										<a 
+										[routerLink]="['/store-manager']"
+										class="waves-effect"> Open Store Manager</a>
+									</li>
+
+									<li *ngIf="profile.role ==='student'">
+										<a
+										*ngIf="hasStore"
+										[routerLink]="['/venture-dashboard']" 
+										class="waves-effect">Open Venture Dashboard</a>
+									</li>
+
+									<li>
+										<a 
+										[routerLink]="['/knowledge-hub']" 
+										class="waves-effect">Access Knowledge Hub</a>
+									</li>
+								</ul>
+							</div><!--user-data end-->
+
+							<div class="user-data full-width feeds-container">
+								<ul class="user-fw-status">
+
+									<li>
+										<a class="waves-effect" 
+										href="javascript:;" (click)="openPublications()" title="">All Publications</a>
+									</li>
+
+									<li>
+										<a class="waves-effect" 
+										href="javascript:;" (click)="createNewPublication()" title="">Create New Publication</a>
+									</li>
+
+								</ul>
+							</div>
+
+						</div> <!--// end sidebar -->
+					</div>
+
+
+					<div class="col-lg-9 col-md-8 no-pd">
+
+						<div class="row" *ngIf="showMain">
+							<div class="col-md-6" *ngFor="let publication of publications">
+						       <div class="post-bar feeds-container">
+		                        <div class="post_topbar">
+		                          <div class="usy-dt">
+		                            <div class="usy-name">
+		                              <h3>{{ publication.title }}</h3>
+		                              <span>
+		                                <img  src="/assets/images/clock.png" alt="">{{ publication.created_at | date : 'medium' }}
+		                              </span>
+		                            </div>
+		                          </div>
+		                          <div class="ed-opts">
+		                            <button type="button" class="ed-options btn btn-round btn-icon btn-icon-mini btn-white waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-ellipsis-v"></i></button>
+		                            <div class="dropdown-menu dropdown-menu-right">
+		                              <button 
+		                              class="dropdown-item" 
+		                              type="button" (click)="editPublication(publication)"> <i class="fa fa-edit"></i> Edit</button>
+		                              <button  
+		                              class="dropdown-item" (click)="deletePublication(publication)" type="button">  <i class="fa fa-trash"></i> Remove</button>
+		                            </div>
+		                          
+			                        </div>
+								</div>
+
+
+								 <div class="job_descp">
+		                        <h5>{{ publication.category.category_name | titlecase  }}</h5>
+
+		                        	<p class="post-content" [innerHtml]="publication.content | excerpt: 300 ">
+		                        	
+		                        	</p>
+
+
+		                        <ul class="user-fw-status">
+
+									<li>
+										<!-- <a class="waves-effect" href="javascript:;" title="">Preview</a> -->
+										<a class="waves-effect" href="javascript:;" title="">Available Downloads
+											<span *ngIf="publication.files" class="">{{ count(publication.files) }}</span>
+
+											<span class="" *ngIf="!publication.files">0</span>
+										</a>
+									</li>
+								</ul>
+		                          
+		                        </div>
+
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="row" *ngIf="showCreateNew">
+							<div class="col-md-12">
+									<div class="cp-field">
+										<h5>Publication Title</h5>
+										<div class="cpp-fiel">
+											<input type="text" 
+											name="pub_title"
+											[(ngModel)]="publicationTitle"
+											placeholder="Publication/Article Title">
+											<i class="fa fa-list"></i>
+										</div>
+									</div>
+
+									<div class="cp-field">
+										<h5>Category</h5>
+										<div class="cpp-fiel" *ngIf="showCategories">
+											<select class="custom-select" [(ngModel)]="publicationCategory" (change)="changeCategory()">
+											<option *ngFor="let category of categories" 
+											value="{{ category.category_slug }}">{{ category.category_name }}</option>
+										</select>
+										</div>
+									</div>
+
+									<div class="cp-field" *ngIf="showIndustries">
+										<h5>Select Industry</h5>
+										<div class="cpp-fiel">
+											<select class="custom-select" [(ngModel)]="publicationId" [disabled]="!showIndustries">
+											<option *ngFor="let sub of industries" value="{{ sub.id }}">{{ sub.name }}</option>
+										</select>
+										</div>
+									</div>
+
+									<div class="cp-field">
+										<h5>Publication Content</h5>
+										<div class="cpp-fiel">
+		                               		<textarea class="" 
+		                               		[(ngModel)]="publicationContent" 
+		                               		[froalaEditor]="options">
+		                               		</textarea>
+										</div>
+									</div>
+
+
+									<div class="cp-field">
+										<h5>If publication has images, upload below (optional)</h5>
+										<div class="">
+											<label for="file-upload" class="custom-file-upload waves-effect">
+							                    <i class="fa fa-cloud-upload"></i> Upload Images
+							                </label>
+							                <input id="file-upload" 
+							                (change)="processPubImage(publicationImages)"
+							                type="file" multiple #publicationImages/>
+											<div class="images-box">
+												<img *ngFor="let image of processedImages" [src]="image" class="" />
+											</div>
+										</div>
+									</div>
+
+
+
+									<div class="cp-field">
+										<h5>If publication has files e.g Pdf, Doc, upload below (optional)</h5>
+										<div class="">
+											<label for="pub-file" class="custom-file-upload waves-effect">
+							                    <i class="fa fa-cloud-upload"></i> Upload Downloadable Files
+							                </label>
+							                <input id="pub-file" 
+							                (change)="processPubFiles(publicationFiles)"
+							                type="file" multiple #publicationFiles/>
+											
+											<ul class="user-fw-status mt-4">
+												<li *ngFor="let file of pubFiles; let index = index">
+													<img src="/assets/images/file.png" width="30" /> {{ file.name }} 
+													<button type="button" (click)="removeFile(index)" class="btn btn-icon btn-round waves-effect btn-icon-mini"><i class="la la-trash"></i></button>
+												</li>
+											</ul>
+										</div>
+									</div>   
+									
+									<div class="save-stngs pd2">
+										<ul>
+											<li><button (click)="onPublicationSubmit()" class="btn btn-simple waves-effect" type="button">Publish Publication</button></li>
+											<li><button (click)="resetForm()" class="btn btn-simple waves-effect" type="button">Reset Fields</button></li>
+										</ul>
+									</div><!--save-stngs end-->
+							</div>
+						</div>
+
+
+						<div class="row" *ngIf="showEdit">
+							<div class="col-md-12">
+									<div class="cp-field">
+										<h5>Publication Title</h5>
+										<div class="cpp-fiel">
+											<input type="text" 
+											name="pub_title"
+											[(ngModel)]="publicationTitle"
+											placeholder="Publication/Article Title">
+											<i class="fa fa-list"></i>
+										</div>
+									</div>
+
+									<div class="cp-field">
+										<h5>Category</h5>
+										<div class="cpp-fiel" *ngIf="showCategories">
+											<select class="custom-select" [(ngModel)]="publicationCategory" (change)="changeCategory()">
+											<option *ngFor="let category of categories" 
+											value="{{ category.category_slug }}">{{ category.category_name }}</option>
+										</select>
+										</div>
+									</div>
+
+									<div class="cp-field" *ngIf="showIndustries">
+										<h5>Select Industry</h5>
+										<div class="cpp-fiel">
+											<select class="custom-select" [(ngModel)]="publicationId" [disabled]="!showIndustries">
+											<option *ngFor="let sub of industries" value="{{ sub.id }}">{{ sub.name }}</option>
+										</select>
+										</div>
+									</div>
+
+									<div class="cp-field">
+										<h5>Publication Content</h5>
+										<div class="cpp-fiel">
+		                               		<textarea class="" 
+		                               		[(ngModel)]="publicationContent" 
+		                               		[froalaEditor]="options">
+		                               		{{ publicationContent }}
+		                               		</textarea>
+										</div>
+									</div>
+
+
+									<div class="save-stngs pd2">
+										<ul>
+											<li><button (click)="onPublicationUpdate()" class="btn btn-simple waves-effect" type="button">Update Publication</button></li>
+											<li><button (click)="cancelUpdate()" class="btn btn-simple waves-effect" type="button">Cancel Update</button></li>
+										</ul>
+									</div><!--save-stngs end-->
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</main>

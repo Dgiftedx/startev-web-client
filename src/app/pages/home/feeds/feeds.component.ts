@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../../../_models';
 import { Lightbox } from 'ngx-lightbox';
 import { Feed } from '../../../_models/feed';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 // import { Cloudinary } from '@cloudinary/angular-5.x';
 import { Component, OnInit, OnDestroy} from '@angular/core';
@@ -53,14 +53,13 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
 export class FeedsComponent implements OnInit {
 
   currentUser : User;
-
   public profileData:any;
   public isImage = false;
-  public processedImage = '';
+  public processedImages: Array<any> = [];
   public content : string = '';
   public title : string = '';
   public post_type: string = '';
-  public image: any = null;
+  public images: Array<any> = [];
 
   public showCommentBox:boolean = false;
   public comment = {
@@ -90,6 +89,8 @@ export class FeedsComponent implements OnInit {
   public followingIds: Array<any> = [];
 
   slideConfig = {"slidesToShow": 3, "slidesToScroll": 1, "autoplay": true, "autoplaySpeed": 2000};
+
+  feedSlideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "autoplay": true, "autoplaySpeed": 3000};
 
   constructor(
     private route : ActivatedRoute,
@@ -282,32 +283,6 @@ export class FeedsComponent implements OnInit {
     return this.count(text) > level ? true:  false;
   }
 
-
-
-  //============ Image Reader ===============//
-
-  imageFileReader(file: File){
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-      this.processedImage = event.target.result; 
-    });
-
-    reader.readAsDataURL(file);
-  }
-
-  fireImageUpload(){
-    $(document).find('#postImageInput').click();
-  }
-
-  processPostImage(postImage: any): void {
-    const newPostImage : File = postImage.files[0];
-    this.imageFileReader(newPostImage);
-    this.isImage = true;
-    this.image = newPostImage;
-  }
-
-
   submitArticlePost(){
     this.submitPost();
   }
@@ -318,8 +293,8 @@ export class FeedsComponent implements OnInit {
   }
 
   cleanForm(): void {
-    this.image = null;
-    this.processedImage = null;
+    this.images = [];
+    this.processedImages = [];
     this.title = '';
     this.content = '';
     this.post_type = '';
@@ -335,12 +310,25 @@ export class FeedsComponent implements OnInit {
 
   //============= Open Image ===============//
   openImage(feed:any) {
-    console.log("clicked");
     let imageArray: Array<any> = [];
 
     imageArray.push({
       src : feed.image,
       caption : feed.title
+    });
+    
+    this.lightbox.open(imageArray, 0);
+  }
+
+  //============= Open Image ===============//
+  openMultipleImages(images:Array<any>, title:string) {
+    let imageArray: Array<any> = [];
+
+    images.forEach((item) => {
+      imageArray.push({
+        src : item,
+        caption : title
+      });
     });
     
     this.lightbox.open(imageArray, 0);
@@ -441,6 +429,41 @@ export class FeedsComponent implements OnInit {
   }
 
 
+
+  //============ Image Reader ===============//
+
+  setupReader(file : File) {
+      var name = file.name;
+      var reader = new FileReader();  
+     reader.addEventListener('load', (event: any) => {
+          this.processedImages.push(event.target.result); 
+      });
+      reader.readAsDataURL(file);
+  }
+
+  fireImageUpload(){
+    $(document).find('#postImageInput').click();
+  }
+
+  processPostImage(postImage: any): void {
+    this.processedImages = [];
+
+    if (postImage.files.length > 5) {
+      this.alert.errorMsg("You can only upload maximum of 5 pictures", "You Exceeded Upload Limit");
+      return;
+    }
+
+    for (var i = 0; i < postImage.files.length; i++) {
+        this.setupReader(postImage.files[i]);
+        this.images.push(postImage.files[i]);
+    }
+
+    this.isImage = true;
+
+  }
+
+
+
   //======================= Submit Feeds ===================//
   submitPost(){
 
@@ -456,7 +479,11 @@ export class FeedsComponent implements OnInit {
     formData.append('user_id',this.currentUser.id);
     formData.append('title',this.title);
     formData.append('body',this.content);
-    formData.append('image',this.image);
+
+    for (let i = 0; i < this.images.length; i++) {
+      formData.append("images[]", this.images[i], this.images[i]['name']);
+    }
+
     this.http
     .post(`${this.authenticationService.endpoint}/feed-post-article`, formData)
     .toPromise()

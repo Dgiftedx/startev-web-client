@@ -14,14 +14,14 @@ import { Adapter } from './adapter';
   animations: [ slideInAnimation ]
 })
 export class AppComponent {
-  title = 'startev-client';
+  title = 'startev-africa';
   loading = true;
   currentUser: User;
 
     //Messenger
-  public userId = 5;
-  public messengerTitle = 'Messenges';
-  public adapter: ChatAdapter = new Adapter();
+  // public userId = 5;
+  // public messengerTitle = 'Messenges';
+  // public adapter: ChatAdapter = new Adapter();
 
   constructor(
     private ngxService: NgxUiLoaderService,
