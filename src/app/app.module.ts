@@ -20,6 +20,7 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { FilePickerModule } from  'ngx-awesome-uploader';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
 import { environment } from '../environments/environment';
@@ -218,7 +219,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      NgxLinkifyjsModule.forRoot(),
      LightboxModule,
      SlickCarouselModule,
-     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
+     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+     AngularEditorModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

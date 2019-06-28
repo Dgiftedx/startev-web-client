@@ -2967,10 +2967,15 @@ main {
     margin-right: 25px;
 }
 
+.textarea {
+    border-radius: 0 !important;
+}
+
 .post-project-fields form input,
 .post-project-fields form textarea,
 .post-project-fields form select,
 .modal-body .form-group textarea,
+.textarea
 textarea {
     width: 100%;
     color: #000;
@@ -3635,21 +3640,27 @@ footer {
 
 .cover-sec img {
     width: 100%;
+    max-height: 400px;
 }
-.cover-sec > a {
-    display: inline-block;
+.cover-sec > a,
+.cover-sec label {
+    display: inline-block !important;
     color: #00507b;
     font-size: 16px;
     background-color: #fff;
     border: 1px solid #00507b;
     position: absolute;
     top: 30px;
-    right: 0;
+    right: 10%;
     padding: 10px 15px;
     font-weight: 600;
     margin-right: 15px;
 }
-.cover-sec > a i {
+
+.remove-btn {
+    top: 90px !important;
+}
+.cover-sec > a i, .cover-sec  label i {
     padding-right: 5px;
 }
 
@@ -4209,7 +4220,8 @@ footer {
 }
 
 #file-upload,
-#pub-file {
+#pub-file,
+#avatar_upload {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -5543,11 +5555,13 @@ a:hover {
     padding: 0 40px;
 }
 .cp-field input,
-.cp-field textarea {
+.cp-field textarea,
+.textarea {
     width: 100%;
     border: 1px solid #e5e5e5;
 }
-.cp-field textarea {
+.cp-field textarea,
+.textarea {
     padding: 20px;
     height: 115px;  
 }

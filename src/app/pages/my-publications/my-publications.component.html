@@ -187,10 +187,14 @@
 									<div class="cp-field">
 										<h5>Publication Content</h5>
 										<div class="cpp-fiel">
-		                               		<textarea class="" 
-		                               		[(ngModel)]="publicationContent" 
-		                               		[froalaEditor]="options">
-		                               		</textarea>
+											<ck-editor 
+			                               		name="editor1" 
+			                               		[(ngModel)]="publicationContent"
+			                               		skin="kama" 
+			                               		language="en"
+			                               		[config]="{'height':'300'}"
+			                               		[fullPage]="true">
+			                               		</ck-editor>
 										</div>
 									</div>
 

@@ -1,6 +1,7 @@
 declare var $: any;
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs'
+import { Lightbox } from 'ngx-lightbox';
 import { User } from '../../../_models';
 import { StoreService } from '../../../_services/store.service';
 import { Router, NavigationEnd , ActivatedRoute} from '@angular/router';
@@ -22,10 +23,29 @@ export class GeneralProfileComponent implements OnInit {
 	public followingIds: Array<any> = [];
 
 
+	profileTabs:any = [
+	{id: 1, name: "Feeds", alias: "feeds", image: "/assets/images/ic1.png"},
+	{id: 2, name : "Profile", alias : "Basic Info", image: "/assets/images/ic2.png"},
+	{id: 3, name : "Connections", alias : "Connections", image: "/assets/images/ic3.png"},
+	];
+
+
+
+	public selectedTab = this.profileTabs[0];
+	public userFeeds:any;
+	private feedsSubscription: Subscription;
+
+	public showCommentBox:boolean = false;
+	public comment = {
+		feedId: null,
+		text: ''
+	};
+
 	constructor(
 		private cdr: ChangeDetectorRef,
 		private route : ActivatedRoute,
 		private router: Router,
+		private lightbox: Lightbox,
 		private alert: AlertService,
 		private userService : UserService,
 		private baseService: BaseService,
@@ -45,7 +65,65 @@ export class GeneralProfileComponent implements OnInit {
 	ngOnInit() {
 		this.profileData = this.route.snapshot.data.profile.profileData;
 		this.updateFollowingIds(this.route.snapshot.data.profile.myFollowers);
+		this.getUserFeeds();
 	}
+
+	getUserFeeds(){
+		this.feedsSubscription = this.baseService.fetchMyFeeds(this.profileData.user.id)
+		.subscribe( data => {
+			this.userFeeds = data;
+		});
+	}
+
+
+	selectTab (tabIndex) {
+		this.selectedTab = this.profileTabs[tabIndex];
+	}
+
+
+	isMore(text: string, level: number): boolean {
+		return this.count(text) > level ? true:  false;
+	}
+
+	  openImage(feed:any) {
+    let imageArray: Array<any> = [];
+
+    imageArray.push({
+      src : feed.image,
+      caption : feed.title
+    });
+    
+    this.lightbox.open(imageArray, 0);
+  }
+
+  //============= Open Image ===============//
+  openMultipleImages(images:Array<any>, title:string) {
+    let imageArray: Array<any> = [];
+
+    images.forEach((item) => {
+      imageArray.push({
+        src : item,
+        caption : title
+      });
+    });
+    
+    this.lightbox.open(imageArray, 0);
+  }
+
+    //============= Open Image ===============//
+  openStackedImages(images: Array<any>, index, title:string) {
+
+    let imageArray: Array<any> = [];
+
+    images.forEach((item) => {
+      imageArray.push({
+        src : item,
+        caption : title
+      });
+    });
+    
+    this.lightbox.open(imageArray, index);
+  }
 
 
 	handleResponse(data:any) {
@@ -113,6 +191,36 @@ export class GeneralProfileComponent implements OnInit {
 			data => {
 				this.handleFollowToggleResponse(data);
 			});
+	}
+
+
+	toggleCommentBox(feedId: number){
+		//check if the user has toggle the comment for this coming feed
+
+		if (this.showCommentBox) {
+
+			if (parseInt(this.comment.feedId) === feedId) {
+				this.showCommentBox = false;
+				this.comment.feedId = null,
+				this.comment.text = '';
+			}else{
+
+				this.showCommentBox = false;
+				this.comment.feedId = null,
+				this.comment.text = '';
+
+				setTimeout(() => {
+					this.comment.feedId = feedId;
+					this.showCommentBox = true;
+
+				}, 100);
+			}
+
+		}else{
+			this.showCommentBox = true;
+			this.comment.feedId = feedId;
+		}
+
 	}
 
 

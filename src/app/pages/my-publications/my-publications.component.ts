@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { User } from '../../_models';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { switchMap, first } from "rxjs/operators";
 import { EmbedVideoService } from 'ngx-embed-video';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -55,6 +56,31 @@ export class MyPublicationsComponent implements OnInit {
   private categoriesSubscription: Subscription;
   private industriesSubscription: Subscription;
   private publicationSubscription : Subscription;
+
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '25rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    customClasses: [ // optional
+      {
+        name: "quote",
+        class: "quote",
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: "titleText",
+        class: "titleText",
+        tag: "h1",
+      },
+    ]
+  };
 
   constructor(
     private router: Router,
@@ -257,6 +283,11 @@ export class MyPublicationsComponent implements OnInit {
   }
 
 
+  public initialize(initControls) {
+    initControls.getEditor()('html.set', '');
+  }
+
+
     //=================== Submit Publication =================//
 
 
@@ -269,7 +300,6 @@ export class MyPublicationsComponent implements OnInit {
   }
 
   onPublicationSubmit(){
-
 
     if (this.count(this.publicationTitle) === 0) {
       this.alert.errorMsg("publication title can't be empty", "Form Error!!!");
@@ -298,10 +328,14 @@ export class MyPublicationsComponent implements OnInit {
       formData.append("industry_id", this.publicationId);
     }
 
-    if (this.pubFiles.length > 0) {
+    if (this.pubFiles.length > 1) {
       for (let i = 0; i < this.pubFiles.length; i++) {
         formData.append("files[]", this.pubFiles[i], this.pubFiles[i]['name']);
       }
+    }
+
+    if (this.pubFiles.length === 1) {
+      formData.append("files[]", this.pubFiles[0]);
     }
 
     if (this.images.length > 0) {

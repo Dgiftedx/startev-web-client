@@ -1,64 +1,41 @@
-<section class="content" [ngClass]="{'zero-margin': progress < 82}">
-	<div class="container-fluid">
-		<div class="row clearfix" [ngClass]="{'m-t-120': progress >= 82}">
-			<div class="col-md-12">
-				<div class="card fadeIn text-white feeds-container" style="margin: 0 !important;">
-					<div class="body bg-pink profile-header dim">
-              <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}"/>
+  <section class="cover-sec">
+      <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}" alt="">
+      <a href="javascript:;" class="remove-btn" (click)="removeBgImage()"><i class="fa fa-trash"></i> Remove Image</a>
+      <label for="file-upload" class="custom-file-upload waves-effect">
+         <i class="fa fa-camera"></i> Change Image
+      </label>
+      <input id="file-upload" type="file" multiple (change)="uploadHeaderImage(profileHeaderInput)"  #profileHeaderInput/>
 
-						<div class="bg_head_buttons align-center">
-              <label class="btn btn-warning btn-sm btn-round fileLabel">
-                  <input 
-                  class="hiddenFileInputField" 
-                  type="file" 
-                  accept="image/*"
-                  (change)="uploadHeaderImage(profileHeaderInput)"
-                  #profileHeaderInput> Change header image</label>
-                  <br/>
-                  <button 
-                  type="button" 
-                  (click)="removeBgImage()" 
-                  class="btn btn-warning btn-sm btn-round waves-effect">
-                  remove image
-                </button>
-                <br/>
-                <strong>image size (width: 1200px, height 350px)</strong>
-                
-             </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-3 m-t--30">
-				<div class="card member-card transparent">
-                    <div class="member-img">
-                        <a href="javascript:void(0);" class="profile-container">
-                        <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" class="user_pic rounded-circle img-raised" alt="profile-image">
-                        <span class="change-pics">
-                            <form>
-                                <label class="btn btn-warning btn-sm btn-round fileLabel">
-                                    <input 
-                                    class="hiddenFileInputField" 
-                                    type="file" 
-                                    accept="image/*"
-                                    (change)="uploadProfileAvatar($event)"
-                                    #profileImageInput> change</label>
-                            </form>
-                        </span>
-                        </a>
-                    </div>
-                </div>
-			</div>
-			<div class="col-md-7 m-t-20">
-				<div class="card">
-                    <div class="header">
+  </section>
+
+
+  <main>
+      <div class="main-section">
+        <div class="container">
+          <div class="main-section-data">
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="main-left-sidebar">
+                  <div class="user_profile">
+                    <div class="user-pro-img">
+                      <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" alt="">
+                      <label for="avatar_upload" class="custom-file-upload waves-effect">
+                         <i class="fa fa-camera"></i> Change
+                      </label>
+                      <input id="avatar_upload" #profileImageInput type="file" multiple (change)="uploadProfileAvatar($event)"/>
+                    </div><!--user-pro-img end-->
+                     
+                    </div><!--user_pro_status end-->
+                  
+                </div><!--main-left-sidebar end-->
+              </div>
+			         <div class="col-md-7 m-t-20">
+				      <div class="card">
+                    <div class="card-header">
                         <h2><strong>Account</strong> Settings</h2>
                         <p class="text-danger" *ngIf="role === 'business'"> The avatar can be changed to your company or business logo & must be <b>450x450</b> width & height respectively.</p>
                     </div>
-                    <div class="body">
+                    <div class="card-body">
                        <form [formGroup]="userForm" (ngSubmit)="userFormSubmit()">
                             <div class="row clearfix">
                             <div class="col-lg-12">
@@ -151,19 +128,19 @@
                             <div class="col-md-12 mt-5">
                                 <div class="form-group">
                                     <label>Residential Address</label>
-                                    <textarea rows="3" formControlName="address" class="form-control no-resize" placeholder="Address Line 1"></textarea>
+                                    <textarea rows="3" formControlName="address" class="textarea form-control no-resize" placeholder="Address Line 1"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>A Short Brief About You</label>
-                                    <textarea rows="3" formControlName="bio" class="form-control no-resize" placeholder="say something"></textarea>
+                                    <textarea rows="3" formControlName="bio" class="textarea form-control no-resize" placeholder="say something"></textarea>
                                 </div>
                             </div>
                             
                             <div class="col-md-12">
-                                <button class="btn btn-warning btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
+                                <button class="btn btn-sm btn-primary btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
                             </div>
                         </div>
                        </form>
@@ -171,10 +148,10 @@
                 </div>
 
                 <div class="card" *ngIf="role !== 'business'">
-                    <div class="header">
+                    <div class="card-header">
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
-                    <div class="body">
+                    <div class="card-body">
                         <div *ngIf="role === 'student'">
                             <form [formGroup]="studentForm" (ngSubmit)="studentFormSubmit()">
                              <div class="row clearfix">
@@ -256,7 +233,7 @@
                                 </div>
                             </div> -->
                                 <div class="col-md-12 mt-5">
-                                    <button class="btn btn-warning btn-round waves-effect">Save Changes</button>
+                                    <button class="btn btn-sm btn-primary btn-round waves-effect">Save Changes</button>
                                 </div>
                                 </div>
                             </form>
@@ -359,7 +336,7 @@
 
 
                                         <div class="col-md-12 mt-4">
-                                            <button class="btn btn-warning btn-round" [ladda]="mentorFormLoading">Save Changes</button>
+                                            <button class="btn btn-sm btn-primary btn-round" [ladda]="mentorFormLoading">Save Changes</button>
                                         </div>
                                     </div>
                                 </form>
@@ -368,11 +345,11 @@
                 </div>
 
                 <div class="card" *ngIf="role === 'business'">
-                    <div class="header">
+                    <div class="card-header">
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
 
-                    <div class="body">
+                    <div class="card-body">
                         <form [formGroup]="companyForm" (ngSubmit)="companyFormSubmit()">
                             <div class="row clearfix">
                                 <div class="col-md-6">
@@ -395,14 +372,14 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea class="form-control no-resize" formControlName="description" rows="4" placeholder="About Company"></textarea>
+                                        <textarea class="textarea form-control no-resize" formControlName="description" rows="4" placeholder="About Company"></textarea>
                                     </div>
                                 </div>
 
                                
                                <div class="col-md-12">
                                    <div class="form-group">
-                                        <label>Enter Business/Organization Services
+                                        <label class="pb-2">Enter Business/Organization Services
                                          <small class="text-danger">( and press enter)</small></label>
                                        <ng-select [items]="[]"
                                                    [addTag]="true"
@@ -433,12 +410,12 @@
                                           </div>
                                           
                                         </div>
-                                        <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addSocialHandle()"> Add More</button>
+                                        <button type="button" class="btn btn-round btn-primary btn-sm" (click)="addSocialHandle()"> Add More</button>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <button type="submit" 
-                                    class="btn btn-warning btn-round waves-effect" 
+                                    class="btn btn-sm btn-primary btn-round waves-effect" 
                                     [ladda]="companyFormLoading">Save Changes</button>
                                 </div>
                             </div>
@@ -447,10 +424,10 @@
                 </div>
 
                 <div class="card" *ngIf="role === 'mentor' || role === 'business'">
-                    <div class="header">
+                    <div class="card-header">
                         <h2><strong>Career Fields of Interest</strong></h2>
                     </div>
-                    <div class="body">
+                    <div class="card-body">
                         <form [formGroup]="industryForm" (ngSubmit)="industryFormSubmit()">
                              <div class="form-group">
                                 <ng-select [items]="industries.industries"
@@ -461,16 +438,27 @@
                                         formControlName="industries">
                                 </ng-select>
                             </div>
-                            <button class="btn btn-warning btn-round waves-effect">Save Changes</button>
+
+                           <!--  <div class="form-group">
+                              <label class="mb-2">IF your career fields is not present above, enter it below</label>
+                              <ng-select [items]="[]"
+                                         [addTag]="true"
+                                         [multiple]="true"
+                                         [isOpen]="false"
+                                         [ngModelOptions]="{standalone: true}"
+                                         [(ngModel)]="mentorCareerInterest">
+                              </ng-select>
+                            </div> -->
+                            <button class="btn btn-sm btn-primary btn-round waves-effect">Save Changes</button>
                         </form>
                     </div>
                 </div>
 
 				        <div class="card">
-                    <div class="header">
+                    <div class="card-header">
                         <h2><strong>Security</strong> Settings</h2>
                     </div>
-                    <div class="body">
+                    <div class="card-body">
                         <form [formGroup]="passwordForm" (ngSubmit)="passwordFormSubmit()">
                             <div class="form-group">
                                 <input type="password" 
@@ -494,7 +482,7 @@
                                   <div *ngIf="pass.confirmPassword.errors.mustMatch">Passwords must match</div>
                                 </div>
                             </div>
-                            <button class="btn btn-warning btn-round waves-effect">Save Changes</button> 
+                            <button class="btn btn-sm btn-primary btn-round waves-effect">Save Changes</button> 
                         </form>  
 
                         <hr>
@@ -505,7 +493,7 @@
                         type="button"
                         [swal]="accountRemovalSwal" 
                         (confirm)="deleteAccount()"
-                        class="btn btn-danger waves-effect">
+                        class="btn btn-primary waves-effect">
                           Delete Account
                         </button>
 
@@ -522,10 +510,13 @@
 
                     </div>
                 </div>
-			</div>
-		</div>
-	</div>
-</section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
 <!-- Page Modals -->
   <div class="modal fade" #imageCropperModal id="imageCropperModal" tabindex="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
   <div class="modal-dialog modal-dialog-centered" role="document">

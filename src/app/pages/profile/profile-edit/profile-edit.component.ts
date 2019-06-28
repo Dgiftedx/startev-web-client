@@ -26,6 +26,7 @@ export class ProfileEditComponent implements OnInit {
 	public selectedCountry = {};
 	public selectedIndustries = {};
 	public selectedServices: Array<any> = [];
+	public mentorCareerInterest: Array<any> = [];
 
 	employmentState: Array<any> = [
 	{id: 1, name: "Employed", alias: "employed"},

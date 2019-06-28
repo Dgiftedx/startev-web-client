@@ -97,4 +97,18 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
   }
 
 
+
+  downloadFile(material:any, index:any, type:string) {
+    if (type === 'file') {
+      let file_name = this.filterFilePath(material.files[index]);
+      let formatted = file_name.replace(" ", "-");
+
+      return window.open(this.basePath + "/download-file?file="+formatted, "_blank");
+    }else{
+
+      let image = material.images[index];
+      return window.open(this.basePath + "/download-file?image="+image, "_blank");
+    }
+  }
+
 }

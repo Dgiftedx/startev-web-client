@@ -37,7 +37,7 @@
               </span>
             </div>
           </div>
-          <div class="ed-opts">
+          <!-- <div class="ed-opts">
             <button type="button" class="ed-options btn btn-round btn-icon btn-icon-mini btn-white waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-ellipsis-v"></i></button>
             <div class="dropdown-menu dropdown-menu-right">
               <button 
@@ -50,7 +50,7 @@
               
             </div>
           
-            </div>
+            </div> -->
 		</div>
 
 
@@ -120,16 +120,16 @@
                 <p class="post-content" [innerHTML]="currentView.content"></p>
 
                 <table class="table table-bordered" *ngIf="currentView.files">
-                	<tr *ngFor="let file of currentView.files">
+                	<tr *ngFor="let file of currentView.files; let index = index">
                 		<td>{{ filterFilePath(file) }}</td>
-                		<td> <a href="{{ basePath }}/download/file/{{ currentView.id }}" target="_blank"><i class="la la-download"></i> Download</a></td>
+                		<td> <a href="javascript:;" (click)="downloadFile(currentView, index, 'file')" target="_blank"><i class="la la-download"></i> Download</a></td>
                 	</tr>
                 </table>
 
                 <table class="table table-bordered" *ngIf="currentView.images">
-                	<tr *ngFor="let image of currentView.images">
+                	<tr *ngFor="let image of currentView.images; let index = index">
                 		<td><img [src]="image" width="90" /></td>
-                		<td> <a href="javascript:;" target="_blank"><i class="la la-download"></i> Download</a></td>
+                		<td> <a href="javascript:;" (click)="downloadFile(currentView, index, 'image')"><i class="la la-download"></i> Download</a></td>
                 	</tr>
                 </table>
 
