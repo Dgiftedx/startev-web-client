@@ -491,7 +491,7 @@ export class FeedsComponent implements OnInit {
       this.alert.snotSimpleSuccess(data.message);
       $(document).find('.modal').each(function() {
         $(this).modal('hide');
-      })
+      });
       this.cleanForm();
     })
     .catch(error => {

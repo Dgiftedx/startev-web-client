@@ -90,17 +90,16 @@
 <div class="user-account">
     <div class="user-info">
         <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="32" alt="">
-        <a href="javascript:;">{{ splitName(currentUser.name) }}</a>
-        <i class="la la-sort-down"></i>
+        <a href="javascript:;" (click)="toggleOptionClass()">{{ splitName(currentUser.name) }} <i class="la la-sort-down"></i></a>
     </div>
     <div class="user-account-settingss">
-        <!-- <h3>Account</h3>
-        <h3 class="tc"><a href="#" title="">Setting</a></h3>
+        <!-- <h3>Account</h3> -->
+        <!-- <h3 class="tc"><a href="#" title="">Setting</a></h3> -->
         <h3>Manage</h3>
-        <h3 class="tc"><a href="#" title="">Post & Activity</a></h3> -->
-
+        <h3 class="tc"><a [routerLink]="['/edit-profile']" title="">Edit Profile</a></h3>
         <h3 class="tc"><a [routerLink]="" (click)="logout()" title="">Logout</a></h3>
     </div><!--user-account-settingss end-->
+   
 </div>
 </div><!--header-data end-->
 </div>

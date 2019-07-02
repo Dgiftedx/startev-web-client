@@ -35,6 +35,19 @@ export class ProfileEditComponent implements OnInit {
 	{id: 4, name: "Retired", alias: "retired"},
 	];
 
+
+	//======= Dashboard Navigation ============//
+	public navigation: Array<any> = [
+
+	{id: 1, alias: "account", name: "Account Settings", icon: "la-cogs"},
+	{id: 2, alias: "platform_profile", name: "Platform Profile", icon: "fa-user"},
+	{id: 3, alias: "change_password", name: "Change Password", icon: "fa-lock"},
+	{id: 4, alias: "delete_account", name: "Delete Account", icon: "fa-random"},
+	];
+
+
+	public selectedNavigation = this.navigation[0];
+
 	currentUser: User;
 	show: boolean = false;
 	user;
@@ -97,6 +110,12 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
+	//============= Set Active Navigation ==================//
+	setActiveNavigation(navigation:any) {
+		this.selectedNavigation = navigation;
+	}
+
+
 	imageChangedEvent: any = '';
 	croppedImage: any = '';
 
@@ -145,6 +164,7 @@ export class ProfileEditComponent implements OnInit {
 
 		this.mentorForm = this.formBuilder.group({
 			employmentStatus : [''],
+			total_trainee: [0],
 			workExperience : this.formBuilder.array([this.createWorkExperienceItems()]),
 			education: this.formBuilder.array([this.createEducationItems()]),
 			current_job_position : ['']

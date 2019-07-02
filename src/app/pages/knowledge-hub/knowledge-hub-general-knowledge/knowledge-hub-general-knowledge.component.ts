@@ -2,6 +2,7 @@ declare var $: any;
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { User } from '../../../_models';
+import { Lightbox } from 'ngx-lightbox';
 import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
 import { EmbedVideoService } from 'ngx-embed-video';
@@ -35,6 +36,7 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
     private config: NgSelectConfig,
     private route: ActivatedRoute,
     private alert: AlertService,
+    private lightbox: Lightbox,
     private embedService: EmbedVideoService,
     private formBuilder: FormBuilder,
     private baseService : BaseService,
@@ -58,6 +60,22 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
   }
 
 
+   //============= Open Image ===============//
+  openStackedImages(images: Array<any>, index, title:string) {
+
+    let imageArray: Array<any> = [];
+
+    images.forEach((item) => {
+      imageArray.push({
+        src : item,
+        caption : title
+      });
+    });
+    
+    this.lightbox.open(imageArray, index);
+  }
+
+
   openPublication(publication) {
     this.currentView = publication;
     this.showMain = false;
@@ -65,11 +83,9 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
   }
 
 
-  filterFilePath(path:string) {
-    let basePath = this.authenticationService.baseurl + "/uploads/";
-
+  filterFilePath(path:string, base_dir:string) {
+    let basePath = this.authenticationService.baseurl + base_dir;
     let newPath = path.split(basePath);
-
     return newPath[1];
   }
 
@@ -98,16 +114,16 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
 
 
 
+
   downloadFile(material:any, index:any, type:string) {
     if (type === 'file') {
-      let file_name = this.filterFilePath(material.files[index]);
+      let file_name = this.filterFilePath(material.files[index], "/uploads/");
       let formatted = file_name.replace(" ", "-");
-
       return window.open(this.basePath + "/download-file?file="+formatted, "_blank");
     }else{
-
-      let image = material.images[index];
-      return window.open(this.basePath + "/download-file?image="+image, "_blank");
+      let image_name = this.filterFilePath(material.images[index], "/storage/publication/header");
+      let formattedImg = image_name.replace(" ", "-");
+      return window.open(this.basePath + "/download-file?image="+formattedImg, "_blank");
     }
   }
 

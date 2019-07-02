@@ -42,8 +42,8 @@ export class AuthenticationService {
 
 
     // Login user
-    login(username: string, password: string) {
-        return this.http.post<any>(`${this.endPointAuth}/login`, { username, password });
+    login(email: string, password: string) {
+        return this.http.post<any>(`${this.endPointAuth}/login`, { email, password });
     }
 
 

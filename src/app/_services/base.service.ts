@@ -20,7 +20,6 @@ export class BaseService {
         private authenticationService : AuthenticationService) { }
 
 
-
     //get emdpoints
     endpoint = this.authenticationService.endpoint;
     endPointAuth = this.authenticationService.endPointAuth;
@@ -38,7 +37,12 @@ export class BaseService {
     //Algorithm to show user Job title
     echoJobTitle(roleData: any, role: string){
         if (role === 'student' || role === 'graduate') {
-            return role;
+            
+            if (roleData.institution) {
+                return roleData.institution;
+            }else{
+                return role;
+            }
         }
 
         if (role === 'mentor') {
@@ -56,6 +60,8 @@ export class BaseService {
                     }
                 });
 
+                if(!presentWork)
+                    return 'Owner';
                 return presentWork.position;
             }else{
                 return role;
