@@ -224,9 +224,9 @@ $(window).on("load", function() {
 
     // ============= User Account Setting Open ===========
 
-    $(".user-info").on("click", function(){
-        $(this).next(".user-account-settingss").toggleClass("active");
-    });
+    // $(".user-info").on("click", function(){
+    //     $(this).next(".user-account-settingss").toggleClass("active");
+    // });
 
     //  ============= FORUM LINKS MOBILE MENU FUNCTION =========
 

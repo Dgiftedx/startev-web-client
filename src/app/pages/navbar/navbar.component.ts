@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
   currentUser: User;
   show: boolean = false;
   showNoti:boolean = false;
-  industries: Array<any> = [];
 
   notifications:any = [];
   notificationSubscription: Subscription;
@@ -38,8 +37,8 @@ export class NavbarComponent implements OnInit {
 
         if (event instanceof NavigationStart) {
             // Hide loading indicator
-            if ($('body').hasClass('overlay-open')) {
-              $('#closeBars').click();
+            if ($(".user-account-settingss").hasClass('active')) {
+              $(".user-account-settingss").removeClass("active");
             }
 
             if (this.show) {
@@ -51,16 +50,14 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  jQueryEvents() {
 
-     //
+  toggleOptionClass() {
+    $(".user-account-settingss").toggleClass("active");
   }
 
 
   ngOnInit() {
-    this.navBarIndustryList();
     this.refreshNotifications();
-    this.jQueryEvents();
   }
 
 // ============ check null item and return default as required =======//
@@ -121,27 +118,6 @@ export class NavbarComponent implements OnInit {
 
   toggleNoty(){
     return this.refreshNotifications();
-  }
-
-
-  handleIndustriesResponse(data: any){
-    this.industries = data.industries;
-    this.industries.forEach(item => {
-        item.totalMentors = _.size(item.mentors);
-    });
-  }
-
-  navBarIndustryList(){
-    this.baseService.fetchIndustries()
-    .subscribe(
-        data => {
-          this.handleIndustriesResponse(data);
-        },
-
-        error => {
-          this.alert.errorMsg(error.error,"Request Failed");
-        }
-      )
   }
 
   toggleMenu(){

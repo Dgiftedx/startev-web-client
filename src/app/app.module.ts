@@ -108,6 +108,7 @@ import { KnowledgeHubGeneralKnowledgeComponent } from './pages/knowledge-hub/kno
 import { KnowledgeHubBusinessManagementComponent } from './pages/knowledge-hub/knowledge-hub-business-management/knowledge-hub-business-management.component';
 import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
 import { UserManageProductsComponent } from './pages/partner/venture-dashboard/user-manage-products/user-manage-products.component';
+import { CareerFieldsComponent } from './pages/widgets/career-fields/career-fields.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -177,6 +178,7 @@ export const ngxDropTargetOptions: DropTargetOptions = {
     KnowledgeHubBusinessManagementComponent,
     MyPublicationsComponent,
     UserManageProductsComponent,
+    CareerFieldsComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

@@ -26,9 +26,11 @@
                         *ngIf="profileData.role !=='student'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
 
                         <span *ngIf="profileData.role === 'student' || profileData.role === 'graduate'">
-                          <span *ngIf="profileData.roleData.institution"> Student at {{ profileData.roleData.institution }}</span>
-                          <span *ngIf="!profileData.roleData.institution"> in Africa</span>
+                          <span *ngIf="profileData.roleData.institution">{{ profileData.roleData.institution }}</span>
+                          <span>{{ currentUser.state }}, {{ currentUser.country }}</span>
                         </span>
+                        <br/>
+                        
 
                         <span *ngIf="profileData.role === 'mentor'">
 
@@ -80,7 +82,8 @@
                           class="waves-effect">Access Knowledge Hub</a>
                       </li>
                     </ul>
-                  </div><!--user-data end-->
+                  </div>
+                  <!--user-data end-->
 
                     <!-- suggestion widget -->
                     <app-suggestions-widget></app-suggestions-widget>
@@ -281,10 +284,12 @@
               <div class="col-lg-3 pd-right-none no-pd">
                 <div class="right-sidebar">
 
+                  <!-- Career Fields Widget -->
+                  <app-career-fields></app-career-fields>
+
                   <!-- Advert Widget -->
                   <app-ads-widget></app-ads-widget>
                   <!--// end advert Widget -->
-                 
                  
                   <!-- Featured Mentors -->
                   <app-mentors-widget></app-mentors-widget>

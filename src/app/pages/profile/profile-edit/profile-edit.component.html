@@ -28,9 +28,28 @@
                     </div><!--user_pro_status end-->
                   
                 </div><!--main-left-sidebar end-->
+
+
+                <div class="acc-leftbar">
+
+                   <div class="nav nav-tabs" id="nav-tab" >
+                    <a *ngFor="let nav of navigation" 
+                      [ngClass]="{'active': selectedNavigation.id === nav.id}"
+                      class="nav-item nav-link" id="nav-acc-tab" 
+                      [routerLink]="" 
+                      (click)="setActiveNavigation(nav)"><i class="la {{ nav.icon }}"></i> 
+                      {{ nav.name | titlecase }}
+                    </a>
+                  </div>
+                
+              </div><!--acc-leftbar end-->
+
+
               </div>
 			         <div class="col-md-7 m-t-20">
-				      <div class="card">
+
+                 <div *ngIf="selectedNavigation.alias === 'account'">
+				          <div class="card">
                     <div class="card-header">
                         <h2><strong>Account</strong> Settings</h2>
                         <p class="text-danger" *ngIf="role === 'business'"> The avatar can be changed to your company or business logo & must be <b>450x450</b> width & height respectively.</p>
@@ -42,7 +61,8 @@
                                 <div class="form-group">
                                     <input 
                                     type="text" 
-                                    formControlName="name" 
+                                    formControlName="name"
+                                    [readonly]="true"
                                     class="form-control" 
                                     placeholder="Full Name" 
                                     [ngClass]="{ 'is-invalid': userFormSubmitted && f.name.errors }"
@@ -146,8 +166,10 @@
                        </form>
                     </div>
                 </div>
+              </div>
 
-                <div class="card" *ngIf="role !== 'business'">
+               <div *ngIf="selectedNavigation.alias === 'platform_profile'">
+                <div class="card mb-5" *ngIf="role !== 'business'">
                     <div class="card-header">
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
@@ -242,6 +264,14 @@
                              <div *ngIf="role === 'mentor'">
                                 <form [formGroup]="mentorForm" (ngSubmit)="mentorFormSubmit()">
                                     <div class="row clearfix">
+                                      <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>Maximum Mentees You Wish To Mentor</label>
+                                                     <input type="number" formControlName="total_trainee" class="form-control" placeholder="Maximum mentee">
+                                                 </div>
+                                            </div>
+                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="form-group">
@@ -344,7 +374,7 @@
                     </div>
                 </div>
 
-                <div class="card" *ngIf="role === 'business'">
+                <div class="card mb-5" *ngIf="role === 'business'">
                     <div class="card-header">
                         <h2><strong>Platform</strong> Settings</h2>
                     </div>
@@ -423,7 +453,8 @@
                     </div>
                 </div>
 
-                <div class="card" *ngIf="role === 'mentor' || role === 'business'">
+
+                <div class="card mb-5" *ngIf="role === 'mentor' || role === 'business'">
                     <div class="card-header">
                         <h2><strong>Career Fields of Interest</strong></h2>
                     </div>
@@ -454,7 +485,10 @@
                     </div>
                 </div>
 
-				        <div class="card">
+              </div>
+
+               <div *ngIf="selectedNavigation.alias === 'change_password'">
+				        <div class="card mb-5">
                     <div class="card-header">
                         <h2><strong>Security</strong> Settings</h2>
                     </div>
@@ -483,8 +517,19 @@
                                 </div>
                             </div>
                             <button class="btn btn-sm btn-primary btn-round waves-effect">Save Changes</button> 
-                        </form>  
+                        </form>
 
+                      </div>
+                    </div>
+                  </div>
+
+
+                   <div *ngIf="selectedNavigation.alias === 'delete_account'">
+                   <div class="card mb-5">
+                    <div class="card-header">
+                        <h2><strong>Account</strong> Removal</h2>
+                    </div>
+                    <div class="card-body">
                         <hr>
                         <h3 class="apple-font rigid text-danger">Dangerous Zone</h3>
                         <hr>
@@ -510,6 +555,7 @@
 
                     </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>

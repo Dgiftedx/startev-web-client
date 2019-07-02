@@ -5,17 +5,6 @@ Project:    STARTEV
 Version:    1.1.0
 -------------------------------------------------------------------*/
 
-/*------------------------------------------------------------------
-[Table of contents]
-    *. Login Layout 6 / .login-6
--------------------------------------------------------------------*/
-/** GLOBAL CLASSES **/
-
-body {
-    font-family: 'Open Sans', sans-serif;
-    color: #535353;
-}
-
 .img-fluid {
     max-width: 100% !important;
     height: auto;

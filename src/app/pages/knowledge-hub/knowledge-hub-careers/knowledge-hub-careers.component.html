@@ -4,7 +4,7 @@
 
 <div class="companies-list">
 	<div class="row" *ngIf="showMain && count(industryPublications) > 0">
-		<div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let publication of industryPublications; let index = index">
+		<div class="col-md-4 col-sm-6" *ngFor="let publication of industryPublications; let index = index">
 			<div class="company_profile_info">
 				<div class="company-up-info">
 					<h3>{{ publication.industry | titlecase }}</h3>
@@ -27,7 +27,7 @@
 
 	<div class="row" *ngIf="showMaterials">
 	<div class="col-md-6" *ngFor="let publication of publications">
-       <div class="post-bar feeds-container">
+       <div class="post-bar feeds-container custom-bar">
         <div class="post_topbar">
           <div class="usy-dt">
             <div class="usy-name">
@@ -37,40 +37,23 @@
               </span>
             </div>
           </div>
-          <!-- <div class="ed-opts">
-            <button type="button" class="ed-options btn btn-round btn-icon btn-icon-mini btn-white waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-ellipsis-v"></i></button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <button 
-              class="dropdown-item" 
-              type="button" (click)="editPublication(publication)"> <i class="fa fa-download"></i> Download Files</button>
-
-              <button 
-              class="dropdown-item" 
-              type="button" (click)="editPublication(publication)"> <i class="fa fa-download"></i> Download Images</button>
-              
-            </div>
-          
-            </div> -->
-		</div>
+		  </div>
 
 
 		 <div class="job_descp">
         <h5>{{ publication.category.category_name | titlecase  }}</h5>
-        	<p class="post-content" [innerHTML]="publication.content | excerpt: 300 ">
+        	<p class="post-content mb-5" [innerHTML]="publication.content | excerpt: 300 ">
         	</p>
 
 
         <ul class="user-fw-status">
 
 			<li>
-				<a class="waves-effect" 
-				href="javascript:;" (click)="openPublication(publication)" title="">Read More</a>
-
-				<a class="waves-effect" href="javascript:;" title="">Available Downloads
-					<span *ngIf="publication.files" class="">{{ count(publication.files) }}</span>
-
-					<span class="" *ngIf="!publication.files">0</span>
-				</a>
+				<a class="btn btn-block btn-white waves-effect" 
+				href="javascript:;" (click)="openPublication(publication)" title=""> Available Downloads 
+        <span class="custom-badge" style="font-size: 10px;">
+        {{ count(publication.files) + count(publication.images) }}    
+        </span> -  Read More</a>
 			</li>
 		</ul>
           
@@ -110,18 +93,20 @@
                 <div class="job_descp">
                 <h3>{{ currentView.title }}</h3>
                
-                 <div class="feed-image mb-3" *ngIf="currentView.images">
-                   <div class="images-container-single">
-                      <img *ngFor="let image of currentView.images; let index = index" 
-                      (click)="openStackedImages(currentView.images, index, currentView.title)" [src]="image" class=""/>
-                    </div>
-                </div>
+                 <div class="mb-4">
+                   <div class="feed-image mb-3" *ngIf="currentView.images">
+                     <div class="images-container-single">
+                        <img *ngFor="let image of currentView.images; let index = index" 
+                        (click)="openStackedImages(currentView.images, index, currentView.title)" [src]="image" class=""/>
+                      </div>
+                  </div>
 
-                <p class="post-content" [innerHTML]="currentView.content"></p>
+                  <p class="post-content" [innerHTML]="currentView.content"></p>
 
+                 </div>
                 <table class="table table-bordered" *ngIf="currentView.files">
                 	<tr *ngFor="let file of currentView.files; let index = index">
-                		<td>{{ filterFilePath(file) }}</td>
+                		<td>{{ filterFilePath(file, "/uploads/") }}</td>
                 		<td> <a href="javascript:;" (click)="downloadFile(currentView, index, 'file')" target="_blank"><i class="la la-download"></i> Download</a></td>
                 	</tr>
                 </table>

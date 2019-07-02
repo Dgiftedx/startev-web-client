@@ -1,10 +1,11 @@
-<section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
-	<div class="container">
-		<div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">
-			<div class="col-sm-12 col-md-12 col-lg-9">
-				<div class="row clearfix">
-
-					<div class="col-lg-12 col-md-12 col-sm-12 m-b-40">
+<main>
+      <div class="main-section">
+        <div class="container">
+          <div class="main-section-data">
+            <div class="row">
+            	<div class="col-md-9 col-sm-12">
+            	  <div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 mb-5">
 						<div class="feeds-container slideDown"> 
 							<div class="body text-center p-2">
 								<form [formGroup]="industryForm">
@@ -22,9 +23,10 @@
 							</div>
 						</div>
 					</div>
+				</div>
 
-
-					<div class="col-lg-12 col-md-12 col-sm-12 m-b-20">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 mb-5">
 						<div class="feeds-container fadeIn"> 
 							<div class="body text-center">
 								<h6 class="p-2">{{ industry.industry.name }} </h6>
@@ -32,81 +34,100 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let mentor of industry.industry.mentors">
-						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.mentor">
-							<div class="body">
-								<div class="cp_img">
-									<a [routerLink]="['/general-profile', mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
-									<div class="hover">
+				</div>
+				<div class="row">
+
+				  <div class="col-md-4 col-sm-12" *ngFor="let mentor of industry.industry.mentors">
+
+					<div class="user-data full-width feeds-container"  *ngIf="mentor.mentor">
+                    <div class="user-profile">
+                      <div class="username-dt">
+                        <div class="usr-pic">
+                          <img src="{{ checkValue(mentor.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+                        </div>
+                      </div><!--username-dt end-->
+                      <div class="user-specs">
+                        <h3>{{ mentor.name }}</h3>
+
+                        <span>{{ mentor.mentor.current_job_position?mentor.mentor.current_job_position:'Mentor' }}</span>
+
+                      </div>
+                    </div><!--user-profile end-->
+                    <ul class="user-fw-status">
+                    	<li>
+                    		<button *ngIf="mentor.id !== currentUser.id && !mentor.business"
+								type="button" 
+								(click)="toggleConnect(mentor.id)"
+								class="btn btn-block btn-white btn-sm waves-effect">
+								<span class="no-style" *ngIf="mentor.is_connected"> Disconnect</span>
+								<span class="no-style" *ngIf="!mentor.is_connected"> Connect</span>
+							</button>
+                    	</li>
+                    	 <li>
+                        <a class="waves-effect" [routerLink]="">Trainers : {{ count(mentor.trainer_pivot) }}/
+                        	<span class="no-style" *ngIf="mentor.mentor.total_trainee !== 0">{{ mentor.mentor.total_trainee }}</span>
+                        	<span class="no-style" *ngIf="mentor.mentor.total_trainee === 0">{{ maximumTrainer }}</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="waves-effect" [routerLink]="['/general-profile', mentor.slug]" title="">View Profile</a>
+                      </li>
+                    </ul>
+                  </div>
 
 
-										<button 
-										type="button" 
-										(click)="toggleConnect(mentor.id)"
-										class="btn btn-warning btn-sm waves-effect">
-											<fa-icon [icon]="['fas','plus']"></fa-icon> 
-										<span *ngIf="mentor.is_connected"> Disconnect</span>
-										<span *ngIf="!mentor.is_connected"> Connect</span>
-									</button>
-										
-									</div>
-								</div>
-								<div class="product_details">
-									<h5>
-										<a *ngIf="currentUser.id !== mentor.id" [routerLink] = "['/mentor',mentor.slug]">{{ mentor.name | titlecase }}</a>
-										<a *ngIf="currentUser.id === mentor.id">{{ mentor.name | titlecase }}</a>
-									</h5>
-									<ul class="product_price list-unstyled">
-										<li class="profession">{{ mentor.mentor.current_job_position?mentor.mentor.current_job_position:'Mentor' }}</li><br/>
-										<li class="trainer">Trainees: {{ count(mentor.trainer_pivot) }}/{{ maximumTrainer }}</li>
-									</ul>
-								</div>
-							</div>
-						</div>
 
-						<div class="card mentor_list feeds-container fadeIn" *ngIf="mentor.business">
-							<div class="body">
-								<div class="cp_img">
-									<a [routerLink]="['/general-profile', mentor.slug]"><img src="{{ checkValue(mentor.avatar,'avatar') }}" alt="Mentor" class="img-fluid"></a>
-									<div class="hover">
+					<div class="user-data full-width feeds-container"  *ngIf="mentor.business">
+	                    <div class="user-profile">
+	                      <div class="username-dt">
+	                        <div class="usr-pic">
+	                          <img src="{{ checkValue(mentor.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+	                        </div>
+	                      </div><!--username-dt end-->
+	                      <div class="user-specs">
+	                        <h3>{{ mentor.business.name }}</h3>
 
-										<button *ngIf="mentor.id !== currentUser.id && !mentor.business"
-										type="button" 
-										(click)="toggleConnect(mentor.id)"
-										class="btn btn-warning btn-sm waves-effect">
-											<fa-icon [icon]="['fas','plus']"></fa-icon> 
-										<span *ngIf="mentor.is_connected"> Disconnect</span>
-										<span *ngIf="!mentor.is_connected"> Connect</span>
-									</button>
+	                        <span>{{ mentor.business.website }}</span>
 
-									<a [routerLink]="['/general-profile', mentor.slug]"
-										class="btn btn-warning btn-sm waves-effect">
-										View Page
-									</a>
-
-									</div>
-								</div>
-								<div class="product_details">
-									<h5><a [routerLink] = "['/mentor',mentor.slug]">{{ mentor.business.name | titlecase }}</a></h5>
-									<ul class="product_price list-unstyled">
-										<li class="profession"><small style="font-size: 9px;">{{ mentor.business.website }}</small></li>
-										<li class="trainer">Services: {{ count(mentor.business.services) }}</li>
-									</ul>
-								</div>
-							</div>
-						</div>                
+	                      </div>
+	                    </div><!--user-profile end-->
+	                    <ul class="user-fw-status">
+                    	<li>
+                		<button type="button" (click)="goToVentures()" 
+							class="btn btn-block btn-white btn-sm waves-effect">
+								View Ventures
+						</button>
+                    	</li>
+		                  <li>
+		                    <a class="waves-effect" [routerLink]="">Services: {{ count(mentor.business.services) }}</a>
+	                      </li>
+	                      <li>
+	                        <a class="waves-effect" [routerLink]="['/general-profile', mentor.slug]" title="">View Profile</a>
+	                      </li>
+	                    </ul>
+	                  </div>
+               
 					</div>
+				</div>
 
 				</div>
-			</div>
-			<div class="col-sm-12 col-md-12 col-lg-3 sticky">
-				<div class="row clearfix">
-					<div class="col-md-12">
-						<app-follow></app-follow>
-					</div>
+				<div class="col-sm-12 col-md-3">
+					 <!-- Career Fields Widget -->
+                  <app-career-fields></app-career-fields>
+                 
+                  <!-- Featured Mentors -->
+                  <app-mentors-widget></app-mentors-widget>
+
+
+                  <!-- New Sign ups -->
+                  <app-sign-ups-widget></app-sign-ups-widget>
+
+                  <!-- Footer Widget -->
+                  <app-footer-widget></app-footer-widget>
+					
 				</div>
-				
 			</div>
 		</div>
 	</div>
-</section>
+</div>
+</main>

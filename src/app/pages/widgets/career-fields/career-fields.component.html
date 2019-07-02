@@ -1,0 +1,17 @@
+
+
+<div class="card feeds-container mb-3" *ngIf="showFields">
+	<div class="card-header">
+		<h5>Career Fields & Mentors</h5>
+	</div>
+	<div class="card-body">
+		<ul class="list-group list-group-flush">
+		  <li class="list-group-item d-flex justify-content-between" 
+		  *ngFor="let career of careerFields">
+		    {{ career.name }}
+		    <span class="custom-badge">{{ career.totalMentors }}</span>
+		  </li>
+		</ul>
+	</div>
+	<a class="btn btn-block btn-white waves-effect" [routerLink]="['/industry']">All Career Fields</a>
+</div>

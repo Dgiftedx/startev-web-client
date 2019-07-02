@@ -52,7 +52,7 @@ export class MyPublicationsComponent implements OnInit {
   public processedImages: Array<any> = [];
   public showCategories : boolean = false;
   public showIndustries : boolean = false;
-  private allowedExtensions:Array<any> = ['xlsx', 'pdf', 'txt', 'docx'];
+  private allowedExtensions:Array<any> = ['xlsx','xls','ppt', 'pdf', 'txt', 'docx' ,'doc'];
   private categoriesSubscription: Subscription;
   private industriesSubscription: Subscription;
   private publicationSubscription : Subscription;

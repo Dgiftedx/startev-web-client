@@ -35,9 +35,9 @@ export class MessageComponent implements OnInit {
 	public conversation: Array<any> = [];
 	public navigation:Array<any> = [
 
-		{id: 1, alias: "settings", name: "Settings", icon: "ti-panel"},
-		{id: 2, alias: "all_friends", name: "Connections", icon: "ti-user"},
-		{id: 3, alias: "recent_chat", name: "Recent Chat", icon: "ti-comment-alt"},
+	{id: 1, alias: "settings", name: "Settings", icon: "ti-panel"},
+	{id: 2, alias: "all_friends", name: "Connections", icon: "ti-user"},
+	{id: 3, alias: "recent_chat", name: "Recent Chat", icon: "ti-comment-alt"},
 	];
 
 	public selectedNav = this.navigation[2];
@@ -73,54 +73,51 @@ export class MessageComponent implements OnInit {
 			return false;
 		};
 
-
-
-
 		//Broadcast Typing events
-	    this.typingSubscription = typingService
-	    .getTypingState()
-	    .subscribe((typing: Typing) => {
+		this.typingSubscription = typingService
+		.getTypingState()
+		.subscribe((typing: Typing) => {
 
-	    	if (this.currentUser.id === typing.receiver_id) {
-	    		this.typingState.push(typing);
-	    	}
-	     
-	    });
+			if (this.currentUser.id === typing.receiver_id) {
+				this.typingState.push(typing);
+			}
 
-	    //First fetch local messages
-	    this.localMessageSubscription = baseService.getMessages(this.currentUser.id)
-	    .subscribe(data => {
-	    	this.messages$ = data;
-	    	
-	    });
+		});
+
+		//First fetch local messages
+		this.localMessageSubscription = baseService.getMessages(this.currentUser.id)
+		.subscribe(data => {
+			this.messages$ = data;
+
+		});
 
 
-	    //Push cuccurrent messages
-	    this.messagingSubscription = messageService
-	    .getMessagesItems()
-	    .subscribe((message: Message) => {
-	    	
-	      //push incoming global message to respective user
-	     	this.messages$.forEach(item => {
-	      		if ( item.id === message.receiver_id) {
-	      			item.messages.unshift(message);
-	      		}
+		//Push cuccurrent messages
+		this.messagingSubscription = messageService
+		.getMessagesItems()
+		.subscribe((message: Message) => {
 
-	      		if (item.id === message.sender_id) {
-	      			item.messages.unshift(message);
-	      		}
-	      	})
+			//push incoming global message to respective user
+			this.messages$.forEach(item => {
+				if ( item.id === message.receiver_id) {
+					item.messages.unshift(message);
+				}
 
-	      	//find active use and update conversation
-	      	if (this.count(this.activeChat) > 0) {
-	      		let search = _.findLast(this.messages$, ['id', this.activeChat.id]);
+				if (item.id === message.sender_id) {
+					item.messages.unshift(message);
+				}
+			})
 
-	      		if (search) {
-	      			this.activeChat = search;
-	      		}
-	      	}
+			//find active use and update conversation
+			if (this.count(this.activeChat) > 0) {
+				let search = _.findLast(this.messages$, ['id', this.activeChat.id]);
 
-	    });
+				if (search) {
+					this.activeChat = search;
+				}
+			}
+
+		});
 
 	}
 
@@ -129,22 +126,29 @@ export class MessageComponent implements OnInit {
 		this.getContacts();
 
 		//First fetch local messages
-	    this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
-	    .subscribe(data => {
-	    	this.messages$ = data;
-	    	
-	    });
+		this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
+		.subscribe(data => {
+			this.messages$ = data;
 
-		setTimeout(() => {
-			this.jQueryMethods();
-		}, 200);
+		});
+
+		this.jQueryMethods();
 	}
 
 
 
+	//============= Trigger Post Composer =============//
+	triggerNewChat(){
+		$(document).find('#contactListModal').modal();
+	}
+
+
+	closeModal(element : any): void {
+		$(document).find('#'+element).modal('hide');
+	}
+
 	updateScrollDirection() {
-		$("#content").scrollTop( $( "#content" ).prop( "scrollHeight" ) );
-		$("#content").perfectScrollbar('update');
+		$(".messages-line").mCustomScrollbar("scrollTo","bottom");
 	}
 
 
@@ -158,11 +162,11 @@ export class MessageComponent implements OnInit {
 
 	getMessages() {
 		//First fetch local messages
-	    this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
-	    .subscribe(data => {
-	    	this.messages$ = data;
-	    	
-	    });
+		this.localMessageSubscription = this.baseService.getMessages(this.currentUser.id)
+		.subscribe(data => {
+			this.messages$ = data;
+
+		});
 	}
 
 
@@ -191,24 +195,24 @@ export class MessageComponent implements OnInit {
 	}
 
 
-	  // ============ check null item and return default as required =======//
-  checkValue(item:any,  type:string, nullValue:string) {
-    if (type === 'text') {
-      if (this.count(item) === 0) {
-        return nullValue;
-      }
-      return item;
-    }
+	// ============ check null item and return default as required =======//
+	checkValue(item:any,  type:string, nullValue:string) {
+		if (type === 'text') {
+			if (this.count(item) === 0) {
+				return nullValue;
+			}
+			return item;
+		}
 
-    if (type === 'avatar') {
+		if (type === 'avatar') {
 
-      if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
-      }
-      return item;
-    }
-  }
-  
+			if (this.count(item) === 0) {
+				return 'assets/images/default/avatar.jpg';
+			}
+			return item;
+		}
+	}
+
 	//========================= create mockup ===============================//
 	/**
 	*
@@ -243,7 +247,7 @@ export class MessageComponent implements OnInit {
 
 		//switch view to recent chats.
 		setTimeout(() => {
-			this.setNavigation(this.navigation[2]);
+			this.closeModal("contactListModal");
 		});
 
 	}
@@ -263,123 +267,8 @@ export class MessageComponent implements OnInit {
 	
 	// ================ Custom Plugin Section ============================//
 	jQueryMethods(){
-		$(".filterDiscussions").on("click", function() {
-			$("#chat-dialog").css({
-				'right':'0'
-			});
-		});
-
-		$(".back-to-mesg").on("click", function() {
-			$("#chat-dialog").css({
-				'right':'-100%'
-			});
-		});
-
-		$(".menu a i").on("click", function() {
-			$(".menu a i").removeClass("active"), $(this).addClass("active");
-		}), 
-
-		$("#contact, #recipient").click(function() {
-			$(this).remove();
-		}), 
-
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		}),
-
-
-		$(".filterMembers").not(".all").hide("3000"), 
-		$(".filterMembers").not(".all").hide("3000"), 
-		$(".filterMembersBtn").click(function() {
-			var t = $(this).attr("data-filter");
-
-			$(".filterMembers").not("." + t).hide("3000"), 
-			$(".filterMembers").filter("." + t).show("3000");
-		}),
-
-
-		$(".filterDiscussions").not(".all").hide("3000"), 
-		$(".filterDiscussions").not(".all").hide("3000"), 
-		$(".filterDiscussionsBtn").click(function() {
-			var t = $(this).attr("data-filter");
-
-			$(".filterDiscussions").not("." + t).hide("3000"), 
-			$(".filterDiscussions").filter("." + t).show("3000");
-		}),
-
-
-		$(".filterNotifications").not(".all").hide("3000"), 
-		$(".filterNotifications").not(".all").hide("3000"), 
-		$(".filterNotificationsBtn").click(function() {
-			var t = $(this).attr("data-filter");
-
-			$(".filterNotifications").not("." + t).hide("3000"), 
-			$(".filterNotifications").filter("." + t).show("3000");
-		}),
-
-
-		$("#people").on("keyup", function() {
-			var t = $(this).val().toLowerCase();
-			$("#contacts a").filter(function() {
-				$(this).toggle($(this).text().toLowerCase().indexOf(t) > -1);
-			});
-		});
-
-		$("#conversations").on("keyup", function() {
-			var t = $(this).val().toLowerCase();
-			$("#chats a").filter(function() {
-				$(this).toggle($(this).text().toLowerCase().indexOf(t) > -1);
-			});
-		});
-
-		$("#notice").on("keyup", function() {
-			var t = $(this).val().toLowerCase();
-			$("#alerts a").filter(function() {
-				$(this).toggle($(this).text().toLowerCase().indexOf(t) > -1);
-			});
-		});
-
-		//user setting	
-		$('.setting').on('click', function() {
-			$('.messenger-navigation').toggleClass('active');
-			$('.messenger-sidebar').toggleClass('slide');
-
-		});
-		//------ scrollbar plugin
-		if ($.isFunction($.fn.perfectScrollbar)) {
-			$('#discussions .list-group, #contacts, #alerts, #accordionSettings, .main .chat .content').perfectScrollbar();
-		}
-
-		// emojies show on text area
-		$('.add-smiles > span').on("click", function() {
-			$(this).parent().siblings(".smiles-bunch").toggleClass("active");
-		});
-
-		//audio video call	
-		$('.audio-call, .video-call').on('click', function() {
-			$('#chat1').css({
-				'display':'none'
-			});
-			$('#call1').css({
-				'opacity':'1',
-				'visibility': 'visible',
-				'transition': 'all 0.25s linear 0s'
-			});
-
-		});
-
-		$('.call-end').on('click', function() {
-			$('#chat1').css({
-				'display':'block'
-			});
-
-			$('#call1').css({
-				'opacity':'0',
-				'visibility': 'hidden',
-				'transition': 'all 0.25s linear 0s'
-			});
-		});
-
+		$(".chat-hist, .messages-line").mCustomScrollbar();
+		axis:"yx"
 	}
 
 
@@ -431,44 +320,44 @@ export class MessageComponent implements OnInit {
 
 		let message = "Typing...";
 
-			let data = {
-				sender_id : this.currentUser.id,
-				receiver_id : receiver_id,
-				message : message,
-				isTyping: true
-			};
+		let data = {
+			sender_id : this.currentUser.id,
+			receiver_id : receiver_id,
+			message : message,
+			isTyping: true
+		};
 
-			this.http
-		    .post(`${this.authenticationService.endpoint}/send-typing-event`, data)
-		    .toPromise()
-		    .then((data: { message: string; status: boolean }) => {
-		      //
-		    })
-		    .catch(error => {
-		      //
-		    });
+		this.http
+		.post(`${this.authenticationService.endpoint}/send-typing-event`, data)
+		.toPromise()
+		.then((data: { message: string; status: boolean }) => {
+			//
+		})
+		.catch(error => {
+			//
+		});
 	}
 
 
 	stopTypingEvent(event:any, receiver_id:number){
 		let message = "Stopped typing...";
 
-			let data = {
-				sender_id : this.currentUser.id,
-				receiver_id : receiver_id,
-				message : message,
-				isTyping: false
-			};
+		let data = {
+			sender_id : this.currentUser.id,
+			receiver_id : receiver_id,
+			message : message,
+			isTyping: false
+		};
 
-			this.http
-		    .post(`${this.authenticationService.endpoint}/send-typing-event`, data)
-		    .toPromise()
-		    .then((data: { message: string; status: boolean }) => {
-		      //
-		    })
-		    .catch(error => {
-		      //
-		    });
+		this.http
+		.post(`${this.authenticationService.endpoint}/send-typing-event`, data)
+		.toPromise()
+		.then((data: { message: string; status: boolean }) => {
+			//
+		})
+		.catch(error => {
+			//
+		});
 	}
 
 
@@ -515,16 +404,16 @@ export class MessageComponent implements OnInit {
 
 
 		this.http
-		    .post(`${this.authenticationService.endpoint}/send-message`, payload)
-		    .toPromise()
-		    .then((data: { message: string; status: boolean }) => {
-		    	//message sent
-		    	this.updateScrollDirection();
-		    })
-		    .catch(error => {
-		      //
-		    });
-			
+		.post(`${this.authenticationService.endpoint}/send-message`, payload)
+		.toPromise()
+		.then((data: { message: string; status: boolean }) => {
+			//message sent
+			this.updateScrollDirection();
+		})
+		.catch(error => {
+			//
+		});
+
 
 		this.setNavigation(this.navigation[2]);
 
