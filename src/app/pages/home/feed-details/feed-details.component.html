@@ -124,7 +124,7 @@
                             </div>
                         </div>
 
-                        <p class="post-content">{{ feed.content | linkify }}</p>
+                        <p class="post-content" [innerHtml]="feed.content"></p>
 
 
                         </div>
