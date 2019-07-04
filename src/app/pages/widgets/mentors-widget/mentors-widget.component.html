@@ -8,7 +8,7 @@
       <div class="suggestion-usd" *ngFor="let mentor of featuredMentors">
         <img src="{{ checkValue(mentor.avatar, 'avatar', 'null') }}" width="40" alt="">
         <div class="sgt-text">
-          <h4>{{ mentor.name | titlecase }}</h4>
+          <h4>{{ shortenName( mentor.name ) | titlecase }}</h4>
           <span>{{ echoJobTitle(mentor.roleData.data, mentor.roleData.role) | titlecase }}</span>
         </div>
         <a [routerLink]="['/general-profile', mentor.slug]"><span><i class="la la-eye"></i></span></a>

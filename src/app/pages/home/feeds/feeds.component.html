@@ -152,8 +152,10 @@
                              
                              <div class="user-profy" ngxSlickItem *ngFor="let top of topProfiles">
                                 <img src="{{ checkValue(top.avatar, 'avatar', 'null') }}" width="50" class="rounded-circle" alt="">
-                                <h3>{{ top.name | titlecase }}</h3>
-                                <span>{{ echoJobTitle(top.roleData.data, top.roleData.role) }}</span>
+                                <div class="user-prop">
+                                  <h3 class="">{{ shortenName( top.name ) | titlecase }}</h3>
+                                  <span>{{ echoJobTitle(top.roleData.data, top.roleData.role) }}</span>
+                                </div>
                                 <ul>
                                   <li>
                                     <button *ngIf="!isFollowing(top.id) && top.id !== currentUser.id" (click)="followUser(top.id)" class="btn btn-simple btn-sm waves-effect">
@@ -217,7 +219,7 @@
                             </ngx-slick-carousel>
                         </div>
 
-                        <p class="post-content" [innerHtml]="feed.content | linkify | excerpt: 257"></p>
+                        <p class="post-content" [innerHtml]="feed.content | excerpt: 257"></p>
                           <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn-sm btn btn-round btn-white">read more</a>
                         </div>
 
@@ -329,9 +331,29 @@
             <div class="form-group">
               <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
             </div>
-            <div class="form-group">
-              <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea>
-            </div>
+             <!--  <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea> -->
+
+             <div class="">
+               <quill-editor 
+               [options]="editorConfig"
+               [(ngModel)]="content"  
+               [placeholder]="'Start typing your content...'">
+               <div quill-editor-toolbar>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                </span>
+                 <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <!-- <button class="ql-image"></button> -->
+                  </span>
+               </div>
+               </quill-editor>
+             </div>
           </div>
           <div class="modal-footer">
             <button type="button" (click)="submitArticlePost()" class="btn btn-sm btn-simple waves-effect">Publish</button>
@@ -364,7 +386,28 @@
                 <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
               </div>
               <div class="form-group">
-                <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea>
+               <!--  <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea> -->
+                <div class="">
+               <quill-editor 
+               [options]="editorConfig"
+               [(ngModel)]="content"  
+               [placeholder]="'Start typing your content...'">
+               <div quill-editor-toolbar>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                </span>
+                 <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <!-- <button class="ql-image"></button> -->
+                  </span>
+               </div>
+               </quill-editor>
+             </div>
               </div>
             </div>
             <div class="modal-footer">

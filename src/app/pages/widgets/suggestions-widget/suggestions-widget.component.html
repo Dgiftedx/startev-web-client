@@ -8,7 +8,7 @@
       <div class="suggestion-usd" *ngFor="let user of suggestions">
         <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="user.name" width="40">
         <div class="sgt-text">
-          <h4>{{ user.name | titlecase }}</h4>
+          <h4>{{ shortenName( user.name ) | titlecase }}</h4>
           <span>{{ echoJobTitle(user.roleData.data, user.roleData.role) | titlecase }}</span>
         </div>
         <a [routerLink]="['/general-profile', user.slug]"><span><i class="la la-eye"></i></span></a>

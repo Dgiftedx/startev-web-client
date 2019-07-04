@@ -1,3 +1,4 @@
+import { QuillModule } from 'ngx-quill'
 import { NgChatModule } from 'ng-chat';
 import { NgxPrintModule} from 'ngx-print';
 import { BaseService } from './_services';
@@ -222,7 +223,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      LightboxModule,
      SlickCarouselModule,
      FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
-     AngularEditorModule
+     AngularEditorModule,
+     QuillModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

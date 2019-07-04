@@ -34,6 +34,19 @@ export class SuggestionsWidgetComponent implements OnInit {
   ngOnInit() {
   }
 
+    //================ Name splitter & shotener ====================//
+  shortenName(name:string) {
+    let splitted = name.split(" ");
+
+    let firstName = splitted[0];
+
+    if (splitted[this.count(splitted) - 1]) {
+      return firstName + " " + splitted[this.count(splitted) - 1];
+    }
+
+    return firstName;
+  }
+
 
   // ============ check null item and return default as required =======//
 	checkValue(item:any,  type:string, nullValue:string) {

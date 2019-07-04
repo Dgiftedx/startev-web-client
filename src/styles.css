@@ -17,7 +17,8 @@
 /*------------- Plugins Css ----------------------*/
 @import "~ngx-toastr/toastr.css";
 @import "~ng-snotify/styles/material.css";
-/*@import "~ng-snotify/styles/simple";*/
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
 @import "~ladda/dist/ladda-themeless.min.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
