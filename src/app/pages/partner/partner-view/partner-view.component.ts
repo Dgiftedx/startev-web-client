@@ -18,6 +18,7 @@ export class PartnerViewComponent implements OnInit {
  currentUser : User;
  partner:any;
  similar:any = [];
+ sendingRequest:boolean = false;
 
  userIsPartner: any;
  venturePartners : any;
@@ -71,12 +72,16 @@ export class PartnerViewComponent implements OnInit {
   }
 
   applyToPartner( id: number ): void{
+
+    this.sendingRequest = true;
+    
     this.baseService.applyToPartner(id, this.currentUser.id, 'apply-to-partner')
     .subscribe(
 
       data => {
         this.userIsPartner = data;
         this.alert.snotSimpleSuccess("Application Submitted");
+        this.sendingRequest = false;
       }
 
      )
