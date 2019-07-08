@@ -27,6 +27,7 @@ import { ExcerptFilter } from './_filters/excerpt.filter';
 import { environment } from '../environments/environment';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -224,7 +225,8 @@ export const ngxDropTargetOptions: DropTargetOptions = {
      SlickCarouselModule,
      FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
      AngularEditorModule,
-     QuillModule
+     QuillModule.forRoot(),
+     InfiniteScrollModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 

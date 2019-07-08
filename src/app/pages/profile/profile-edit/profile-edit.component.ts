@@ -39,8 +39,8 @@ export class ProfileEditComponent implements OnInit {
 	//======= Dashboard Navigation ============//
 	public navigation: Array<any> = [
 
-	{id: 1, alias: "account", name: "Account Settings", icon: "la-cogs"},
-	{id: 2, alias: "platform_profile", name: "Platform Profile", icon: "fa-user"},
+	{id: 1, alias: "platform_profile", name: "Platform Profile", icon: "fa-user"},
+	{id: 2, alias: "account", name: "Account Setting", icon: "la-cogs"},
 	{id: 3, alias: "change_password", name: "Change Password", icon: "fa-lock"},
 	{id: 4, alias: "delete_account", name: "Delete Account", icon: "fa-random"},
 	];

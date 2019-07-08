@@ -15,8 +15,6 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 
 
-
-
 @Component({
   selector: 'app-feeds',
   templateUrl: './feeds.component.html',
@@ -60,7 +58,7 @@ export class FeedsComponent implements OnInit {
   public title : string = '';
   public post_type: string = '';
   public images: Array<any> = [];
-
+  public haltInfiniteScroll : boolean = false;
   public showCommentBox:boolean = false;
   public comment = {
     feedId: null,
@@ -92,12 +90,21 @@ export class FeedsComponent implements OnInit {
 
   feedSlideConfig = {"slidesToShow": 1, "slidesToScroll": 1, "autoplay": true, "autoplaySpeed": 3000};
 
-  editorConfig = {
-    format : 'html',
-    modules: {
-      toolbar: [],
-    }
+  editorConfig:any = {
+   toolbar: [
+     ['bold','italic','background','color'],
+     ['link']
+   ]
+  };
+
+  postEditorConfig:any = {
+    removePlugins : 'save,font'
   }
+
+
+  public hasMoreFeeds : boolean = true;
+  public currentPage : number;
+  public nextPage : number;
 
     constructor(
       private route : ActivatedRoute,
@@ -116,14 +123,20 @@ export class FeedsComponent implements OnInit {
 
       //check if user has store
       this.store.checkHasStore(this.currentUser.id).subscribe((x:boolean) => this.hasStore = x);
+
+
       //First push local feeds on load
       this.localFeedSubscription = feedService
       .getLocalFeeds()
       .subscribe((feed:any) => {
-        feed.forEach((item) => {
+         //process feeds pagination url
+         this.processPaginationUrl(feed);
+
+        feed.data.forEach((item) => {
           item.createdAt = new Date(item.createdAt);
           this.feeds.push(item);
-        })
+        });
+
       });
 
       //Push cuccurrent feeds
@@ -552,7 +565,7 @@ export class FeedsComponent implements OnInit {
       //effect the changes on server
       this.baseService.FeedManageAction(data, 'hide-feed')
       .subscribe(data => {
-        this.alert.snotSimpleSuccess("Feed hidden");
+        //feed hidden
       })
     }
 
@@ -569,8 +582,52 @@ export class FeedsComponent implements OnInit {
 
       this.baseService.FeedManageAction(data, 'delete-feed')
       .subscribe(data => {
-        this.alert.snotSimpleSuccess("feed has been removed");
+        //feed removed
       });
+    }
+
+
+
+
+    //============ Process pagination Url =======================//
+    processPaginationUrl(feed:any) {
+       this.currentPage = feed.current_page;
+        if (this.count(feed.next_page_url) > 0) {
+          let page = feed.next_page_url.split("page=")[1];
+          this.nextPage = parseInt(page);
+        }else{
+          this.nextPage = 0;
+        }
+    }
+
+    //================ Feeds Infinite scroll ===================//
+    onLoadMore() {
+      this.haltInfiniteScroll = true;
+
+      //if there is no page to load, halt callback
+      if (this.nextPage === 0) {
+        this.hasMoreFeeds = false;
+        return;
+      }
+
+      this.baseService.getFeeds(this.nextPage)
+      .subscribe((feed:any) => {
+        //process pagination url
+        this.processPaginationUrl(feed);
+
+        //load feeds
+        feed.data.forEach((item) => {
+          item.createdAt = new Date(item.createdAt);
+          this.feeds.push(item);
+        });
+
+        //enable infinite scroll.
+        setTimeout(() => {
+          this.haltInfiniteScroll = false;
+        }, 200);
+
+      });
+
     }
 
 

@@ -194,7 +194,11 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/single-mentor-profile/${slug}`).pipe(delay(500));
     }
 
-    public getFeeds(){
+    public getFeeds(page:any){
+        if (page) {
+            return this.http.get(`${this.endpoint}/get-feeds?page=${page}`);
+        }
+
         return this.http.get(`${this.endpoint}/get-feeds`);
     }
 

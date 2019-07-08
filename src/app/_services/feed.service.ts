@@ -58,6 +58,6 @@ export class FeedService {
 	}
 
 	getLocalFeeds() {
-		return this.baseService.getFeeds();
+		return this.baseService.getFeeds(null);
 	}
 }

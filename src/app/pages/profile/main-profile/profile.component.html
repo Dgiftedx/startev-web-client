@@ -128,7 +128,7 @@
 
                  <!-- content -->
                  <p class="post-content" 
-                 [innerHtml]="feed.content | linkify | excerpt: 257"></p>
+                 [innerHtml]="feed.content | excerpt: 257"></p>
 
                  <a 
                  *ngIf="isMore(feed.content, 257)" 
@@ -191,7 +191,7 @@
 
 <div *ngIf="selectedTab.id === profileTabs[1].id" class="product-feed-tab" id="feed-single-1" [class.current]="selectedTab.id === profileTabs[1].id">
 
-   <div class="" *ngIf="profile.role !== 'business'">
+   <div class="" *ngIf="(profile.role !== 'business') && (profile.role !== 'mentor')">
         <div class="user-profile-ov st2">
         <h3>Education Highlight</h3>
         <h4>Program: {{ profile.roleData.department }}</h4>
@@ -206,6 +206,39 @@
     </div><!--user-profile-ov end-->
 
    </div>
+
+    <div class="" *ngIf="profile.role === 'mentor'">
+       
+       <div class="" *ngIf="count(profile.roleData.education) > 0">
+            <h5 class="mb-2 text-center">Education Highlight</h5>
+
+            <div class="user-profile-ov st2" *ngFor="let edu of profile.roleData.education; let index = index">
+            <h4>Program: {{ edu.program | titlecase }}</h4>
+            <h6>Institution: {{ edu.institution | titlecase }}</h6>
+            <p>{{ edu.from_date | date:'mediumDate' }} - 
+                <span *ngIf="edu.till_present">Present</span>
+                <span *ngIf="edu.to_date">{{ edu.to_date | date: 'mediumDate' }}</span>
+             </p>
+        </div><!--user-profile-ov end-->
+       </div>
+
+
+
+       <div class="" *ngIf="count(profile.roleData.workExperience) > 0">
+            <h5 class="mb-2 text-center">Work Highlight</h5>
+
+            <div class="user-profile-ov st2" *ngFor="let work of profile.roleData.workExperience;">
+            <h4>Position: {{ work.position | titlecase }}</h4>
+            <h6>Company: {{ work.company | titlecase }}</h6>
+            <p>{{ work.location }}</p>
+            <p>{{ work.from_date | date:'mediumDate' }} - 
+                <span *ngIf="work.till_present">Present</span>
+                <span *ngIf="work.to_date">{{ work.to_date | date: 'mediumDate' }}</span>
+             </p>
+        </div><!--user-profile-ov end-->
+       </div>
+
+     </div>
 
 
    <div class="" *ngIf="profile.role === 'business'">
@@ -317,39 +350,47 @@ class="waves-effect">
 
 <div *ngIf="selectedTab.id === profileTabs[4].id" class="product-feed-tab" id="feed-single-4" [class.current]="selectedTab.id === profileTabs[4].id">
 
-  <div class="" *ngIf="profile.role != 'business'">
-       <div class="user-profile-ov st2" *ngFor="let partner of partners">
-    <h3>Partnerships</h3>
-    <h4>{{ partner.business.name  | titlecase }}</h4>
-    <h6>{{ partner.venture.venture_name | titlecase }}</h6>
-    <small>
-        <span class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
-        </span><br/>
-    </small>
-    <div class="alert alert-info p-2" *ngIf="partner.status === 'pending'">
-        Application is pending approval
-    </div>
-  </div>
-</div>
-
-  <div class="" *ngIf="profile.role === 'business'">
+ <div class="" *ngIf="count(partners) > 0">
+     
+     <div class="" *ngIf="profile.role !== 'business'">
+         <div class="user-profile-ov st2" *ngFor="let partner of partners">
         <h3>Partnerships</h3>
-        <br/>
-      <div class="user-profile-ov st2" *ngFor="let p of partners">
-        <h4>{{ p.user.name  | titlecase }}</h4>
-        <h6 class="mb-2">{{ p.venture.venture_name | titlecase }}</h6>
+        <h4>{{ partner.business.name  | titlecase }}</h4>
+        <h6>{{ partner.venture.venture_name | titlecase }}</h6>
         <small>
-            <span class="badge " [ngClass]="{'badge-success': p.status === 'accepted', 'badge-warning': p.status === 'pending', 'badge-danger': p.status ==='rejected'}">{{ p.status }}
+            <span class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
             </span><br/>
         </small>
+        <div class="alert alert-info p-2" *ngIf="partner.status === 'pending'">
+            Application is pending approval
+        </div>
+      </div>
+    </div>
 
-       <button 
-       *ngIf="p.status === 'pending'" 
-       (click)="acceptPartner(p)" 
-       class="btn btn-sm btn-simple waves-effect mb-2">Accept Partnership</button>
+    <div class="" *ngIf="profile.role === 'business'">
+          <h3>Partnerships</h3>
+          <br/>
+        <div class="user-profile-ov st2" *ngFor="let p of partners">
+          <h4>{{ p.user.name  | titlecase }}</h4>
+          <h6 class="mb-2">{{ p.venture.venture_name | titlecase }}</h6>
+          <small>
+              <span class="badge " [ngClass]="{'badge-success': p.status === 'accepted', 'badge-warning': p.status === 'pending', 'badge-danger': p.status ==='rejected'}">{{ p.status }}
+              </span><br/>
+          </small>
+
+          <div *ngIf="p.status !== 'pending'" class="alert alert-info" role="alert">Partnership accepted</div>
+         <button
+         *ngIf="p.status === 'pending'" 
+         (click)="acceptPartner(p)" 
+         class="btn btn-sm btn-simple waves-effect mb-2">Accept Partnership</button>
+    </div>
   </div>
-</div>
 
+
+ </div>
+ <div class="user-profile-ov st2" *ngIf="count(partners) === 0">
+   <p class="no-margin">You don't have any partnership at the moment.</p>
+ </div>
 
 </div>
 

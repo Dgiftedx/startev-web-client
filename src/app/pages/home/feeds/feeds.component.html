@@ -279,6 +279,15 @@
                     </div>
                   </div>
 
+                  <div class="process-comm" *ngIf="hasMoreFeeds">
+                      <div infiniteScroll
+                      [infiniteScrollDistance]="2"
+                      [infiniteScrollThrottle]="5"
+                      [infiniteScrollDisabled] = "haltInfiniteScroll"
+                      (scrolled)="onLoadMore()"><img src="/assets/images/process-icon.png" alt=""></div>
+                  </div>
+                  <!--process-comm end-->
+
                 </div>
               </div>
             </div>
@@ -331,27 +340,11 @@
             <div class="form-group">
               <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
             </div>
-             <!--  <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea> -->
-
              <div class="">
                <quill-editor 
-               [options]="editorConfig"
-               [(ngModel)]="content"  
-               [placeholder]="'Start typing your content...'">
-               <div quill-editor-toolbar>
-                <span class="ql-formats">
-                  <select class="ql-color"></select>
-                  <select class="ql-background"></select>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-bold"></button>
-                  <button class="ql-italic"></button>
-                </span>
-                 <span class="ql-formats">
-                    <button class="ql-link"></button>
-                    <!-- <button class="ql-image"></button> -->
-                  </span>
-               </div>
+               [modules]="editorConfig"
+               [placeholder]="'type something cool'"
+               [(ngModel)]="content">
                </quill-editor>
              </div>
           </div>
@@ -386,29 +379,15 @@
                 <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
               </div>
               <div class="form-group">
-               <!--  <textarea [(ngModel)]="content" rows="5" class="form-control" placeholder="What do you want to talk about"></textarea> -->
+               
                 <div class="">
-               <quill-editor 
-               [options]="editorConfig"
-               [(ngModel)]="content"  
-               [placeholder]="'Start typing your content...'">
-               <div quill-editor-toolbar>
-                <span class="ql-formats">
-                  <select class="ql-color"></select>
-                  <select class="ql-background"></select>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-bold"></button>
-                  <button class="ql-italic"></button>
-                </span>
-                 <span class="ql-formats">
-                    <button class="ql-link"></button>
-                    <!-- <button class="ql-image"></button> -->
-                  </span>
+                 <quill-editor 
+                   [modules]="editorConfig"
+                   [(ngModel)]="content">
+                  </quill-editor>
                </div>
-               </quill-editor>
-             </div>
               </div>
+
             </div>
             <div class="modal-footer">
               <div class="float-left modal-image-container">

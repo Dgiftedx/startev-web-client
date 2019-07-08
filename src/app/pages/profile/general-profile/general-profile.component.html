@@ -121,7 +121,7 @@
 
                          <!-- content -->
                          <p class="post-content" 
-                         [innerHtml]="feed.content | linkify | excerpt: 257"></p>
+                         [innerHtml]="feed.content | excerpt: 257"></p>
 
                          <a 
                          *ngIf="isMore(feed.content, 257)" 
