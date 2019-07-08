@@ -512,7 +512,7 @@ export class FeedsComponent implements OnInit {
         return;
       }
 
-      this.alert.infoMsg("Processing your post....","Processing");
+      // this.alert.infoMsg("Processing your post....","Processing");
 
       let formData = new FormData();
       formData.append('post_type',this.post_type);
