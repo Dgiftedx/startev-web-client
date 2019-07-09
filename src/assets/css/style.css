@@ -1883,6 +1883,10 @@ main {
 .sgt-text {
     float: left;
     padding-left: 10px;
+    margin-right: 10px;
+    width: 55%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 .sgt-text h4 {
     color: #000000;

@@ -172,9 +172,6 @@ export class ProfileEditComponent implements OnInit {
 
 		this.studentForm = this.formBuilder.group({
 			institution: ['', Validators.required],
-			faculty: ['', Validators.required],
-			department: ['', Validators.required],
-			level: ['', Validators.required],
 			careerPath: [''],
 			secondaryCP: ['']
 		});
@@ -267,7 +264,7 @@ export class ProfileEditComponent implements OnInit {
 		this.toggleDisableState();
 
 		//Set role based form values
-		if (this.profileData.role === 'student') {
+		if (this.profileData.role === 'student' || this.profileData.role === 'graduate') {
 			this.setStudentFormFields();
 		}
 
@@ -288,9 +285,9 @@ export class ProfileEditComponent implements OnInit {
 
 	setStudentFormFields(){
 		this.studentForm.get('institution').setValue(this.roleData.institution);
-		this.studentForm.get('faculty').setValue(this.roleData.faculty);
-		this.studentForm.get('department').setValue(this.roleData.department);
-		this.studentForm.get('level').setValue(this.roleData.level);
+		// this.studentForm.get('faculty').setValue(this.roleData.faculty);
+		// this.studentForm.get('department').setValue(this.roleData.department);
+		// this.studentForm.get('level').setValue(this.roleData.level);
 
 		let career1 = this.findStackByName(this.careerPaths, this.roleData.careerPath);
 		let career2 = this.findStackByName(this.careerPaths, this.roleData.secondaryCP);
@@ -463,7 +460,7 @@ export class ProfileEditComponent implements OnInit {
 		//update
 		this.authenticationService.setUserData(update);
 
-		if (this.roleData.role === 'student') {
+		if (this.roleData.role === 'student' || this.roleData.role === 'graduate') {
 			//update form fields
 			this.setStudentFormFields();
 		}
@@ -727,7 +724,7 @@ export class ProfileEditComponent implements OnInit {
 					this.alert.successMsg("Your profile has been updated","Account Update Successful");
 				},
 				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
+					this.alert.errorMsg(error, "Error");
 					this.userFormLoading = false;
 				});
 
@@ -745,17 +742,17 @@ export class ProfileEditComponent implements OnInit {
 
 			this.studentFormLoading = true;
 
-			this.baseService.updateUserData(this.studentForm.value, 'update-student-data', this.user.id)
+			this.baseService.updateUserData(this.studentForm.value, 'update-student-data/'+this.profile.role, this.user.id)
 			.pipe(first())
 			.subscribe(
-				data => {
+				(data :any) => {
 					// Update user data
 					this.studentFormLoading = false;
 					this.handleRoledataResponse(data);
 					this.alert.successMsg("Your profile has been updated","Account Update Successful");
 				},
 				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
+					this.alert.errorMsg(error, "Error");
 					this.studentFormLoading = false;
 				});
 

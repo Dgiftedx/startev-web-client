@@ -18,11 +18,10 @@
                         *ngIf="profileData.role ==='student' || profileData.role ==='graduate'">{{ currentUser.name }}</h3>
 
                         <h3 
-                        *ngIf="profileData.role !=='student'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
+                        *ngIf="profileData.role !=='student' && profileData.role !== 'graduate'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
                                    
                         <span *ngIf="profileData.role === 'student' || profileData.role === 'graduate'">
-                          <span *ngIf="profileData.roleData.institution"> Student at {{ profileData.roleData.institution }}</span>
-                          <span *ngIf="!profileData.roleData.institution"> in Africa</span>
+                          <span *ngIf="profileData.roleData.institution">{{ profileData.roleData.institution }}</span>
                         </span>
 
                         <span *ngIf="profileData.role === 'mentor'">
@@ -193,9 +192,7 @@
 
    <div class="" *ngIf="(profile.role !== 'business') && (profile.role !== 'mentor')">
         <div class="user-profile-ov st2">
-        <h3>Education Highlight</h3>
-        <h4>Program: {{ profile.roleData.department }}</h4>
-        <h6>Faculty: {{ profile.roleData.faculty }}</h6>
+        <h3>Institution</h3>
         <p>{{ profile.roleData.institution }}</p>
 
         <h4>Primary Career Path</h4>

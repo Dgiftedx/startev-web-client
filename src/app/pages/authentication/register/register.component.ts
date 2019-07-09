@@ -51,8 +51,6 @@ export class RegisterComponent implements OnInit {
 	ngOnInit() {
 		this.registrationForm = this.formBuilder.group({
 			name : ['', Validators.required ],
-			username: ['', Validators.required],
-			phone : ['', Validators.required ],
 			email : ['', Validators.required ],
 			password : ['', [Validators.required, Validators.minLength(6)]],
 			confirmPassword : ['', Validators.required],
@@ -60,6 +58,13 @@ export class RegisterComponent implements OnInit {
 			role : ['']
 		}, {validator : MustMatch('password','confirmPassword')});
 		this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+	}
+
+
+
+
+	changeAccessType() {
+		// console.log(this.registrationForm.controls['role'].value);
 	}
 
 	get f(){

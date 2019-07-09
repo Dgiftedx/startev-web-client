@@ -1,29 +1,33 @@
-<div class="authentication parallax">
-  <div id="logo-container"> 
-
-    <div class="logo-container-inner"> 
-     <img src="assets/images/logo-auth.png" class="auth-logo slideDown" />
-     <h6 style="color:#fff !important;" class="slideDown">An online community for African students and young graduates to connect, learn,<br/> exchange ideas and launch their entrepreneurial or professional journey</h6>
-   </div>
-
- </div>
- <div class="container">
-  <div class="col-md-12 content-center">
-    <div class="row clearfix"> 
-      <div class="col-lg-8 col-md-12 offset-lg-2">
-      	 <div class="card-plain feeds-container fadeIn">
-      <div class="header" *ngIf="successMsg">
-          <h5 class="text-info rigid">Your Email has already been verified. Please Login</h5>
+<div class="login-6">
+  <div class="container">
+    <div class="col-md-12 pad-0">
+      <div class="row login-box-6">
+        <div class="col-lg-5 col-md-12 col-sm-12 col-pad-0 bg-img align-self-center none-992">
+          <div class="row">
+            <div class="col-12">
+              <a href="#">
+                <img src="assets/images/logo-auth.png" class="logo" alt="logo">
+              </a>
+            </div>
+            <div class="col-12">
+              <p>An online community for African students and young graduates to connect, learn,<br/> exchange ideas and launch their entrepreneurial or professional journey</p>
+              <a href="https://startev.africa" target="_self" class="btn-outline">Go Home</a>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-lg-7 col-md-12 col-sm-12 col-pad-0 align-self-center">
+          <div class="login-inner-form">
+            <div class="details">
+                  <h5 
+                  *ngIf="successMsg" class="text-info rigid">Your Email has already been verified. Please Login</h5>
+              <a [routerLink]="['login']" class="btn btn-round btn-primary btn-sm">Go back</a>
+              <br/>
+              <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <a [routerLink]="['login']" class="btn btn-round btn-warning btn-sm">Go back</a>
-      <br/>
-      <div *ngIf="error" class="alert alert-danger">{{error}}</div>  
+    </div>
   </div>
-</div>
-</div>
-</div>
-</div>
-<div class="footer-text">
-  <p>All Rights Reserved.<br/> Startev &copy; 2019</p>
-</div>
 </div>

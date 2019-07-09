@@ -94,7 +94,7 @@ export class VentureDashboardComponent implements OnInit {
   }
 
   hasAccess() {
-    return this.profile.role !== 'student'?false:true;
+    return this.profile.role !== 'student' && this.profile.role !== 'graduate'?false:true;
   }
 
 }

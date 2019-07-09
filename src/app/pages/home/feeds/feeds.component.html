@@ -23,11 +23,10 @@
                         *ngIf="profileData.role ==='student' || profileData.role ==='graduate'">{{ currentUser.name }}</h3>
 
                         <h3 
-                        *ngIf="profileData.role !=='student'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
+                        *ngIf="profileData.role !=='student' && profileData.role !== 'graduate'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
 
                         <span *ngIf="profileData.role === 'student' || profileData.role === 'graduate'">
-                          <span *ngIf="profileData.roleData.institution">{{ profileData.roleData.institution }}</span>
-                          <span>{{ currentUser.state }}, {{ currentUser.country }}</span>
+                          <span class="text-justify p-4" *ngIf="profileData.roleData.institution">{{ profileData.roleData.institution }}</span>
                         </span>
                         <br/>
                         
@@ -69,7 +68,7 @@
                          class="waves-effect"> Open Store Manager</a>
                       </li>
 
-                      <li *ngIf="profile.role ==='student'">
+                      <li *ngIf="profile.role ==='student' || profile.role === 'graduate'">
                          <a
                           *ngIf="hasStore"
                           [routerLink]="['/venture-dashboard']" 

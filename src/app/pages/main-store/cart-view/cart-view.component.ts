@@ -63,6 +63,7 @@ export class CartViewComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		//
 	}
 
 	ngAfterViewInit(){
