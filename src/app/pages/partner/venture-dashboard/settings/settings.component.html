@@ -91,7 +91,7 @@
                       [readonly]="true"
                       placeholder="Store url" 
                       class="form-control" [(ngModel)]="store_url">
-                      <button *ngIf="!settings.store_url" (click)="generateStoreUrl(settings.identifier)" class="btn">generate url</button>
+                      <button *ngIf="!settings.store_url || settings.store_url === 'null'" (click)="generateStoreUrl(settings.identifier)" class="btn">generate url</button>
                   </div>
 
                   <div class="form-group form-check mt-2">
@@ -116,11 +116,10 @@
                    <div class="form-group">
                     <label>Account Number</label>
                       <input 
-                      type="number" 
+                      type="text"
                       placeholder="Your Account Number" 
                       class="form-control" [(ngModel)]="account_number">
                   </div>
-
                   
                 <div class="mt-2 p-3">
                      <div class="float-left">

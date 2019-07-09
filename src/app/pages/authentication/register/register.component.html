@@ -18,7 +18,7 @@
         </div>
         <div class="col-lg-7 col-md-12 col-sm-12 col-pad-0 align-self-center">
           <div class="login-inner-form">
-            <div class="details">
+            <div class="details" *ngIf="showMain">
               <h3>Sign Up</h3>
               <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">                            
                 
@@ -122,17 +122,15 @@
             
           </div>
 
-          <div class="card-plain feeds-container fadeIn" *ngIf="showAfterRegister">
-            <div class="header">
-              <h5 class="text-success rigid">Password Confirmation Mail Sent</h5>
-            </div>
+          <div class="details fadeIn" *ngIf="showAfterRegister">
+            <h3>Password Confirmation Mail Sent</h3>
             <div class="form-group">
               <input type="email" [readonly]="returnedMail" [(ngModel)]="returnedMail" class="form-control" />
             </div>
-            <a [routerLink]="['login']" class="btn btn-round btn-warning btn-sm">Go back</a>
+            <a [routerLink]="['login']" class="btn btn-round btn-primary btn-sm">Go back</a>
 
             You didn't get it ? 
-            <button type="button" (click)="resendMail()" [ladda]="sendingResendMailLadda" class="btn btn-round btn-sm btn-warning">Resend</button>
+            <button type="button" (click)="resendMail()" [ladda]="sendingResendMailLadda" class="btn btn-round btn-sm btn-primary">Resend</button>
             <br/>
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>  
           </div>

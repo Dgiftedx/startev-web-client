@@ -209,43 +209,6 @@ export class SettingsComponent implements OnInit {
   }
 
 
-  validateFields(formValues:any){
-  	let errorTitle = "Store Settings Error";
-
-
-  	// Validate store name
-  	if (this.count(formValues.store_name) === 0 || this.count(formValues.store_name) < 8) {
-  		this.alert.errorMsg("Store name too short or not defined. Please check the form",errorTitle);
-  		return;
-  	}
-
-
-  	// Validate store url
-  	if (this.count(formValues.store_url) === 0) {
-  		this.alert.errorMsg("You haven't generate your store url. Please generate url.",errorTitle);
-  		return;
-  	}
-
-  	// validate bank name
-  	if (this.count(formValues.bank_name) === 0 || this.count(formValues.bank_name) < 3) {
-  		this.alert.errorMsg("Please enter a valid bank full name. Please check",errorTitle);
-  		return;
-  	}
-
-  	// validate account name
-  	if (this.count(formValues.account_name) === 0) {
-  		this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name",errorTitle);
-  		return;
-  	}
-
-  	// Validate account number
-  	if (this.count(formValues.account_number.toString()) < 10) {
-  		this.alert.errorMsg("Please enter a valid account number.",errorTitle);
-  		return false;
-  	}
-
-  }
-
   saveModifications(){
   	let values = {
   		store_name: this.store_name,
@@ -257,8 +220,39 @@ export class SettingsComponent implements OnInit {
   		account_number: this.account_number
   	};
 
-  	// first validate the form fields
-  	this.validateFields(values);
+    let errorTitle = "Store Settings Error";
+
+
+    // Validate store name
+    if (this.count(this.store_name) === 0 || this.count(this.store_name) < 8) {
+      this.alert.errorMsg("Store name too short or not defined. Please check the form",errorTitle);
+      return;
+    }
+
+
+    // Validate store url
+    if (this.count(this.store_url) === 0) {
+      this.alert.errorMsg("You haven't generate your store url. Please generate url.",errorTitle);
+      return;
+    }
+
+    // validate bank name
+    if (this.count(this.bank_name) === 0 || this.count(this.bank_name) < 3) {
+      this.alert.errorMsg("Please enter a valid bank full name. Please check",errorTitle);
+      return;
+    }
+
+    // validate account name
+    if (this.count(this.account_name) === 0) {
+      this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name",errorTitle);
+      return;
+    }
+
+    // Validate account number
+    if (this.count(this.account_number.toString()) < 10 || isNaN(this.account_number)) {
+      this.alert.errorMsg("Please enter a valid account number.",errorTitle);
+      return;
+    }
 
   	this.sendingForm = true;
 
@@ -267,7 +261,7 @@ export class SettingsComponent implements OnInit {
 
   	//send Form
   	this.storeService.saveStoreSettings(this.currentUser.id, formData)
-  	.subscribe(data => {this.settings = data; this.sendingForm = false; this.alert.snotSuccess("Your Store has been updated.")});
+  	.subscribe(data => {this.settings = data; this.sendingForm = false; this.alert.snotSimpleSuccess("Your Store has been updated.")});
   }
 
 }
