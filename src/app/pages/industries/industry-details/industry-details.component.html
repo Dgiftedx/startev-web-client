@@ -48,8 +48,7 @@
                       </div><!--username-dt end-->
                       <div class="user-specs">
                         <h3>{{ mentor.name }}</h3>
-
-                        <span>{{ mentor.mentor.current_job_position?mentor.mentor.current_job_position:'Mentor' }}</span>
+                        <span>{{ echoMentorField(mentor) }}</span>
 
                       </div>
                     </div><!--user-profile end-->
@@ -92,12 +91,12 @@
 	                      </div>
 	                    </div><!--user-profile end-->
 	                    <ul class="user-fw-status">
-                    	<li>
+                    	<!-- <li>
                 		<button type="button" (click)="goToVentures()" 
 							class="btn btn-block btn-white btn-sm waves-effect">
 								View Ventures
 						</button>
-                    	</li>
+                    	</li> -->
 		                  <li>
 		                    <a class="waves-effect" [routerLink]="">Services: {{ count(mentor.business.services) }}</a>
 	                      </li>

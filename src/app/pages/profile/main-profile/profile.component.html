@@ -206,33 +206,17 @@
 
     <div class="" *ngIf="profile.role === 'mentor'">
        
-       <div class="" *ngIf="count(profile.roleData.education) > 0">
-            <h5 class="mb-2 text-center">Education Highlight</h5>
-
-            <div class="user-profile-ov st2" *ngFor="let edu of profile.roleData.education; let index = index">
-            <h4>Program: {{ edu.program | titlecase }}</h4>
-            <h6>Institution: {{ edu.institution | titlecase }}</h6>
-            <p>{{ edu.from_date | date:'mediumDate' }} - 
-                <span *ngIf="edu.till_present">Present</span>
-                <span *ngIf="edu.to_date">{{ edu.to_date | date: 'mediumDate' }}</span>
-             </p>
-        </div><!--user-profile-ov end-->
+       <div class="user-profile-ov st2">
+         <h3>Job Title</h3>
+         <p *ngIf="profile.roleData.current_job_position">{{ profile.roleData.current_job_position }}</p>
+         <p *ngIf="!profile.roleData.current_job_position">Please update your job title</p>
        </div>
 
 
-
-       <div class="" *ngIf="count(profile.roleData.workExperience) > 0">
-            <h5 class="mb-2 text-center">Work Highlight</h5>
-
-            <div class="user-profile-ov st2" *ngFor="let work of profile.roleData.workExperience;">
-            <h4>Position: {{ work.position | titlecase }}</h4>
-            <h6>Company: {{ work.company | titlecase }}</h6>
-            <p>{{ work.location }}</p>
-            <p>{{ work.from_date | date:'mediumDate' }} - 
-                <span *ngIf="work.till_present">Present</span>
-                <span *ngIf="work.to_date">{{ work.to_date | date: 'mediumDate' }}</span>
-             </p>
-        </div><!--user-profile-ov end-->
+       <div class="user-profile-ov st2">
+         <h3>Organization</h3>
+         <p *ngIf="profile.roleData.organization">{{ profile.roleData.organization }}</p>
+         <p *ngIf="!profile.roleData.organization"> Please update your organization </p>
        </div>
 
      </div>
@@ -240,7 +224,7 @@
 
    <div class="" *ngIf="profile.role === 'business'">
        <div class="user-profile-ov">
-            <h3>Overview</h3>
+            <h3>About</h3>
             <p>
                 {{ profile.roleData.description }}
             </p>

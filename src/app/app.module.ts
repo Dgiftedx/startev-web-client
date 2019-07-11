@@ -111,6 +111,7 @@ import { KnowledgeHubBusinessManagementComponent } from './pages/knowledge-hub/k
 import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
 import { UserManageProductsComponent } from './pages/partner/venture-dashboard/user-manage-products/user-manage-products.component';
 import { CareerFieldsComponent } from './pages/widgets/career-fields/career-fields.component';
+import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -119,6 +120,21 @@ export const ngxDropTargetOptions: DropTargetOptions = {
   multiple: true,
   accept: [MineTypeEnum.Image]
 };
+
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  fgsColor: '#4596c8',
+  bgsPosition: "bottom-center",
+  bgsSize: 40,
+  fgsType: SPINNER.ballSpin, // foreground spinner type
+  pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
+  pbColor: "#C90C0C",
+  overlayColor: "rgba(255,255,255, 1)",
+  pbThickness: 5, // progress bar thickness
+};
+
+
+
 
 @NgModule({
   declarations: [
@@ -203,6 +219,10 @@ export const ngxDropTargetOptions: DropTargetOptions = {
         spinnerSize: 35,
         spinnerLines: 15
     }),
+    NgxUiLoaderModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderRouterModule,
+    NgxUiLoaderRouterModule.forRoot({ showForeground: true }),
      OwlDateTimeModule,
      OwlNativeDateTimeModule,
      ImageCropperModule,

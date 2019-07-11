@@ -28,13 +28,9 @@ export class ProfileEditComponent implements OnInit {
 	public selectedServices: Array<any> = [];
 	public mentorCareerInterest: Array<any> = [];
 
-	employmentState: Array<any> = [
-	{id: 1, name: "Employed", alias: "employed"},
-	{id: 2, name: "Unemployed", alias: "unemployed"},
-	{id: 3, name: "Own a Business", alias: "own_business"},
-	{id: 4, name: "Retired", alias: "retired"},
-	];
-
+	//================ Verification ============//
+	public documentType: string;
+	public documentFile : any = {};
 
 	//======= Dashboard Navigation ============//
 	public navigation: Array<any> = [
@@ -43,6 +39,15 @@ export class ProfileEditComponent implements OnInit {
 	{id: 2, alias: "account", name: "Account Setting", icon: "la-cogs"},
 	{id: 3, alias: "change_password", name: "Change Password", icon: "fa-lock"},
 	{id: 4, alias: "delete_account", name: "Delete Account", icon: "fa-random"},
+	];
+
+	//======= Dashboard Navigation ============//
+	public documentTypes: Array<any> = [
+
+	{id: 1, alias: "internation_passport", name: "International Passport"},
+	{id: 2, alias: "voters_card", name: "Permanent Voter's Card"},
+	{id: 3, alias: "driver_license", name: "Driver's License"},
+	{id: 4, alias: "others", name: "Others"},
 	];
 
 
@@ -65,8 +70,8 @@ export class ProfileEditComponent implements OnInit {
 
 	industryForm: FormGroup;
 
-	workExperience: FormArray;
-	education: FormArray;
+	// workExperience: FormArray;
+	// education: FormArray;
 	services: FormArray;
 	social_handle: FormArray;
 
@@ -119,28 +124,6 @@ export class ProfileEditComponent implements OnInit {
 	imageChangedEvent: any = '';
 	croppedImage: any = '';
 
-	createWorkExperienceItems(): FormGroup {
-		return this.formBuilder.group({
-			company: '',
-			position: '',
-			location: '',
-			from_date: '',
-			to_date: '',
-			till_present: ''
-		});
-	}
-
-
-	createEducationItems(): FormGroup {
-		return this.formBuilder.group({
-			institution: '',
-			program: '',
-			from_date: '',
-			to_date: '',
-			till_present: ''
-		});
-	}
-
 	createSocialHandle(): FormGroup{
 		return this.formBuilder.group({
 			name: '',
@@ -163,11 +146,9 @@ export class ProfileEditComponent implements OnInit {
 		});
 
 		this.mentorForm = this.formBuilder.group({
-			employmentStatus : [''],
 			total_trainee: [0],
-			workExperience : this.formBuilder.array([this.createWorkExperienceItems()]),
-			education: this.formBuilder.array([this.createEducationItems()]),
-			current_job_position : ['']
+			current_job_position : ['', Validators.required],
+			organization : ['', Validators.required]
 		});
 
 		this.studentForm = this.formBuilder.group({
@@ -207,6 +188,44 @@ export class ProfileEditComponent implements OnInit {
 
 	ngAfterViewInit(){
 		this.cdr.detectChanges();
+	}
+
+
+	uploadVerDocument(document:any) {
+		this.documentFile = document.files;
+	}
+
+
+	submitVerificationRequest() {
+		
+		if (_.size(this.documentType) === 0) {
+			this.alert.errorMsg("Please select a document type", "Submission Error");
+			return;
+		}
+
+		if (_.size(this.documentFile) === 0) {
+			this.alert.errorMsg("Please upload your document", "Submission Error");
+			return;
+		}
+
+
+
+		//submit verification document
+		let formData = new FormData();
+
+		formData.append('document_type', this.documentType);
+		formData.append('document_file', this.documentFile[0]);
+		formData.append('user_id', this.currentUser.id);
+		formData.append('role', this.profile.role);
+
+		this.baseService.sendVerDoc(formData)
+		.subscribe( (data : any) => {
+			this.alert.snotSimpleSuccess(data.message);
+			this.profile.roleData = data.roleData.data;
+		}, 
+		(error : any) => {
+			this.alert.infoMsg(error.error, "Information");
+		});
 	}
 
 
@@ -285,10 +304,6 @@ export class ProfileEditComponent implements OnInit {
 
 	setStudentFormFields(){
 		this.studentForm.get('institution').setValue(this.roleData.institution);
-		// this.studentForm.get('faculty').setValue(this.roleData.faculty);
-		// this.studentForm.get('department').setValue(this.roleData.department);
-		// this.studentForm.get('level').setValue(this.roleData.level);
-
 		let career1 = this.findStackByName(this.careerPaths, this.roleData.careerPath);
 		let career2 = this.findStackByName(this.careerPaths, this.roleData.secondaryCP);
 
@@ -304,30 +319,6 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
-	mockEducationItems(data:any): FormGroup {
-		
-		return this.formBuilder.group({
-			institution: data.institution,
-			program: data.program,
-			from_date: data.from_date? new Date(data.from_date) : '',
-			to_date: data.to_date? new Date(data.to_date) : '',
-			till_present: data.till_present
-		});
-	}
-
-
-	mockWorkExperienceItems(data:any): FormGroup {
-		return this.formBuilder.group({
-			company: data.company,
-			position: data.position,
-			location: data.location,
-			from_date: data.from_date? new Date(data.from_date) : '',
-			to_date: data.to_date ? new Date(data.to_date) : '',
-			till_present: data.till_present
-		});
-	}
-
-
 	mockSocialHandle(data:any): FormGroup{
 		return this.formBuilder.group({
 			name: data.name,
@@ -336,39 +327,8 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 	setMentorFormFields(){
-		this.mentorForm.get('employmentStatus').setValue(this.roleData.employmentStatus);
 		this.mentorForm.get('current_job_position').setValue(this.roleData.current_job_position);
-
-		if (_.size(this.roleData.workExperience) > 0) {
-			let experienceArray: FormArray = this.mentorForm.get('workExperience') as FormArray;
-			experienceArray.removeAt(0);
-
-			this.roleData.workExperience.forEach((item, index) => {
-				experienceArray.push(this.mockWorkExperienceItems(item));
-			});
-
-			//detect DOM changes
-			setTimeout(() => {
-				this.cdr.detectChanges();
-			}, 200);
-		}
-
-
-		if (_.size(this.roleData.education) > 0) {
-
-			let educationArray: FormArray = this.mentorForm.get('education') as FormArray;
-			educationArray.removeAt(0);
-
-			this.roleData.education.forEach((item, index) => {
-				educationArray.push(this.mockEducationItems(item));
-			});
-
-			//detect DOM changes
-			setTimeout(() => {
-				this.cdr.detectChanges();
-			}, 200);
-		}
-
+		this.mentorForm.get('organization').setValue(this.roleData.organization);
 	}
 
 
@@ -498,28 +458,12 @@ export class ProfileEditComponent implements OnInit {
 
 
 	handleUpdatedUserIndustry(data : any){
-		// this.industryForm = this.formBuilder.group({
-			// 	industries : [data.industries]
-			// });
 			this.industryForm.get('industries').setValue(this.user.industries);
 		}
 
 
 		get profile(){
 			return this.profileData;
-		}
-
-		//Add new mentor work experience
-		public addworkExperience(): void {
-			this.workExperience = this.mentorForm.get('workExperience') as FormArray;
-			this.workExperience.push(this.createWorkExperienceItems());
-		}
-
-
-		//Add new mentor education background
-		addEducation(): void {
-			this.education = this.mentorForm.get('education') as FormArray;
-			this.education.push(this.createEducationItems());
 		}
 
 		//Add new business social handle
@@ -531,17 +475,6 @@ export class ProfileEditComponent implements OnInit {
 		//return a new object of added tag
 		addTag(name){
 			return {name: name, tag: true}
-		}
-
-
-		// remove work experience from group
-		removeWorkExperience(index) {
-			this.workExperience.removeAt(index);
-		}
-
-		// remove work education from group
-		removeEducation(index) {
-			this.education.removeAt(index);
 		}
 
 		// remove work education from group
@@ -854,10 +787,6 @@ export class ProfileEditComponent implements OnInit {
 		}
 
 
-
-
-
-
 		//=========================== Delete Account ===============================//
 
 		handleDeletionResponse( data:any ):void {
@@ -888,7 +817,7 @@ export class ProfileEditComponent implements OnInit {
 
 		//=============================== Upgrade Student Account ==========================//
 		upgradeAccount():void {
-			console.log(this.currentUser.id);
+			// console.log(this.currentUser.id);
 		}
 
 	}

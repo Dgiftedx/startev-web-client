@@ -41,30 +41,23 @@ export class BaseService {
             if (roleData.institution) {
                 return roleData.institution;
             }else{
-                return role;
+                return '';
             }
         }
 
         if (role === 'mentor') {
 
-            if (roleData.employmentStatus === 'Own a Business') {
-                return 'Business Owner';
-            }
-
-            if (roleData.employmentStatus === 'Employed' && _.size(roleData.workExperience) > 0) {
-                let presentWork;
-
-                roleData.workExperience.forEach((experience, index) => {
-                    if (experience.till_present) {
-                        presentWork = roleData.workExperience[index];
-                    }
-                });
-
-                if(!presentWork)
-                    return 'Owner';
-                return presentWork.position;
+            if ( _.size(roleData.current_job_position) > 0 && _.size(roleData.organization) > 0 ) {
+               return roleData.current_job_position + " at " + roleData.organization;
             }else{
-                return role;
+                
+                if (_.size(roleData.curent_job_position)) {
+                    return roleData.current_job_position;
+                }else if(_.size(roleData.organization)){
+                    return roleData.organization;
+                }else{
+                    return "";
+                }
             }
         }
 
@@ -72,9 +65,14 @@ export class BaseService {
             if (roleData.name) {
                 return roleData.name;
             }else{
-                return "New User";
+                return "";
             }
         }
+    }
+
+
+     public sendVerDoc(formData: any){
+        return this.http.post<any>(`${this.endpoint}/submit-verification`, formData);
     }
 
     public fetchIndustries(){

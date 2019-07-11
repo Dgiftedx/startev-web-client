@@ -20,26 +20,16 @@
                       </div><!--username-dt end-->
                       <div class="user-specs">
                         <h3 
-                        *ngIf="profileData.role ==='student' || profileData.role ==='graduate'">{{ currentUser.name }}</h3>
+                        *ngIf="profileData.role !== 'business'">{{ currentUser.name }}</h3>
 
                         <h3 
-                        *ngIf="profileData.role !=='student' && profileData.role !== 'graduate'">{{ echoJobTitle(profileData.roleData, profileData.role) }}</h3>
+                        *ngIf="profileData.role === 'business' && profile.roleData.name">{{ profile.roleData.name }}</h3>
 
-                        <span *ngIf="profileData.role === 'student' || profileData.role === 'graduate'">
-                          <span class="text-justify p-4" *ngIf="profileData.roleData.institution">{{ profileData.roleData.institution }}</span>
+                        <span>
+                          {{ echoJobTitle(profileData.roleData, profileData.role) }}
                         </span>
                         <br/>
-                        
-
-                        <span *ngIf="profileData.role === 'mentor'">
-
-                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Mentor on Startev
-
-                         </span>
-
-                        <span  *ngIf="profileData.role === 'business'">
-                          <span *ngIf="currentUser.email_verified_at"> Verified</span> Business on Startev
-                        </span>
+                      
 
                       </div>
                     </div><!--user-profile end-->

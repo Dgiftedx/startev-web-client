@@ -80,6 +80,25 @@ export class IndustryDetailsComponent implements OnInit {
   }
 
 
+  
+  echoMentorField(mentor:any){
+
+      if ( _.size(mentor.mentor.current_job_position) > 0 && _.size(mentor.mentor.organization) > 0 ) {
+         return mentor.mentor.current_job_position + " at " + mentor.mentor.organization;
+      }else{
+          
+          if (_.size(mentor.mentor.curent_job_position)) {
+              return mentor.mentor.current_job_position;
+          }else if(_.size(mentor.mentor.organization)){
+              return mentor.mentor.organization;
+          }else{
+              return "";
+          }
+      }
+  }
+
+
+
   // ============ check null item and return default as required =======//
   checkValue(item:any,  type:string, nullValue:string) {
     if (type === 'text') {

@@ -169,6 +169,51 @@
               </div>
 
                <div *ngIf="selectedNavigation.alias === 'platform_profile'">
+
+
+                <div class="card mb-5">
+                 <div class="card-header">
+                   <h2><strong>Account Verification</strong></h2>
+                 </div>
+
+                 <div class="card-body" *ngIf="(role === 'business' || role === 'mentor') && profile.roleData.verified === 0">
+
+                  <div class="alert alert-info" *ngIf="profile.roleData.verification_status === 'pending'">
+                    Your account verification is under processing.
+                  </div>
+
+                  <div class="alert alert-success" role="alert" *ngIf="profile.roleData.verification_status === 'accepted'">
+                     Account <strong class="rigid">Verified</strong>
+                   </div>
+
+                   <div class="" *ngIf="profile.roleData.verification_status === 'none'">
+                     <div class="form-group">
+                     <label class="mb-2">Document Type</label>
+                     <ng-select [items]="documentTypes"
+                               bindLabel="name"
+                               bindValue="name"
+                               placeholder="select document type"
+                               [(ngModel)]="documentType">
+                    </ng-select>
+                   </div>
+
+                   <div class="form-group">
+                     <label class="mb-2">Upload document</label>
+                     <input #document (change)="uploadVerDocument(document)" type="file" class="form-control">
+                   </div>
+
+                   <button type="button" (click)="submitVerificationRequest()" class="btn btn-sm btn-primary btn-round waves-effect">Submit</button>
+
+                   </div>
+
+
+                 </div>
+
+              
+                </div>
+
+
+
                 <div class="card mb-5" *ngIf="role !== 'business'">
                     <div class="card-header">
                         <h2><strong>Platform</strong> Settings</h2>
@@ -233,102 +278,24 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label>Maximum Mentees You Wish To Mentor</label>
-                                                     <input type="number" formControlName="total_trainee" class="form-control" placeholder="Maximum mentee">
-                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="form-group">
-                                                    <label>Employment Status</label>
-                                                     <ng-select [items]="employmentState"
-                                                           bindLabel="name"
-                                                           bindValue="name"
-                                                           placeholder="Employment Status"
-                                                           formControlName="employmentStatus">
-                                                    </ng-select>
+                                                     <input type="number" formControlName="total_trainee" class="form-control mt-2" placeholder="Maximum mentee">
                                                  </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Current Job Position (<small>if you own a business, state your role</small>)</label>
-                                                 <input type="text" formControlName="current_job_position" class="form-control" placeholder="Current Job Position">
+                                                <label>Job Title</label>
+                                                 <input type="text" formControlName="current_job_position" class="form-control mt-2" placeholder="Current Job Position">
                                             </div>
                                         </div>
 
-                                       <div class="col-md-12 mt-3">
+                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Work Experience Entry</label>
-                                                <div 
-                                                    formArrayName="workExperience"
-                                                    *ngFor="let experience of mentorForm.get('workExperience').controls; let i = index;">
-
-                                                  <div class="text-center mt-2 mb-2 p-2">{{ i+1 }}
-                                                    <button type=" button" *ngIf="i !== 0" 
-                                                    class="btn btn-round btn-warning btn-sm" 
-                                                    (click)="removeWorkExperience(i)"> remove</button>
-                                                </div>
-
-                                                  <div [formGroupName]="i">
-                                                    <input formControlName="company" class="form-control" placeholder="Company"><br/>
-                                                    <input formControlName="position" class="form-control" placeholder="Position"><br/>
-
-                                                     <input formControlName="location" class="form-control" placeholder="Company Address"><br/>
-
-                                                      <input [owlDateTimeTrigger]="dt5" formControlName="from_date" class="form-control" [owlDateTime]="dt5" placeholder="Start Date"><br/>
-                                                    <owl-date-time [pickerType]="'calendar'" #dt5></owl-date-time>
-
-                                                      <input [owlDateTimeTrigger]="dt4" formControlName="to_date" class="form-control" [owlDateTime]="dt4" placeholder="End Date"><br/>
-                                                     <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
-
-                                                       <div class="checkbox">
-                                                        <input id="tillDate" type="checkbox" formControlName="till_present">
-                                                        <label for="tillDate">Till date ?</label>
-                                                      </div>
-                                                  </div>
-                                                  
-                                                </div>
-                                                <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addworkExperience()"> Add More</button>
+                                                <label>Organization</label>
+                                                 <input type="text" formControlName="organization" class="form-control mt-2" placeholder="Organization">
                                             </div>
                                         </div>
-
-
-                                        <div class="col-md-12 mt-3 mb-4">
-                                            <div class="form-group">
-                                                <label>Education Entry</label>
-                                                <div 
-                                                    formArrayName="education"
-                                                    *ngFor="let education of mentorForm.get('education').controls; let i = index;">
-
-                                                  <div class="text-center mt-1 mb-1 p-1">{{ i+1 }}
-                                                    <button type="button" *ngIf="i !== 0" 
-                                                    class="btn btn-round btn-warning btn-sm" 
-                                                    (click)="removeEducation(i)"> remove</button>
-                                                </div>
-
-                                                  <div [formGroupName]="i">
-                                                    <input formControlName="institution" class="form-control" placeholder="Institution"><br/>
-                                                    <input formControlName="program" class="form-control" placeholder="Program of Study"><br/>
-
-                                                     <input [owlDateTimeTrigger]="dt2" formControlName="from_date" class="form-control" [owlDateTime]="dt2" placeholder="Start Date"><br/>
-                                                        <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
-
-                                                      <input [owlDateTimeTrigger]="dt1" formControlName="to_date" class="form-control" [owlDateTime]="dt1" placeholder="End Date"><br/>
-                                                      <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
-
-                                                       <div class="checkbox">
-                                                        <input id="tillPresent_{{ i }}" type="checkbox" formControlName="till_present">
-                                                        <label for="tillPresent_{{ i }}">Till date ?</label>
-                                                      </div>
-                                                  </div>
-                                                  
-                                                </div>
-                                                <button type="button" class="btn btn-round btn-warning btn-sm" (click)="addEducation()"> Add More</button>
-                                            </div>
-                                        </div>
-
 
                                         <div class="col-md-12 mt-4">
                                             <button class="btn btn-sm btn-primary btn-round" [ladda]="mentorFormLoading">Save Changes</button>
