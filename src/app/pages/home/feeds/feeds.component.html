@@ -21,7 +21,12 @@
                       <div class="user-specs">
                         <h3 
                         *ngIf="profileData.role !== 'business'">{{ currentUser.name }}</h3>
+                        <div class="" *ngIf="profileData.roleData.verified === 1">
+                        <span class="user-badge"><i class="fa fa-check"></i> verified</span>
+                        <br/>
+                      </div>
 
+                        <br/>
                         <h3 
                         *ngIf="profileData.role === 'business' && profile.roleData.name">{{ profile.roleData.name }}</h3>
 
@@ -143,6 +148,10 @@
                                 <img src="{{ checkValue(top.avatar, 'avatar', 'null') }}" width="50" class="rounded-circle" alt="">
                                 <div class="user-prop">
                                   <h3 class="">{{ shortenName( top.name ) | titlecase }}</h3>
+
+                                    <div class="" *ngIf="top.roleData.data.verified === 1">
+                                    <span class="user-badge"><i class="fa fa-check"></i> verified</span>
+                                    </div>
                                   <span>{{ echoJobTitle(top.roleData.data, top.roleData.role) }}</span>
                                 </div>
                                 <ul>

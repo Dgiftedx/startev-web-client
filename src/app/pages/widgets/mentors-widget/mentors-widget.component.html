@@ -9,6 +9,9 @@
         <img src="{{ checkValue(mentor.avatar, 'avatar', 'null') }}" width="40" alt="">
         <div class="sgt-text">
           <h4>{{ shortenName( mentor.name ) | titlecase }}</h4>
+          <div class="" *ngIf="mentor.roleData.data.verified === 1">
+            <span class="user-badge"><i class="fa fa-check"></i> verified</span>
+            </div>
           <span>{{ echoJobTitle(mentor.roleData.data, mentor.roleData.role) | titlecase }}</span>
         </div>
         <a [routerLink]="['/general-profile', mentor.slug]"><span><i class="la la-eye"></i></span></a>

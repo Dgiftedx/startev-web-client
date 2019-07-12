@@ -16,7 +16,7 @@
                                 </div><!--user-pro-img end-->
                                 <div class="mb-2">
                                    <h3  class="mb-2" 
-                                  *ngIf="profileData.role !== 'business'">{{ currentUser.name }}</h3>
+                                  *ngIf="profileData.role !== 'business'">{{ profileData.user.name }}</h3>
 
                                   <h3  class="mb-2" 
                                   *ngIf="profileData.role === 'business' && profile.roleData.name">{{ profile.roleData.name }}</h3>

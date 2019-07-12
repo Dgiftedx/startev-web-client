@@ -48,6 +48,9 @@
                       </div><!--username-dt end-->
                       <div class="user-specs">
                         <h3>{{ mentor.name }}</h3>
+                        <div class="" *ngIf="mentor.mentor.verified === 1">
+			            <span class="user-badge"><i class="fa fa-check"></i> verified</span>
+			            </div>
                         <span>{{ echoMentorField(mentor) }}</span>
 
                       </div>
@@ -85,7 +88,10 @@
 	                      </div><!--username-dt end-->
 	                      <div class="user-specs">
 	                        <h3>{{ mentor.business.name }}</h3>
-
+	                         <div class="" *ngIf="mentor.business.verified === 1">
+				            <span class="user-badge"><i class="fa fa-check"></i> verified</span>
+				            
+				            </div>
 	                        <span>{{ mentor.business.website }}</span>
 
 	                      </div>

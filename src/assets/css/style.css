@@ -132,6 +132,13 @@ p {
 }
 
 
+.user-badge {
+    float: none;
+    color: green !important;
+    font-weight: 600;
+    break-after: always;
+}
+
 /* ================ CROSS BROWSER COMPATABILITY =============== */
 
 .ask-question,
