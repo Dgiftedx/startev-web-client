@@ -35,16 +35,16 @@ export class NavbarComponent implements OnInit {
 
     this.router.events.subscribe((event: routerEvent) => {
 
-        if (event instanceof NavigationStart) {
-            // Hide loading indicator
-            if ($(".user-account-settingss").hasClass('active')) {
-              $(".user-account-settingss").removeClass("active");
-            }
-
-            if (this.show) {
-              this.toggleNav();
-            }
+      if (event instanceof NavigationStart) {
+        // Hide loading indicator
+        if ($(".user-account-settingss").hasClass('active')) {
+          $(".user-account-settingss").removeClass("active");
         }
+
+        if (this.show) {
+          this.toggleNav();
+        }
+      }
     });
 
   }
@@ -60,7 +60,7 @@ export class NavbarComponent implements OnInit {
     this.refreshNotifications();
   }
 
-// ============ check null item and return default as required =======//
+  // ============ check null item and return default as required =======//
   checkValue(item:any,  type:string, nullValue:string) {
     if (type === 'text') {
       if (this.count(item) === 0) {
@@ -89,9 +89,9 @@ export class NavbarComponent implements OnInit {
   }
 
 
-    get profile(){
-      return JSON.parse(this.authenticationService.getUserData());
-    }
+  get profile(){
+    return JSON.parse(this.authenticationService.getUserData());
+  }
 
 
   refreshNotifications(){
@@ -102,13 +102,13 @@ export class NavbarComponent implements OnInit {
   }
 
 
-    //===================== Search Handler ===================//
+  //===================== Search Handler ===================//
   doTheSearch($event: Event) {
     const stringEmitted = ($event.target as HTMLInputElement).value;
     this.baseService.changeQuery(stringEmitted);
     //navigate to search result page
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
-    this.router.navigate(['/search-result'])); 
+      this.router.navigate(['/search-result'])); 
   }
 
   toggleNav() {

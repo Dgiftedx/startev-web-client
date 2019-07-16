@@ -93,10 +93,8 @@
                                     type="text" 
                                     formControlName="phone" 
                                     class="form-control" 
-                                    placeholder="Phone" [ngClass]="{ 'is-invalid': userFormSubmitted && f.phone.errors }">
-                                    <div *ngIf="userFormSubmitted && f.phone.errors" class="invalid-feedback">
-                                      <div *ngIf="f.phone.errors.required">Full Name can't be empty</div>
-                                  </div>
+                                    placeholder="Phone">
+                                   
                                 </div>
                             </div>
                                                            
@@ -151,13 +149,6 @@
                                     <textarea rows="3" formControlName="address" class="textarea form-control no-resize" placeholder="Address Line 1"></textarea>
                                 </div>
                             </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>A Short Brief About You</label>
-                                    <textarea rows="3" formControlName="bio" class="textarea form-control no-resize" placeholder="say something"></textarea>
-                                </div>
-                            </div>
                             
                             <div class="col-md-12">
                                 <button class="btn btn-sm btn-primary btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
@@ -176,17 +167,22 @@
                    <h2><strong>Account Verification</strong></h2>
                  </div>
 
+                  <div class="card-body" *ngIf="profileData.roleData.verification_status == 'accepted'">
+                     <div class="alert alert-success" role="alert" >
+                     Account <strong class="rigid">Verified</strong>
+                   </div>
+                  </div>
+                
+
                  <div class="card-body" *ngIf="(role === 'business' || role === 'mentor') && profile.roleData.verified === 0">
 
                   <div class="alert alert-info" *ngIf="profile.roleData.verification_status === 'pending'">
                     Your account verification is under processing.
                   </div>
 
-                  <div class="alert alert-success" role="alert" *ngIf="profile.roleData.verification_status === 'accepted'">
-                     Account <strong class="rigid">Verified</strong>
-                   </div>
+                  
 
-                   <div class="" *ngIf="profile.roleData.verification_status === 'none'">
+                   <div *ngIf="profile.roleData.verification_status === 'none'">
                      <div class="form-group">
                      <label class="mb-2">Document Type</label>
                      <ng-select [items]="documentTypes"
@@ -232,6 +228,13 @@
                                         <div *ngIf="studentFormSubmitted && s.institution.errors" class="invalid-feedback">
                                           <div *ngIf="s.institution.errors.required">Field can't be empty</div>
                                       </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>A Short Brief About You</label>
+                                        <textarea rows="3" formControlName="bio" class="textarea form-control no-resize mt-2" placeholder="say something"></textarea>
                                     </div>
                                 </div>
                                 
@@ -294,6 +297,13 @@
                                             <div class="form-group">
                                                 <label>Organization</label>
                                                  <input type="text" formControlName="organization" class="form-control mt-2" placeholder="Organization">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                          <div class="form-group">
+                                                <label>A Short Brief About You</label>
+                                                <textarea rows="3" formControlName="bio" class="textarea form-control no-resize mt-2" placeholder="say something"></textarea>
                                             </div>
                                         </div>
 

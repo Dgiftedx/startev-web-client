@@ -15,7 +15,9 @@
                     <div class="user-profile">
                       <div class="username-dt">
                         <div class="usr-pic">
-                          <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+                          <a [routerLink]="['/profile']">
+                            <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}" alt="">
+                          </a>
                         </div>
                       </div><!--username-dt end-->
                       <div class="user-specs">
@@ -145,7 +147,9 @@
                               [config]="slideConfig">
                              
                              <div class="user-profy" ngxSlickItem *ngFor="let top of topProfiles">
-                                <img src="{{ checkValue(top.avatar, 'avatar', 'null') }}" width="50" class="rounded-circle" alt="">
+                               <a class="no-style" [routerLink]="['/general-profile', top.slug]">
+                                  <img src="{{ checkValue(top.avatar, 'avatar', 'null') }}" width="50" class="rounded-circle" alt="">
+                               </a>
                                 <div class="user-prop">
                                   <h3 class="">{{ shortenName( top.name ) | titlecase }}</h3>
 
@@ -181,7 +185,9 @@
                       <div class="" [@fadeAnimation]>
                         <div class="post_topbar">
                           <div class="usy-dt">
-                            <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" width="40" alt="">
+                            <a [routerLink]="['/general-profile', feed.user.slug]">
+                              <img src="{{ checkValue(feed.user.avatar, 'avatar', 'null') }}" width="40" alt="">
+                            </a>
                             <div class="usy-name">
                               <h3>{{ feed.user.name }}</h3>
                               <span>
@@ -224,7 +230,9 @@
                       <div class="job-status-bar">
                         <ul class="like-com">
                           <li>
-                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i> Like</a>
+                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i>     <b *ngIf="!feed.hasLiked">Like</b>
+                                <b *ngIf="feed.hasLiked">Unlike</b>
+                            </a>
                             <span>{{ count(feed.likers) }}</span>
 
                             <a [routerLink]="" (click)="toggleCommentBox(feed.id)" class="comment-tc"><i class="la la-comment-o"></i> Comment {{ count(feed.comments) }}</a>

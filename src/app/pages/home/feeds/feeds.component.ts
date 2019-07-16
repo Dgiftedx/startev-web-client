@@ -92,8 +92,11 @@ export class FeedsComponent implements OnInit {
 
   editorConfig:any = {
    toolbar: [
-     ['bold','italic','background','color'],
-     ['link']
+     ['bold','italic','underline','background','color'],
+     [{ 'align': [] }],
+     [{ 'size': ['small', false, 'large', 'huge'] }],
+     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+     ['link'],
    ]
   };
 

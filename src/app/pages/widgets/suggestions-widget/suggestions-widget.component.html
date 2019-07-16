@@ -6,7 +6,9 @@
     <div class="suggestions-list">
 
       <div class="suggestion-usd" *ngFor="let user of suggestions">
-        <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="user.name" width="40">
+        <a class="no-style" [routerLink]="['/general-profile', user.slug]">
+          <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" width="40" alt="">
+        </a>
         <div class="sgt-text">
           <h4>{{ shortenName( user.name ) | titlecase }}</h4>
           <span>{{ echoJobTitle(user.roleData.data, user.roleData.role) | titlecase }}</span>

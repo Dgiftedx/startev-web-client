@@ -135,24 +135,25 @@ export class ProfileEditComponent implements OnInit {
 	createForm() {
 		this.userForm = this.formBuilder.group({
 			name : ['', Validators.required],
-			phone : ['', Validators.required],
+			phone : [''],
 			email : ['', [Validators.required, Validators.email]],
 			dob : [''],
-			bio : [''],
 			country : [''],
 			state : [''],
-			city : ['',Validators.required],
-			address: ['',Validators.required]
+			city : [''],
+			address: ['']
 		});
 
 		this.mentorForm = this.formBuilder.group({
 			total_trainee: [0],
 			current_job_position : ['', Validators.required],
-			organization : ['', Validators.required]
+			organization : [''],
+			bio : ['']
 		});
 
 		this.studentForm = this.formBuilder.group({
 			institution: ['', Validators.required],
+			bio : [''],
 			careerPath: [''],
 			secondaryCP: ['']
 		});
@@ -240,7 +241,7 @@ export class ProfileEditComponent implements OnInit {
 		this.userForm.get('name').setValue(this.user.name);
 		this.userForm.get('email').setValue(this.user.email);
 		this.userForm.get('phone').setValue(this.user.phone);
-		this.userForm.get('bio').setValue(this.user.bio);
+		// this.userForm.get('bio').setValue(this.user.bio);
 		
 		//set date of birth
 		if (_.size(this.user.dob) > 0) {
@@ -304,6 +305,7 @@ export class ProfileEditComponent implements OnInit {
 
 	setStudentFormFields(){
 		this.studentForm.get('institution').setValue(this.roleData.institution);
+		this.studentForm.get('bio').setValue(this.user.bio);
 		let career1 = this.findStackByName(this.careerPaths, this.roleData.careerPath);
 		let career2 = this.findStackByName(this.careerPaths, this.roleData.secondaryCP);
 
@@ -328,6 +330,7 @@ export class ProfileEditComponent implements OnInit {
 
 	setMentorFormFields(){
 		this.mentorForm.get('current_job_position').setValue(this.roleData.current_job_position);
+		this.mentorForm.get('bio').setValue(this.user.bio);
 		this.mentorForm.get('organization').setValue(this.roleData.organization);
 	}
 
