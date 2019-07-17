@@ -7,7 +7,7 @@ import { switchMap, first } from "rxjs/operators";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { StoreService } from '../../../../_services/store.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
-import { AlertService, AuthenticationService} from '../../../../_services';
+import { AlertService, AuthenticationService, BaseService} from '../../../../_services';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { trigger, style, animate,state, transition } from '@angular/animations';
 
@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit {
   public auto_forward:boolean;
 	public account_name:string = '';
 	public account_number:number = 0;
+  public ref_code : string = '';
 
 	public settings:any = [];
 	private settingSubscription:Subscription;
@@ -69,6 +70,7 @@ export class SettingsComponent implements OnInit {
 		private config: NgSelectConfig,
 		private route: ActivatedRoute,
 		private alert: AlertService,
+    private baseService : BaseService,
 		private storeService : StoreService,
 		private authenticationService: AuthenticationService) {
 		// Subscribe to current logged in user
@@ -172,6 +174,7 @@ export class SettingsComponent implements OnInit {
   openForModification(){
   	this.store_name  = this.settings.store_name;
   	this.store_url = this.settings.store_url;
+    this.ref_code = this.settings.ref_code;
     this.auto_forward = Boolean(this.settings.auto_forward);
   	
   	if (this.settings.store_logo) {
@@ -190,6 +193,18 @@ export class SettingsComponent implements OnInit {
 
   generateStoreUrl(storeIdentifier:any){
   	this.store_url = this.base_url+"/main-store/"+storeIdentifier;
+  }
+
+
+  generateRefCode(storeIdentifier:any) {
+    let formData = {
+      store_id : storeIdentifier
+    };
+
+    this.baseService.generateCode(formData)
+    .subscribe( ( data : any) => {
+        this.ref_code = data;
+     })
   }
 
 
@@ -214,6 +229,7 @@ export class SettingsComponent implements OnInit {
   		store_name: this.store_name,
   		store_logo: this.image,
   		store_url: this.store_url,
+      ref_code : this.ref_code,
   		bank_name: this.bank_name,
       auto_forward : this.auto_forward,
   		account_name: this.account_name,
@@ -252,6 +268,11 @@ export class SettingsComponent implements OnInit {
     if (this.count(this.account_number.toString()) < 10 || isNaN(this.account_number)) {
       this.alert.errorMsg("Please enter a valid account number.",errorTitle);
       return;
+    }
+
+
+     if (this.count(this.ref_code) === 0) {
+      this.alert.errorMsg("You haven't generate your refferal code. Please refferal code.",errorTitle);
     }
 
   	this.sendingForm = true;

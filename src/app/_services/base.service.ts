@@ -30,14 +30,14 @@ export class BaseService {
     }
 
 
-     public getSearchResults( query:any ){
+    public getSearchResults( query:any ){
         return this.http.post(`${this.endpoint}/get-search-results`, query);
     }
 
     //Algorithm to show user Job title
     echoJobTitle(roleData: any, role: string){
         if (role === 'student' || role === 'graduate') {
-            
+
             if (roleData.institution) {
                 return roleData.institution;
             }else{
@@ -48,9 +48,9 @@ export class BaseService {
         if (role === 'mentor') {
 
             if ( _.size(roleData.current_job_position) > 0 && _.size(roleData.organization) > 0 ) {
-               return roleData.current_job_position + " at " + roleData.organization;
+                return roleData.current_job_position + " at " + roleData.organization;
             }else{
-                
+
                 if (_.size(roleData.curent_job_position)) {
                     return roleData.current_job_position;
                 }else if(_.size(roleData.organization)){
@@ -70,8 +70,11 @@ export class BaseService {
         }
     }
 
+    public generateCode(formData: any){
+        return this.http.post<any>(`${this.endpoint}/generate-code`, formData);
+    }
 
-     public sendVerDoc(formData: any){
+    public sendVerDoc(formData: any){
         return this.http.post<any>(`${this.endpoint}/submit-verification`, formData);
     }
 
@@ -108,7 +111,7 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-pub-cat`);
     }
 
-     public fetchSuggestions( user_id:number ){
+    public fetchSuggestions( user_id:number ){
         return this.http.get(`${this.endpoint}/get-suggestions/${user_id}`);
     }
 
@@ -116,7 +119,7 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-my-feeds/${user_id}`);
     }
 
-     public fetchMyPublications( user_id:number ){
+    public fetchMyPublications( user_id:number ){
         return this.http.get(`${this.endpoint}/get-my-publications/${user_id}`);
     }
 
@@ -133,7 +136,7 @@ export class BaseService {
     }
 
     public removeHeaderImage(user_id:number) {
-         return this.http.get(`${this.endpoint}/remove-header-image/${user_id}`);   
+        return this.http.get(`${this.endpoint}/remove-header-image/${user_id}`);   
     }
 
 
@@ -271,7 +274,7 @@ export class BaseService {
         return this.http.post<any>(`${this.endpoint}/publish-publication`, formData);
     }
 
-     //Publish publication
+    //Publish publication
     public updatePublication(formData: any, pub_id:number){
         return this.http.post<any>(`${this.endpoint}/update-publication/${pub_id}`, formData);
     }

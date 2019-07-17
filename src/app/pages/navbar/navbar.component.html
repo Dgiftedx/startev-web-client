@@ -47,15 +47,15 @@
             </a>
         </li>
 
-        <!-- <li>
-            <a href="#" title="" class="not-box-open">
+        <li class="noty-box">
+            <a href="javascript:;" title="" class="not-box-open">
                 <span><i class="fa fa-bell"></i></span>
-                Notifications
+                Notifications <em>{{ notyCount }}</em>
             </a>
             <div class="notification-box msg" *ngIf="count(notifications) > 0">
                 <div class="nt-title">
                     <h4>Setting</h4>
-                    <a href="#" title="">Clear all</a>
+                    <a href="javascript:;" title="">Mark all as read</a>
                 </div>
                 <div class="nott-list">
 
@@ -64,23 +64,26 @@
                             <img [src]="item.user.avatar" alt="">
                         </div>
                         <div class="notification-info">
-                            <h3><a href="#" title="">{{ item.user.name }}</a> </h3>
+                            <h6><a href="javascript:;" title="">{{ item.user.name }}</a> </h6>
                             <p>{{ item.content }}</p>
                             <span>{{ item.created_at | dateAgo }}</span>
-                        </div><!--notification-info -->
-                    <!-- </div>
+                        </div>
+                     </div>
 
-                    <div class="view-all-nots">
-                        <a href="#" title="">View All Messsages</a>
-                    </div>
-                </div><!--nott-list end-->
+                    <!-- <div class="view-all-nots">
+                        <a href="javascript:;" title="">View All Messsages</a>
+                    </div> -->
+                </div>
 
-           <!--  </div>
-
-            <div class="" *ngIf="count(notifications) === 0">
-                <span class="message">No New Notifications</span>
             </div>
-        </li>   -->
+
+            <div class="notification-box msg" *ngIf="count(notifications) < 1">
+                <div class="view-all-nots">
+                    <a href="javascript:;" title="">No Notifications</a>
+                </div>
+            </div>
+        </li>
+
 
     </ul>
 </nav><!--nav end-->

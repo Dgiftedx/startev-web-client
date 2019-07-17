@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart, NavigationError } from '@angular/router';
 import { Event as routerEvent }from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -21,7 +21,9 @@ export class NavbarComponent implements OnInit {
   currentUser: User;
   show: boolean = false;
   showNoti:boolean = false;
+  public notyInterval;
 
+  notyCount : number = 0;
   notifications:any = [];
   notificationSubscription: Subscription;
 
@@ -58,6 +60,11 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.refreshNotifications();
+
+    //= Shoot Help Tips at regulat interval of 3mins =//
+      this.notyInterval = setInterval(() => {
+        this.refreshNotifications();
+      }, 6000 * 3);
   }
 
   // ============ check null item and return default as required =======//
@@ -96,9 +103,15 @@ export class NavbarComponent implements OnInit {
 
   refreshNotifications(){
     this.notificationSubscription = this.baseService.getWidgetNotifications(this.currentUser.id)
-    .subscribe( data => {
+    .subscribe( (data:any) => {
       this.notifications = data;
-    })
+      this.notyCount = 0;
+      data.forEach(item => {
+        if (item.status === 'unread') {
+           this.notyCount += 1
+        }
+      });
+    });
   }
 
 
@@ -132,5 +145,12 @@ export class NavbarComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
+
+  ngOnDestroy() {
+      if (this.notyInterval) {
+        clearInterval(this.notyInterval);
+      };
+    }
 
 }

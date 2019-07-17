@@ -1,25 +1,30 @@
- <ul class="menu list-unstyled" *ngIf="count(notifications) > 0">
-    <li *ngFor="let item of notifications">
-        <a [routerLink]="">
-            <div class="media">
-                <img class="media-object" [src]="item.user.avatar" alt="">
-                <div class="media-body">
-                    <span class="name">{{ item.user.name }} <span class="time">{{ item.created_at | dateAgo }}</span></span>
-                    <span class="message">{{ item.content }}</span>                               
-                </div>
-            </div>
-        </a>
-    </li>
-</ul>
+<div class="notification-box msg" *ngIf="count(notifications) > 0">
+    <div class="nt-title">
+        <h4>Setting</h4>
+        <a href="javascript:;" title="">Clear all</a>
+    </div>
+    <div class="nott-list">
 
- <ul class="menu list-unstyled" *ngIf="count(notifications) === 0">
-    <li>
-        <a [routerLink]="">
-            <div class="media">
-                <div class="media-body">
-                    <span class="message">No New Notifications</span>                               
-                </div>
+        <div class="notfication-details" *ngFor="let item of notifications">
+            <div class="noty-user-img">
+                <img [src]="item.user.avatar" alt="">
             </div>
-        </a>
-    </li>
-</ul>
+            <div class="notification-info">
+                <h3><a href="javascript:;" title="">{{ item.user.name }}</a> </h3>
+                <p>{{ item.content }}</p>
+                <span>{{ item.created_at | dateAgo }}</span>
+            </div>
+         </div>
+
+        <div class="view-all-nots">
+            <a href="#" title="">View All Messsages</a>
+        </div>
+    </div>
+
+</div>
+
+<div class="notification-box msg" *ngIf="count(notifications) < 1">
+    <div class="view-all-nots">
+        <a href="#" title="">No Notifications</a>
+    </div>
+</div>

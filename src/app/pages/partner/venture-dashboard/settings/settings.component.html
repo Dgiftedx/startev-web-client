@@ -41,10 +41,14 @@
                                 </td>
                             </tr>
                             <tr>
-                               <td colspan="2" class="text-center"><span>Bank Details</span></td>
+                              <td>Referral Code: </td>
+                              <td>{{ checkValue(settings.ref_code, 'text', 'Not set') }}</td>
                             </tr>
+                           <!--  <tr>
+                               <td colspan="2" class="text-center"><span>Bank Details</span></td>
+                            </tr> -->
                              
-                            <tr>
+                           <!--  <tr>
                             	<td><strong>Account Name: </strong> </td>
                             	<td>{{ checkValue(settings.account_name, 'text', 'Not Set') | titlecase }}</td>
                             </tr>
@@ -55,7 +59,7 @@
                             <tr>
                             	<td><strong>Bank Name: </strong></td>
                             	<td>{{ checkValue(settings.bank_name, 'text', 'Not Set') | titlecase }}</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -79,6 +83,7 @@
 
 
                   <div class="form-group mb-3">
+                      <label class="mb-2">Preferred Store Name</label>
                       <input 
                       type="text" 
                       placeholder="Your preferred store name" 
@@ -86,12 +91,23 @@
                   </div>
 
                    <div class="form-group mb-3">
+                      <label class="mb-2">Store Url</label>
                       <input 
                       type="text"
                       [readonly]="true"
                       placeholder="Store url" 
                       class="form-control" [(ngModel)]="store_url">
                       <button *ngIf="!settings.store_url || settings.store_url === 'null'" (click)="generateStoreUrl(settings.identifier)" class="btn">generate url</button>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="mb-2">Refferal Code</label>
+                      <input 
+                      type="text"
+                      [readonly]="true"
+                      placeholder="Refferal Code" 
+                      class="form-control" [(ngModel)]="ref_code">
+                       <button *ngIf="!settings.ref_code || settings.ref_code === 'null'" (click)="generateRefCode(settings.identifier)" class="btn">generate code</button>
                   </div>
 
                   <div class="form-group form-check mt-2">
@@ -131,7 +147,7 @@
                     <button
                     type="button"
                     (click)="closeForModification()" 
-                    class="btn btn-round btn-sm btn-primary waves-effect">CLOSE</button>
+                    class="btn btn-round btn-sm btn-primary waves-effect">Close</button>
                 </div>
             </div>
             
