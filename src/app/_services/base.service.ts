@@ -70,6 +70,10 @@ export class BaseService {
         }
     }
 
+    public markAllAsRead(id:number){
+        return this.http.get(`${this.endpoint}/mark-all-as-read/${id}`);
+    }
+
     public generateCode(formData: any){
         return this.http.post<any>(`${this.endpoint}/generate-code`, formData);
     }

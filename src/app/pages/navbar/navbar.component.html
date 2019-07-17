@@ -55,7 +55,7 @@
             <div class="notification-box msg" *ngIf="count(notifications) > 0">
                 <div class="nt-title">
                     <h4>Setting</h4>
-                    <a href="javascript:;" title="">Mark all as read</a>
+                    <a href="javascript:;" (click)="markAsRead()" title="">Mark all as read</a>
                 </div>
                 <div class="nott-list">
 
@@ -78,8 +78,8 @@
             </div>
 
             <div class="notification-box msg" *ngIf="count(notifications) < 1">
-                <div class="view-all-nots">
-                    <a href="javascript:;" title="">No Notifications</a>
+                <div class="notification-info">
+                    <p style="padding: 20px;">No New Notification</p>
                 </div>
             </div>
         </li>

@@ -67,6 +67,16 @@ export class NavbarComponent implements OnInit {
       }, 6000 * 3);
   }
 
+
+
+  markAsRead(){
+    this.baseService.markAllAsRead(this.currentUser.id)
+    .subscribe(data => {
+      this.alert.snotSimpleSuccess("Successfull");
+      this.refreshNotifications();
+    })
+  }
+
   // ============ check null item and return default as required =======//
   checkValue(item:any,  type:string, nullValue:string) {
     if (type === 'text') {
