@@ -26,6 +26,7 @@ import { BusinessResolve } from './_resolvers/business.resolver';
 import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
+import { OpenSingleFeedResolve } from './_resolvers/open-single-feed.resolver';
 import { PublicationResolve } from './_resolvers/publications.resolver';
 import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
@@ -43,6 +44,7 @@ import { GeneralProfileComponent } from './pages/profile/general-profile/general
 import { LandingComponent } from './pages/landing/landing.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
+import { OpenFeedComponent } from './pages/open-feed/open-feed.component';
 
 
 const routes: Routes = [
@@ -192,6 +194,7 @@ const routes: Routes = [
 	canActivate : [AuthGuard]
 },
 
+{path: 'open-feeds/:id', resolve : {feed : OpenSingleFeedResolve}, component: OpenFeedComponent},
 {path: 'confirm-email', component: ConfirmEmailComponent },
 {path: 'forgot-password', component: ForgotPasswordComponent },
 {path: 'reset-password', component: ResetPasswordComponent },

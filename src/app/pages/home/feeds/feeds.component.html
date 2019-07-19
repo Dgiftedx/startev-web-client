@@ -181,7 +181,7 @@
                       </div><!--profiles-slider end-->
                     </div> 
 
-                    <div class="post-bar feeds-container" *ngFor="let feed of feeds">
+                    <div class="post-bar feeds-container" *ngFor="let feed of feeds; let index = index">
                       <div class="" [@fadeAnimation]>
                         <div class="post_topbar">
                           <div class="usy-dt">
@@ -236,14 +236,31 @@
                             <span>{{ count(feed.likers) }}</span>
 
                             <a [routerLink]="" (click)="toggleCommentBox(feed.id)" class="comment-tc"><i class="la la-comment-o"></i> Comment {{ count(feed.comments) }}</a>
+
+                            <a [routerLink]="" (click)="openSharingBox(feed)" class="comment-tc"><i class="la la-share"></i>
+                            Share</a>
                           </li> 
                          
                         </ul>
                         <!-- <a><i class="la la-eye"></i>Views 50</a> -->
                       </div>
 
-                      <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
+                      <div class="" [@fadeAnimation] *ngIf="showSharingBox && currentShare.id === feed.id">
+                        <div class="comment-section feeds-container">
+                          <share-buttons [theme]="'circles-light'"
+                           [include]="['facebook','twitter','linkedin','reddit','tumblr','whatsapp','email','copy']"
+                           [exclude]="['pinterest','mix','vk','messenger','telegram','xing','line','sms','print']"
+                           [show]="9"
+                           [url]="'https://app.startev.africa/open-feeds/'+feed.id"
+                           [autoSetMeta]="false"
+                           [title]="feed.title"
+                           [description]="feed.title"
+                           [image]="shareImage"
+                          ></share-buttons>
+                        </div>
+                      </div>
 
+                      <div class="" [@fadeAnimation] *ngIf="showCommentBox && comment.feedId == feed.id">
                         <div class="comment-section feeds-container">
                         <div class="comment-sec" *ngIf="count(feed.comments) > 0">
                           <ul>

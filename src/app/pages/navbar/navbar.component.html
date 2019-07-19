@@ -1,5 +1,5 @@
 
-<header class="sticky-top">
+<header class="sticky-top" *ngIf="nav.visible">
     <div class="container-fluid">
         <div class="header-data">
             <div class="logo">
@@ -108,6 +108,30 @@
 </div><!--header-data end-->
 </div>
 </header><!--header end-->  
+
+
+
+<header class="sticky-top" *ngIf="!nav.visible">
+    <div class="container-fluid">
+        <div class="header-data">
+            <div class="logo">
+                <a href="#" title=""><img src="/assets/images/logo_1.png" width="138" alt="Startev"></a>
+            </div><!--logo end-->
+           
+            <nav>
+                <ul>
+                    <li>
+                        <a href="javascript:;" title="">
+                            <span>&nbsp;</span>
+                            &nbsp;
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header><!--header end--> 
 
 
 <!-- <div *ngIf="profile.progress < 82" class="alert alert-warning m-t-120 feeds-container" role="alert">

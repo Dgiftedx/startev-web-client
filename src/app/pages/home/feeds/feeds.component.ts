@@ -60,6 +60,8 @@ export class FeedsComponent implements OnInit {
   public images: Array<any> = [];
   public haltInfiniteScroll : boolean = false;
   public showCommentBox:boolean = false;
+  public showSharingBox:boolean = false;
+  public currentShare : any = {};
   public comment = {
     feedId: null,
     text: ''
@@ -184,6 +186,18 @@ export class FeedsComponent implements OnInit {
       }, 6000 * 3);
     }
 
+
+
+    //==================== Open Sharing Box ====================//
+    openSharingBox(feed:any) {
+      this.currentShare = feed;
+      if (this.currentShare.images) {
+        this.currentShare.shareImage = this.currentShare.images[0];
+      }else{
+        this.currentShare.shareImage = "https://app.startev.africa/assets/logo/logo_.png";
+      }
+      this.showSharingBox = !this.showSharingBox;
+    }
 
 
     //================ Name splitter & shotener ====================//

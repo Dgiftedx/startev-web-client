@@ -1,13 +1,16 @@
+declare var $: any;
+import * as _ from 'lodash';
+import { Subscription } from 'rxjs';
+import { User } from '../../_models';
+import { Functions } from '../../_helpers';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { Event as routerEvent }from '@angular/router';
+import { NavbarService } from '../../_services/navbar.service';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart, NavigationError } from '@angular/router';
-import { Event as routerEvent }from '@angular/router';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AuthenticationService, AlertService, UserService, BaseService } from '../../_services';
-import { User } from '../../_models';
-import { Subscription } from 'rxjs'
-import { Functions } from '../../_helpers';
-import * as _ from 'lodash';
-declare var $: any;
+
+
 
 @Component({
   selector: 'app-navbar',
@@ -30,6 +33,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private alert: AlertService,
+    public nav : NavbarService,
     private userService : UserService,
     private baseService: BaseService,
     private authenticationService: AuthenticationService) {

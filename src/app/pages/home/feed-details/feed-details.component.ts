@@ -59,7 +59,37 @@ export class FeedDetailsComponent implements OnInit {
     text: ''
   };
 
+  public showSharingBox : boolean = false;
   public commentForm : FormGroup;
+
+
+  public adsSettings :any = {
+     "network": "yourNetworkId",
+      "ads": [{
+    "tag": "yourAdTag",
+    "id": "yourAdUnitId",
+    "mappings": [{
+      "device": {
+        "width": 0,
+        "height": 0
+      },
+      "ad": {
+        "width": 320,
+        "height": 50
+      }
+    },
+    {
+      "device": {
+        "width": 750,
+        "height": 200
+      },
+      "ad": {
+        "width": 728,
+        "height": 90
+      }
+    }]
+  }],
+  }
 
   constructor(
   	private route: ActivatedRoute,
@@ -86,6 +116,13 @@ export class FeedDetailsComponent implements OnInit {
   ngOnInit() {
   	this.feed = this.route.snapshot.data.details.feed;
   }
+
+
+  //==================== Open Sharing Box ====================//
+    openSharingBox() {
+      this.showSharingBox = !this.showSharingBox;
+    }
+
 
 
   //Algorithm to show user Job title

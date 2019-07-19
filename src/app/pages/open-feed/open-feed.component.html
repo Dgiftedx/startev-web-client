@@ -1,0 +1,67 @@
+<main>
+	<div class="main-section">
+		<div class="container">
+			<div class="main-section-date">
+				<div class="row">
+					<article class="container col-12 col-lg-8 col-xl-9">
+						<div class="g-block__three-rounds bg-white mb-3 p-md-5 p-3">
+							<div class="row">
+								<div class="col-12">
+								    <div class="feed-image mb-3" *ngIf="feed.image && !feed.images">
+			                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+			                        </div>
+
+			                        <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) < 2">
+			                           <ngx-slick-carousel class="carousel" 
+			                              #feedSlickModal="slick-carousel"
+			                              [config]="feedSlideConfig">
+			                              <img ngxSlickItem *ngFor="let image of feed.images; let index = index" 
+			                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class="feed-image-responsive"/>
+			                            </ngx-slick-carousel>
+			                        </div>
+
+			                         <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) > 1">
+			                           <div class="images-container-single">
+			                              <img *ngFor="let image of feed.images; let index = index" 
+			                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class=""/>
+			                            </div>
+			                        </div>
+								</div>
+							</div>
+							<div class="pt-4">
+								<h2>{{ feed.title }}</h2>
+								<p [innerHtml]="feed.content"></p>
+								<hr>
+							</div>
+						</div>
+					</article>
+					<div class="col-12 col-lg-4 col-xl-3">
+						<div class="b-widget text-center mt-3">
+							<img class="rounded-circle mb-3"
+							[src]="checkValue(feed.user.avatar, 'avatar', 'null')" alt="Rambo">
+							<h5><a [routerLink]="['/feeds']">{{ feed.user.name | titlecase }}</a></h5>
+							<p><small>I'm member of Startev, if you aren't, Join Now!</small></p>
+							<a class="btn btn-primary" [routerLink]="['/feeds']"> Join Now</a>
+						</div>
+						
+							
+							
+							<div class="b-widget b-widget__recent-entries">
+								<h5 class="b-widget_title">Resent Posts</h5>
+								<ul class="list-unstyled">
+									<li *ngFor="let item of recentFeeds"><a class="row py-2 no-gutters" 
+										[routerLink]="['/open-feeds', item.id]">
+										<div class="col-4">
+											<img class="img-fluid rounded-circle" 
+											[src]="checkValue('assets/logo/logo_.png', 'avatar', 'null')" alt="{{ item.title }}">
+										</div>
+										<span class="col-8">{{ item.title }}</span></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>

@@ -70,6 +70,10 @@ export class BaseService {
         }
     }
 
+     public getOpenApiFeed(id:number){
+        return this.http.get(`${this.endpoint}/open-api-get-feed/${id}`);
+    }
+
     public markAllAsRead(id:number){
         return this.http.get(`${this.endpoint}/mark-all-as-read/${id}`);
     }

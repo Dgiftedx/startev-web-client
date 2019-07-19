@@ -1,5 +1,6 @@
 import { QuillModule } from 'ngx-quill'
 import { NgChatModule } from 'ng-chat';
+import {NgxAdDfpModule} from 'ngx-ad-dfp';
 import { NgxPrintModule} from 'ngx-print';
 import { BaseService } from './_services';
 import { ToastrModule } from 'ngx-toastr';
@@ -18,8 +19,8 @@ import { DateAgoPipe } from './_filters/date-ago.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Angular4PaystackModule } from 'angular4-paystack';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from './app-routing.module';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 import { FilePickerModule } from  'ngx-awesome-uploader';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { BrowserModule } from '@angular/platform-browser';
@@ -45,13 +46,12 @@ import { PublicationResolve } from './_resolvers/publications.resolver';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
+import { OpenSingleFeedResolve } from './_resolvers/open-single-feed.resolver';
 import { MainStoreResolve } from './_resolvers/store.resolver';
 import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-
-library.add(fas);
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
@@ -112,6 +112,7 @@ import { MyPublicationsComponent } from './pages/my-publications/my-publications
 import { UserManageProductsComponent } from './pages/partner/venture-dashboard/user-manage-products/user-manage-products.component';
 import { CareerFieldsComponent } from './pages/widgets/career-fields/career-fields.component';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
+import { OpenFeedComponent } from './pages/open-feed/open-feed.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -132,8 +133,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   overlayColor: "rgba(255,255,255, 1)",
   pbThickness: 5, // progress bar thickness
 };
-
-
 
 
 @NgModule({
@@ -197,6 +196,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MyPublicationsComponent,
     UserManageProductsComponent,
     CareerFieldsComponent,
+    OpenFeedComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -246,7 +246,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
      AngularEditorModule,
      QuillModule.forRoot(),
-     InfiniteScrollModule
+     InfiniteScrollModule,
+     ShareButtonsModule,
+     NgxAdDfpModule
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
   ],
 
@@ -267,7 +269,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         PublicationResolve,
         SinglePublicationResolve,
         MainStoreResolve,
-        SingleProfileResolve
+        SingleProfileResolve,
+        OpenSingleFeedResolve
   ],
   bootstrap: [AppComponent]
 })
