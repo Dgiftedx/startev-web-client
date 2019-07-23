@@ -5652,14 +5652,17 @@ a:hover {
     font-size: 12px;
     font-weight: 600;
 }
-.noty-box a em {
+.noty-box a .noty-count {
+    float:right;
+    text-align: center;
+    margin-left: 5px;
     padding: 2px 2px;
-    height: 5px !important;
-    width: 5px !important;
-    border: 1px solid #e5f1f7;
+    height: 20px;
+    width: 20px;
+    border: 1px solid #D61F1F;
     border-radius: 50%;
-    background: #e5f1f7;
-    color: #222 !important;
+    background: #D61F1F;
+    color: #fff !important;
 }
 
 /* ============== requests-list ============== */
@@ -6018,7 +6021,7 @@ a:hover {
 .main-conversation-box {
     float: left;
     width: 100%;
-    background-image: url(/assets/chat/img/avatars/pattern2.jpg);
+    background-image: url(/assets/images/pattern2.jpg); 
     position: relative;
     border-right: 1px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
@@ -6253,6 +6256,17 @@ a:hover {
     font-size: 30px;
     display: inline-block;
 }
+
+
+.sticky {
+    background: #fff;
+    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+    position: fixed;
+    top: 0;
+    height: 120px;
+    width: 100%;
+}
+
 
 /* ================ forum-page =============== */
 

@@ -42,12 +42,10 @@
                     </div><!--user-profile end-->
                     <ul class="user-fw-status">
                       <li>
-                        <h4>Following</h4>
-                        <span>{{ count(profileData.following) }}</span>
+                        <a class="waves-effect" [routerLink]="" title="">Following ({{ count(profileData.following) }})</a>
                       </li>
                       <li>
-                        <h4>Followers</h4>
-                        <span>{{ count(profileData.followers) }}</span>
+                        <a class="waves-effect" [routerLink]="" title="">Followers ({{ count(profileData.followers) }})</a>
                       </li>
                       <li>
                         <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
@@ -113,23 +111,17 @@
 				
 
                 <!-- Help Tips Box -->
-               <!--  <div class="col-sm-12 col-md-12">
-                  <div class="card feeds-container" *ngIf="showHelpTip && helpTip" [@fadeAnimation]>
-                    <div class="body chat post-container">
-                     <div class="bg_grey">
+                  <div class="post-topbar feeds-container" *ngIf="showHelpTip && helpTip" [@fadeAnimation]>
+                    <div class="row">
+                     <div class="col-12">
                       <h6 class="p-3 apple-font color-blue rigid">{{ helpTip.title }} <span class="float-right small">Help Tips</span></h6>
-                    </div>
-                    <div class="post-feed-inner">
-                      <div class="" class="">
                         <p class="post-content p-3 color-blue">
                           {{ helpTip.content }}
                         </p>
-                        <a [routerLink]="[helpTip.link]" *ngIf="helpTip" class="btn btn-round btn-sm waves-effect">{{ helpTip.link_text }}</a>
-                      </div>
+                        <!-- <a [routerLink]="[helpTip.link]" *ngIf="helpTip" class="btn btn-round btn-sm waves-effect">{{ helpTip.link_text }}</a> -->
                     </div>
                   </div>
                 </div>
-              </div> -->
 
 
 
@@ -219,7 +211,7 @@
                            <ngx-slick-carousel class="carousel" 
                               #feedSlickModal="slick-carousel" 
                               [config]="feedSlideConfig">
-                              <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed.images, feed.title)" [src]="image" class="feed-image-responsive"/>
+                              <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed, feed.title)" [src]="image" class="feed-image-responsive"/>
                             </ngx-slick-carousel>
                         </div>
 
@@ -230,8 +222,8 @@
                       <div class="job-status-bar">
                         <ul class="like-com">
                           <li>
-                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i>     <b *ngIf="!feed.hasLiked">Like</b>
-                                <b *ngIf="feed.hasLiked">Unlike</b>
+                            <a [routerLink]="" (click)="toggleLike(feed.id)" class="like-tc"><i class="la la-heart"></i>     <b *ngIf="feed.hasLiked == '0'">Like</b>
+                                <b *ngIf="feed.hasLiked == '1'">Unlike</b>
                             </a>
                             <span>{{ count(feed.likers) }}</span>
 
@@ -239,10 +231,13 @@
 
                             <a [routerLink]="" (click)="openSharingBox(feed)" class="comment-tc"><i class="la la-share"></i>
                             Share</a>
+
+                            <!-- <a [routerLink]="" class="comment-tc"><i class="fa fa-eye"></i>
+                            Views (0)</a> -->
                           </li> 
                          
                         </ul>
-                        <!-- <a><i class="la la-eye"></i>Views 50</a> -->
+                        <a><i class="la la-eye"></i>Views {{ feed.views }}</a>
                       </div>
 
                       <div class="" [@fadeAnimation] *ngIf="showSharingBox && currentShare.id === feed.id">
@@ -423,5 +418,42 @@
               <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
             </div>
           </div>
+        </div>
+      </div>
+
+
+
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #followersModal id="followersModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+               </h6>
+               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+             </div>
+             <div class="modal-body">
+
+             </div>
+
+            </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #followingsModal id="followingsModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+               </h6>
+               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+             </div>
+             <div class="modal-body">
+
+             </div>
+
+            </div>
         </div>
       </div>

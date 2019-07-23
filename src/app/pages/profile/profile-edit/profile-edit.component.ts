@@ -164,7 +164,8 @@ export class ProfileEditComponent implements OnInit {
 			phone: [''],
 			website: [''],
 			services: [],
-			social_handle: this.formBuilder.array([this.createSocialHandle()])
+			partnership_terms: ['']
+			// social_handle: this.formBuilder.array([this.createSocialHandle()])
 		});
 
 		this.passwordForm = this.formBuilder.group({
@@ -341,20 +342,21 @@ export class ProfileEditComponent implements OnInit {
 		this.companyForm.get('website').setValue(this.roleData.website);
 		this.companyForm.get('phone').setValue(this.roleData.phone);
 		this.companyForm.get('services').setValue(this.roleData.services);
+		this.companyForm.get('partnership_terms').setValue(this.roleData.partnersip_terms);
 
-		if (_.size(this.roleData.social_handle) > 0) {
-			let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;
-			socialArray.removeAt(0);
+		// if (_.size(this.roleData.social_handle) > 0) {
+		// 	let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;
+		// 	socialArray.removeAt(0);
 
-			this.roleData.social_handle.forEach((item, index) => {
-				socialArray.push(this.mockSocialHandle(item));
-			});
+		// 	this.roleData.social_handle.forEach((item, index) => {
+		// 		socialArray.push(this.mockSocialHandle(item));
+		// 	});
 
-			//detect DOM changes
-			setTimeout(() => {
-				this.cdr.detectChanges();
-			}, 200);
-		}
+		// 	//detect DOM changes
+		// 	setTimeout(() => {
+		// 		this.cdr.detectChanges();
+		// 	}, 200);
+		// }
 	}
 
 

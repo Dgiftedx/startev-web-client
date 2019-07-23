@@ -344,6 +344,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label class="mb-2">About Your Business</label>
                                         <textarea class="textarea form-control no-resize" formControlName="description" rows="4" placeholder="About Company"></textarea>
                                     </div>
                                 </div>
@@ -362,8 +363,22 @@
                                    </div>
                                </div>
 
+                               <div class="col-md-12">
+                                  <div class="form-group mt-4">
+                                      <label class="mb-2">Partnership Terms</label>
+                                      <ck-editor 
+                                      name="editor3" 
+                                      formControlName="partnership_terms"
+                                      skin="kama" 
+                                      language="en"
+                                      [config]="{'height':'200'}"
+                                      [fullPage]="true">
+                                      </ck-editor>
+                                 </div>
+                               </div>
 
-                                <div class="col-md-12 mt-3 mb-4">
+
+                               <!--  <div class="col-md-12 mt-3 mb-4">
                                     <div class="form-group">
                                         <label>Company/Business Social Networks</label>
                                         <div 
@@ -384,7 +399,7 @@
                                         </div>
                                         <button type="button" class="btn btn-round btn-primary btn-sm" (click)="addSocialHandle()"> Add More</button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-12">
                                     <button type="submit" 
                                     class="btn btn-sm btn-primary btn-round waves-effect" 

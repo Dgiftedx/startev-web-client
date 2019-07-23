@@ -89,7 +89,7 @@ export class BaseService {
         return this.http.post(`${this.endpoint}/mark-messages-as-read`, formData);
     }
 
-     public getOpenApiFeed(id:number){
+    public getOpenApiFeed(id:number){
         return this.http.get(`${this.endpoint}/open-api-get-feed/${id}`);
     }
 
@@ -144,6 +144,11 @@ export class BaseService {
 
     public fetchMyFeeds( user_id:number ){
         return this.http.get(`${this.endpoint}/get-my-feeds/${user_id}`);
+    }
+
+
+    public increaseFeedView(feed_id:number){
+        return this.http.get(`${this.endpoint}/increase-feed-view/${feed_id}`);
     }
 
     public fetchMyPublications( user_id:number ){

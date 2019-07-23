@@ -11,6 +11,7 @@
         public video: string,
         public link: any,
         public likers: any,
+        public views : number,
         public comments:any,
         public hasLiked: boolean,
         public time: Date
@@ -26,6 +27,7 @@
         this.video = video;
         this.link = link;
         this.likers = likers;
+        this.views = views;
         this.comments = comments;
         this.hasLiked = hasLiked;
         this.time = time;

@@ -183,10 +183,21 @@ export class FeedsComponent implements OnInit {
       //= Shoot Help Tips at regulat interval of 3mins =//
       this.helpInterval = setInterval(() => {
         this.triggerHelpTips();
-      }, 6000 * 3);
+      }, 6000 * 6);
     }
 
 
+
+     //================ increment Views ==================//
+    incrementViews(feed:any) {
+      this.baseService.increaseFeedView(feed.id)
+      .subscribe( (data : any) => {
+          let found = _.findIndex(this.feeds, ['id', feed.id]);
+          if (found) {
+            this.feeds[found].views = data.views;
+          }
+      });
+    }
 
     //==================== Open Sharing Box ====================//
     openSharingBox(feed:any) {
@@ -367,6 +378,9 @@ export class FeedsComponent implements OnInit {
 
     //============= Open Image ===============//
     openImage(feed:any) {
+
+      this.incrementViews(feed);
+
       let imageArray: Array<any> = [];
 
       imageArray.push({
@@ -378,10 +392,13 @@ export class FeedsComponent implements OnInit {
     }
 
     //============= Open Image ===============//
-    openMultipleImages(images:Array<any>, title:string) {
+    openMultipleImages(feed:any, title:string) {
+
+      this.incrementViews(feed);
+      
       let imageArray: Array<any> = [];
 
-      images.forEach((item) => {
+      feed.images.forEach((item) => {
         imageArray.push({
           src : item,
           caption : title

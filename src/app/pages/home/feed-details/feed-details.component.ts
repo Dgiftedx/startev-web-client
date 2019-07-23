@@ -64,31 +64,31 @@ export class FeedDetailsComponent implements OnInit {
 
 
   public adsSettings :any = {
-     "network": "yourNetworkId",
-      "ads": [{
-    "tag": "yourAdTag",
-    "id": "yourAdUnitId",
-    "mappings": [{
-      "device": {
-        "width": 0,
-        "height": 0
+    "network": "yourNetworkId",
+    "ads": [{
+      "tag": "yourAdTag",
+      "id": "yourAdUnitId",
+      "mappings": [{
+        "device": {
+          "width": 0,
+          "height": 0
+        },
+        "ad": {
+          "width": 320,
+          "height": 50
+        }
       },
-      "ad": {
-        "width": 320,
-        "height": 50
-      }
-    },
-    {
-      "device": {
-        "width": 750,
-        "height": 200
-      },
-      "ad": {
-        "width": 728,
-        "height": 90
-      }
-    }]
-  }],
+      {
+        "device": {
+          "width": 750,
+          "height": 200
+        },
+        "ad": {
+          "width": 728,
+          "height": 90
+        }
+      }]
+    }],
   }
 
   constructor(
@@ -115,12 +115,24 @@ export class FeedDetailsComponent implements OnInit {
 
   ngOnInit() {
   	this.feed = this.route.snapshot.data.details.feed;
+    //increment feed views
+    this.incrementViews(this.feed.id);
   }
 
 
   //==================== Open Sharing Box ====================//
-    openSharingBox() {
-      this.showSharingBox = !this.showSharingBox;
+  openSharingBox() {
+    this.showSharingBox = !this.showSharingBox;
+  }
+
+   //================ increment Views ==================//
+    incrementViews(feed_id:number) {
+      this.baseService.increaseFeedView(feed_id)
+      .subscribe( (data : any) => {
+        if (this.feed) {
+          this.feed.views = data.views;
+        }
+      });
     }
 
 
@@ -164,7 +176,7 @@ export class FeedDetailsComponent implements OnInit {
     //check if the user has toggle the comment for this coming feed
 
     if (this.showCommentBox) {
-      
+
       if (parseInt(this.comment.feedId) === feedId) {
         this.showCommentBox = false;
         this.comment.feedId = null,

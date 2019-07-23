@@ -230,17 +230,19 @@
             </p>
         </div><!--user-profile-ov end-->
        
-        <div class="user-profile-ov">
-            <h3>Contact</h3>
-            <h4>Phone: {{ profile.roleData.phone }}</h4>
-            <p>Website: {{ profile.roleData.website }}</p>
-        </div><!--user-profile-ov end-->
         <div class="user-profile-ov" *ngIf="count(profile.roleData.services) > 0">
             <h3>Services</h3>
             <ul>
                 <li *ngFor="let service of profile.roleData.services"g><a href="javascript:;" title="">{{ service }}</a></li>
             </ul>
         </div><!--user-profile-ov end-->
+
+         <div class="user-profile-ov">
+            <h3>Partnership Terms</h3>
+            
+            <p [innerHtml]="profile.roleData.partnership_terms"></p>
+        </div><!--user-profile-ov end-->
+
    </div>
 
 </div><!--product-feed-tab end-->

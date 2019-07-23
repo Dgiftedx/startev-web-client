@@ -32,6 +32,7 @@ export class FeedService {
 				video: string,
 				link: string,
 				likers : any,
+				views : number,
 				comments:any,
 				hasLiked : boolean,
 				time: string }) => {
@@ -47,6 +48,7 @@ export class FeedService {
 					data.video,
 					data.link,
 					data.likers,
+					data.views,
 					data.hasLiked,
 					data.comments,
 					new Date()));

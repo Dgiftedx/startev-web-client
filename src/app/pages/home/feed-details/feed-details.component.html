@@ -1,3 +1,10 @@
+<section class="top_breadcrumb">
+    <div class="items-container">
+        <div class="items">
+            <a [routerLink]="['/']" class="apple-font"><i class="fa fa-arrow-left"></i> Back to News Feed</a>
+        </div>
+    </div>
+</section>
 <main>
       <div class="main-section">
         <div class="container">
@@ -144,7 +151,7 @@
                           </li> 
                          
                         </ul>
-                       
+                       <a><i class="la la-eye"></i>Views {{ feed.views }}</a>
                       </div>
 
                        <div class="" [@fadeAnimation] *ngIf="showSharingBox">
