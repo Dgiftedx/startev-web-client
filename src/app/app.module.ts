@@ -113,6 +113,11 @@ import { UserManageProductsComponent } from './pages/partner/venture-dashboard/u
 import { CareerFieldsComponent } from './pages/widgets/career-fields/career-fields.component';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule, NgxUiLoaderConfig, SPINNER, POSITION, PB_DIRECTION } from 'ngx-ui-loader';
 import { OpenFeedComponent } from './pages/open-feed/open-feed.component';
+import { MessageConversationsComponent } from './pages/message/message-conversations/message-conversations.component';
+import { MessageLiveBroadcastComponent } from './pages/message/message-live-broadcast/message-live-broadcast.component';
+import { MessageChatGroupsComponent } from './pages/message/message-chat-groups/message-chat-groups.component';
+import { MessageChatRoomsComponent } from './pages/message/message-chat-rooms/message-chat-rooms.component';
+import { MessageContactListComponent } from './pages/message/message-contact-list/message-contact-list.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -127,9 +132,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsColor: '#4596c8',
   bgsPosition: "bottom-center",
   bgsSize: 40,
-  fgsType: SPINNER.ballSpin, // foreground spinner type
+  fgsType: SPINNER.threeStrings, // foreground spinner type
   pbDirection: PB_DIRECTION.leftToRight, // progress bar direction
-  pbColor: "#C90C0C",
+  pbColor: "#0073B1",
   overlayColor: "rgba(255,255,255, 1)",
   pbThickness: 5, // progress bar thickness
 };
@@ -197,6 +202,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     UserManageProductsComponent,
     CareerFieldsComponent,
     OpenFeedComponent,
+    MessageConversationsComponent,
+    MessageLiveBroadcastComponent,
+    MessageChatGroupsComponent,
+    MessageChatRoomsComponent,
+    MessageContactListComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

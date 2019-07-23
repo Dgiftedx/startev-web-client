@@ -26,14 +26,6 @@
 
 =============================================================*/
 
-
-
-
-
-
-
-
-
 /* ================================================================================== 
                                 Fonts
 ===================================================================================== */
@@ -131,6 +123,22 @@ p {
     color: #666666;
 }
 
+.table-center tbody tr td {
+    vertical-align: middle !important;
+}
+
+.product_store_images ul {
+    list-style: none !important;
+}
+
+.product_store_images ul li {
+    display: inline-flex;
+    margin-right: 10px;
+}
+
+ngx-file-picker {
+    max-width: 100% !important;
+}
 
 .user-badge {
     float: none;
@@ -1179,7 +1187,35 @@ fieldset[disabled] .btn-link.active {
     background-color: #fff !important
 }
 
+.list-container {
+    max-height: 350px;
+    overflow-y: auto;
+}
 
+.user-list{
+    padding: 5px 20px;
+    display: inline-flex;
+    width: 100%;
+    font-size: 12px;
+}
+
+.user-list:hover{
+    background-color: #f5f5f5;
+    transition: all 0.5s;
+}
+
+.user-list .user-avatar img{
+    width: 40px;
+    margin-right: 20px;
+    padding-top: 10px;
+}
+
+.user-list .user-info {
+    line-height: 16px;
+}
+.user-list .user-info h3 {
+    font-weight: 500;
+}
 
 .ed-opts {
     float: right;
@@ -1508,14 +1544,18 @@ nav ul ul li a {
     line-height: 20px;
 }
 .nott-list .notification-info span {
-    position: absolute;
-    bottom: 5px;
-    right: 0;
+   line-height: 20px;
 }
 .view-all-nots {
     float: left;
     width: 100%;
 }
+
+.advert-img {
+    width: 100%;
+}
+
+
 .view-all-nots > a {
     float: left;
     width: 100%;
@@ -2077,6 +2117,10 @@ main {
     border-right: 1px solid #e4e4e4;
     border-bottom: 1px solid #e4e4e4;
     margin-bottom: 20px;
+}
+
+.publication_container .post-bar .job_descp .post-content{
+    min-height: 100px;
 }
 
 .feeds-container{
@@ -5761,12 +5805,74 @@ a:hover {
     font-weight: 600;
     margin-bottom: 50px;
 }
+/* ================ Top Column ===================*/
+.top_breadcrumb{
+    display: flex;
+    width: 100%;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+    background: #0E5F89;
+}
+
+.notice_bar {
+    background-color: #fff;
+    text-align: center;
+    width: 100%;
+    min-height: 55px;
+    border-left: 2px solid #BD9E1E;
+}
+
+.notice_bar p {
+ padding: 7px 30px;
+ font-size: 20px;
+ font-weight: 500;
+}
+
+.top_breadcrumb .items-container {
+    display: flex;
+    min-width: 100%;
+    min-height: 55px;
+    overflow-x: auto;
+    padding: 15px 30px;
+}
+.top_breadcrumb .items-container::-webkit-scrollbar {
+  display: none;
+}
+
+.top_breadcrumb .items-container .items{
+    justify-content: center;
+    text-align: center;
+    min-width: 100px; 
+    margin: 5px 20px;
+}
+
+.top_breadcrumb .items-container .active a {
+    color: rgba(206,223,231, 0.9) !important;
+}
+
+.top_breadcrumb .items-container .items a {
+    width: 100%;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.top_breadcrumb .items-container .items a:hover {
+    color: rgba(206,223,231, 0.9);
+    transition: all 0.5s;
+}
+
 
 
 /* ============== messages-page ============== */
 
+.border-radius {
+    border-radius: 10px;
+}
+
 .messages-page {
-    padding: 50px 0 75px 0;
+    padding: 10px 0 75px 0;
 }
 .messages-sec {
     float: left;
@@ -5781,9 +5887,10 @@ a:hover {
     border-right: 1px solid #e4e4e4;
 }
 .msg-title {
+    background-color: #CEDFE7 !important;
     float: left;
     width: 100%;
-    padding: 36px 20px;
+    padding: 26px 20px;
 }
 .msg-title > h3 {
     color: #000000;

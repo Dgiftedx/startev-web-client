@@ -26,7 +26,7 @@
 	</div>
 
 	<div class="row" *ngIf="showMaterials">
-	<div class="col-md-6" *ngFor="let publication of publications">
+	<div class="col-md-6 publication_container" *ngFor="let publication of publications">
        <div class="post-bar feeds-container custom-bar">
         <div class="post_topbar">
           <div class="usy-dt">
@@ -48,14 +48,14 @@
 
         <ul class="user-fw-status">
 
-			<li>
-				<a class="btn btn-block btn-white waves-effect" 
-				href="javascript:;" (click)="openPublication(publication)" title=""> Available Downloads 
-        <span class="custom-badge" style="font-size: 10px;">
-        {{ count(publication.files) + count(publication.images) }}    
-        </span> -  Read More</a>
-			</li>
-		</ul>
+    			<li>
+    				<a class="btn btn-block btn-white waves-effect" 
+    				href="javascript:;" (click)="openPublication(publication)" title=""> Available Downloads 
+            <span class="custom-badge" style="font-size: 10px;">
+            {{ count(publication.files) + count(publication.images) }}    
+            </span> -  Read More</a>
+    			</li>
+    		</ul>
           
         </div>
 

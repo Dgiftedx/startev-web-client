@@ -85,6 +85,8 @@
 
 
 @media (max-width: 768px) {
+	.notice_bar p {font-size: 18px;}
+	.top_breadcrumb .items-container .items a {font-size: 17px;}
 	.login_register {display: none;}
 	.forum-bar ul {float: right;}
 	.comment_box input {width: 84%;}
@@ -111,6 +113,8 @@
 
 
 @media (max-width: 576px) {
+	.notice_bar p {font-size: 15px;}
+	.top_breadcrumb .items-container .items a {font-size: 15px;}
 	nav ul .active {border-bottom: none;}
 	.signin-pop {margin-bottom: 40px;}
 	.login-resources ul li {margin-bottom: 7px;}
@@ -171,6 +175,8 @@
 }
 
 @media (max-width: 410px) {
+	.notice_bar p {font-size: 13px;}
+	.top_breadcrumb .items-container .items a {font-size: 11px;}
 	.post-st ul li a {font-size: 12px;padding: 0 6px;}
 	.like-com li a {font-size: 12px;}
 	.job_descp h3 {font-size: 16px;}

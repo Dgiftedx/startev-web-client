@@ -12,7 +12,7 @@
 
 				<div class="mt-3">
 					<p class="text-center apple-font rigid"><span>Your company services</span></p>
-					<ul class="custom-list" *ngIf="profile.roleData">
+					<ul class="mb-5" *ngIf="profile.roleData">
 						<li *ngFor="let service of profile.roleData.services">
 							{{ service | titlecase }},
 						</li>

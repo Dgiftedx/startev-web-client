@@ -61,7 +61,7 @@
 							<!-- <small class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</small> -->
 							<ul>
 								<li><a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" title="" class="followw">Partner</a></li>
-								<li><a href="#" title="" class="message-us"><i class="fa fa-envelope"></i></a></li>
+								<!-- <li><a href="#" title="" class="message-us"><i class="fa fa-envelope"></i></a></li> -->
 							</ul>
 						</div>
 						<a [routerLink]="['/general-profile', venture.business.user.slug]" title="" class="view-more-pro">View Profile</a>

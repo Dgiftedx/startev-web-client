@@ -1,185 +1,27 @@
-<section class="messages-page">
-    <div class="container">
-        <div class="messages-sec">
-            <div class="row">
-                <div class="col-lg-4 col-md-12 no-pdd bg-white">
-                    <div class="msgs-list">
-                        <div class="msg-title">
-                            <h3>Messages</h3>
-                            <ul>
-                                <!-- <li><a href="#" title=""><i class="fa fa-cog"></i></a></li> -->
-
-                                 <div class="ed-opts">
-                                    <button type="button" class="ed-options btn btn-round btn-icon btn-icon-mini btn-white waves-effect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="la la-ellipsis-v"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                      <button 
-                                      class="dropdown-item" 
-                                      type="button" (click)="triggerNewChat()"> <i class="fa fa-plus"></i> New Chat</button>
-                                      
-                                    </div>
-                                  
-                                  </div>
-
-                            </ul>
-                        </div><!--msg-title end-->
-                        <div class="messages-list">
-                            <ul>
-                                <li *ngFor="let user of messages$" [class.active]="activeChat.id === user.id"
-                                (click)="openChatWindow(user)">
-                                    <div class="usr-msg-details">
-                                        <div class="usr-ms-img">
-                                            <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="">
-                                            <span class="msg-status" *ngIf="activeChat.status === true"></span>
-                                        </div>
-                                        <div class="usr-mg-info">
-                                            <h3>{{ user.name }}</h3>
-                                            <p *ngIf="count(user.messages) > 0">{{ user.messages[0].message | excerpt :40 }}</p>
-                                        </div><!--usr-mg-info end-->
-                                        <span class="posted_time" 
-                                        *ngIf="count(user.messages) > 0">{{ user.messages[0].created_at | date:'EEE' }}</span>
-                                        <span class="msg-notifc" 
-                                        *ngIf="count(user.messages) > 0">{{ count(user.messages) }}</span>
-                                    </div><!--usr-msg-details end-->
-                                </li>
-                               
-                            </ul>
-                        </div><!--messages-list end-->
-                    </div><!--msgs-list end-->
-                </div>
-                <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
-                    <div class="main-conversation-box">
-                        <div class="message-bar-head">
-                            <div class="usr-msg-details" *ngIf="activeChat.messages">
-                                <div class="usr-ms-img">
-                                    <img src="{{ checkValue(activeChat.avatar, 'avatar', 'null') }}" alt="">
-                                </div>
-                                <div class="usr-mg-info">
-                                    <h3>{{ activeChat.name | titlecase }}</h3>
-                                   <p *ngIf="activeChat.status === true">Online</p>
-                                   <p *ngIf="activeChat.status === false">Offline</p>
-                                </div><!--usr-mg-info end-->
-                            </div>
-                            <!-- <a href="#" title=""><i class="fa fa-ellipsis-v"></i></a> -->
-
-                        </div><!--message-bar-head end-->
-                        <div class="messages-line">
-                            <div class="upper-margin"></div>
-
-                            <div class="main-message-box" 
-                            *ngFor="let message of activeChat.messages | orderBy: 'created_at':false"
-                            [ngClass]="{'ta-right' : message.sender_id === currentUser.id}"
-                            [class.st3]="message.sender_id !== currentUser.id">
-
-                                <div class="message-dt" 
-                                [class.st3]="message.sender_id !== currentUser.id"
-                                [class.me]="message.sender_id === currentUser.id">
-                                   <!--  <div class="message-inner-dt img-bx">
-                                        <img src="images/resources/mt-img1.png" alt="">
-                                        <img src="images/resources/mt-img2.png" alt="">
-                                        <img src="images/resources/mt-img3.png" alt="">
-                                    </div> -->
-                                    <div class="message-inner-dt">
-                                        <p>{{ message.message }}</p>
-                                    </div>
-                                    <span>{{ message.created_at | date: 'shortTime' }}</span>
-                                </div><!--message-dt end-->
-
-                                <div class="messg-usr-img">
-                                     <img 
-                                        *ngIf="message.sender_id !== currentUser.id" 
-                                        src="{{ checkValue(activeChat.avatar, 'avatar', 'null') }}" 
-                                        title="{{ activeChat.name }}" 
-                                        alt="avatar">
-
-                                     <img 
-                                        *ngIf="message.sender_id === currentUser.id" 
-                                        src="{{ checkValue(currentUser.avatar, 'avatar', 'null') }}" 
-                                        alt="avatar">
-                                </div><!--messg-usr-img end-->
-                            </div><!--main-message-box end-->
-                            
-                            
-
-                            <!-- user typing -->
-
-                            <div class="main-message-box st3 typing" 
-                            [ngClass]="{'mb-4':checkTypingEvent(activeChat.id)}" 
-                            *ngIf="checkTypingEvent(activeChat.id)">
-                                <div class="message-dt st3">
-                                    <div class="message-inner-dt">
-                                        <p>....</p>
-                                    </div><!--message-inner-dt end-->
-                                    <span>Typing...</span>
-                                </div><!--message-dt end-->
-                                <div class="messg-usr-img">
-                                    <img src="{{ checkValue(activeChat.avatar, 'avatar', 'null') }}" alt="">
-                                </div><!--messg-usr-img end-->
-                            </div><!--main-message-box end-->
-
-
-                        </div><!--messages-line end-->
-                        <div class="message-send-area" *ngIf="count(activeChat) > 0">
-                           
-                            <div class="mf-field">
-                                <input 
-                                type="text" 
-                                (keyup.enter)="sendMessage(activeChat)"
-                                (focus)="typingEvent($event, activeChat.id)"
-                                (blur)="stopTypingEvent($event, activeChat.id)"
-                                placeholder="Type your message..."
-                                [(ngModel)]="chatMessage">
-                                <button type="button" (click)="sendMessage(activeChat)">Send</button>
-                            </div>
-                           <!--  <ul>
-                                <li><a href="#" title=""><i class="fa fa-camera"></i></a></li>
-                                <li><a href="#" title=""><i class="fa fa-paperclip"></i></a></li>
-                            </ul> -->
-                            
-                        </div><!--message-send-area end-->
-                    </div><!--main-conversation-box end-->
-                </div>
-            </div>
-        </div><!--messages-sec end-->
+<section class="top_breadcrumb">
+    <div class="items-container">
+        <div class="items">
+            <a [routerLink]="['/']" class="apple-font"><i class="fa fa-arrow-left"></i> Back to News Feed</a>
+        </div>
+         <div class="items" *ngFor="let nav of navigation" [ngClass]="{active: selectedNav.id === nav.id}">
+            <a href="javascript:;" (click)="setSelected(nav)" class="apple-font"><i class="fa {{ nav.icon }}"></i> {{ nav.name }}</a>
+        </div>
     </div>
-</section><!--messages-page end-->
+</section>
 
-
-
-  <!-- Modal Section -->
-  <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #contactListModal id="contactListModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div  class="modal-header custom-modal-header" 
-        [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-      </div>
-      <div class="modal-body"> 
-       <div class="requests-list" *ngIf="contacts$">
-
-            <div class="request-details" *ngFor="let contact of contacts$ | async">
-                <div class="noty-user-img">
-                    <img class="rounded-circle" src="{{ checkValue(contact.avatar, 'avatar', 'null') }}" alt="{{ contact.name }}">
-                </div>
-                <div class="request-info">
-                    <h3>{{ contact.name }}</h3>
-                     <span *ngIf="contact.state && contact.country">{{ contact.state }}, {{ contact.country }}</span>
-                     <span *ngIf="!contact.state && !contact.country">New User</span>
-                </div>
-                <div class="accept-feat">
-                    <ul>
-                        <li>
-                            <button type="button" (click)="setNewChat(contact)" class="accept-req">Start Chat</button>
-                        </li>
-                    </ul>
-                </div><!--accept-feat end-->
-            </div><!--request-detailse end-->
-           
-           
-        </div><!--requests-list end-->
-      </div>
-      <div class="modal-footer">
-        <!-- <button type="button" (click)="submitArticlePost()" class="btn btn-sm btn-simple waves-effect">Publish</button> -->
-        <button (click)="closeModal('contactListModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
-      </div>
-    </div>
-  </div>
+<div class="" *ngIf="selectedNav.alias === 'conversations'">
+    <app-message-conversations></app-message-conversations>
 </div>
+<div class="" *ngIf="selectedNav.alias === 'live_broadcast'">
+    <app-message-live-broadcast></app-message-live-broadcast>
+</div>
+<div class="" *ngIf="selectedNav.alias === 'chat_groups'">
+    <app-message-chat-groups></app-message-chat-groups>
+</div>
+<div class="" *ngIf="selectedNav.alias === 'chat_rooms'">
+    <app-message-chat-rooms></app-message-chat-rooms>
+</div>
+<div class="" *ngIf="selectedNav.alias === 'contact_list'">
+    <app-message-contact-list></app-message-contact-list>
+</div>
+

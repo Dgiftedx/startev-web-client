@@ -1,0 +1,63 @@
+<section>
+	<div class="container">
+		<div class="notice_bar mt-3 shadow">
+			<p class="apple-font">Manage your contacts, this let's you avoid spamming contact list</p>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-6 col-md-12 mb-3">
+				<div class="card shadow">
+					<div class="card-header">
+						<h2>Contact List</h2>
+					</div>
+					<div class="card-body no-margin no-pdd" *ngIf="count(contactList) > 0">
+						<div class="user-list border border-light" *ngFor="let contact of contactList">
+							<div class="user-avatar">
+								<img [src]="checkValue(contact.avatar, 'avatar', 'null')" class="rounded-circle" />
+							</div>
+
+							<div class="user-info">
+								<h3 class="apple-font rigid">{{ contact.name }}</h3>
+								<span class="apple-font" *ngIf="contact.roleData.role === 'student' || contact.roleData.role === 'graduate'">{{ contact.roleData.data.institution }}</span>
+								<span class="apple-font" *ngIf="contact.roleData.role === 'mentor'">{{ contact.roleData.data.organization }}</span>
+								<span class="apple-font" *ngIf="contact.roleData.role === 'business'">{{ contact.roleData.data.name }}</span>
+								<br/>
+								<a [routerLink]="" (click)="removeFromContact(contact)" class="text-primary">remove contact</a>
+							</div>
+						</div>
+					</div>
+					<div class="card-body text-center" *ngIf="count(contactList) === 0">
+						<p>Your contact list is empty</p>
+					</div>
+				</div>
+			</div>
+			<div class="col"></div>
+			<div class="col-lg-5 col-md-12">
+				<div class="card shadow">
+					<div class="card-header">
+						<h2>Available Connections</h2>
+					</div>
+					<div class="card-body no-margin no-pdd list-container" *ngIf="count(connections) > 0">
+						<div class="user-list border border-light" *ngFor="let user of connections">
+							<div class="user-avatar">
+								<img [src]="checkValue(user.avatar, 'avatar', 'null')" class="rounded-circle" />
+							</div>
+							<div class="user-info">
+								<h3 class="apple-font rigid">{{ user.name }}</h3>
+								<span class="apple-font" *ngIf="user.roleData.role === 'student' || user.roleData.role === 'graduate'">{{ user.roleData.data.institution }}</span>
+								<span class="apple-font" *ngIf="user.roleData.role === 'mentor'">{{ user.roleData.data.organization }}</span>
+								<span class="apple-font" *ngIf="user.roleData.role === 'business'">{{ user.roleData.data.name }}</span>
+								<br/>
+								<a [routerLink]="" *ngIf="!checkInContact(user.id)" (click)="addToContact(user)" class="text-primary">Add to contacts</a>
+								<a [routerLink]="['/general-profile', user.slug]" *ngIf="checkInContact(user.id)" (click)="addToContact(user)" class="text-primary">View profile</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-body text-center" *ngIf="count(connections) === 0">
+						<p>Your connections list shows here.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

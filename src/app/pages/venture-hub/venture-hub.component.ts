@@ -1,6 +1,7 @@
+declare var $: any;
 import { Subscription } from 'rxjs';
 import { User } from '../../_models';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
@@ -17,11 +18,7 @@ export class VentureHubComponent implements OnInit {
 	currentUser : User;
 	  param = null;
 	  industry = {};
-	  businesses = [];
-	  selectedIndustry = {};
-
     ventures = [];
-	  businessForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -36,19 +33,10 @@ export class VentureHubComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
-  createSearchForm(){
-    this.businessForm = this.formBuilder.group({
-      selected : [''],
-    });
-  }
+ 
 
    ngOnInit() {
     this.ventures = this.route.snapshot.data.ventures.ventures;
-    this.createSearchForm();
-    this.baseService.allBusiness()
-    .subscribe((businesses :  any) => {
-      this.businesses = businesses.all;
-    })
   }
 
   get profile(){
@@ -59,13 +47,38 @@ export class VentureHubComponent implements OnInit {
   isVentureOwner(profile:any, venture:any) {
     return (profile.role == 'business') && (venture.business_id === profile.roleData.id)?true:false;
   }
+
+
+  clearSearch(){
+    this.baseService.allVentures()
+    .subscribe( (data : any) => {
+      this.ventures = data.ventures;
+    })
+
+    $('#ventureSearch').val("");
+  }
   
-  showCurrentVentures(): void {
-    this.getBusinessVentures(this.businessForm.value.selected);
+  searchVentures(event: Event): void {
+    const stringEmitted = (event.target as HTMLInputElement).value;
+
+    let data = {
+      query: stringEmitted
+    };
+
+    this.ventureCustomSearch(data);
   }
 
   handleResponse(data : any){
     this.ventures = data.ventures;
+  }
+
+
+  ventureCustomSearch(queryForm:any) {
+
+    this.baseService.searchVentures(queryForm)
+    .subscribe( (data : any) => {
+      this.ventures = data;
+    });
   }
 
   getBusinessVentures(id : any){
@@ -74,7 +87,6 @@ export class VentureHubComponent implements OnInit {
       data => {
         this.handleResponse(data);
       },
-
 
       error => {
         this.alert.errorMsg(error.error, "Request Failed");

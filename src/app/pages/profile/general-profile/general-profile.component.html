@@ -38,6 +38,7 @@
                                         <span>Followers</span>
                                         <b>{{ count(profile.followers) }}</b>
                                     </li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -336,6 +337,18 @@
 
         <div class="col-lg-3">
             <div class="right-sidebar">
+              <div class="message-btn">
+                  <a *ngIf="isFollowing(profile.user.id)" 
+                  [routerLink]=""
+                  (click)="unFollowUser(profile.user.id)"
+                  class="waves-effect"><i class="fa fa-minus"></i> UnFollow</a>
+
+                   <a *ngIf="!isFollowing(profile.user.id)" 
+                   [routerLink]=""
+                   (click)="followUser(profile.user.id)"
+                   class="waves-effect"><i class="fa fa-plus"></i> Follow</a>
+
+              </div>
                     <!-- Advert Widget -->
                       <app-ads-widget></app-ads-widget>
                       <!--// end advert Widget -->

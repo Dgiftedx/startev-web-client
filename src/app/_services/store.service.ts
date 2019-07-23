@@ -74,6 +74,22 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/get-single-order/${identifier}`);
 	}
 
+	public getProducts(user_id:number){
+		return this.http.get(`${this.endpoint}/store/get-store-products/${user_id}`);
+	}
+
+	public addProduct(formData:any, user_id:number, url:string){
+		return this.http.post(`${this.endpoint}/store/${url}/${user_id}`, formData);
+	}
+
+	public getSingleProduct(product_id:number){
+		return this.http.get(`${this.endpoint}/store/get-single-product/${product_id}`).pipe(delay(800));
+	}
+
+	public deleteSingleProduct(product_id:number){
+		return this.http.get(`${this.endpoint}/store/delete-single-product/${product_id}`);
+	}
+
 
 	public forwardOrder(data:any){
 		return this.http.post(`${this.endpoint}/store/forward-order`, data);

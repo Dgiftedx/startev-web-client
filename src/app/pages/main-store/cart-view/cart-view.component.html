@@ -99,14 +99,15 @@
                     <div class="row clearfix">
                         <div class="col-md-6 col-sm-6">
                             <address>
-                                <strong>Startev Inc.</strong><br>
+                                <strong>Startev Africa.</strong><br>
                                 15B, Alhaji Hussen,<br>
                                 Lekki-Phase 1, NG 23407<br>
                                 <abbr title="Phone">P:</abbr> (123) 456-34636
                             </address>
                         </div>
+
                         <div class="col-md-6 col-sm-6 text-right">
-                            <p class="m-b-0"><strong>Order Date: </strong> {{ invoice.order_date | date:'mediumDate' }}</p>
+                            <p class="m-b-0"><strong>Order Date: </strong> {{ invoice.order_date.date | date: 'mediumDate' }}</p>
                             <p class="m-b-0"><strong>Order Status: </strong> <span class="badge badge-warning m-b-0">{{ invoice.order_status }}</span></p>
                             <p><strong>Order ID: </strong> #{{ invoice.order_id }}</p>
                         </div>
@@ -159,7 +160,7 @@
                             [useExistingCss]="true"
                             ngxPrint 
                             printSectionId="print-invoice" 
-                            class="btn btn-warning btn-icon  btn-icon-mini btn-round"><i class="zmdi zmdi-print"></i></button>
+                            class="btn btn-primary btn-round"><i class="fa fa-print"></i></button>
                             <a [routerLink]="['/']" class="btn btn-secondary btn-round">Goto Home</a>
                         </div>
                     </div>

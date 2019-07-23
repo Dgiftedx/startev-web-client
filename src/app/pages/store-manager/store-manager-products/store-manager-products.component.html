@@ -257,7 +257,7 @@
                                 type="number" formControlName="discount_price"/>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label>Brief information about product</label>
                                 <textarea 
                                 class="form-control" 
@@ -268,23 +268,23 @@
                                       <div *ngIf="p.highlight.errors.required">Product Highlight is required</div>
                                   </div>
 
-                            </div>
+                            </div> -->
 
-                           <!--  <div class="form-group mt-4">
+                            <div class="form-group mt-4">
                                 <label>Product's Detailed Description</label>
                                 <ck-editor 
                                 name="editor2" 
-                                formControlName="product_description"
+                                formControlName="highlight"
                                 skin="kama" 
                                 language="en"
-                                [config]="{'height':'300'}"
+                                [config]="{'height':'200'}"
                                 [fullPage]="true">
                                 </ck-editor>
-                           </div> -->
+                           </div>
 
-                           <div class="text-center">
+                           <div class="text-center mb-4">
                                <span>Upload Your Product Images </span>
-                               <p class="apple-font text-danger" *ngIf="uploadNotice">Any image you upload will replace old ones.</p>
+                               <p class="apple-font text-danger" *ngIf="uploadNotice">Old images will be replaced by new ones</p>
                            </div>
                            <div class="uploader-wrapper text-center">
                                <ngx-file-picker 
@@ -303,7 +303,7 @@
                                </ngx-file-picker>
                            </div>
 
-                           <div class="form-group text-center">
+                           <div class="form-group text-center mt-5">
                                <button type="submit"
                                (click)="onSubmitProduct()"
                                class="btn btn-sm btn-round btn-primary waves-effect" 

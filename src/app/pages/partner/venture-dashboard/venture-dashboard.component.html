@@ -27,6 +27,11 @@
 				<div *ngIf="selectedNavigation.alias === 'venture_products'">
 					<app-user-ventures></app-user-ventures>
 				</div>
+
+				<div *ngIf="selectedNavigation.alias === 'manage_products'">
+					<app-user-manage-products></app-user-manage-products>
+				</div>
+				
 				<div *ngIf="selectedNavigation.alias === 'customer_reviews'">
 					<app-user-reviews></app-user-reviews>
 				</div>

@@ -171,7 +171,7 @@ export class GeneralProfileComponent implements OnInit {
 		this.profileData.following = data.following;
 		//update following Ids
 		this.updateFollowingIds(data.following);
-		this.alert.successMsg(data.message,"Updates");
+		// this.alert.successMsg("Follow activity successful","Updates");
 		this.stableData();
 	}
 

@@ -1,5 +1,5 @@
 
-<header class="sticky-top" *ngIf="nav.visible">
+<header class="sticky-top shadow" *ngIf="nav.visible">
     <div class="container-fluid">
         <div class="header-data">
             <div class="logo">
@@ -61,10 +61,11 @@
 
                     <div class="notfication-details" *ngFor="let item of notifications">
                         <div class="noty-user-img">
-                            <img [src]="item.user.avatar" alt="">
+                            <!-- <img [src]="item.user.avatar" alt=""> -->
+                            <i class="fa fa-bell lg"></i>
                         </div>
                         <div class="notification-info">
-                            <h6><a href="javascript:;" title="">{{ item.user.name }}</a> </h6>
+                            <h6><a href="javascript:;" title="">{{ item.title }}</a> </h6>
                             <p>{{ item.content }}</p>
                             <span>{{ item.created_at | dateAgo }}</span>
                         </div>
@@ -111,7 +112,7 @@
 
 
 
-<header class="sticky-top" *ngIf="!nav.visible">
+<header class="sticky-top shadow" *ngIf="!nav.visible">
     <div class="container-fluid">
         <div class="header-data">
             <div class="logo">

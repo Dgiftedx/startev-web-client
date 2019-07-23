@@ -138,6 +138,7 @@ export class StoreManagerProductsComponent implements OnInit {
 		this.formUrl = 'add-product';
 		this.showAddNew = true;
 		this.showMainBox = false;
+		this.createForm();
 	}
 
 	onFileAdded(file: FilePreviewModel) {

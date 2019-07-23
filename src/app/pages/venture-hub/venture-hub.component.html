@@ -9,17 +9,9 @@
 				<div class="row clearfix justify-content-md-center">
 					<div class="col-md-6 text-center slideDown">
 
-						<form [formGroup]="businessForm">
-							<label class="text-center">Select Business/Organzation</label>
-							 <ng-select 
-							 		   [items]="businesses"
-                                       bindLabel="name"
-                                       bindValue="id"
-                                       (ngModelChange)="showCurrentVentures()"
-                                       [dropdownPosition]="'bottom'"
-                                       placeholder="select business"
-                                       formControlName="selected">
-                            </ng-select>
+						<form class="form-group">
+							<input type="text" id="ventureSearch" #search (keyup.enter)="searchVentures($event)" class="form-control" name="search" placeholder="Search ventures...">
+							<button type="button" class="btn btn-round btn-primary" (click)="clearSearch()">reload</button>
 						</form>
 					</div>
 				</div>
@@ -31,10 +23,8 @@
 							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" width="110" />
 							<h3>{{ venture.venture_name | titlecase }}</h3>
 							<h4>Joined {{ venture.created_at | date:'mediumDate' }}</h4>
-							<!-- <small class="text-muted location">{{ venture.business.user.state }}, {{ venture.business.user.country }}</small> -->
 							<ul>
 								<li><a *ngIf="!isVentureOwner(profile,venture)" [routerLink]="['/partner-view',venture.identifier]" title="" class="followw">Partner</a></li>
-								<!-- <li><a href="#" title="" class="message-us"><i class="fa fa-envelope"></i></a></li> -->
 							</ul>
 						</div>
 						<a [routerLink]="['/general-profile', venture.business.user.slug]" title="" class="view-more-pro">View Profile</a>

@@ -70,12 +70,31 @@ export class BaseService {
         }
     }
 
+
+
+    //======================= Messaging ============================//
+    public getUserContactList( user_id: number ){
+        return this.http.get(`${this.endpoint}/get-user-contact-list/${user_id}`);
+    }
+
+    public addToContact(formData:any){
+        return this.http.post(`${this.endpoint}/add-to-contact-list`, formData);
+    }
+
+    public removeFromContact(formData:any){
+        return this.http.post(`${this.endpoint}/remove-from-contact-list`, formData);
+    }
+
+    public markMessagesAsRead(formData:any){
+        return this.http.post(`${this.endpoint}/mark-messages-as-read`, formData);
+    }
+
      public getOpenApiFeed(id:number){
         return this.http.get(`${this.endpoint}/open-api-get-feed/${id}`);
     }
 
     public markAllAsRead(id:number){
-        return this.http.get(`${this.endpoint}/mark-all-as-read/${id}`);
+        return this.http.get(`${this.endpoint}/mark-all-notifications-as-read/${id}`);
     }
 
     public generateCode(formData: any){
@@ -169,6 +188,10 @@ export class BaseService {
     // Register a new user
     public updateUserData(formData: any, url : string, id : number){
         return this.http.post<any>(`${this.endpoint}/${url}/${id}`, formData);
+    }
+
+    public searchVentures(formData: any){
+        return this.http.post<any>(`${this.endpoint}/search-ventures`, formData);
     }
 
     public fetchCareerPaths(){
