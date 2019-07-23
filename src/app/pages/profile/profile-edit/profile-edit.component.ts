@@ -342,7 +342,7 @@ export class ProfileEditComponent implements OnInit {
 		this.companyForm.get('website').setValue(this.roleData.website);
 		this.companyForm.get('phone').setValue(this.roleData.phone);
 		this.companyForm.get('services').setValue(this.roleData.services);
-		this.companyForm.get('partnership_terms').setValue(this.roleData.partnersip_terms);
+		this.companyForm.get('partnership_terms').setValue(this.roleData.partnership_terms);
 
 		// if (_.size(this.roleData.social_handle) > 0) {
 		// 	let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;

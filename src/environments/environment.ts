@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   cloudinary: {
   	cloud_name : 'startev', 
     api_key: '257256259453978', 
