@@ -8,7 +8,10 @@ export const environment = {
   	cloud_name : 'startev', 
     api_key: '257256259453978', 
     api_secret: '39Q7GNO2ZJTDqrtVcJaxIvdEC_A', 
-    upload_preset: 'tvje9bug'
+    upload_preset: 'tvje9bug',
+  agora: {
+    appId: '8658c3ff39b7418d9df4e3f15915d7e6'
+  }
   },
   laddaConfig : {
     style: "expand-right",

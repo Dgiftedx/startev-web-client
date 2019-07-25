@@ -1,27 +1,33 @@
 <section class="top_breadcrumb">
     <div class="items-container">
         <div class="items">
-            <a [routerLink]="['/']" class="apple-font"><i class="fa fa-arrow-left"></i> Back to News Feed</a>
+            <a [routerLink]="['/']" class="apple-font"><i class="fa fa-arrow-left"></i> Back to Feeds</a>
         </div>
          <div class="items" *ngFor="let nav of navigation" [ngClass]="{active: selectedNav.id === nav.id}">
             <a href="javascript:;" (click)="setSelected(nav)" class="apple-font"><i class="fa {{ nav.icon }}"></i> {{ nav.name }}</a>
         </div>
     </div>
 </section>
+<main>
+    <div class="main-section">
+        <div class="" *ngIf="selectedNav.alias === 'conversations'">
+            <app-message-conversations></app-message-conversations>
+        </div>
+        <div class="" *ngIf="selectedNav.alias === 'live_broadcast'">
+            <app-message-live-broadcast></app-message-live-broadcast>
+        </div>
+        <div class="" *ngIf="selectedNav.alias === 'chat_rooms'">
+            <app-message-chat-rooms></app-message-chat-rooms>
+        </div>
+        <div class="" *ngIf="selectedNav.alias === 'contact_list'">
+            <app-message-contact-list></app-message-contact-list>
+        </div>
 
-<div class="" *ngIf="selectedNav.alias === 'conversations'">
-    <app-message-conversations></app-message-conversations>
-</div>
-<div class="" *ngIf="selectedNav.alias === 'live_broadcast'">
-    <app-message-live-broadcast></app-message-live-broadcast>
-</div>
-<div class="" *ngIf="selectedNav.alias === 'chat_groups'">
-    <app-message-chat-groups></app-message-chat-groups>
-</div>
-<div class="" *ngIf="selectedNav.alias === 'chat_rooms'">
-    <app-message-chat-rooms></app-message-chat-rooms>
-</div>
-<div class="" *ngIf="selectedNav.alias === 'contact_list'">
-    <app-message-contact-list></app-message-contact-list>
-</div>
+        <div class="" *ngIf="selectedNav.alias === 'broadcast_schedule'">
+            <app-message-broadcast-schedule></app-message-broadcast-schedule>
+        </div>
+    </div>
+</main>
+
+<app-footer-widget-two></app-footer-widget-two>
 

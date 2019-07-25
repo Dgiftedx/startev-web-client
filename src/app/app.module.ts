@@ -1,9 +1,10 @@
 import { QuillModule } from 'ngx-quill'
 import { NgChatModule } from 'ng-chat';
-import {NgxAdDfpModule} from 'ngx-ad-dfp';
+import { NgxAdDfpModule} from 'ngx-ad-dfp';
 import { NgxPrintModule} from 'ngx-print';
 import { BaseService } from './_services';
 import { ToastrModule } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
 import { EmbedVideo } from 'ngx-embed-video';
 import { CKEditorModule } from 'ngx-ckeditor';
@@ -118,6 +119,13 @@ import { MessageLiveBroadcastComponent } from './pages/message/message-live-broa
 import { MessageChatGroupsComponent } from './pages/message/message-chat-groups/message-chat-groups.component';
 import { MessageChatRoomsComponent } from './pages/message/message-chat-rooms/message-chat-rooms.component';
 import { MessageContactListComponent } from './pages/message/message-contact-list/message-contact-list.component';
+import { MessageBroadcastScheduleComponent } from './pages/message/message-broadcast-schedule/message-broadcast-schedule.component';
+import { FooterWidgetTwoComponent } from './pages/widgets/footer-widget-two/footer-widget-two.component';
+
+
+//Owl NG
+import { OwlFormFieldModule, OwlSelectModule, OwlTooltipModule, OwlBadgeModule, OwlDialogModule } from 'owl-ng';
+import { NgxAgoraModule } from 'ngx-agora';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -207,6 +215,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MessageChatGroupsComponent,
     MessageChatRoomsComponent,
     MessageContactListComponent,
+    MessageBroadcastScheduleComponent,
+    FooterWidgetTwoComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -258,11 +268,18 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      QuillModule.forRoot(),
      InfiniteScrollModule,
      ShareButtonsModule,
-     NgxAdDfpModule
+     NgxAdDfpModule,
      // CloudinaryModule.forRoot(Cloudinary, environment.cloudinary)
+     OwlFormFieldModule,
+     OwlSelectModule,
+     OwlTooltipModule,
+     OwlBadgeModule,
+     OwlDialogModule,
+     NgxAgoraModule.forRoot({ AppID: '8658c3ff39b7418d9df4e3f15915d7e6' })
   ],
 
   providers: [
+        DatePipe,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: 'SnotifyToastConfig', useValue: ToastDefaults},

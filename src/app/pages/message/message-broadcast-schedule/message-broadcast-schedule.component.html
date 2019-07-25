@@ -1,0 +1,313 @@
+<section>
+	<div class="container">
+		<div class="notice_bar info mt-3 shadow">
+			<p class="apple-font">Manage your broadcast schedules</p>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-9 col-md-12 col-sm-12 mb-4">
+
+				<!-- ------------ Schedule Table lists --------------- -->
+				<div class="card fadeIn" *ngIf="showTable" [@fadeAnimation]>
+					<div class="card-header">
+						<h4>Schedules ordered by recent records</h4>
+					</div>
+					<div class="card-body no-margin no-pdd">
+						<div class="table-responsive">
+							<table class="table-center table table-striped" style="width:100%;">
+								<thead>
+									<tr>
+										<th>Batch ID</th>
+										<th>Number of Participants</th>
+										<th>Date & Time</th>
+										<th>Status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="count(schedules) > 0">
+									<tr *ngFor="let schedule of schedules">
+										<td>{{ schedule.identifier }}</td>
+										<td>
+											<button (click)="viewParticipants(schedule)" class="btn btn-sm btn-primary">
+									            View
+									            <owl-badge [content]="count(schedule.participants)"></owl-badge>
+									        </button>
+										</td>
+										<td>{{ schedule.date | date:'medium'}}</td>
+										<td>
+											
+							                <span class="badge badge-pill badge-warning">
+							                    {{ schedule.status }}
+							                </span>
+								            
+										</td>
+										<td>
+											<button 
+											(click)="editSchedule(schedule)"
+											[owlTooltip]="'Edit Schedule'" 
+											class="btn btn-round btn-primary btn-icon">
+											<i class="fa fa-edit"></i>
+											</button>
+
+											<button
+											(click)="deleteSchedule(schedule)"
+											[owlTooltip]="'Delete Schedule'" 
+											class="btn btn-round btn-danger btn-icon">
+											<i class="fa fa-trash"></i>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+								<tbody *ngIf="count(schedules) === 0">
+									<tr>
+										<td colspan="5" class="text-center"><p>You don't have pending schedules</p></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- ------------ Add New Broadcast Shedule --------------- -->
+				<div class="card bounceIn" *ngIf="showNew" [@fadeAnimation]>
+					
+					<div class="card-header d-inline">
+						<h4>Add New Broadcast Schedule</h4>
+					</div>
+					<div class="card-body">
+
+						<!-- If mentor has mentee list and is not empty -->
+						<div class="row" *ngIf="count(trainees) > 0">
+							<div class="col-lg-12">
+								<p class="mb-2">Maximum of 10 participants allowed</p>
+								<div class="form-group">
+									<label class="mb-2">Select Participants</label>
+									<owl-form-field>
+						                <owl-select 
+						                [owlSelectRange]="[1, 10]"
+						                [multiple]="true"
+						                #traineeInput="ngModel"
+						                [(ngModel)]="scheduleData.participants" 
+						                placeholder="Participants">
+						                    <owl-option *ngFor="let user of trainees" [value]="user.id">{{user.name}}</owl-option>
+						                </owl-select>
+
+						                <div 
+						                *ngIf="traineeInput.invalid && (traineeInput.dirty || traineeInput.touched) && traineeInput.errors.owlSelectRange" owlError>
+						                    Selected participants can't be more than 10.
+						                </div>
+
+						            </owl-form-field>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Select Date & Time</label>
+									<input [owlDateTimeTrigger]="broadcastTime1" [(ngModel)]="scheduleData.date" class="form-control" [owlDateTime]="broadcastTime1">
+                                    <owl-date-time [panelClass]="'bring-forward'" #broadcastTime1></owl-date-time>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Invitation Note</label>
+									 <quill-editor 
+					                   [modules]="editorConfig"
+					                   [(ngModel)]="scheduleData.invitation_note">
+					                  </quill-editor>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<button 
+								(click)="submitNewSchedule()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-send"></i> Submit</button>
+								<button 
+								(click)="toTable()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-arrow-left"></i>
+									Go Back
+								</button>
+							</div>
+
+						</div>
+
+						<!-- If mentor has mentee list and is empty -->
+						<div class="text-center" *ngIf="count(trainees) === 0">
+							<p>Sorry!! Your Mentee List Is Empty.</p>
+							<span class="mb-4">Until you have mentees, you can't create a schedule</span>
+
+							<button 
+								(click)="toTable()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-arrow-left"></i>
+									Go Back
+								</button>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- ------------ Edit Broadcast Shedule --------------- -->
+				<div class="card" *ngIf="showEdit" [@fadeAnimation]>
+					<div class="card-header">
+						<h4>Edit Broadcast Schedule for Batch: </h4>
+					</div>
+					<div class="card-body">
+						
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Edit Participants</label>
+									<owl-form-field>
+						                <owl-select 
+						                [owlSelectRange]="[1, 10]"
+						                [multiple]="true" 
+						                 #traineeInputEdit="ngModel"
+						                [(ngModel)]="scheduleEditData.participants" 
+						                placeholder="Participants">
+						                    <owl-option *ngFor="let user of trainees" [value]="user.id">{{user.name}}</owl-option>
+						                </owl-select>
+
+						                <div 
+						                *ngIf="traineeInputEdit.invalid && (traineeInputEdit.dirty || traineeInputEdit.touched) && traineeInputEdit.errors.owlSelectRange" owlError>
+						                    Selected participants can't be more than 10.
+						                </div>
+
+						            </owl-form-field>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Edit Date & Time</label>
+									 <input [owlDateTimeTrigger]="broadcastTime" [(ngModel)]="scheduleEditData.date" class="form-control" [owlDateTime]="broadcastTime">
+                                    <owl-date-time [pickerMode]="dialog" [panelClass]="'bring-forward'" #broadcastTime></owl-date-time>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<button 
+								(click)="updateSchedule()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-send"></i> Update</button>
+								<button
+								(click)="toTable()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-arrow-left"></i>
+									Go Back
+								</button>
+							</div>
+					    </div>
+					</div>
+				</div>
+
+
+				<!-- ------------ Send General Notification --------------- -->
+				<div class="card" *ngIf="showPushNotice">
+					<div class="card-header">
+						<h4>Send Message to Participants</h4>
+					</div>
+					<div class="card-body">
+						
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Select Batch</label>
+									<owl-form-field>
+						                <owl-select
+						                [(ngModel)]="pushBatch" 
+						                placeholder="Schedule Batch">
+						                    <owl-option *ngFor="let schedule of schedules" [value]="schedule.id">{{schedule.identifier}} - {{ count(schedule.participants) }} participants</owl-option>
+						                </owl-select>
+
+						            </owl-form-field>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="mb-2">Type Your Message</label>
+									 <quill-editor 
+					                   [modules]="editorConfig"
+					                   [(ngModel)]="pushMessage">
+					                  </quill-editor>
+								</div>
+							</div>
+
+							<div class="col-lg-12 mt-5">
+								<button 
+								(click)="sendPushNotification()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-send"></i> Send</button>
+								<button
+								(click)="toTable()"
+								type="button" 
+								class="btn btn-primary btn-sm">
+								<i class="fa fa-arrow-left"></i>
+									Go Back
+								</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+			</div>
+
+			<div class="col-lg-3 col-md-12 col-sm-12">
+				<div class="card">
+					<div class="card-header text-center">
+						<h4>Actions</h4>
+					</div>
+					<div class="card-body no-margin no-pdd bc-actions-links">
+						<a href="javascript:;" (click)="createNewSchedule()" class="apple-font">Create New Schedule</a>
+						<a href="javascript:;" (click)="pushNewNotice()" class="apple-font">Push Reminder Notice</a>
+						<a href="javascript:;" (click)="clearSchedules()" class="apple-font">Clear Schedule Log</a>
+						<a href="javascript:;" (click)="downloadSchedule()" class="apple-font">Download Schedule Logs (PDF)</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+ <!-- Modal Section -->
+  <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #participantsModal id="participantsModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div  class="modal-header custom-modal-header" 
+        [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+        <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+      </div>
+      <div class="modal-body"> 
+        <div class="user-list border border-light" *ngFor="let participants of currrentParticipantsView">
+			<div class="user-avatar">
+				<img [src]="checkValue(participants.avatar, 'avatar', 'null')" class="rounded-circle" />
+			</div>
+
+			<div class="user-info">
+				<h3 class="apple-font rigid">{{ participants.name }}</h3>
+				<span>{{ participants.email }}</span>
+				<br/>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeModal('participantsModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="apply-height"></div>

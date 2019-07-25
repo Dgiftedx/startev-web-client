@@ -3656,10 +3656,18 @@ footer {
     color: #b2b2b2;
     margin-top: 30px;
 }
-.fl-rgt {
+.fl-rgt{
+    font-size: 17px;
+    font-weight: 600;
     float: right;
     margin-top: 34px;
     padding-right: 30px;
+}
+.fl-rgt img {
+    margin-top:-5px;
+}
+.fl-rgt:not(img){
+    padding-top: 6px; 
 }
 
 /* ================== USER PROFILE =================== */
@@ -4959,6 +4967,9 @@ a:hover {
 
 /* =========== Range Slider ========== */
 
+.badge-warning {
+    background-color: #ECC420;
+}
 .rg-slider {
     float: left;
     width: 100%;
@@ -5822,14 +5833,26 @@ a:hover {
     background-color: #fff;
     text-align: center;
     width: 100%;
-    min-height: 55px;
+    min-height: 50px;
     border-left: 2px solid #BD9E1E;
 }
 
 .notice_bar p {
  padding: 7px 30px;
- font-size: 20px;
+ font-size: 18px;
  font-weight: 500;
+}
+
+.notice_bar.info{
+    border-left: 2px solid #2CA8D8 !important;
+}
+
+.notice_bar.success {
+    border-left: 2px solid #0FA119 !important;
+}
+
+.notice_bar.danger{
+    border-left: 2px solid #D61F1F !important;
 }
 
 .top_breadcrumb .items-container {
@@ -5866,7 +5889,35 @@ a:hover {
     transition: all 0.5s;
 }
 
+/*============= Broadcast Pages ===============*/
+.bring-forward{
+ z-index: 99999;
+ top:30%;
+}
 
+.apply-height {
+    min-height: 380px;
+}
+
+.no-radius {
+  border-radius: 0 !important;
+}
+
+.bc-actions-links a {
+    color: #0E5F89;
+    display: inline-block;
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 15px;
+    font-weight: 400;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.bc-actions-links a:hover {
+    color: #266f94;
+    background-color: #e6eff3;
+    transition: all 0.7s;
+}
 
 /* ============== messages-page ============== */
 

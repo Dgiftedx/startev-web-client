@@ -23,8 +23,7 @@ export class MessageComponent implements OnInit {
 
 	{id: 1, alias: "conversations", name: "Conversations", icon: "fa-comment"},
 	{id: 2, alias: "contact_list", name: "Contact List", icon: "fa-list"},
-	{id: 3, alias: "chat_groups", name: "Chat Groups", icon: "fa-users"},
-	{id: 4, alias: "chat_rooms", name: "Chat Rooms", icon: "fa-comments"},
+	{id: 3, alias: "chat_rooms", name: "Chat Rooms", icon: "fa-comments"},
 	];
 
 	public selectedNav = this.navigation[0];
@@ -52,7 +51,8 @@ export class MessageComponent implements OnInit {
 	ngOnInit() {
 
 		if (this.userData && this.userData.role === 'mentor') {
-			this.navigation.push({id:4, alias: 'live_broadcast', name: "Live Broadcast", icon: "fa-television"});
+			this.navigation.push({id:4, alias: 'broadcast_schedule', name: "Broadcast Schedule", icon: "fa-calendar"});
+			this.navigation.push({id:5, alias: 'live_broadcast', name: "Live Broadcast", icon: "fa-television"});
 		}
 	}
 

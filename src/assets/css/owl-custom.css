@@ -1,0 +1,64 @@
+
+
+.owl-form-field-focused .owl-form-field-required-marker {
+    color: #ff347f
+}
+
+.owl-form-field-focused .owl-form-field-placeholder {
+    color: #1E6D96
+}
+
+.owl-form-field-focused .owl-form-field-underline-graphic {
+    stroke: #1E6D96;
+}
+
+.owl-back-top {
+    background: #7e57c2;
+}
+
+
+.owl-badge,
+.owl-back-top:not([aria-disabled=true]):focus,
+.owl-back-top:not([aria-disabled=true]):hover {
+
+    background: #1E6D96;
+}
+
+.owl-chkbox-focused:not(.owl-chkbox-disabled) .owl-chkbox-box {
+    -webkit-box-shadow: 0 0 5px #1E6D96;
+    -moz-box-shadow: 0 0 5px #1E6D96;
+    box-shadow: 0 0 5px #1E6D96
+}
+
+
+.owl-fan-menu-btn,.owl-chip-selected,
+.owl-progress .owl-progress-basic-wrapper .owl-progress-value,
+.owl-progress .owl-progress-tradition-wrapper .owl-progress-value,
+.owl-pseudo-checkbox.owl-pseudo-checkbox-checked,
+.owl-pseudo-checkbox.owl-pseudo-checkbox-indeterminate,
+.owl-slider-bar,
+.owl-switch-checked .owl-switch-handle-container .owl-switch-handle,
+.owl-radio-checked .owl-radio-circle:before  {
+    background-color: #1E6D96
+}
+
+.owl-progress .owl-progress-basic-wrapper .owl-progress-basic-tooltip {
+   
+    -webkit-box-shadow: 0 0 3px #1E6D96;
+    -moz-box-shadow: 0 0 3px #1E6D96;
+    box-shadow: 0 0 3px #1E6D96;
+    background-color: #1E6D96;
+}
+
+.owl-radio-focused .owl-radio-circle {
+    -webkit-box-shadow: 0 0 5px #1E6D96;
+    -moz-box-shadow: 0 0 5px #1E6D96;
+    box-shadow: 0 0 5px #1E6D96
+}
+
+
+.owl-option.owl-option-selected:not(.owl-option-disabled) .owl-option-text {
+    color: #1E6D96
+}
+
+

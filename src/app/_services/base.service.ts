@@ -70,6 +70,34 @@ export class BaseService {
         }
     }
 
+    //====================== Broadcast =============================//
+    public broadcastSchedules( user_id: number ){
+        return this.http.get(`${this.endpoint}/get-broadcast-schedules/${user_id}`);
+    }
+
+    public getTrainees( user_id: number ){
+        return this.http.get(`${this.endpoint}/get-mentor-trainees/${user_id}`);
+    }
+
+    public updateSchedule( formData:any, url:string ){
+        return this.http.post(`${this.endpoint}/${url}`, formData);
+    }
+
+    public deleteSchedule(schedule_id:number) {
+        return this.http.get(`${this.endpoint}/delete-schedule/${schedule_id}`);
+    }
+
+    public sendNotice( formData:any ){
+        return this.http.post(`${this.endpoint}/send-schedule-notice`, formData);
+    }
+
+    public clearBroadcastSchedules( user_id:any ){
+        return this.http.get(`${this.endpoint}/clear-broadcast-schedules/${user_id}`);
+    }
+
+    public fetchParticipants( schedule_id:any ){
+        return this.http.get(`${this.endpoint}/fetch-schedule-participants/${schedule_id}`);
+    }
 
 
     //======================= Messaging ============================//
