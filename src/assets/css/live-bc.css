@@ -1,0 +1,69 @@
+.live-broadcast{
+	height: 100%;
+	position: static;
+}
+
+.cam-container{
+	margin-top: 0;
+	padding-top: 0;
+	min-height: 600px;
+	background-color: #222;
+}
+
+.cam-container .cam-image-holder {
+	background-size: cover;
+	background-position: center center;
+	width: 100%;
+	background-repeat: no-repeat;
+}
+
+.cam-holder {
+	min-height: 280px;
+	border: 2px solid #fff;
+}
+
+.remote-container {
+	width: 100%;
+}
+
+.remote-item {
+	float: left;
+	border: 2px solid #fff;
+	margin: 10px;
+	width: 200px;
+	height: 150px;
+}
+
+strong {
+	font-weight: 600;
+}
+
+.owlng-tabs-content {
+	min-height: 550px;
+	max-height: 550px;
+	overflow-y: auto;
+}
+
+.comment-sec {
+	min-height: 400px;
+	max-height: 400px;
+	overflow-y: auto;
+	padding: 20px 20px;
+}
+
+.live-chat-room-container {
+	margin:0;
+	padding:0;
+	min-height: 500px;
+}
+
+.live-chat-input{
+	
+}
+
+.live-chat-inner .live-chat-list{
+	line-height: 30px;
+}
+.badge-success{
+	background-color: #0FA119;
+}

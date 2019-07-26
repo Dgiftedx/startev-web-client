@@ -124,8 +124,15 @@ import { FooterWidgetTwoComponent } from './pages/widgets/footer-widget-two/foot
 
 
 //Owl NG
-import { OwlFormFieldModule, OwlSelectModule, OwlTooltipModule, OwlBadgeModule, OwlDialogModule } from 'owl-ng';
+import { OwlFormFieldModule, 
+    OwlSelectModule, 
+    OwlTooltipModule, 
+    OwlBadgeModule, 
+    OwlDialogModule,
+    OwlRadioModule,
+    OwlTabsModule,OwlCheckBoxModule } from 'owl-ng';
 import { NgxAgoraModule } from 'ngx-agora';
+import { JoinLiveSessionComponent } from './pages/message/join-live-session/join-live-session.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -217,6 +224,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MessageContactListComponent,
     MessageBroadcastScheduleComponent,
     FooterWidgetTwoComponent,
+    JoinLiveSessionComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA
@@ -275,6 +283,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      OwlTooltipModule,
      OwlBadgeModule,
      OwlDialogModule,
+     OwlTabsModule,
+     OwlCheckBoxModule,
+     OwlRadioModule,
      NgxAgoraModule.forRoot({ AppID: '8658c3ff39b7418d9df4e3f15915d7e6' })
   ],
 

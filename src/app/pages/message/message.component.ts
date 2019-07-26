@@ -54,6 +54,10 @@ export class MessageComponent implements OnInit {
 			this.navigation.push({id:4, alias: 'broadcast_schedule', name: "Broadcast Schedule", icon: "fa-calendar"});
 			this.navigation.push({id:5, alias: 'live_broadcast', name: "Live Broadcast", icon: "fa-television"});
 		}
+
+		if ( (this.userData && this.userData.role === 'student') || (this.userData && this.userData.role === 'graduate') ) {
+			this.navigation.push({id:4, alias: 'join_session', name: "Join Live Sessions", icon: "fa-television"});
+		}
 	}
 
 

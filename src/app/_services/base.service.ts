@@ -15,6 +15,8 @@ export class BaseService {
     private querySource: BehaviorSubject<any> = new BehaviorSubject('');
     currentSearchQuery = this.querySource.asObservable();
 
+    public liveSessions$: BehaviorSubject<any> = new BehaviorSubject({});
+
     constructor(
         private http: HttpClient,
         private authenticationService : AuthenticationService) { }
@@ -99,6 +101,33 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/fetch-schedule-participants/${schedule_id}`);
     }
 
+    public logLiveSession( formData:any ){
+        return this.http.post(`${this.endpoint}/log-live-session`, formData);
+    }
+
+    public removeLiveSession( formData:any ){
+        return this.http.post(`${this.endpoint}/remove-live-session`, formData);
+    }
+
+    public getLiveSessions( user_id:any ){
+        this.http.get(`${this.endpoint}/get-live-sessions/${user_id}`)
+        .subscribe(data => {
+            this.liveSessions$.next(data);
+        })
+    }
+
+    public getUpcomingMeeting( user_id:any ){
+        return this.http.get(`${this.endpoint}/get-upcoming-meetings/${user_id}`);
+    }
+
+
+    public getLocalBroadcastMessage(){
+        return this.http.get(`${this.endpoint}/get-broadcast-messages`);
+    }
+
+    public removeBroadcastMessage(schedule_id:number){
+        return this.http.get(`${this.endpoint}/remove-broadcast-messages/${schedule_id}`);
+    }
 
     //======================= Messaging ============================//
     public getUserContactList( user_id: number ){

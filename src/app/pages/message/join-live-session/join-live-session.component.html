@@ -1,4 +1,90 @@
-<section>
+<section *ngIf="showTable">
+	<div class="container">
+		<div class="notice_bar info mt-3 shadow">
+			<p class="apple-font">Meeting Invitations & Live Sessions</p>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-9 col-md-12 col-sm-12 mb-4">
+				<div class="card mb-5 shadow feed-container">
+					<div class="card-header">
+						<h3>Live Sessions</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-center" style="width:100%;">
+								<thead>
+									<tr>
+										<th>Host Mentor</th>
+										<th>Channel ID</th>
+										<th>Status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="count(onGoingSessions) > 0">
+									<tr *ngFor="let session of onGoingSessions">
+										<td>{{ session.host_name }}</td>
+										<td>{{ session.channel_id }}</td>
+										<td><img src="/assets/images/live.gif" width="80" class="rounded-circle" /></td>
+										<td>
+											<button
+											(click)="setCurrentSession(session)"
+											type="button" 
+											class="btn btn-primary btn-sm">
+											<i class="fa fa-send"></i> Join</button>
+										</td>
+									</tr>
+								</tbody>
+
+								<tbody *ngIf="count(onGoingSessions) === 0">
+									<tr>
+										<td colspan="4" class="text-center"><p>No Live Session.</p></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card shadow feed-container">
+					<div class="card-header">
+						<h3>Upcoming Meeting</h3>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-center" style="width:100%;">
+								<thead>
+									<tr>
+										<th>Schedule Title</th>
+										<th>Host Mentor</th>
+										<th>Date & Time</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="count(upcomingMeeting) > 0">
+									<tr *ngFor="let meeting of upcomingMeeting">
+										<td>{{ meeting.title }}</td>
+										<td>{{ meeting.host }}</td>
+										<td>{{ meeting.date | date:'medium' }}</td>
+									</tr>
+								</tbody>
+								<tbody *ngIf="count(upcomingMeeting) === 0">
+									<tr>
+										<td colspan="3" class="text-center"><p>No Upcoming Broadcast Invitation</p></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<section [@fadeAnimation] *ngIf="showBroadcast">
 	<div class="container-fluid no-margin no-pdd">
 		<div class="row no-margin no-pdd live-broadcast">
 
@@ -38,63 +124,28 @@
 				<owl-tab-view>
 				    <owl-tab label="Overview">
 				        <div class="owlng-tabs-content" [style.padding.px]="20">
-				        	<div *ngIf="userData.role === 'mentor'">
+				        	<div>
 				        		<h3 class="apple-font">Dear {{ currentUser.name }}, <br/><br/>
-				        		Welcome to your Online Broadcast Station</h3>
+				        		Welcome to live broadcast session with {{ currentSession.host_name }}</h3>
 
 				        		<p class="pt-4"><span>Please read below instructions carefully.</span></p>
 
 				        		
-				        			<strong>Starting a Session</strong> <br/><br/>
+				        			<strong>Session Engagement</strong> <br/><br/>
 
-				        			<i class="fa fa-arrow-right"></i> <span class="text-info"> You can only start a session at a time</span><br/><br/>
+				        			<i class="fa fa-arrow-right"></i> <span class="text-info"> A chat room has been provided for this session for you to communicate with the host mentor. You can also communicate with other session participants.</span><br/><br/>
 
-				        			<i class="fa fa-arrow-right"></i> To start a session, you need to select a schedule,
-				        			and click on <strong>start</strong> button below. <br/><br/>
+				        			<i class="fa fa-arrow-right"></i> To leave the session you're currently subscribed to, click on <strong>Leave Session</strong> button below. <br/><br/>
  				        		
- 				        			If you have not create broadcast schedule, please navigate to <strong>Broadcast Schedule</strong> to create one.
- 				        		
-
- 				        		<!-- Action button -->
- 				        		<table class="table-center table mt-4" style="width: 100%;">
- 				        			<tr *ngIf="count(schedules) > 0">
- 				        				<owl-radio-group 
- 				        				class="owlng-radio-group" 
- 				        				name="schedule-batch" 
- 				        				[(ngModel)]="selectedSchedule">
- 				        				<td>
-    										<owl-radio-button *ngFor="let schedule of schedules" 
-    										class="owlng-radio mt-3" [value]="schedule.id">{{ schedule.title }} - {{ count(schedule.participants) }} participants</owl-radio-button>
-    										
- 				        				</td>
- 				        				</owl-radio-group>
- 				        				
- 				        			</tr>
- 				        		</table>
+ 				        			wish you all the best!
 				                
-
-				                <!-- if live session is not live yet -->
-				               <div *ngIf="!broadcastInProgress">
-				               	 <button
-				               	 [ladda]="startSession"
-				                *ngIf="selectedSchedule"
-				                (click)="startBroadcastSession()"
-				                class="btn btn-primary btn-sm mt-3">
-				                <i class="fa fa-send"></i> Start Session</button>
-
-				                 <button
-				                *ngIf="selectedSchedule"
-				                (click)="clearSelection()"
-				                class="btn btn-primary btn-sm mt-3">
-				                <i class="fa fa-circle"></i> Clear</button>
-				               </div>
 
 				               	<!-- If live session is active -->
 				               	<div *ngIf="broadcastInProgress">
 				               		<button
-					                (click)="endBroadcastSession()"
+					                (click)="leaveBroadcastSession()"
 					                class="btn btn-primary btn-sm mt-3">
-					                <i class="fa fa-times"></i> End Session</button>
+					                <i class="fa fa-times"></i> Leave Session</button>
 				               	</div>
 
 
@@ -104,7 +155,8 @@
 				    <owl-tab label="Chat Room">
 				        <div class="owlng-tabs-content2">
 				        	<div class="live-chat-room-container">
-			                       <div class="comment-section feeds-container">
+
+				        		 <div class="comment-section feeds-container">
 			                        <div class="comment-sec">
 			                          <ul *ngIf="groupMessages">
 			                            
@@ -114,12 +166,8 @@
 			                                  <img src="{{ checkValue(bMessage.user_avatar, 'avatar', 'null') }}" alt="" width="40" />
 			                                </div>
 			                                <div class="comment">
-			                                  <h3 
-			                                  [ngClass]="{'text-warning': bMessage.is_mentor === 1 }">
-			                              {{ bMessage.user_name }}</h3>
-			                                  <span>
-			                                  	<img src="/assets/images/clock.png" alt=""> {{ bMessage.created_at | dateAgo }}
-			                                  </span>
+			                                  <h3 [ngClass]="{ 'text-warning': bMessage.is_mentor === 1}">{{ bMessage.user_name }}</h3>
+			                                  <span><img src="/assets/images/clock.png" alt=""> {{ bMessage.created_at | dateAgo }}</span>
 			                                  <p>{{ bMessage.message }}</p>
 			                                </div>
 			                              </div><!--comment-list end-->
@@ -150,27 +198,6 @@
 
 				        	</div>
 
-				        </div>
-				    </owl-tab>
-				    <owl-tab label="Participants" [disabled]="false">
-				        <div class="owlng-tabs-content" [style.padding.px]="20">
-				        	<div class="" *ngIf="count(currentSchedule) > 0">
-				        		<h3 class="text-center mb-2 apple-font"><span>Participants in this current schedule</span></h3>
-				        		<div class="table-responsive">
-				        			<table class="table-center table">
-
-					        			<tr *ngFor="let user of currentSchedule">
-					        				<td>
-					        					<img [src]="checkValue(user.avatar, 'avatar', 'null')" width="50" class="rounded-circle" />
-					        				</td>
-					        				<td>{{ user.name }}</td>
-					        			</tr>	
-					        		</table>
-				        		</div>
-				        	</div>
-				        	<div class="" *ngIf="count(currentSchedule) === 0">
-				        		<h3 class="text-center"><span>No active session</span></h3>
-				        	</div>
 				        </div>
 				    </owl-tab>
 				</owl-tab-view>

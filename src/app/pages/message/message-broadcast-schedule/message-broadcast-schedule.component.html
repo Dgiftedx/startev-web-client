@@ -16,7 +16,8 @@
 							<table class="table-center table table-striped" style="width:100%;">
 								<thead>
 									<tr>
-										<th>Batch ID</th>
+										<!-- <th>Batch ID</th> -->
+										<th>Title</th>
 										<th>Number of Participants</th>
 										<th>Date & Time</th>
 										<th>Status</th>
@@ -25,7 +26,8 @@
 								</thead>
 								<tbody *ngIf="count(schedules) > 0">
 									<tr *ngFor="let schedule of schedules">
-										<td>{{ schedule.identifier }}</td>
+										<!-- <td>{{ schedule.identifier }}</td> -->
+										<td>{{ schedule.title }}</td>
 										<td>
 											<button (click)="viewParticipants(schedule)" class="btn btn-sm btn-primary">
 									            View
@@ -35,13 +37,13 @@
 										<td>{{ schedule.date | date:'medium'}}</td>
 										<td>
 											
-							                <span class="badge badge-pill badge-warning">
+							                <span class="badge badge-pill" [ngClass]="{'badge-warning': schedule.status === 'pending', 'badge-success': schedule.status !== 'pending'}">
 							                    {{ schedule.status }}
 							                </span>
 								            
 										</td>
 										<td>
-											<button 
+											<button *ngIf="schedule.status === 'pending'"
 											(click)="editSchedule(schedule)"
 											[owlTooltip]="'Edit Schedule'" 
 											class="btn btn-round btn-primary btn-icon">
@@ -79,12 +81,18 @@
 						<!-- If mentor has mentee list and is not empty -->
 						<div class="row" *ngIf="count(trainees) > 0">
 							<div class="col-lg-12">
-								<p class="mb-2">Maximum of 10 participants allowed</p>
+								<div class="form-group">
+									<label class="mb-2">Schedule Title</label>
+									<input type="text" class="form-control" [(ngModel)]="scheduleData.title"/>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<p class="mb-2 text-danger">Maximum of 8 participants allowed</p>
 								<div class="form-group">
 									<label class="mb-2">Select Participants</label>
 									<owl-form-field>
 						                <owl-select 
-						                [owlSelectRange]="[1, 10]"
+						                [owlSelectRange]="[1, 8]"
 						                [multiple]="true"
 						                #traineeInput="ngModel"
 						                [(ngModel)]="scheduleData.participants" 
@@ -94,7 +102,7 @@
 
 						                <div 
 						                *ngIf="traineeInput.invalid && (traineeInput.dirty || traineeInput.touched) && traineeInput.errors.owlSelectRange" owlError>
-						                    Selected participants can't be more than 10.
+						                    Selected participants can't be more than 8.
 						                </div>
 
 						            </owl-form-field>
@@ -163,10 +171,17 @@
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="form-group">
+									<label class="mb-2">Schedule Title</label>
+									<input type="text" class="form-control" [(ngModel)]="scheduleEditData.title"/>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
 									<label class="mb-2">Edit Participants</label>
 									<owl-form-field>
 						                <owl-select 
-						                [owlSelectRange]="[1, 10]"
+						                [owlSelectRange]="[1, 8]"
 						                [multiple]="true" 
 						                 #traineeInputEdit="ngModel"
 						                [(ngModel)]="scheduleEditData.participants" 
@@ -176,7 +191,7 @@
 
 						                <div 
 						                *ngIf="traineeInputEdit.invalid && (traineeInputEdit.dirty || traineeInputEdit.touched) && traineeInputEdit.errors.owlSelectRange" owlError>
-						                    Selected participants can't be more than 10.
+						                    Selected participants can't be more than 8.
 						                </div>
 
 						            </owl-form-field>
@@ -226,7 +241,7 @@
 						                <owl-select
 						                [(ngModel)]="pushBatch" 
 						                placeholder="Schedule Batch">
-						                    <owl-option *ngFor="let schedule of schedules" [value]="schedule.id">{{schedule.identifier}} - {{ count(schedule.participants) }} participants</owl-option>
+						                    <owl-option *ngFor="let schedule of schedules" [value]="schedule.id">{{schedule.title}} - {{ count(schedule.participants) }} participants</owl-option>
 						                </owl-select>
 
 						            </owl-form-field>

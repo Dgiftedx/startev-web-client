@@ -203,6 +203,7 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 	editSchedule(schedule:any) {
 		this.cleanScheduleForm();
 
+		this.scheduleEditData.title = schedule.title;
 		this.scheduleEditData.id = schedule.id;
 		this.scheduleEditData.participants = schedule.participants;
 		this.scheduleEditData.date = new Date(schedule.date);
@@ -263,6 +264,9 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 
 	//=============== Submit New Schedule ====================//
 	submitNewSchedule() {
+		if (this.count(this.scheduleData.title) === 0) {
+			return this.alert.errorMsg("Invalid schedule title","Error!");
+		}
 
 		if (this.count(this.scheduleData.participants) === 0) {
 			return this.alert.errorMsg("Please select participants","Error!");
@@ -272,12 +276,12 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 			return this.alert.errorMsg("Please enter a valid schedule date","Error!");
 		}
 
-		if (this.count(this.scheduleEditData.participants) > 10) {
+		if (this.count(this.scheduleEditData.participants) > 8) {
 			return this.alert.errorMsg("Participants can't be more than 10", "Error!");
 		}
 
 		let formData = new FormData();
-
+		formData.append('title', this.scheduleData.title);
 		formData.append('user_id', this.currentUser.id);
 		formData.append('participants', JSON.stringify(this.scheduleData.participants));
 		formData.append('date', this.transformDate(this.scheduleData.date));
@@ -297,6 +301,11 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 
 	//===================== Update Schedule ====================//
 	updateSchedule(){
+
+		if (this.count(this.scheduleEditData.title) === 0) {
+			return this.alert.errorMsg("Invalid schedule title","Error!");
+		}
+
 		if (this.count(this.scheduleEditData.participants) === 0) {
 			return this.alert.errorMsg("Please select participants","Error!");
 		}
@@ -305,13 +314,14 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 			return this.alert.errorMsg("Please enter a valid schedule date","Error!");
 		}
 
-		if (this.count(this.scheduleEditData.participants) > 10) {
+		if (this.count(this.scheduleEditData.participants) > 8) {
 			return this.alert.errorMsg("Participants can't be more than 10", "Error!");
 		}
 
 		let formData = new FormData();
 
 		formData.append('schedule_id', this.scheduleEditData.id);
+		formData.append('title', this.scheduleEditData.title);
 		formData.append('participants', JSON.stringify(this.scheduleEditData.participants));
 		formData.append('date', this.transformDate(this.scheduleEditData.date));
 

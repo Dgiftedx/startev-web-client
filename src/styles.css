@@ -13,6 +13,7 @@
 @import "assets/css/style.css";
 @import "assets/css/responsive.css";
 @import "assets/css/waves.css";
+@import "assets/css/live-bc.css";
 
 /*------------- Plugins Css ----------------------*/
 @import "~owl-ng/assets/style/theme.min.css";
