@@ -80,6 +80,8 @@ export class MessageLiveBroadcastComponent implements OnInit {
 
 	public isSending : boolean = false;
 
+	public selectedIndex : number = 0;
+
 	constructor(
 		private http : HttpClient,
 		private router: Router,
@@ -235,6 +237,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 		//log necessary informations and notify participants
 		//change schedule status to in progress and efforce necessary restrictions
 		this.startSession = false;
+		this.selectedIndex = 2;
 	}
 
 

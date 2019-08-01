@@ -28,14 +28,14 @@
 
 
 				<!-- if live broadcst has not been started or joined, display cover image-->
-				<div [@fadeAnimation] class="cam-container" *ngIf="!broadcastInProgress" style="background-image: url('/assets/images/cam-sec.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+				<div [@fadeAnimation] class="cam-container" [hidden]="broadcastInProgress" style="background-image: url('/assets/images/cam-sec.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 				</div>
 
 			</div>
 
 
 			<div class="col-md-4">
-				<owl-tab-view>
+				<owl-tab-view [selectedIndex]="selectedIndex">
 				    <owl-tab label="Overview">
 				        <div class="owlng-tabs-content" [style.padding.px]="20">
 				        	<div *ngIf="userData.role === 'mentor'">
@@ -101,7 +101,7 @@
 				        	</div>
 				        </div>
 				    </owl-tab>
-				    <owl-tab label="Chat Room">
+				    <owl-tab label="Chat Room" [disabled]="!broadcastInProgress">
 				        <div class="owlng-tabs-content2">
 				        	<div class="live-chat-room-container">
 			                       <div class="comment-section feeds-container">
@@ -152,7 +152,7 @@
 
 				        </div>
 				    </owl-tab>
-				    <owl-tab label="Participants" [disabled]="false">
+				    <owl-tab label="Participants" [disabled]="!broadcastInProgress">
 				        <div class="owlng-tabs-content" [style.padding.px]="20">
 				        	<div class="" *ngIf="count(currentSchedule) > 0">
 				        		<h3 class="text-center mb-2 apple-font"><span>Participants in this current schedule</span></h3>
