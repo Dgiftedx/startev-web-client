@@ -90,7 +90,7 @@
 
                       <ngx-datatable-column name="Image" sortable="false" [width]="20">
                           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                              <img src="{{ value?value:'assets/images/default/default.jpg' }}" width="40"/>
+                              <img src="{{ checkValue(value,'banner','null') }}" width="40"/>
                           </ng-template>
                       </ngx-datatable-column>
 
@@ -332,13 +332,13 @@
                                     *ngFor="let preview of singleProduct.images; let index = index;" 
                                     class="tab-pane" 
                                     [ngClass]="{'active':selectedSingleImage === preview}"
-                                    id="product_{{ index+1 }}"><img [src]="preview" class="img-fluid"></div>
+                                    id="product_{{ index+1 }}"><img [src]="checkValue(preview,'banner','null')" class="img-fluid"></div>
                                     
                                 </div>
                                 <ul class="preview-thumbnail nav nav-tabs">
                                     <li class="nav-item" *ngFor="let image of singleProduct.images">
                                         <a class="nav-link" [ngClass]="{'active':image === selectedSingleImage}" data-toggle="tab" [routerLink]="" (click)="setSelectedImage(image)">
-                                        <img src="{{ image }}">
+                                        <img [src]="checkValue(value,'banner','null')">
                                         </a>
                                     </li>
                                                                         

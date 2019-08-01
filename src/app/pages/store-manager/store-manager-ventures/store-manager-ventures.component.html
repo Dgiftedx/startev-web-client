@@ -16,7 +16,7 @@
                         <tbody>
                             <tr *ngFor="let venture of ventures">
                                 <td>
-                                    <img [src]="currentUser.avatar" width="40" class="rounded-circle img-raised" />
+                                    <img [src]="checkValue(currentUser.avatar,'avatar','null')" width="40" class="rounded-circle img-raised" />
                                 </td>
                                 <td>
                                     <p class="margin-0">{{ venture.venture_name }}</p>

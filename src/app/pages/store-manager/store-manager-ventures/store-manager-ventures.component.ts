@@ -59,6 +59,33 @@ export class StoreManagerVenturesComponent implements OnInit {
 		//
 	}
 
+	// ============ check null item and return default as required =======//
+	checkValue(item:any,  type:string, nullValue:string) {
+		if (type === 'text') {
+			if (this.count(item) === 0) {
+				return nullValue;
+			}
+			return item;
+		}
+
+		if (type === 'avatar') {
+
+			if (this.count(item) === 0) {
+				return '/assets/images/default/avatar.jpg';
+			}
+			return this.authenticationService.baseurl+item;
+		}
+
+		if (type === 'banner') {
+			
+			if (this.count(item) === 0) {
+				return '/assets/images/default/default.png';
+			}
+
+			return this.authenticationService.baseurl+item;
+		}
+	}
+
 
 	updateResource() {
 		this.ventureSubscription = this.storeService.storeManagerGetVentures(this.currentUser.id)
