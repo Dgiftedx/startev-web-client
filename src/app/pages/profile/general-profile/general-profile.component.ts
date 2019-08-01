@@ -85,45 +85,45 @@ export class GeneralProfileComponent implements OnInit {
 		return this.count(text) > level ? true:  false;
 	}
 
-	  openImage(feed:any) {
-    let imageArray: Array<any> = [];
+	openImage(feed:any) {
+		let imageArray: Array<any> = [];
 
-    imageArray.push({
-      src : feed.image,
-      caption : feed.title
-    });
-    
-    this.lightbox.open(imageArray, 0);
-  }
+		imageArray.push({
+			src : feed.image,
+			caption : feed.title
+		});
+		
+		this.lightbox.open(imageArray, 0);
+	}
 
-  //============= Open Image ===============//
-  openMultipleImages(images:Array<any>, title:string) {
-    let imageArray: Array<any> = [];
+	//============= Open Image ===============//
+	openMultipleImages(images:Array<any>, title:string) {
+		let imageArray: Array<any> = [];
 
-    images.forEach((item) => {
-      imageArray.push({
-        src : item,
-        caption : title
-      });
-    });
-    
-    this.lightbox.open(imageArray, 0);
-  }
+		images.forEach((item) => {
+			imageArray.push({
+				src : item,
+				caption : title
+			});
+		});
+		
+		this.lightbox.open(imageArray, 0);
+	}
 
-    //============= Open Image ===============//
-  openStackedImages(images: Array<any>, index, title:string) {
+	//============= Open Image ===============//
+	openStackedImages(images: Array<any>, index, title:string) {
 
-    let imageArray: Array<any> = [];
+		let imageArray: Array<any> = [];
 
-    images.forEach((item) => {
-      imageArray.push({
-        src : item,
-        caption : title
-      });
-    });
-    
-    this.lightbox.open(imageArray, index);
-  }
+		images.forEach((item) => {
+			imageArray.push({
+				src : item,
+				caption : title
+			});
+		});
+		
+		this.lightbox.open(imageArray, index);
+	}
 
 
 	handleResponse(data:any) {
@@ -254,9 +254,18 @@ export class GeneralProfileComponent implements OnInit {
 		if (type === 'avatar') {
 
 			if (this.count(item) === 0) {
-				return 'assets/images/default/avatar.jpg';
+				return '/assets/images/default/avatar.jpg';
 			}
-			return item;
+			return this.authenticationService.baseurl+item;
+		}
+
+		if (type === 'banner') {
+			
+			if (this.count(item) === 0) {
+				return '/assets/images/default/default.png';
+			}
+
+			return this.authenticationService.baseurl+item;
 		}
 	}
 

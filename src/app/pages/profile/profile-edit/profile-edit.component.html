@@ -1,5 +1,5 @@
   <section class="cover-sec">
-      <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}" alt="">
+      <img src="{{ checkValue(currentUser.bg_image,'banner','null') }}" alt="">
       <a href="javascript:;" class="remove-btn" (click)="removeBgImage()"><i class="fa fa-trash"></i> Remove Image</a>
       <label for="file-upload" class="custom-file-upload waves-effect">
          <i class="fa fa-camera"></i> Change Image
@@ -18,7 +18,7 @@
                 <div class="main-left-sidebar">
                   <div class="user_profile">
                     <div class="user-pro-img">
-                      <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg' }}" width="170" alt="">
+                      <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="170" alt="">
                       <label for="avatar_upload" class="custom-file-upload waves-effect">
                          <i class="fa fa-camera"></i> Change
                       </label>

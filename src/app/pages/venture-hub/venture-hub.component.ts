@@ -1,4 +1,5 @@
 declare var $: any;
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { User } from '../../_models';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
@@ -37,6 +38,31 @@ export class VentureHubComponent implements OnInit {
 
    ngOnInit() {
     this.ventures = this.route.snapshot.data.ventures.ventures;
+  }
+
+
+
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return '/assets/images/default/avatar.jpg';
+      }
+      return this.authenticationService.baseurl + item;
+    }
+  }
+
+
+  count(items:any){
+    return _.size(items);
   }
 
   get profile(){

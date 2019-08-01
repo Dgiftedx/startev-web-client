@@ -74,7 +74,7 @@
                  <div class="feed-image mb-3" *ngIf="currentView.images">
                    <div class="images-container-single">
                       <img *ngFor="let image of currentView.images; let index = index" 
-                      (click)="openStackedImages(currentView.images, index, currentView.title)" [src]="image" class=""/>
+                      (click)="openStackedImages(currentView.images, index, currentView.title)" [src]="checkValue(image,'avatar', 'null')" class=""/>
                     </div>
                 </div>
 
@@ -89,7 +89,7 @@
 
                 <table class="table table-bordered" *ngIf="currentView.images">
                   <tr *ngFor="let image of currentView.images; let index = index">
-                    <td><img [src]="image" width="90" /></td>
+                    <td><img [src]="checkValue(image,'avatar','null')" width="90" /></td>
                     <td> <a href="javascript:;" (click)="downloadFile(currentView, index, 'image')"><i class="la la-download"></i> Download</a></td>
                   </tr>
                 </table>

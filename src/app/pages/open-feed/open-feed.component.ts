@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { Lightbox } from 'ngx-lightbox';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BaseService } from '../../_services/base.service';
+import { BaseService, } from '../../_services/base.service';
+import { AuthenticationService } from '../../_services/authentication.service';
 import { NavbarService } from '../../_services/navbar.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
@@ -22,7 +23,8 @@ export class OpenFeedComponent implements OnInit {
 		private nav : NavbarService, 
 		private lightbox: Lightbox,
 		private baseService : BaseService, 
-		private route : ActivatedRoute, 
+		private route : ActivatedRoute,
+		private authenticationService : AuthenticationService,
 		private router : Router) {
 		//disable resuable route
 	    this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -56,9 +58,9 @@ export class OpenFeedComponent implements OnInit {
 		if (type === 'avatar') {
 
 			if (this.count(item) === 0) {
-				return 'assets/images/default/avatar.jpg';
+				return '/assets/images/default/avatar.jpg';
 			}
-			return item;
+			return this.authenticationService.baseurl+item;
 		}
 	}
 
@@ -69,7 +71,7 @@ export class OpenFeedComponent implements OnInit {
 		let imageArray: Array<any> = [];
 
 		imageArray.push({
-			src : feed.image,
+			src : this.authenticationService.baseurl+feed.image,
 			caption : feed.title
 		});
 
@@ -84,7 +86,7 @@ export class OpenFeedComponent implements OnInit {
 
 		images.forEach((item) => {
 			imageArray.push({
-				src : item,
+				src : this.authenticationService.baseurl+item,
 				caption : title
 			});
 		});

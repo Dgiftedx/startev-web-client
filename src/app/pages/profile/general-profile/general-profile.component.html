@@ -1,7 +1,7 @@
 
 
 <section class="cover-sec">
-    <img src="{{ profile.user.bg_image?profile.user.bg_image : 'assets/images/default/default.png' }}" alt="">
+    <img src="{{ checkValue(profile.user.bg_image,'banner','null') }}" alt="">
 </section>
 <main>
     <div class="main-section">
@@ -12,7 +12,7 @@
                         <div class="main-left-sidebar">
                             <div class="user_profile">
                                 <div class="user-pro-img">
-                                    <img src="{{ profile.user.avatar?profile.user.avatar : 'assets/images/default/avatar.jpg'}}" width="170" alt="">
+                                    <img src="{{ checkValue(profile.user.avatar,'avatar', 'null') }}" width="170" alt="">
                                 </div><!--user-pro-img end-->
                                 <div class="mb-2">
                                    <h3  class="mb-2" 
@@ -98,14 +98,14 @@
 
                         <!-- if single image -->
                         <div class="feed-image" *ngIf="feed.image && !feed.images">
-                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                          <img (click)="openImage(feed)" [src]="checkValue(feed.image,'banner','null')" class="feed-image-responsive"/>
                       </div>
 
 
                       <div class="feed-image mb-3" *ngIf="feed.images && !feed.image">
                            <div class="images-container-single">
                               <img *ngFor="let image of feed.images; let index = index" 
-                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class=""/>
+                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="checkValue(image,'avatar','null')" class=""/>
                             </div>
                         </div>
 
@@ -317,7 +317,7 @@
                         <h4 class="mb-2 text-center">Mentees</h4>
                         
                       <div class="suggestion-usd" *ngFor="let trainee of profile.user.trainer_pivot">
-                        <img src="{{ trainee.lone_trainee.avatar?trainee.lone_trainee.avatar : 'assets/images/default/avatar.jpg'}}" alt="user.name" width="40">
+                        <img src="{{ checkValue(trainee.lone_trainee.avatar,'avatar','null') }}" alt="user.name" width="40">
                         <div class="sgt-text">
                               <h4>{{ trainee.lone_trainee.name | titlecase }}</h4>
                               <div class="media-body">

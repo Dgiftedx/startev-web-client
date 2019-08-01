@@ -51,6 +51,26 @@ export class PartnerViewComponent implements OnInit {
   }
 
 
+
+    // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return '/assets/images/default/avatar.jpg';
+      }
+      return this.authenticationService.baseurl + item;
+    }
+  }
+
+
   count(items: Array<any>) {
     return _.size(items);
   }

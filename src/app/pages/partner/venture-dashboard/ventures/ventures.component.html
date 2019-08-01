@@ -15,7 +15,7 @@
                             </tr>
                             <tr *ngFor="let list of ventureList; let index = index">
                                 <td>
-                                    <img [src]="list.business.user.avatar" width="40" class="rounded-circle img-raised" />
+                                    <img [src]="checkValue(list.business.user.avatar,'avatar','null')" width="40" class="rounded-circle img-raised" />
                                 </td>
                                 <td>
                                     <p class="margin-0">{{ list.venture.venture_name }}</p>

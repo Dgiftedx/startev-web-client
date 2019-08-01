@@ -291,9 +291,9 @@ export class FeedsComponent implements OnInit {
       if (type === 'avatar') {
 
         if (this.count(item) === 0) {
-          return 'assets/images/default/avatar.jpg';
+          return '/assets/images/default/avatar.jpg';
         }
-        return item;
+        return this.authenticationService.baseurl+item;
       }
     }
 
@@ -384,7 +384,7 @@ export class FeedsComponent implements OnInit {
       let imageArray: Array<any> = [];
 
       imageArray.push({
-        src : feed.image,
+        src : this.authenticationService.baseurl + feed.image,
         caption : feed.title
       });
 
@@ -400,7 +400,7 @@ export class FeedsComponent implements OnInit {
 
       feed.images.forEach((item) => {
         imageArray.push({
-          src : item,
+          src : this.authenticationService.baseurl+item,
           caption : title
         });
       });

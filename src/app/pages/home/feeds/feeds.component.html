@@ -93,7 +93,7 @@
                    <div class="row">
                      <div class="col-2">
                         <div class="user-picy">
-                          <img src="{{ checkValue(currentUser.avatar,'avatar','assets/images/default/avatar.jpg') }}"
+                          <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}"
                           class="rounded-circle" 
                           width="40" alt="">
                         </div>
@@ -204,14 +204,14 @@
                         <div class="job_descp">
                         <h3>{{ feed.title }}</h3>
                         <div class="feed-image" *ngIf="feed.image && !feed.images">
-                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                          <img (click)="openImage(feed)" [src]="checkValue(feed.image, 'avatar', 'null')" class="feed-image-responsive"/>
                         </div>
 
                         <div class="feed-image" *ngIf="feed.images && !feed.image">
                            <ngx-slick-carousel class="carousel" 
                               #feedSlickModal="slick-carousel" 
                               [config]="feedSlideConfig">
-                              <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed, feed.title)" [src]="image" class="feed-image-responsive"/>
+                              <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed, feed.title)" [src]="checkValue(image, 'avatar', 'null')" class="feed-image-responsive"/>
                             </ngx-slick-carousel>
                         </div>
 
@@ -276,7 +276,7 @@
                         </div><!--comment-sec end-->
                         <div class="post-comment">
                           <div class="cm_img">
-                            <img [src]="currentUser.avatar" class="rounded-circle" width="35"/>
+                            <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle" width="35"/>
                           </div>
                           <div class="comment_box">
                               <input 
@@ -351,7 +351,7 @@
           <div class="modal-content">
             <div  class="modal-header custom-modal-header" 
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-            <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+            <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
           </div>
           <div class="modal-body"> 
             <br/>
@@ -382,7 +382,7 @@
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
                 <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
                </h6>
-               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+               <img [src]="checkValue(currentUser.avatar,'avatar','null')" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
              <div class="modal-body"> 
               <br/>
@@ -430,7 +430,7 @@
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
                 <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
                </h6>
-               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+               <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
              <div class="modal-body">
 
@@ -448,7 +448,7 @@
             [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
                 <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
                </h6>
-               <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+               <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
              <div class="modal-body">
 

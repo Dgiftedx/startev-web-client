@@ -140,6 +140,7 @@
                 <div class="mt-2 p-3">
                      <div class="float-left">
                     <img *ngIf="isImage" [src]="processedImage" alt="" class="img-raised mr-3" height="60" width="60">
+                    <img *ngIf="!isImage" [src]="checkValue(processedImage,'avatar','null')" alt="" class="img-raised mr-3" height="60" width="60">
                     </div>
                     <button type="button" 
                     (click)="saveModifications()" 

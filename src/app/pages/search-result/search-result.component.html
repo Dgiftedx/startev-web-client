@@ -34,7 +34,7 @@
 
                            <div *ngIf="item.type === 'users'">
                            	<h5 class="title"><a [routerLink]="[item.url]">{{item.type | titlecase}} - {{ item.searchable.name }}</a></h5>
-                           	<img [src]="item.searchable.avatar" class="rounded-circle" width="40" alt="Avatar">
+                           	<img [src]="checkValue(item.searchable.avatar,'avatar','null')" class="rounded-circle" width="40" alt="Avatar">
                            	<p class="pt-3">{{ item.searchable.bio }}</p>
                            
                            </div>

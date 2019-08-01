@@ -11,7 +11,7 @@
 						<div> 
 							<span>
 	                       <a [routerLink]="['/general-profile', currentPublication.user.slug]">
-	                        <img src="{{ currentPublication.user.avatar?currentPublication.user.avatar : 'assets/images/default/avatar.jpg' }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90">
+	                        <img src="{{ checkValue(currentPublication.user.avatar, 'avatar', 'null') }}" alt="user" class="mb-3 rounded-circle img-raised" height="90" width="90">
 	                    </a></span>
 	                    </div>
 	                    <h6 *ngIf="currentPublication.user.mentor">{{ currentPublication.user.name | titlecase }}</h6>
@@ -28,7 +28,7 @@
 						<div class="border"></div>
 
 						<div class="lesson-image">
-					       <img *ngIf="hasCoverImage(currentPublication)" [src]="currentPublication.image" alt="">
+					       <img *ngIf="hasCoverImage(currentPublication)" [src]="checkValue(currentPublication.image, 'avatar', 'null')" alt="">
 					     </div>
 					     <div *ngIf="hasTrainingVideo(currentPublication)" class="video-container">
 					       <div [innerHtml]="showEmbededVideo(currentPublication.videoSource, currentPublication.videoLink)"></div>

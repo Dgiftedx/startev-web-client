@@ -1,5 +1,5 @@
 <section class="cover-sec">
-    <img src="{{ currentUser.bg_image?currentUser.bg_image : 'assets/images/default/default.png' }}" alt="">
+    <img src="{{ checkValue(currentUser.bg_image,'banner','null') }}" alt="">
 </section>
 
 <main>
@@ -11,7 +11,7 @@
                         <div class="main-left-sidebar">
                             <div class="user_profile">
                                 <div class="user-pro-img">
-                                    <img src="{{ currentUser.avatar?currentUser.avatar : 'assets/images/default/avatar.jpg'}}" width="170" alt="">
+                                    <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="170" alt="">
                                 </div><!--user-pro-img end-->
                                 <div class="mb-2">
                                    <h3 
@@ -105,13 +105,13 @@
 
                         <!-- if single image -->
                         <div class="feed-image" *ngIf="feed.image && !feed.images">
-                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                          <img (click)="openImage(feed)" [src]="checkValue(feed.image,'banner','null')" class="feed-image-responsive"/>
                       </div>
 
 
                       <!-- if image collections but one image -->
                       <div class="feed-image" *ngIf="feed.images && !feed.image && count(feed.images) === 1">
-                          <img (click)="openMultipleImages(feed.images, feed.title)" [src]="feed.images[0]" class="feed-image-responsive"/>
+                          <img (click)="openMultipleImages(feed.images, feed.title)" [src]="checkValue(feed.images[0],'banner','null')" class="feed-image-responsive"/>
                       </div>
 
 
@@ -120,7 +120,7 @@
                          <ngx-slick-carousel class="carousel" 
                          #feedSlickModal="slick-carousel" 
                          [config]="feedSlideConfig">
-                         <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed.images, feed.title)" [src]="image" class="feed-image-responsive"/>
+                         <img ngxSlickItem *ngFor="let image of feed.images" (click)="openMultipleImages(feed.images, feed.title)" [src]="checkValue(image,'banner','null')" class="feed-image-responsive"/>
                      </ngx-slick-carousel>
                  </div>
 

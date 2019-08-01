@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
-import { BaseService } from '../../../_services';
+import { BaseService, AuthenticationService } from '../../../_services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,7 +16,8 @@ export class MentorsWidgetComponent implements OnInit {
 	public showMentors:boolean = false;
 	private featuredMentorsSubscription: Subscription;
 	constructor(
-			private baseService : BaseService
+			private baseService : BaseService,
+      private authenticationService : AuthenticationService
 	) { 
 
 		this.featuredMentorsSubscription = this.baseService.fetchFeaturedMentors()
@@ -59,9 +60,9 @@ export class MentorsWidgetComponent implements OnInit {
     if (type === 'avatar') {
 
       if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
+        return '/assets/images/default/avatar.jpg';
       }
-      return item;
+      return this.authenticationService.baseurl+item;
     }
   }
 

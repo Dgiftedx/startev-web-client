@@ -69,7 +69,6 @@ export class PublishComponent implements OnInit {
   }
 
 
-
   count(items: any){
   	return _.size(items);
   }

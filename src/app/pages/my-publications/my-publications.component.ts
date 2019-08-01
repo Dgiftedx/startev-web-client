@@ -193,9 +193,9 @@ export class MyPublicationsComponent implements OnInit {
     if (type === 'avatar') {
 
       if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
+        return '/assets/images/default/avatar.jpg';
       }
-      return item;
+      return this.authenticationService.baseurl+item;
     }
   }
 

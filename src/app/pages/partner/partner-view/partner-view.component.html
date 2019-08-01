@@ -9,7 +9,7 @@
 				<div class="card feeds-container">
 					<div class="row clearfix">
 						<div class="col-md-3">
-							<img src="{{partner.venture.business.user.avatar?partner.venture.business.user.avatar:'assets/images/default/default.png'}}" class="img-thumbnail" />
+							<img src="{{ checkValue(partner.venture.business.user.avatar,'avatar','null') }}" class="img-thumbnail" />
 							<h6 class="apple-font p-4 text-center">{{ partner.venture.business.name }}</h6>
 						</div>
 						<div class="col-md-9 p-3">
@@ -54,7 +54,7 @@
 			<div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let venture of similar">
 					<div class="company_profile_info pl-2 pr-2" *ngIf="venture.id !== partner.venture.id">
 						<div class="company-up-info">
-							<img src="{{ venture.business.user.avatar?venture.business.user.avatar:'assets/images/default/default.png' }}" width="110" />
+							<img src="{{ checkValue(venture.business.user.avatar,'avatar','null') }}" width="110" />
 							<h3>{{ venture.venture_name | titlecase }}</h3>
 							<span>{{ venture.business.name | titlecase }}</span>
 							<h4>Joined {{ venture.created_at | date:'mediumDate' }}</h4>

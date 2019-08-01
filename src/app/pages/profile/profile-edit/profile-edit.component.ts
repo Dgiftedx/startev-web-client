@@ -115,6 +115,37 @@ export class ProfileEditComponent implements OnInit {
 	}
 
 
+	// ============ check null item and return default as required =======//
+	checkValue(item:any,  type:string, nullValue:string) {
+		if (type === 'text') {
+			if (this.count(item) === 0) {
+				return nullValue;
+			}
+			return item;
+		}
+
+		if (type === 'avatar') {
+
+			if (this.count(item) === 0) {
+				return '/assets/images/default/avatar.jpg';
+			}
+			return this.authenticationService.baseurl+item;
+		}
+
+		if (type === 'banner') {
+			
+			if (this.count(item) === 0) {
+				return '/assets/images/default/default.png';
+			}
+
+			return this.authenticationService.baseurl+item;
+		}
+	}
+
+
+	count(items:any){
+		return _.size(items);
+	}
 	//============= Set Active Navigation ==================//
 	setActiveNavigation(navigation:any) {
 		this.selectedNavigation = navigation;
@@ -345,484 +376,484 @@ export class ProfileEditComponent implements OnInit {
 		this.companyForm.get('partnership_terms').setValue(this.roleData.partnership_terms);
 
 		// if (_.size(this.roleData.social_handle) > 0) {
-		// 	let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;
-		// 	socialArray.removeAt(0);
+			// 	let socialArray: FormArray = this.companyForm.get('social_handle') as FormArray;
+			// 	socialArray.removeAt(0);
 
-		// 	this.roleData.social_handle.forEach((item, index) => {
-		// 		socialArray.push(this.mockSocialHandle(item));
-		// 	});
+			// 	this.roleData.social_handle.forEach((item, index) => {
+				// 		socialArray.push(this.mockSocialHandle(item));
+				// 	});
 
-		// 	//detect DOM changes
-		// 	setTimeout(() => {
-		// 		this.cdr.detectChanges();
-		// 	}, 200);
-		// }
-	}
-
-
-	setIndustryField(){
-		this.handleUpdatedUserIndustry(this.user);
-	}
-
-	// convenience getter for easy access to form fields
-	get f() { return this.userForm.controls; }
-
-	get s() { return this.studentForm.controls; }
-
-	get m() { return this.mentorForm.controls; }
-
-	get b() { return this.companyForm.controls; }
-
-	get pass() { return this.passwordForm.controls; }
-
-	toggleDisableState(){
-		if (_.size(this.states) === 0) {
-			this.userForm.controls['state'].disable();
-		}else{
-			this.userForm.controls['state'].enable();
-		}
-	}
-
-
-	// Object finder
-	findStackById(collection: Array<any>, key: any){
-		return _.findLast(collection, ['id',key]);
-	}
-
-	// Object finder
-	findStackByName(collection: Array<any>, key: any){
-		return _.findLast(collection, ['name',key]);
-	}
-
-	handleCountriesResponse(data){
-		this.countries = data.countries;
-	}
-
-
-	handleStatesResponse(data){
-		this.states = data.states;
-		this.toggleDisableState();
-	}
-
-	handleCitiesResponse(data){
-		this.cities = data.cities;
-		this.toggleDisableState();
-	}
-
-	handleRoledataResponse(data){
-		this.roleData = data.roleData;
-		//update localStorage
-		let update: any = this.authenticationService.getUserData();
-		//converts string to json
-		update = JSON.parse(update);
-		//reset role data
-		update.roleData = data.roleData;
-		//reset progress
-		update.progress = data.progress;
-		//remove userData from local storage
-		this.authenticationService.removeUserData();
-
-		//update
-		this.authenticationService.setUserData(update);
-
-		if (this.roleData.role === 'student' || this.roleData.role === 'graduate') {
-			//update form fields
-			this.setStudentFormFields();
-		}
-
-		if (this.roleData.role === 'mentor') {
-			this.setMentorFormFields();
-		}
-
-		if (this.roleData.role === 'business') {
-			this.setBusinessFields();
-		}
-
-	}
-
-
-	handleCareersResponse(data){
-		this.careerPaths = data.careers;
-	}
-
-
-
-	handleImageResponse(data: any): void{
-		this.authenticationService.removeUser();
-		this.authenticationService.setUser(data.user);
-		this.user = data.user;
-	}
-
-
-	handleIndustriesResponse(data: any){
-		data.industries.forEach((item) => {
-			this.industries.push({id: item.id, name: item.name});
-		});
-	}
-
-
-
-	handleUpdatedUserIndustry(data : any){
-			this.industryForm.get('industries').setValue(this.user.industries);
-		}
-
-
-		get profile(){
-			return this.profileData;
-		}
-
-		//Add new business social handle
-		addSocialHandle(): void {
-			this.social_handle = this.companyForm.get('social_handle') as FormArray;
-			this.social_handle.push(this.createSocialHandle());
-		}
-
-		//return a new object of added tag
-		addTag(name){
-			return {name: name, tag: true}
-		}
-
-		// remove work education from group
-		removeSocialHandle(index) {
-			this.social_handle.removeAt(index);
-		}
-
-		countryChange(e){
-			return this.getStates(this.userForm.controls['country'].value);
-		}
-
-		getCareerPaths(){
-			this.baseService.fetchCareerPaths()
-			.subscribe(
-				data => {
-					this.handleCareersResponse(data);
-				},
-				error => {
-					this.alert.errorMsg(error.error,"Request Failed");
+				// 	//detect DOM changes
+				// 	setTimeout(() => {
+					// 		this.cdr.detectChanges();
+					// 	}, 200);
+					// }
 				}
-				)
-		}
 
-		getProfileData(){
-			this.baseService.fetchUserProfile()
-			.subscribe(
-				data => {
-					this.handleProfileResponse(data);
-				},
-				error => {
-					this.alert.errorMsg(error.error,"Request Failed");
+
+				setIndustryField(){
+					this.handleUpdatedUserIndustry(this.user);
 				}
-				)
-		}
 
-		getCountries(){
-			this.baseService.fetchCountries()
-			.subscribe(
-				data => {
-					this.handleCountriesResponse(data);
-				},
-				error => {
-					this.alert.errorMsg(error.error,"Request Failed");
+				// convenience getter for easy access to form fields
+				get f() { return this.userForm.controls; }
+
+				get s() { return this.studentForm.controls; }
+
+				get m() { return this.mentorForm.controls; }
+
+				get b() { return this.companyForm.controls; }
+
+				get pass() { return this.passwordForm.controls; }
+
+				toggleDisableState(){
+					if (_.size(this.states) === 0) {
+						this.userForm.controls['state'].disable();
+					}else{
+						this.userForm.controls['state'].enable();
+					}
 				}
-				)
-		}
 
-		getStates(id: number){
-			this.baseService.getStates(id)
-			.subscribe(
-				data => {
-					this.handleStatesResponse(data);
-				},
-				error => {
-					this.alert.errorMsg(error.error,"Request Failed");
+
+				// Object finder
+				findStackById(collection: Array<any>, key: any){
+					return _.findLast(collection, ['id',key]);
 				}
-				)
-		}
 
-		getCities(id: number){
-			this.baseService.getCities(id)
-			.subscribe(
-				data => {
-					this.handleCitiesResponse(data);
-				},
-				error => {
-					this.alert.errorMsg(error.error,"Request Failed");
+				// Object finder
+				findStackByName(collection: Array<any>, key: any){
+					return _.findLast(collection, ['name',key]);
 				}
-				)
-		}
 
-
-		updateLocalStorage(data : any){
-			this.authenticationService.removeUserData();
-			this.authenticationService.setUserData(data.profileData);
-
-			//update global current user
-			this.authenticationService.removeUser();
-			this.authenticationService.setUser(data.profileData.user);
-		}
-
-		openModal(): void {
-			$(document).find('#imageCropperModal').modal();
-		}
-
-
-		// PROFILE AVATAR & IMAGE UPLOAD
-		uploadProfileAvatar(event: any): void {
-			this.openModal();
-			this.imageChangedEvent = event;
-		}
-
-		imageCropped(event: ImageCroppedEvent) {
-			this.croppedImage = event.base64;
-		}
-		imageLoaded() {
-			// show cropper
-		}
-		cropperReady() {
-			// cropper ready
-			console.log("image crop ready");
-		}
-		loadImageFailed() {
-			// show message
-			console.log("image crop failed");
-		}
-
-
-
-		uploadHeaderImage(profileHeaderInput: any): void {
-			const headerImage : File = profileHeaderInput.files[0];
-			this.saveHeaderImage(headerImage);
-		}
-
-		saveImage(): void {
-			this.avatarLoading = true;
-			let imageObject: any = {image: this.croppedImage};
-
-			this.baseService.updateImage(imageObject, this.user.id)
-			.subscribe(
-				data => {
-					this.handleImageResponse(data);
-					this.avatarLoading = false;
-					$('#closeImageModal').click();
-				},
-
-				error => {
-					this.avatarLoading = false;
+				handleCountriesResponse(data){
+					this.countries = data.countries;
 				}
-				)
-		}
 
 
-		saveHeaderImage(imageData : any): void {
-			this.baseService.updateHeaderImage(imageData, this.user.id)
-			.subscribe(
-				data => {
-					this.handleImageResponse(data);
-				},
-				error => {
-					//do nothing
+				handleStatesResponse(data){
+					this.states = data.states;
+					this.toggleDisableState();
 				}
-				)
-		}
+
+				handleCitiesResponse(data){
+					this.cities = data.cities;
+					this.toggleDisableState();
+				}
+
+				handleRoledataResponse(data){
+					this.roleData = data.roleData;
+					//update localStorage
+					let update: any = this.authenticationService.getUserData();
+					//converts string to json
+					update = JSON.parse(update);
+					//reset role data
+					update.roleData = data.roleData;
+					//reset progress
+					update.progress = data.progress;
+					//remove userData from local storage
+					this.authenticationService.removeUserData();
+
+					//update
+					this.authenticationService.setUserData(update);
+
+					if (this.roleData.role === 'student' || this.roleData.role === 'graduate') {
+						//update form fields
+						this.setStudentFormFields();
+					}
+
+					if (this.roleData.role === 'mentor') {
+						this.setMentorFormFields();
+					}
+
+					if (this.roleData.role === 'business') {
+						this.setBusinessFields();
+					}
+
+				}
 
 
-		public removeBgImage(){
-			this.baseService.removeHeaderImage(this.currentUser.id)
-			.subscribe(data => {
-				this.authenticationService.removeUser();
-				this.authenticationService.setUser(data);
-				this.user = data;
-			})
-		}
+				handleCareersResponse(data){
+					this.careerPaths = data.careers;
+				}
 
 
-		/////////////////////////////////////////////////////////////////////
-		// Form submissions
 
-		userFormSubmit(){
-			this.userFormError = '';
-			this.userFormSubmitted = true;
+				handleImageResponse(data: any): void{
+					this.authenticationService.removeUser();
+					this.authenticationService.setUser(data.user);
+					this.user = data.user;
+				}
 
-			// stop here if form is invalid
-			if (this.userForm.invalid) {
-				return;
+
+				handleIndustriesResponse(data: any){
+					data.industries.forEach((item) => {
+						this.industries.push({id: item.id, name: item.name});
+					});
+				}
+
+
+
+				handleUpdatedUserIndustry(data : any){
+					this.industryForm.get('industries').setValue(this.user.industries);
+				}
+
+
+				get profile(){
+					return this.profileData;
+				}
+
+				//Add new business social handle
+				addSocialHandle(): void {
+					this.social_handle = this.companyForm.get('social_handle') as FormArray;
+					this.social_handle.push(this.createSocialHandle());
+				}
+
+				//return a new object of added tag
+				addTag(name){
+					return {name: name, tag: true}
+				}
+
+				// remove work education from group
+				removeSocialHandle(index) {
+					this.social_handle.removeAt(index);
+				}
+
+				countryChange(e){
+					return this.getStates(this.userForm.controls['country'].value);
+				}
+
+				getCareerPaths(){
+					this.baseService.fetchCareerPaths()
+					.subscribe(
+						data => {
+							this.handleCareersResponse(data);
+						},
+						error => {
+							this.alert.errorMsg(error.error,"Request Failed");
+						}
+						)
+				}
+
+				getProfileData(){
+					this.baseService.fetchUserProfile()
+					.subscribe(
+						data => {
+							this.handleProfileResponse(data);
+						},
+						error => {
+							this.alert.errorMsg(error.error,"Request Failed");
+						}
+						)
+				}
+
+				getCountries(){
+					this.baseService.fetchCountries()
+					.subscribe(
+						data => {
+							this.handleCountriesResponse(data);
+						},
+						error => {
+							this.alert.errorMsg(error.error,"Request Failed");
+						}
+						)
+				}
+
+				getStates(id: number){
+					this.baseService.getStates(id)
+					.subscribe(
+						data => {
+							this.handleStatesResponse(data);
+						},
+						error => {
+							this.alert.errorMsg(error.error,"Request Failed");
+						}
+						)
+				}
+
+				getCities(id: number){
+					this.baseService.getCities(id)
+					.subscribe(
+						data => {
+							this.handleCitiesResponse(data);
+						},
+						error => {
+							this.alert.errorMsg(error.error,"Request Failed");
+						}
+						)
+				}
+
+
+				updateLocalStorage(data : any){
+					this.authenticationService.removeUserData();
+					this.authenticationService.setUserData(data.profileData);
+
+					//update global current user
+					this.authenticationService.removeUser();
+					this.authenticationService.setUser(data.profileData.user);
+				}
+
+				openModal(): void {
+					$(document).find('#imageCropperModal').modal();
+				}
+
+
+				// PROFILE AVATAR & IMAGE UPLOAD
+				uploadProfileAvatar(event: any): void {
+					this.openModal();
+					this.imageChangedEvent = event;
+				}
+
+				imageCropped(event: ImageCroppedEvent) {
+					this.croppedImage = event.base64;
+				}
+				imageLoaded() {
+					// show cropper
+				}
+				cropperReady() {
+					// cropper ready
+					console.log("image crop ready");
+				}
+				loadImageFailed() {
+					// show message
+					console.log("image crop failed");
+				}
+
+
+
+				uploadHeaderImage(profileHeaderInput: any): void {
+					const headerImage : File = profileHeaderInput.files[0];
+					this.saveHeaderImage(headerImage);
+				}
+
+				saveImage(): void {
+					this.avatarLoading = true;
+					let imageObject: any = {image: this.croppedImage};
+
+					this.baseService.updateImage(imageObject, this.user.id)
+					.subscribe(
+						data => {
+							this.handleImageResponse(data);
+							this.avatarLoading = false;
+							$('#closeImageModal').click();
+						},
+
+						error => {
+							this.avatarLoading = false;
+						}
+						)
+				}
+
+
+				saveHeaderImage(imageData : any): void {
+					this.baseService.updateHeaderImage(imageData, this.user.id)
+					.subscribe(
+						data => {
+							this.handleImageResponse(data);
+						},
+						error => {
+							//do nothing
+						}
+						)
+				}
+
+
+				public removeBgImage(){
+					this.baseService.removeHeaderImage(this.currentUser.id)
+					.subscribe(data => {
+						this.authenticationService.removeUser();
+						this.authenticationService.setUser(data);
+						this.user = data;
+					})
+				}
+
+
+				/////////////////////////////////////////////////////////////////////
+				// Form submissions
+
+				userFormSubmit(){
+					this.userFormError = '';
+					this.userFormSubmitted = true;
+
+					// stop here if form is invalid
+					if (this.userForm.invalid) {
+						return;
+					}
+
+					this.userFormLoading = true;
+
+					this.baseService.updateUserData(this.userForm.value, 'update-user-data', this.user.id)
+					.pipe(first())
+					.subscribe(
+						data => {
+							// Update user data
+							this.handleProfileResponse(data);
+							this.userFormLoading = false;
+							// update localstorage data
+							this.updateLocalStorage(data);
+							this.alert.successMsg("Your profile has been updated","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg(error, "Error");
+							this.userFormLoading = false;
+						});
+
+				}
+
+
+				studentFormSubmit(){
+					this.studentFormError = '';
+					this.studentFormSubmitted = true;
+
+					// stop here if form is invalid
+					if (this.studentForm.invalid) {
+						return;
+					}
+
+					this.studentFormLoading = true;
+
+					this.baseService.updateUserData(this.studentForm.value, 'update-student-data/'+this.profile.role, this.user.id)
+					.pipe(first())
+					.subscribe(
+						(data :any) => {
+							// Update user data
+							this.studentFormLoading = false;
+							this.handleRoledataResponse(data);
+							this.alert.successMsg("Your profile has been updated","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg(error, "Error");
+							this.studentFormLoading = false;
+						});
+
+				}
+
+				mentorFormSubmit(){
+					this.mentorFormError = '';
+					this.mentorFormSubmitted = true;
+
+					// stop here if form is invalid
+					if (this.mentorForm.invalid) {
+						return;
+					}
+
+					this.mentorFormLoading = true;
+
+					this.baseService.updateUserData(this.mentorForm.value, 'update-mentor-data', this.user.id)
+					.pipe(first())
+					.subscribe(
+						data => {
+							// Update user data
+							this.mentorFormLoading = false;
+							this.handleRoledataResponse(data);
+							this.alert.successMsg("Your profile has been updated","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg("Unable to update account.","There was an error");
+							this.mentorFormLoading = false;
+						});
+
+				}
+
+
+				industryFormSubmit(){
+
+					if (this.industryForm.invalid) {
+						return;
+					}
+					this.baseService.updateUserData(this.industryForm.value, 'update-industry-data', this.user.id)
+					.pipe(first())
+					.subscribe(
+						data => {
+							// Update user data
+							this.alert.successMsg("Industry List updated successfully","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg("Unable to update account.","There was an error");
+						});
+
+				}
+
+
+				passwordFormSubmit(){
+					this.passSubmitted = true;
+
+					// stop here if form is invalid
+					if (this.passwordForm.invalid) {
+						return;
+					}
+
+					this.baseService.updateUserData(this.passwordForm.value, 'update-password-data', this.user.id)
+					.pipe(first())
+					.subscribe(
+						data => {
+							// Update user data
+							this.alert.successMsg("Your Account Password has been updated. Next time you login, use it.","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg("Unable to update account.","There was an error");
+						});
+
+				}
+
+
+				companyFormSubmit(){
+					this.companyFormSubmitted = true;
+
+					// stop here if form is invalid
+					if (this.companyForm.invalid) {
+						return;
+					}
+
+					this.companyFormLoading = true;
+
+					this.baseService.updateUserData(this.companyForm.value, 'update-business-data', this.user.id)
+					.pipe(first())
+					.subscribe(
+						data => {
+							// Update user data
+							this.companyFormLoading = false;
+							this.handleRoledataResponse(data);
+							this.alert.successMsg("Your profile has been updated","Account Update Successful");
+						},
+						error => {
+							this.alert.errorMsg("Unable to update account.","There was an error");
+							this.companyFormLoading = false;
+						});
+
+				}
+
+
+				//=========================== Delete Account ===============================//
+
+				handleDeletionResponse( data:any ):void {
+					if (data.success) {
+						//wipe localStorage and reload page
+						this.authenticationService.logout();
+						window.location.reload();
+					}else{
+
+						this.alert.snotSimpleSuccess(data.error);
+					}
+				}
+
+				deleteAccount() {
+
+					this.deletingProfile = true;
+
+					let data = {
+						user_id : this.currentUser.id
+					};
+
+					this.baseService.removeAccount(data)
+					.subscribe(data => {
+						this.handleDeletionResponse(data);
+					});
+				}
+
+
+				//=============================== Upgrade Student Account ==========================//
+				upgradeAccount():void {
+					// console.log(this.currentUser.id);
+				}
+
 			}
-
-			this.userFormLoading = true;
-
-			this.baseService.updateUserData(this.userForm.value, 'update-user-data', this.user.id)
-			.pipe(first())
-			.subscribe(
-				data => {
-					// Update user data
-					this.handleProfileResponse(data);
-					this.userFormLoading = false;
-					// update localstorage data
-					this.updateLocalStorage(data);
-					this.alert.successMsg("Your profile has been updated","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg(error, "Error");
-					this.userFormLoading = false;
-				});
-
-		}
-
-
-		studentFormSubmit(){
-			this.studentFormError = '';
-			this.studentFormSubmitted = true;
-
-			// stop here if form is invalid
-			if (this.studentForm.invalid) {
-				return;
-			}
-
-			this.studentFormLoading = true;
-
-			this.baseService.updateUserData(this.studentForm.value, 'update-student-data/'+this.profile.role, this.user.id)
-			.pipe(first())
-			.subscribe(
-				(data :any) => {
-					// Update user data
-					this.studentFormLoading = false;
-					this.handleRoledataResponse(data);
-					this.alert.successMsg("Your profile has been updated","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg(error, "Error");
-					this.studentFormLoading = false;
-				});
-
-		}
-
-		mentorFormSubmit(){
-			this.mentorFormError = '';
-			this.mentorFormSubmitted = true;
-
-			// stop here if form is invalid
-			if (this.mentorForm.invalid) {
-				return;
-			}
-
-			this.mentorFormLoading = true;
-
-			this.baseService.updateUserData(this.mentorForm.value, 'update-mentor-data', this.user.id)
-			.pipe(first())
-			.subscribe(
-				data => {
-					// Update user data
-					this.mentorFormLoading = false;
-					this.handleRoledataResponse(data);
-					this.alert.successMsg("Your profile has been updated","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
-					this.mentorFormLoading = false;
-				});
-
-		}
-
-
-		industryFormSubmit(){
-
-			if (this.industryForm.invalid) {
-				return;
-			}
-			this.baseService.updateUserData(this.industryForm.value, 'update-industry-data', this.user.id)
-			.pipe(first())
-			.subscribe(
-				data => {
-					// Update user data
-					this.alert.successMsg("Industry List updated successfully","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
-				});
-
-		}
-
-
-		passwordFormSubmit(){
-			this.passSubmitted = true;
-
-			// stop here if form is invalid
-			if (this.passwordForm.invalid) {
-				return;
-			}
-
-			this.baseService.updateUserData(this.passwordForm.value, 'update-password-data', this.user.id)
-			.pipe(first())
-			.subscribe(
-				data => {
-					// Update user data
-					this.alert.successMsg("Your Account Password has been updated. Next time you login, use it.","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
-				});
-
-		}
-
-
-		companyFormSubmit(){
-			this.companyFormSubmitted = true;
-
-			// stop here if form is invalid
-			if (this.companyForm.invalid) {
-				return;
-			}
-
-			this.companyFormLoading = true;
-
-			this.baseService.updateUserData(this.companyForm.value, 'update-business-data', this.user.id)
-			.pipe(first())
-			.subscribe(
-				data => {
-					// Update user data
-					this.companyFormLoading = false;
-					this.handleRoledataResponse(data);
-					this.alert.successMsg("Your profile has been updated","Account Update Successful");
-				},
-				error => {
-					this.alert.errorMsg("Unable to update account.","There was an error");
-					this.companyFormLoading = false;
-				});
-
-		}
-
-
-		//=========================== Delete Account ===============================//
-
-		handleDeletionResponse( data:any ):void {
-			if (data.success) {
-				//wipe localStorage and reload page
-				this.authenticationService.logout();
-				window.location.reload();
-			}else{
-
-				this.alert.snotSimpleSuccess(data.error);
-			}
-		}
-
-		deleteAccount() {
-
-			this.deletingProfile = true;
-
-			let data = {
-				user_id : this.currentUser.id
-			};
-
-			this.baseService.removeAccount(data)
-			.subscribe(data => {
-				this.handleDeletionResponse(data);
-			});
-		}
-
-
-		//=============================== Upgrade Student Account ==========================//
-		upgradeAccount():void {
-			// console.log(this.currentUser.id);
-		}
-
-	}

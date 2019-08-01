@@ -132,9 +132,9 @@ export class SettingsComponent implements OnInit {
     if (type === 'avatar') {
 
       if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
+        return '/assets/images/default/avatar.jpg';
       }
-      return item;
+      return this.authenticationService.baseurl+item;
     }
   }
 
@@ -179,7 +179,6 @@ export class SettingsComponent implements OnInit {
   	
   	if (this.settings.store_logo) {
   		this.processedImage = this.settings.store_logo;
-  		this.isImage = true;
   	}
   	this.bank_name = this.settings.bank_name;
   	this.account_number = this.settings.account_number;

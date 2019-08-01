@@ -126,9 +126,18 @@ export class ProfileComponent implements OnInit {
     if (type === 'avatar') {
 
       if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
+        return '/assets/images/default/avatar.jpg';
       }
-      return item;
+      return this.authenticationService.baseurl+item;
+    }
+
+    if (type === 'banner') {
+      
+      if (this.count(item) === 0) {
+        return '/assets/images/default/default.png';
+      }
+
+      return this.authenticationService.baseurl+item;
     }
   }
 

@@ -67,7 +67,7 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
 
     images.forEach((item) => {
       imageArray.push({
-        src : item,
+        src : this.authenticationService.baseurl+item,
         caption : title
       });
     });
@@ -84,8 +84,7 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
 
 
   filterFilePath(path:string, base_dir:string) {
-    let basePath = this.authenticationService.baseurl + base_dir;
-    let newPath = path.split(basePath);
+    let newPath = path.split(base_dir);
     return newPath[1];
   }
 
@@ -106,9 +105,9 @@ export class KnowledgeHubGeneralKnowledgeComponent implements OnInit {
     if (type === 'avatar') {
 
       if (this.count(item) === 0) {
-        return 'assets/images/default/avatar.jpg';
+        return '/assets/images/default/avatar.jpg';
       }
-      return item;
+      return this.authenticationService.baseurl + item;
     }
   }
 
