@@ -134,7 +134,6 @@ export class MessageLiveBroadcastComponent implements OnInit {
        if (this.selectedSchedule) {
        		if (this.selectedSchedule === message.schedule_id) {
        			this.groupMessages.push(message);
-       			console.log(message);
        		}
        }
       });
@@ -213,7 +212,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	startBroadcastSession() {
 		this.startSession = true;
 
-		this.client = this.ngxAgoraService.createClient({ mode: 'live', codec: 'h264' });
+		this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
 		this.assignClientHandlers();
 
 		if (this.createHostStream()) {
