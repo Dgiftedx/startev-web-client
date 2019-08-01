@@ -303,7 +303,7 @@
       <div class="modal-content">
         <div  class="modal-header custom-modal-header" 
         [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-        <img [src]="currentUser.avatar" class="rounded-circle img-raised img-border" height="45" width="45" />
+        <img [src]="checkValue(currentUser.avatar,'avatar','null')" class="rounded-circle img-raised img-border" height="45" width="45" />
       </div>
       <div class="modal-body"> 
         <div class="user-list border border-light" *ngFor="let participants of currrentParticipantsView">
