@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
 	loading = false;
 	submitted = false;
 	returnUrl: string;
+	queryParams: string;
 	public error:string = '';
 	public showMain:boolean = true;
 	public showAfterRegister: boolean = false;
@@ -55,9 +56,12 @@ export class RegisterComponent implements OnInit {
 			password : ['', [Validators.required, Validators.minLength(6)]],
 			confirmPassword : ['', Validators.required],
 			acceptTerms: [false, Validators.requiredTrue],
-			role : ['']
+			role : [''],
+			ref_code : [''],
 		}, {validator : MustMatch('password','confirmPassword')});
+
 		this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+		this.queryParams = this.route.snapshot.queryParamMap.get('ref_code');
 	}
 
 
@@ -74,6 +78,13 @@ export class RegisterComponent implements OnInit {
 
 	public count(items:any) {
 		return _.size(items);
+	}
+
+
+	setRefCodeField(){
+		if (this.queryParams) {
+			this.registrationForm.controls['ref_code'].setValue(this.queryParams);
+		}
 	}
 
 	handleResponse(data)
@@ -121,6 +132,9 @@ export class RegisterComponent implements OnInit {
 	}
 
 	onSubmit(){
+
+		this.setRefCodeField();
+
 		this.error = '';
 		this.submitted = true;
 		
