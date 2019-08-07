@@ -123,6 +123,12 @@ p {
     color: #666666;
 }
 
+.feed-link{
+    color: #D01A1A !important;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 .table-center tbody tr td {
     vertical-align: middle !important;
 }

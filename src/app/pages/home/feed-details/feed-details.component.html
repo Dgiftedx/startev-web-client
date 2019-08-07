@@ -112,7 +112,7 @@
                         <div class="job_descp">
                         <h3>{{ feed.title }}</h3>
                         <div class="feed-image mb-3" *ngIf="feed.image && !feed.images">
-                          <img (click)="openImage(feed)" [src]="feed.image" class="feed-image-responsive"/>
+                          <img (click)="openImage(feed)" [src]="checkValue(feed.image, 'avatar', 'null')" class="feed-image-responsive"/>
                         </div>
 
                         <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) < 2">
@@ -120,14 +120,14 @@
                               #feedSlickModal="slick-carousel"
                               [config]="feedSlideConfig">
                               <img ngxSlickItem *ngFor="let image of feed.images; let index = index" 
-                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class="feed-image-responsive"/>
+                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="checkValue(image, 'avatar', 'null')" class="feed-image-responsive"/>
                             </ngx-slick-carousel>
                         </div>
 
                          <div class="feed-image mb-3" *ngIf="feed.images && !feed.image && count(feed.images) > 1">
                            <div class="images-container-single">
                               <img *ngFor="let image of feed.images; let index = index" 
-                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="image" class=""/>
+                              (click)="openStackedImages(feed.images, index, feed.title)" [src]="checkValue(image,'avatar', 'null')" class=""/>
                             </div>
                         </div>
 

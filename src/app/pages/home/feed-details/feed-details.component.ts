@@ -142,23 +142,23 @@ export class FeedDetailsComponent implements OnInit {
     return this.baseService.echoJobTitle(roleData, role);
   }
 
-  // ============ check null item and return default as required =======//
-  checkValue(item:any,  type:string, nullValue:string) {
-    if (type === 'text') {
-      if (this.count(item) === 0) {
-        return nullValue;
+   // ============ check null item and return default as required =======//
+    checkValue(item:any,  type:string, nullValue:string) {
+      if (type === 'text') {
+        if (this.count(item) === 0) {
+          return nullValue;
+        }
+        return item;
       }
-      return item;
-    }
 
-    if (type === 'avatar') {
+      if (type === 'avatar') {
 
-      if (this.count(item) === 0) {
-        return '/assets/images/default/avatar.jpg';
+        if (this.count(item) === 0) {
+          return '/assets/images/default/avatar.jpg';
+        }
+        return this.authenticationService.baseurl+item;
       }
-      return this.authenticationService.baseurl + item;
     }
-  }
 
 
 
@@ -231,7 +231,7 @@ export class FeedDetailsComponent implements OnInit {
     let imageArray: Array<any> = [];
 
     imageArray.push({
-      src : feed.image,
+      src : this.authenticationService.baseurl + feed.image,
       caption : feed.title
     });
     
@@ -246,7 +246,7 @@ export class FeedDetailsComponent implements OnInit {
 
     images.forEach((item) => {
       imageArray.push({
-        src : item,
+        src : this.authenticationService.baseurl + item,
         caption : title
       });
     });
