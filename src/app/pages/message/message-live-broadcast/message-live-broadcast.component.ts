@@ -96,8 +96,6 @@ export class MessageLiveBroadcastComponent implements OnInit {
 
 		// Subscribe to current logged in user
 		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-
-		this.localCallId += "_"+this.currentUser.id;
 		this.uid = Math.floor(Math.random() * 100);
 		//disable resuable route
 		this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -211,6 +209,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	//================= Start Broadcast Session ================//
 	startBroadcastSession() {
 		this.startSession = true;
+		// this.localCallId += "startev-live"+this.selectedSchedule;
 
 		this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
 		this.assignClientHandlers();

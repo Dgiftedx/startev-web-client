@@ -120,8 +120,6 @@ export class JoinLiveSessionComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.localCallId += this.currentUser.id;
-
 		this.baseService.liveSessions$.subscribe( data => {
 			this.onGoingSessions = data;
 		});
@@ -195,8 +193,9 @@ export class JoinLiveSessionComponent implements OnInit {
 
 	setCurrentSession(session:any){
 		this.currentSession = session;
+		// this.localCallId += 'agora_localstartev-live'+session.channel_id;
 		this.channel_name = session.channel_id;
-		this.uid = session.uid;
+		this.uid = Math.floor(Math.random() * 100);//session.uid;
 		this.showTable = false;
 		this.showBroadcast = true;
 		this.broadcastInProgress = true;

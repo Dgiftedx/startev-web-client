@@ -42,10 +42,10 @@
                     </div><!--user-profile end-->
                     <ul class="user-fw-status">
                       <li>
-                        <a class="waves-effect" [routerLink]="" title="">Following ({{ count(profileData.following) }})</a>
+                        <a class="waves-effect" (click)="openFollowings()" [routerLink]="" title="">Following ({{ count(profileData.following) }})</a>
                       </li>
                       <li>
-                        <a class="waves-effect" [routerLink]="" title="">Followers ({{ count(profileData.followers) }})</a>
+                        <a class="waves-effect" (click)="openFollowers()" [routerLink]="" title="">Followers ({{ count(profileData.followers) }})</a>
                       </li>
                       <li>
                         <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
@@ -423,24 +423,6 @@
 
 
 
-      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #followersModal id="followersModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div  class="modal-header custom-modal-header" 
-            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
-                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
-               </h6>
-               <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
-             </div>
-             <div class="modal-body">
-
-             </div>
-
-            </div>
-        </div>
-      </div>
-
-
       <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #followingsModal id="followingsModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -450,9 +432,99 @@
                </h6>
                <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
              </div>
-             <div class="modal-body">
+             <div class="modal-body mt-3">
+                    <div class="suggestions-list bg-white" *ngIf="count(profileData.following) > 0">
+                        <h4 class="mb-2 text-center">Followings</h4>
 
+                      <div class="suggestion-usd" *ngFor="let user of profileData.following">
+                        <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="user.name" width="40">
+                        <div class="sgt-text">
+                              <h4>{{ user.name | titlecase }}</h4>
+                              <div class="media-body">
+                                <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+                            </div>
+                        </div>
+
+                        
+                             <a [routerLink]=""
+                            *ngIf="!isFollowing(user.id) && currentUser.id !== user.id" 
+                            (click)="followUser(user.id)" 
+                            class="waves-effect">
+                            <span><i class="la la-plus"></i></span>
+                            </a>
+
+                            <a [routerLink]="" 
+                            *ngIf="isFollowing(user.id) && currentUser.id !== user.id" 
+                            (click)="unFollowUser(user.id)"
+                            class="waves-effect">
+                            <span><i class="la la-minus"></i></span>
+                            </a>
+                        
+
+                        <a [routerLink]="['/general-profile', user.slug]"><span><i class="la la-eye"></i></span></a>
+
+                    </div>
+
+
+                </div>
              </div>
+             <div class="modal-footer">
+              <button (click)="closeModal('followingsModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
+            </div>
+
+            </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #followersModal id="followersModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+               </h6>
+               <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
+             </div>
+             <div class="modal-body mt-3">
+                  <div class="suggestions-list bg-white" *ngIf="count(profileData.followers) > 0">
+                        <h4 class="mb-2 text-center">Followings</h4>
+
+                      <div class="suggestion-usd" *ngFor="let user of profileData.followers">
+                        <img src="{{ checkValue(user.avatar, 'avatar', 'null') }}" alt="user.name" width="40">
+                        <div class="sgt-text">
+                              <h4>{{ user.name | titlecase }}</h4>
+                              <div class="media-body">
+                                <span class="follow-subtext">Joined: {{ user.created_at | date: 'mediumDate' }} - {{ user.state }}, {{ user.country }}</span>
+                            </div>
+                        </div>
+
+                        
+                             <a [routerLink]=""
+                            *ngIf="!isFollowing(user.id) && currentUser.id !== user.id" 
+                            (click)="followUser(user.id)" 
+                            class="waves-effect">
+                            <span><i class="la la-plus"></i></span>
+                            </a>
+
+                            <a [routerLink]="" 
+                            *ngIf="isFollowing(user.id) && currentUser.id !== user.id" 
+                            (click)="unFollowUser(user.id)"
+                            class="waves-effect">
+                            <span><i class="la la-minus"></i></span>
+                            </a>
+                        
+
+                        <a [routerLink]="['/general-profile', user.slug]"><span><i class="la la-eye"></i></span></a>
+
+                    </div>
+
+
+                </div>
+             </div>
+             <div class="modal-footer">
+              <button (click)="closeModal('followersModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
+            </div>
 
             </div>
         </div>

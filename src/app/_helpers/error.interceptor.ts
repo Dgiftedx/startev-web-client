@@ -11,7 +11,8 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
-            if (err.status === 401 && !err.error.error) {
+
+            if (err.status === 0 && typeof err.error.error === "undefined") {
                 // auto logout if 401 response returned from api
                 this.authenticationService.logout();
                 // tslint:disable-next-line: deprecation

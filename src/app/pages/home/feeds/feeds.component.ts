@@ -188,6 +188,16 @@ export class FeedsComponent implements OnInit {
 
 
 
+    openFollowings(){
+      $(document).find('#followingsModal').modal();
+    }
+
+
+    openFollowers(){
+      $(document).find('#followersModal').modal();
+    }
+
+
      //================ increment Views ==================//
     incrementViews(feed:any) {
       this.baseService.increaseFeedView(feed.id)
@@ -669,6 +679,10 @@ export class FeedsComponent implements OnInit {
       if (this.helpInterval) {
         clearInterval(this.helpInterval);
       };
+
+     $(document).find('.modal').each(function() {
+        $(this).modal('hide');
+      });
     }
 
   }
