@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let item of cart">
-                                        <td><img [src]="item.product.images[0]" width="40" alt="Product img"></td>
+                                        <td><img [src]="checkValue(item.product.images[0],'avatar','null')" width="40" alt="Product img"></td>
                                         <td><strong>{{ item.product.product_name }}</strong></td>
                                        <td>
                                             <div class="quantity-grp">
@@ -130,7 +130,7 @@
                                         <tr *ngFor="let item of invoice.items; let index = index;">
                                             <td>{{ index + 1 }}</td>
                                             <td>{{ item.product_name }}</td>
-                                            <td>{{ item.description | excerpt: 80 }}</td>
+                                            <td><p [innerHtml]="item.description | excerpt: 80"></p></td>
                                             <td>{{ item.quantity }}</td>
                                             <td>{{ item.unit_cost }}</td>
                                             <td>{{ item.total }}</td>

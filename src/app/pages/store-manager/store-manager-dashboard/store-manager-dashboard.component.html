@@ -72,7 +72,7 @@
                     </thead>
                     <tbody *ngIf="count(recentOrders) > 0">
                         <tr *ngFor="let order of recentOrders">
-                            <td><img [src]="order.image" alt="Product img" width="45"></td>
+                            <td><img [src]="checkValue(order.image,'avatar','null')" alt="Product img" width="45"></td>
                             <td>{{ order.name }}</td>
                             <td>{{ order.product_name }}</td>
                             <td>{{ order.quantity }}</td>

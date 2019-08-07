@@ -156,7 +156,7 @@
 
                            <div class="product_store_images">
                            	<ul>
-                           		<li *ngFor="let image of singleProduct.images"><img [src]="image" width="120" /></li>
+                           		<li *ngFor="let image of singleProduct.images"><img [src]="checkValue(image,'avatar','null')" width="120" /></li>
                            	</ul>
                            </div>
 

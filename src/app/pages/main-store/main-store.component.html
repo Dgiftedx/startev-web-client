@@ -1,110 +1,107 @@
-<main>
-      <div class="main-section">
-        <div class="container">
-          <div class="main-section-data mt-4">
+<section class="companies-info">
+    <div class="container">
             <div class="row">
              
-        <div class="col-md-3 mt-5 sticky" *ngIf="store">
-            <div class="card feeds-container fadeIn">
-                <div class="card-body">
-                     <div class="text-center">
-                        <img [src]="store.store_logo" height="80" class="img-responsive" />
-                        <p class="apple-font" [innerHtml]="store.store_name"></p>
-                    </div>
-
-                    <div class="border"></div>
-
-                    <div class="mt-3">
-                        <!-- <p class="pl-2 text-danger">Filter by Price</p> -->
-                    </div>
-
-                     <div class="mt-3">
-                        <p class="pl-2 text-danger">Select Filter</p>
-
-                        <div class="form-group">
-                            <div class="radio m-r-20mb-2 ">
-                                <input type="radio" 
-                                [(ngModel)]="selectedSortFilter" 
-                                name="sort" id="newest" class="with-gap" 
-                                [value]="productSortFilter[0].value">
-                                <label for="newest">{{ productSortFilter[0].name }}</label>
-                            </div>                                
-                            <div class="radio">
-                                <input type="radio" 
-                                [(ngModel)]="selectedSortFilter"  
-                                name="sort" id="oldest" class="with-gap" 
-                                [value]="productSortFilter[1].value">
-                                <label for="oldest">{{ productSortFilter[1].name }}</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="button" (click)="applyFilter()" class="btn btn-block btn-primary waves-effect">Apply Filter</button>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-9">
-            <div class="row clearfix m-b-20">
-                 <div class="col-md-6 offset-3 m-b-20">
-                     <div class="form-group text-center slideDown">
-                      <label for="search">Search for Products</label>
-                      <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                    <span class="pr-2 text-warning rigid">Shopping cart</span>
-                    <a [routerLink]="['/store/cart-view']" 
-                    class="cart-box btn btn-primary btn-round">
-                        <span class="">
-                            <fa-icon [icon]="['fas','shopping-cart']" size="lg" [ngStyle]="{'color':'#e9c656'}">
-                            
-                            </fa-icon>
-                            <sup class="cart-count">{{ count(cart) }}</sup>
-                            
-                        </span>
-                    </a>
-                </div>
-            </div>
-            <div class="row clearfix mt-4" *ngIf="products">
-                <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let product of products">
-                    <div class="card product_item fadeIn">
+                <div class="col-md-3 mt-5" *ngIf="store">
+                    <div class="card feeds-container fadeIn">
                         <div class="card-body">
-                            <div class="cp_img">
-                                <a [routerLink]="['/product-view',product.id]"><img [src]="product.images[0]" alt="Product" class="img-fluid"></a>
-                                <div class="hover">
-                                    <button
-                                    type="button"
-                                    (click)="triggerView(product.id)"
-                                     class="btn btn-primary btn-round btn-icon btn-icon-mini waves-effect"><i class="fa fa-eye"></i></button>
+                             <div class="text-center">
+                                <img [src]="checkValue(store.store_logo, 'avatar', 'null')" height="80" class="img-responsive" />
+                                <p class="apple-font" [innerHtml]="store.store_name"></p>
+                            </div>
 
-                                    <button 
-                                    type="button"
-                                    (click)="addToCart(product.sku, product.id)"
-                                    class="btn btn-primary btn-round btn-icon btn-icon-mini waves-effect">
-                                    <i class="fa fa-shopping-cart"></i></button>
+                            <div class="border"></div>
+
+                            <div class="mt-3">
+                                <!-- <p class="pl-2 text-danger">Filter by Price</p> -->
+                            </div>
+
+                            <div class="mt-3">
+                                <p class="pl-2 text-danger">Select Filter</p>
+
+                                <div class="form-group">
+                                    <div class="radio m-r-20mb-2 ">
+                                        <input type="radio" 
+                                        [(ngModel)]="selectedSortFilter" 
+                                        name="sort" id="newest" class="with-gap" 
+                                        [value]="productSortFilter[0].value">
+                                        <label for="newest">{{ productSortFilter[0].name }}</label>
+                                    </div>                                
+                                    <div class="radio">
+                                        <input type="radio" 
+                                        [(ngModel)]="selectedSortFilter"  
+                                        name="sort" id="oldest" class="with-gap" 
+                                        [value]="productSortFilter[1].value">
+                                        <label for="oldest">{{ productSortFilter[1].name }}</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="product_details">
-                                <h5>
-                                    <a 
-                                    [routerLink]="['/product-view',product.id]">{{ product.product_name |excerpt : 20 }}</a></h5>
-                                <ul class="product_price list-unstyled">
-                                    <li class="new_price mt-2">NGN {{ product.product_price | number:0 }}</li>
-                                </ul>
-                            </div>
+
+                            <button type="button" (click)="applyFilter()" class="btn btn-block btn-primary waves-effect">Apply Filter</button>
+
                         </div>
-                    </div>                
+                    </div>
                 </div>
+
+                <div class="col-md-9">
+                    <div class="row clearfix m-b-20">
+                         <div class="col-md-6 offset-3 m-b-20">
+                             <div class="form-group text-center slideDown">
+                              <label for="search">Search for Products</label>
+                              <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="pr-2 text-warning rigid">Shopping cart</span>
+                            <a [routerLink]="['/store/cart-view']" 
+                            class="cart-box btn btn-primary btn-round">
+                                <span class="">
+                                    <fa-icon [icon]="['fas','shopping-cart']" size="lg" [ngStyle]="{'color':'#e9c656'}">
+                                    
+                                    </fa-icon>
+                                    <sup class="cart-count">{{ count(cart) }}</sup>
+                                    
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row clearfix mt-4" *ngIf="products">
+                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let product of products">
+                            <div class="card product_item fadeIn">
+                                <div class="card-body">
+                                    <div class="cp_img">
+                                        <a [routerLink]="['/product-view',product.id]"><img [src]="checkValue(product.images[0],'avatar','null')" alt="Product" class="img-fluid"></a>
+                                        <div class="hover">
+                                            <button
+                                            type="button"
+                                            (click)="triggerView(product.id)"
+                                             class="btn btn-primary btn-round btn-icon btn-icon-mini waves-effect"><i class="fa fa-eye"></i></button>
+
+                                            <button 
+                                            type="button"
+                                            (click)="addToCart(product.sku, product.id)"
+                                            class="btn btn-primary btn-round btn-icon btn-icon-mini waves-effect">
+                                            <i class="fa fa-shopping-cart"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="product_details">
+                                        <h5>
+                                            <a 
+                                            [routerLink]="['/product-view',product.id]">{{ product.product_name |excerpt : 20 }}</a></h5>
+                                        <ul class="product_price list-unstyled">
+                                            <li class="new_price mt-2">NGN {{ product.product_price | number:0 }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
                
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
-</main>
+    </section>
+
 <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #productPreviewModal id="productPreviewModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content m-4">
@@ -117,7 +114,7 @@
                         *ngFor="let preview of singleProduct.images; let index = index;" 
                         class="tab-pane" 
                         [ngClass]="{'active':selectedSingleImage === preview}"
-                        id="product_{{ index+1 }}"><img [src]="preview" class="img-fluid"></div>
+                        id="product_{{ index+1 }}"><img [src]="checkValue(preview,'avatar','null')" class="img-fluid"></div>
                         
                     </div>      
                 </div>
@@ -126,7 +123,7 @@
                     <h4 class="price mt-3">Current Price: <span class="col-amber rigid">NGN {{ singleProduct.product_price | number:0 }}</span></h4>
                    
                     <hr>
-                    <p class="product-description">{{ singleProduct.highlight }}</p>
+                    <p class="product-description" [innerHtml]="singleProduct.highlight"></p>
                     <!-- <h5 class="sizes">sizes:
                         <span 
                         *ngFor="let size of singleProduct.sizes" 
@@ -164,7 +161,7 @@
                 <table class="table" *ngIf="count(cart) > 0">
                     <tr *ngFor="let item of cart">
                         <td>
-                            <img [src]="item.product.images[0]" width="40" />
+                            <img [src]="checkValue(item.product.images[0],'avatar','null')" width="40" />
                         </td>
                         <td>{{ item.product.product_name }}</td>
                         <td>NGN {{ item.product.product_price | number:0 }}</td>
