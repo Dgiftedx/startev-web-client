@@ -1,3 +1,4 @@
+declare var $: any;
 import * as _ from 'lodash';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../_models';
@@ -5,6 +6,7 @@ import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 import { switchMap, first } from "rxjs/operators";
 import { Subscription } from 'rxjs'
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { NgSelectConfig } from '@ng-select/ng-select';
 
@@ -29,12 +31,17 @@ export class IndustryDetailsComponent implements OnInit {
 
   industryForm: FormGroup;
 
+  public quickMessageContent : string = '';
+  public quickMessageRecipient : number;
+  public sendingQuickMessage : boolean = false;
+
 
   constructor(
     private router: Router,
     private config: NgSelectConfig,
     private route: ActivatedRoute,
     private alert: AlertService,
+    private http: HttpClient,
     private formBuilder: FormBuilder,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
@@ -79,22 +86,65 @@ export class IndustryDetailsComponent implements OnInit {
     return _.size(items);
   }
 
+  quickMessage(user:number){
+    this.quickMessageRecipient = user;
+    $(document).find('#quickMessageModal').modal();
+  }
+
+  submitQuickMessage(){
+    this.sendingQuickMessage = true;
+    if (this.count(this.quickMessageContent) === 0) {
+      return this.alert.infoMsg("Please enter valid content","Enter Valid Content");
+    }
+
+
+    let data = {
+      message: this.quickMessageContent,
+      receiver_id : this.quickMessageRecipient,
+      sender_id : this.currentUser.id,
+      type : 'text'
+    };
+
+
+    this.http
+    .post(`${this.authenticationService.endpoint}/send-message`, data)
+    .toPromise()
+    .then((data: { message: string; status: boolean }) => {
+      //message sent
+      this.sendingQuickMessage = false;
+      this.closeModal('quickMessageModal');
+      this.alert.snotSimpleSuccess("Message sent");
+    })
+    .catch(error => {
+      //
+    });
+
+  }
+
+
+  //=====Close every single Modal on page ======//
+
+  closeModal(element : any): void {
+    $(document).find('#'+element).modal('hide');
+    this.quickMessageContent = '';
+    this.sendingQuickMessage = false;
+  }
 
   
   echoMentorField(mentor:any){
 
-      if ( _.size(mentor.mentor.current_job_position) > 0 && _.size(mentor.mentor.organization) > 0 ) {
-         return mentor.mentor.current_job_position + " at " + mentor.mentor.organization;
+    if ( _.size(mentor.mentor.current_job_position) > 0 && _.size(mentor.mentor.organization) > 0 ) {
+      return mentor.mentor.current_job_position + " at " + mentor.mentor.organization;
+    }else{
+
+      if (_.size(mentor.mentor.curent_job_position)) {
+        return mentor.mentor.current_job_position;
+      }else if(_.size(mentor.mentor.organization)){
+        return mentor.mentor.organization;
       }else{
-          
-          if (_.size(mentor.mentor.curent_job_position)) {
-              return mentor.mentor.current_job_position;
-          }else if(_.size(mentor.mentor.organization)){
-              return mentor.mentor.organization;
-          }else{
-              return "";
-          }
+        return "";
       }
+    }
   }
 
 

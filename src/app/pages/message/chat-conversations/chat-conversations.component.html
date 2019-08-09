@@ -1,0 +1,214 @@
+<section class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 m-0 p-0">
+				<div class="chat-container shadow feeds-container">
+					<div class="row">
+						<div class="col-md-3 mt-0 ml-0 mr-0 mb-2 p-0">
+							<div class="card chat-contacts zero-margin no-pdd">
+								<div class="card-header">
+									<div class="float-right">
+										<a class="round-icon waves-effect" href="javascript:;"><i class="fa fa-ellipsis-v"></i></a>
+									</div>
+									<h3 class="apple-font">Recent Conversations</h3>
+								</div>
+								<div class="card-body zero-margin no-pdd">
+									<div class="list-group">
+									  <a [routerLink]="" *ngFor="let user of messages$" [class.active]="activeChat.id === user.id"
+                                		(click)="openChatWindow(user)"
+									  class="list-group-item list-group-item-action no-pdd active">
+								    	<div class="d-flex flex-row">
+								    		<div class="p-2">
+								    			<img [src]="checkValue(user.avatar, 'avatar', 'null')" class="rounded-circle" width="40"/>
+								    		</div>
+								    		<div class="chat-brief p-2 w-100">
+								    			<div class="d-flex w-100 justify-content-between">
+											      <h5 class="apple-font">{{ user.name }}</h5>
+											      <small class="" *ngIf="count(user.messages) > 0">{{ user.messages[0].created_at | dateAgo }}</small>
+											    </div>
+								    			 <p class="w-100" *ngIf="count(user.messages) > 0">{{ user.messages[0].message | excerpt :40 }}</p>
+								    			 <p *ngIf="count(user.messages) === 0" class="new-conversation w-100">You can start a new conversation with this user</p>
+								    		</div>
+								    	</div>
+									  </a>
+									 
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mt-0 ml-0 mr-0 mb-2 p-0">
+							<div class="card chat-main-box zero-margin no-pdd">
+								<div class="card-header">
+									<div class="float-right" *ngIf="count(activeChat) > 0">
+										<a (click)="initAudioCall(activeChat.id)" class="round-icon waves-effect" href="javascript:;"><i class="fa fa-phone"></i></a>
+										<!-- <a class="round-icon waves-effect hide" href="javascript:;"><i class="fa fa-paperclip"></i></a> -->
+										<a class="round-icon waves-effect" href="javascript:;"><i class="fa fa-ellipsis-v"></i></a>
+									</div>
+									<div class="current-chat-header">
+										<img *ngIf="activeChat" [src]="checkValue(activeChat.avatar,'avatar','null')" width="20" class="rounded-circle"/>
+									</div>
+								</div>
+								<div class="card-body chat-back">
+
+									<div class="chat-conversation-box" *ngIf="activeChat.messages">
+
+										<div *ngFor="let message of activeChat.messages | orderBy: 'created_at':false"
+										[ngClass]="{'recipient-message' : message.sender_id !== currentUser.id, 'my-message': message.sender_id === currentUser.id}" class="chat-message-list">
+											<div class="d-flex"
+												[ngClass]="{'flex-row': message.sender_id !== currentUser.id, 'flex-row-reverse': message.sender_id === currentUser.id}">
+									    		<div class="p-2">
+									    			<img 
+				                                        *ngIf="message.sender_id !== currentUser.id" 
+				                                        class="rounded-circle" width="40"
+				                                        [src]="checkValue(activeChat.avatar, 'avatar', 'null')" 
+				                                        title="{{ activeChat.name }}" 
+				                                        alt="avatar">
+
+				                                     <img 
+				                                        *ngIf="message.sender_id === currentUser.id" 
+				                                        class="rounded-circle" width="40"
+				                                        [src]="checkValue(currentUser.avatar, 'avatar', 'null')" 
+				                                        alt="avatar">
+									    		</div>
+									    		<div class="chat-message p-2 w-100">
+									    			<div class="d-flex w-100 justify-content-between">
+												      <!-- <h6 class="apple-font">Bankole Dayo</h6> -->
+												      <small class="">{{ message.created_at | date: 'shortTime' }}</small>
+												    </div>
+									    			 <p class="p-1 w-100" [ngClass]="{'color-white': message.sender_id === currentUser.id}">{{ message.message }}</p>
+									    		</div>
+									    	</div>
+										</div>
+
+
+										<div *ngIf="checkTypingEvent(activeChat.id)"
+										 class="chat-message-list recipient-message" >
+											<div class="d-flex flex-row">
+									    		<div class="p-2">
+									    			<img  
+				                                        class="rounded-circle" width="40"
+				                                        [src]="checkValue(activeChat.avatar, 'avatar', 'null')" 
+				                                        title="{{ activeChat.name }}" 
+				                                        alt="avatar">
+									    		</div>
+									    		<div class="chat-message p-2 w-100">
+									    			 <p class="p-1 w-100">Typing...</p>
+									    		</div>
+									    	</div>
+										</div>
+									
+									</div>
+								<div class="chat-conversation-box" *ngIf="!activeChat.messages">
+									<div class="empty-chat apple-font"><i class="fa fa-comment"></i> <br/> 
+									Start a new conversation by clicking on any user from your contacts</div>
+								</div>
+							</div>
+							<div class="chat-form-box" *ngIf="count(activeChat) > 0">
+								
+									<div class="form-group d-flex flex-row">
+										<input 
+										type="text" 
+		                                (keyup.enter)="sendMessage(activeChat)"
+		                                (focus)="typingEvent($event, activeChat.id)"
+		                                (blur)="stopTypingEvent($event, activeChat.id)"
+		                                placeholder="Type your message..."
+		                                [(ngModel)]="chatMessage"
+										class="message-input"/>
+										<button type="button" 
+										(click)="sendMessage(activeChat)" 
+										class="message-send"><i class="fa fa-send"></i></button>
+									</div>
+								
+							</div>
+						</div>
+					</div>
+						<div class="col-md-3 mt-0 ml-0 mr-0 mb-2 p-0">
+							<div class="card chat-action-box zero-margin no-pdd">
+								<div class="card-header">
+									<div class="float-right">
+										<a class="round-icon waves-effect" href="javascript:;"><i class="fa fa-ellipsis-v"></i></a>
+									</div>
+									<h3 class="apple-font"><i class="fa fa-arrow-right"></i> Current Chat & Contact List</h3>
+								</div>
+								<div class="card-body m-0 p-0">
+									<div class="row m-0 p-0">
+										<div class="col-md-12 m-0 p-0">
+											<div *ngIf="onAudioCall" class="current-chat-call text-center p-2" style="min-height: 250px;">
+												<div class="row pt-1">
+													<div class="col"></div>
+													<div class="col-md-4">
+														<img [src]="checkValue(activeChat.avatar,'avatar','null')" class=" user-chat-img rounded-circle img-raised" />
+													</div>
+													<div class="col"></div>
+												</div>
+												<h3 *ngIf="activeChat.role.role === 'business'" class="apple-font pt-1">{{ activeChat.role.data }}</h3>
+													<h3 *ngIf="activeChat.role.role !== 'business'" class="apple-font pt-1">{{ activeChat.name }}</h3>
+												<div class="chat-call-tools" *ngIf="!receiver">
+													<button (click)="endAudioCall()" type="button"><span><i class="fa fa-times"></i></span></button>
+													<button type="button" #agora_audio id="agora_audio"><span><i class="fa fa-microphone"></i></span></button>
+													<button><span><i class="fa fa-microphone-slash"></i></span></button>
+												</div>
+
+												<div class="receive-call-tools" *ngIf="receiver">
+													<button (click)="answerAudioCall()" type="button"><span><i class="fa fa-phone text-success"></i></span></button>
+
+													<button type="button" #agora_audio id="agora_audio"><span><i class="fa fa-microphone"></i></span></button>
+
+													<button (click)="leaveAudioCall()"><span><i class="fa fa-times text-danger"></i></span></button>
+												</div>
+
+												<img *ngIf="pickedCall" 
+												src="/assets/images/live2.gif" class="rounded-circle picked-call"/>
+
+												<!-- remote calls -->
+												<div class="remote-call" 
+												*ngFor="let audioCallId of remoteCalls" [id]="audioCallId">
+												</div>
+											</div>
+											<div *ngIf="!onAudioCall" class="current-chat-user p-2 text-center" style="min-height: 250px;">
+												<div *ngIf="count(activeChat) > 0">
+													<div class="row">
+														<div class="col"></div>
+														<div class="col-md-4">
+															<img [src]="checkValue(activeChat.avatar,'avatar','null')" class=" user-chat-img rounded-circle img-raised" />
+														</div>
+														<div class="col"></div>
+													</div>
+													<h3 *ngIf="activeChat.role.role === 'business'" class="apple-font pt-1">{{ activeChat.role.data }}</h3>
+													<h3 *ngIf="activeChat.role.role !== 'business'" class="apple-font pt-1">{{ activeChat.name }}</h3>
+													
+													<p class="pl-4 pr-4">
+														{{ activeChat.bio }}
+														<br/>
+														<strong *ngIf="activeChat.state && activeChat.country">{{ activeChat.state }}, {{ activeChat.country }}</strong>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12 m-0 p-0">
+											<div class="contact-list-container">
+
+											  <a *ngFor="let contact of contacts$ | async" 
+											  class="d-block contact-list" href="javascript:;"
+											  (click)="setNewChat(contact)">
+											  	<div class="d-inline-flex">
+											  		<img [src]="checkValue(contact.avatar, 'avatar', 'null')" width="40" class="rounded-circle" /> 
+											  	<span class="apple-font">{{ contact.name }}</span>
+											  	</div>
+											  </a>
+											  
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+			

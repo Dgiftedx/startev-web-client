@@ -111,6 +111,12 @@ export class FeedsComponent implements OnInit {
   public currentPage : number;
   public nextPage : number;
 
+
+
+  public quickMessageContent : string = '';
+  public quickMessageRecipient : number;
+  public sendingQuickMessage : boolean = false;
+
     constructor(
       private route : ActivatedRoute,
       private router: Router,
@@ -185,6 +191,50 @@ export class FeedsComponent implements OnInit {
         this.triggerHelpTips();
       }, 6000 * 6);
     }
+
+
+    quickMessage(user:number){
+      this.quickMessageRecipient = user;
+      $(document).find('#quickMessageModal').modal();
+    }
+
+    submitQuickMessage(){
+      this.sendingQuickMessage = true;
+      if (this.count(this.quickMessageContent) === 0) {
+        return this.alert.infoMsg("Please enter valid content","Enter Valid Content");
+      }
+
+
+      let data = {
+        message: this.quickMessageContent,
+        receiver_id : this.quickMessageRecipient,
+        sender_id : this.currentUser.id,
+        type : 'text'
+      };
+
+
+      this.http
+      .post(`${this.authenticationService.endpoint}/send-message`, data)
+      .toPromise()
+      .then((data: { message: string; status: boolean }) => {
+        //message sent
+        this.sendingQuickMessage = false;
+        this.closeQuickModal('quickMessageModal');
+        this.alert.snotSimpleSuccess("Message sent");
+      })
+      .catch(error => {
+        //
+      });
+      
+    }
+
+    //=====Close every single Modal on page ======//
+
+  closeQuickModal(element : any): void {
+    $(document).find('#'+element).modal('hide');
+    this.quickMessageContent = '';
+    this.sendingQuickMessage = false;
+  }
 
 
 

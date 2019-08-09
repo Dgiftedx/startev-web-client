@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs'
 import { Lightbox } from 'ngx-lightbox';
 import { User } from '../../../_models';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { StoreService } from '../../../_services/store.service';
 import { Router, NavigationEnd , ActivatedRoute} from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
@@ -41,12 +42,19 @@ export class GeneralProfileComponent implements OnInit {
 		text: ''
 	};
 
+
+
+	  public quickMessageContent : string = '';
+  public quickMessageRecipient : number;
+  public sendingQuickMessage : boolean = false;
+
 	constructor(
 		private cdr: ChangeDetectorRef,
 		private route : ActivatedRoute,
 		private router: Router,
 		private lightbox: Lightbox,
 		private alert: AlertService,
+		private http: HttpClient,
 		private userService : UserService,
 		private baseService: BaseService,
 		private storeservice: StoreService,
@@ -67,6 +75,52 @@ export class GeneralProfileComponent implements OnInit {
 		this.updateFollowingIds(this.route.snapshot.data.profile.myFollowers);
 		this.getUserFeeds();
 	}
+
+
+
+	      quickMessage(user:number){
+      this.quickMessageRecipient = user;
+      $(document).find('#quickMessageModal').modal();
+    }
+
+    submitQuickMessage(){
+      this.sendingQuickMessage = true;
+      if (this.count(this.quickMessageContent) === 0) {
+        return this.alert.infoMsg("Please enter valid content","Enter Valid Content");
+      }
+
+
+      let data = {
+        message: this.quickMessageContent,
+        receiver_id : this.quickMessageRecipient,
+        sender_id : this.currentUser.id,
+        type : 'text'
+      };
+
+
+      this.http
+      .post(`${this.authenticationService.endpoint}/send-message`, data)
+      .toPromise()
+      .then((data: { message: string; status: boolean }) => {
+        //message sent
+        this.sendingQuickMessage = false;
+        this.closeModal('quickMessageModal');
+        this.alert.snotSimpleSuccess("Message sent");
+      })
+      .catch(error => {
+        //
+      });
+      
+    }
+
+
+    //=====Close every single Modal on page ======//
+
+    closeModal(element : any): void {
+      $(document).find('#'+element).modal('hide');
+      this.quickMessageContent = '';
+      this.sendingQuickMessage = false;
+    }
 
 	getUserFeeds(){
 		this.feedsSubscription = this.baseService.fetchMyFeeds(this.profileData.user.id)

@@ -15,7 +15,14 @@ export class BaseService {
     private querySource: BehaviorSubject<any> = new BehaviorSubject('');
     currentSearchQuery = this.querySource.asObservable();
 
+    //video live session observer
     public liveSessions$: BehaviorSubject<any> = new BehaviorSubject({});
+
+    //audio call monitor for recipient
+    public audioSessions$: BehaviorSubject<any> = new BehaviorSubject({});
+
+    //audio call monitor for host
+    public audioHostSessions$: BehaviorSubject<any> = new BehaviorSubject({});
 
     constructor(
         private http: HttpClient,
@@ -70,6 +77,34 @@ export class BaseService {
                 return "";
             }
         }
+    }
+
+
+    //====================== Audio Session ======================//
+    public seedIncomingCall( formData:any, url:string ){
+        return this.http.post(`${this.endpoint}/${url}`, formData);
+    }
+
+    public pickAudioSession( id: number ){
+        return this.http.get(`${this.endpoint}/pick-audio-session/${id}`);
+    }
+
+    public getAudioSessions( user_id:any ){
+        this.http.get(`${this.endpoint}/get-audio-session/${user_id}`)
+        .subscribe(data => {
+            this.audioSessions$.next(data);
+        })
+    }
+
+     public getAudioHostSession( user_id:any){
+        this.http.get(`${this.endpoint}/get-audio-host-session/${user_id}`)
+        .subscribe(data => {
+            this.audioHostSessions$.next(data);
+        })
+    }
+
+    public deleteAudioSession( id: number ){
+        return this.http.get(`${this.endpoint}/delete-audio-session/${id}`);
     }
 
     //====================== Broadcast =============================//

@@ -133,6 +133,7 @@ import { OwlFormFieldModule,
     OwlTabsModule,OwlCheckBoxModule } from 'owl-ng';
 import { NgxAgoraModule } from 'ngx-agora';
 import { JoinLiveSessionComponent } from './pages/message/join-live-session/join-live-session.component';
+import { ChatConversationsComponent } from './pages/message/chat-conversations/chat-conversations.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -225,6 +226,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MessageBroadcastScheduleComponent,
     FooterWidgetTwoComponent,
     JoinLiveSessionComponent,
+    ChatConversationsComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

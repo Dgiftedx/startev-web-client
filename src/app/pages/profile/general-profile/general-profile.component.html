@@ -356,6 +356,13 @@
                    class="waves-effect"><i class="fa fa-plus"></i> Follow</a>
 
               </div>
+
+              <div class="message-btn mr-2">
+                  <a
+                  [routerLink]=""
+                  (click)="quickMessage(profile.user.id)"
+                  class="waves-effect"><i class="fa fa-envelope"></i> Message</a>
+              </div>
                     <!-- Advert Widget -->
                       <app-ads-widget></app-ads-widget>
                       <!--// end advert Widget -->
@@ -373,3 +380,25 @@
     </div>
 </div>
 </main>
+
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #quickMessageModal id="quickMessageModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+                <h6 class="title" [ngStyle]="{'font-weight': '400', 'text-transform':'lowercase'}">
+               </h6>
+               <img [src]="checkValue(currentUser.avatar,'avatar','null')" class="rounded-circle img-raised img-border" height="45" width="45" />
+             </div>
+             <div class="modal-body"> 
+              <div class="form-group mt-4">
+                <textarea placeholder="Type your message..." rows="4" class="form-control" [(ngModel)]="quickMessageContent"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" [ladda]="sendingQuickMessage" (click)="submitQuickMessage()" class="btn btn-sm btn-primary waves-effect">Send</button>
+              <button (click)="closeModal('quickMessageModal')" type="button" class="btn btn-sm btn-primary waves-effect">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
