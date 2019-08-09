@@ -555,7 +555,7 @@ fieldset[disabled] .btn-primary.active {
     box-sizing: content-box;
     position: fixed;
     height: 100%;
-    width: 100vw;
+    width: 100%;
     min-height: 100%;
 }
 .chat-contacts .card-body,
