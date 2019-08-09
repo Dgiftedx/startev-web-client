@@ -43,6 +43,7 @@
 
 
 @media (max-width: 991px) {
+	.chat-container{position: relative; width: 100%;}
 	main {padding: 20px 0 60px 0;}
 	.user-specs span {font-size: 13px;}
 	.comment_box input {width: 275px;}
@@ -113,6 +114,7 @@
 
 
 @media (max-width: 576px) {
+	.chat-container{position: relative; width: 100%;}
 	.notice_bar p {font-size: 15px;}
 	.top_breadcrumb .items-container .items a {font-size: 15px;}
 	nav ul .active {border-bottom: none;}
