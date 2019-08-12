@@ -5,7 +5,6 @@ import { User } from '../../_models';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { switchMap, first } from "rxjs/operators";
-import { EmbedVideoService } from 'ngx-embed-video';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { trigger, style, animate,state, transition } from '@angular/animations';
@@ -87,7 +86,6 @@ export class MyPublicationsComponent implements OnInit {
     private config: NgSelectConfig,
     private route: ActivatedRoute,
     private alert: AlertService,
-    private embedService: EmbedVideoService,
     private formBuilder: FormBuilder,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {

@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { User } from '../../../_models';
 import { HttpClient } from '@angular/common/http';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FeedService } from '../../../_services/feed.service';
@@ -48,7 +47,6 @@ export class PublishComponent implements OnInit {
     private formBuilder: FormBuilder,
     private feedService : FeedService,
     private alert: AlertService,
-    private embed : EmbedVideoService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) { 
   		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);

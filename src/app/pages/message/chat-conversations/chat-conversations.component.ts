@@ -522,7 +522,7 @@ export class ChatConversationsComponent implements OnInit {
    }
 
    updateScrollDirection() {
-   	$(".chat-main-box .card-body").mCustomScrollbar("scrollTo","bottom");
+   	$(".chat-outer").mCustomScrollbar("scrollTo","bottom");
    }
 
 
@@ -634,8 +634,9 @@ export class ChatConversationsComponent implements OnInit {
 	
 	// ================ Custom Plugin Section ============================//
 	jQueryMethods(){
-		$(".chat-main-box .card-body").mCustomScrollbar();
-		axis:"yx"
+		$(".chat-outer").mCustomScrollbar({
+			axis:"y"
+		});
 	}
 
 
@@ -692,7 +693,7 @@ export class ChatConversationsComponent implements OnInit {
 
 	//============== Typing Event =======================//
 	typingEvent(event:any, receiver_id: number ) {
-
+		this.updateScrollDirection();
 		let message = "Typing...";
 
 		let data = {
@@ -763,7 +764,8 @@ export class ChatConversationsComponent implements OnInit {
 	//================= send Message =====================//
 
 	sendMessage(activeChat:any) {
-
+		this.updateScrollDirection();
+		
 		let payload:any = {
 			sender_id: this.currentUser.id,
 			receiver_id: activeChat.id,

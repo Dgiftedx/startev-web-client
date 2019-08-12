@@ -6,7 +6,6 @@ import { BaseService } from './_services';
 import { ToastrModule } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { OrderModule } from 'ngx-order-pipe';
-import { EmbedVideo } from 'ngx-embed-video';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { LaddaModule } from  'angular7-ladda';
 import { AppComponent } from './app.component';
@@ -32,6 +31,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxEpicVideoPlayerModule } from 'ngx-epic-video-player';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -261,7 +261,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      NgChatModule,
      SnotifyModule,
      CKEditorModule,
-     EmbedVideo,
      InputSearchModule,
      NgxPaginationModule,
      NgxDatatableModule,
@@ -288,7 +287,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      OwlTabsModule,
      OwlCheckBoxModule,
      OwlRadioModule,
-     NgxAgoraModule.forRoot({ AppID: '8658c3ff39b7418d9df4e3f15915d7e6' })
+     NgxAgoraModule.forRoot({ AppID: '8658c3ff39b7418d9df4e3f15915d7e6' }),
+     NgxEpicVideoPlayerModule
   ],
 
   providers: [

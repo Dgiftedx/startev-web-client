@@ -69,6 +69,10 @@ export class NavbarComponent implements OnInit {
       this.notyInterval = setInterval(() => {
         this.refreshNotifications();
       }, 6000 * 3);
+
+      $(".not-box-open").on("click", function(){
+        $(this).next(".notification-box").toggleClass("active");
+    });
   }
 
 

@@ -5,7 +5,6 @@ import { User } from '../../../_models';
 import { Lightbox } from 'ngx-lightbox';
 import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
-import { EmbedVideoService } from 'ngx-embed-video';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { trigger, style, animate,state, transition } from '@angular/animations';
@@ -40,7 +39,6 @@ export class KnowledgeHubCareersComponent implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private lightbox: Lightbox,
-    private embedService: EmbedVideoService,
     private formBuilder: FormBuilder,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
