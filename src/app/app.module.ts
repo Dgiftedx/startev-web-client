@@ -22,37 +22,38 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { AppRoutingModule } from './app-routing.module';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 import { FilePickerModule } from  'ngx-awesome-uploader';
-import { AngularEditorModule } from '@kolkov/angular-editor';
-import { BrowserModule } from '@angular/platform-browser';
 import { ExcerptFilter } from './_filters/excerpt.filter';
 import { environment } from '../environments/environment';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { MainStoreResolve } from './_resolvers/store.resolver';
+import { VentureResolve } from './_resolvers/venture.resolver';
 import { NgxEpicVideoPlayerModule } from 'ngx-epic-video-player';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BusinessResolve } from './_resolvers/business.resolver';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgxUploadModule, MineTypeEnum, DropTargetOptions} from '@wkoza/ngx-upload';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
-import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
-import { VentureResolve } from './_resolvers/venture.resolver';
-import { PublicationResolve } from './_resolvers/publications.resolver';
-import { BusinessResolve } from './_resolvers/business.resolver';
-import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
 import { SingleFeedResolve } from './_resolvers/single-feed.resolver';
+import { PublicationResolve } from './_resolvers/publications.resolver';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MentorProfileResolve } from './_resolvers/mentor-profile.resolver';
+import { SingleVentureResolve } from './_resolvers/single-venture.resolver';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxUploadModule, MineTypeEnum, DropTargetOptions} from '@wkoza/ngx-upload';
+import { IndustryResolve, SingleIndustryResolve, ProfileEditResolve } from './_resolvers';
 import { OpenSingleFeedResolve } from './_resolvers/open-single-feed.resolver';
-import { MainStoreResolve } from './_resolvers/store.resolver';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { SingleProfileResolve } from './_resolvers/single-profile.resolver';
 import { SinglePublicationResolve } from './_resolvers/single-publication.resolver';
-import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
@@ -122,6 +123,9 @@ import { MessageContactListComponent } from './pages/message/message-contact-lis
 import { MessageBroadcastScheduleComponent } from './pages/message/message-broadcast-schedule/message-broadcast-schedule.component';
 import { FooterWidgetTwoComponent } from './pages/widgets/footer-widget-two/footer-widget-two.component';
 
+import { OverlayModule } from "@angular/cdk/overlay";
+import { VideoUploadService } from './_services/video-upload.service';
+import { BroadcastMessageService } from './_services/broadcast-message.service';
 
 //Owl NG
 import { OwlFormFieldModule, 
@@ -131,6 +135,7 @@ import { OwlFormFieldModule,
     OwlDialogModule,
     OwlRadioModule,
     OwlTabsModule,OwlCheckBoxModule } from 'owl-ng';
+
 import { NgxAgoraModule } from 'ngx-agora';
 import { JoinLiveSessionComponent } from './pages/message/join-live-session/join-live-session.component';
 import { ChatConversationsComponent } from './pages/message/chat-conversations/chat-conversations.component';
@@ -288,7 +293,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
      OwlCheckBoxModule,
      OwlRadioModule,
      NgxAgoraModule.forRoot({ AppID: '8658c3ff39b7418d9df4e3f15915d7e6' }),
-     NgxEpicVideoPlayerModule
+     NgxEpicVideoPlayerModule,
+     OverlayModule
   ],
 
   providers: [
@@ -296,8 +302,13 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+
+        OwlSelectModule,
+        OverlayModule,
         SnotifyService,
         BaseService,
+        VideoUploadService,
+        BroadcastMessageService,
         IndustryResolve,
         SingleIndustryResolve,
         ProfileEditResolve,

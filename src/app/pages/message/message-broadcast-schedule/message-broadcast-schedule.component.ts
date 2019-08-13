@@ -62,7 +62,9 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 
 	//push message
 	public pushMessage: string = '';
-	public pushBatch : number;
+	public pushBatch : any = {};
+	public pushLadda : boolean = false;
+	public mentees : Array<any> = [];
 
 	public currrentParticipantsView: any = [];
 
@@ -100,6 +102,15 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 		this.router.routeReuseStrategy.shouldReuseRoute = function () {
 			return false;
 		};
+
+		this.traineesSubscription = this.baseService.getTrainees(this.currentUser.id)
+		.subscribe(data => {
+			this.trainees = data;
+		});
+
+		//
+		this.scheduleData.participants = [];
+		this.scheduleEditData.participants = [];
 	}
 
 	ngOnInit() {
@@ -168,7 +179,9 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 	//================= Clean form ===================//
 	cleanScheduleForm(){
 		this.scheduleData = {};
+		this.scheduleData.participants = [];
 		this.scheduleEditData = {};
+		this.scheduleEditData.participants = [];
 	}
 
 	//================= Create new schedule ==================//
@@ -188,30 +201,50 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 			}
 		}
 
+		this.trainees.forEach((item) => {
+			this.mentees.push({id: item.id, name: item.name});
+		})
+		
 
 		this.cleanScheduleForm();
 
-		this.showTable = false;
-		this.showPushNotice = false;
-		this.showEdit = false;
-		this.showNew = true;
+		setTimeout(() => {
+			this.showTable = false;
+			this.showPushNotice = false;
+			this.showEdit = false;
+			this.showNew = true;
+		}, 200);
 	}
 
+	addTagFn(name) {
+        return { name: name, tag: true };
+    }
 
 
 	//================ Edit Schedule =======================//
 	editSchedule(schedule:any) {
+		this.trainees.forEach((item) => {
+			this.mentees.push({id: item.id, name: item.name});
+		});
+
 		this.cleanScheduleForm();
 
 		this.scheduleEditData.title = schedule.title;
 		this.scheduleEditData.id = schedule.id;
-		this.scheduleEditData.participants = schedule.participants;
+
+		schedule.participants.forEach((item) => {
+			let search = _.findLast(this.trainees, ['id', item]);
+			this.scheduleEditData.participants.push({id: search.id, name: search.name});
+		})
+		// this.scheduleEditData.participants = schedule.participants;
 		this.scheduleEditData.date = new Date(schedule.date);
 
-		this.showTable = false;
-		this.showPushNotice = false;
-		this.showNew = false;
-		this.showEdit = true;
+		setTimeout(() => {
+			this.showTable = false;
+			this.showPushNotice = false;
+			this.showNew = false;
+			this.showEdit = true;
+		});
 	}
 
 
@@ -264,6 +297,7 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 
 	//=============== Submit New Schedule ====================//
 	submitNewSchedule() {
+
 		if (this.count(this.scheduleData.title) === 0) {
 			return this.alert.errorMsg("Invalid schedule title","Error!");
 		}
@@ -280,10 +314,16 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 			return this.alert.errorMsg("Participants can't be more than 10", "Error!");
 		}
 
+		const participants = [];
+
+		this.scheduleData.participants.forEach((item) => {
+			participants.push(item.id);
+		});
+
 		let formData = new FormData();
 		formData.append('title', this.scheduleData.title);
 		formData.append('user_id', this.currentUser.id);
-		formData.append('participants', JSON.stringify(this.scheduleData.participants));
+		formData.append('participants', JSON.stringify(participants));
 		formData.append('date', this.transformDate(this.scheduleData.date));
 
 		if (this.scheduleData.invitation_note) {
@@ -318,11 +358,17 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 			return this.alert.errorMsg("Participants can't be more than 10", "Error!");
 		}
 
+		const participants = [];
+
+		this.scheduleEditData.participants.forEach((item) => {
+			participants.push(item.id);
+		});
+
 		let formData = new FormData();
 
 		formData.append('schedule_id', this.scheduleEditData.id);
 		formData.append('title', this.scheduleEditData.title);
-		formData.append('participants', JSON.stringify(this.scheduleEditData.participants));
+		formData.append('participants', JSON.stringify(participants));
 		formData.append('date', this.transformDate(this.scheduleEditData.date));
 
 		this.baseService.updateSchedule(formData, 'update-schedule')
@@ -336,14 +382,28 @@ export class MessageBroadcastScheduleComponent implements OnInit {
 
 	//============== Send push Reminder/Notification ==================//
 	sendPushNotification(){
+
+		if (this.count(this.pushBatch) === 0) {
+			this.alert.errorMsg("Please select valid schedule", "Select Schedule");
+			return;
+		}
+
+		if (this.count(this.pushMessage) === 0) {
+			this.alert.errorMsg("Please type in valid message", "Submission Error");
+			return;
+		}
+
+		this.pushLadda = true;
+
 		let data = {
-			batch_id: this.pushBatch,
+			batch_id: this.pushBatch.id,
 			message: this.pushMessage
 		};
 
 
 		this.baseService.sendNotice(data)
 		.subscribe( data => {
+			this.pushLadda = false;
 			this.alert.snotSimpleSuccess("Reminder notification sent successfully");
 			this.toTable();
 		});

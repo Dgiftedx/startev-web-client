@@ -83,14 +83,29 @@
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label class="mb-2">Schedule Title</label>
-									<input type="text" class="form-control" [(ngModel)]="scheduleData.title"/>
+									<input type="text" class="form-control no-radius" [(ngModel)]="scheduleData.title"/>
 								</div>
 							</div>
 							<div class="col-lg-12">
 								<p class="mb-2 text-danger">Maximum of 8 participants allowed</p>
 								<div class="form-group">
 									<label class="mb-2">Select Participants</label>
-									<owl-form-field>
+									<ng-select [items]="mentees"
+                                               multiple="true"
+                                               [maxSelectedItems]="8"
+                                               bindLabel="name"
+                                               [(ngModel)]="scheduleData.participants">
+                                    </ng-select>
+									<!-- <ng-select [items]="mentees"
+                                               [addTag]="addTagFn"
+                                               [hideSelected]="true"
+                                               multiple="true"
+                                               [maxSelectedItems]="8"
+                                               bindLabel="name"
+                                               [(ngModel)]="scheduleData.participants">
+                                    </ng-select> -->
+
+									<!-- <owl-form-field>
 						                <owl-select 
 						                [owlSelectRange]="[1, 8]"
 						                [multiple]="true"
@@ -105,14 +120,14 @@
 						                    Selected participants can't be more than 8.
 						                </div>
 
-						            </owl-form-field>
+						            </owl-form-field> -->
 								</div>
 							</div>
 
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label class="mb-2">Select Date & Time</label>
-									<input [owlDateTimeTrigger]="broadcastTime1" [(ngModel)]="scheduleData.date" class="form-control" [owlDateTime]="broadcastTime1">
+									<input [owlDateTimeTrigger]="broadcastTime1" [(ngModel)]="scheduleData.date" class="form-control no-radius" [owlDateTime]="broadcastTime1">
                                     <owl-date-time [panelClass]="'bring-forward'" #broadcastTime1></owl-date-time>
 								</div>
 							</div>
@@ -162,7 +177,7 @@
 
 
 				<!-- ------------ Edit Broadcast Shedule --------------- -->
-				<div class="card animated fadeInUp" *ngIf="showEdit">
+				<div class="card animated bounceIn" *ngIf="showEdit">
 					<div class="card-header">
 						<h4>Edit Broadcast Schedule for Batch: </h4>
 					</div>
@@ -172,14 +187,20 @@
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label class="mb-2">Schedule Title</label>
-									<input type="text" class="form-control" [(ngModel)]="scheduleEditData.title"/>
+									<input type="text" class="form-control no-radius" [(ngModel)]="scheduleEditData.title"/>
 								</div>
 							</div>
 
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label class="mb-2">Edit Participants</label>
-									<owl-form-field>
+									<ng-select [items]="mentees"
+                                               multiple="true"
+                                               [maxSelectedItems]="8"
+                                               bindLabel="name"
+                                               [(ngModel)]="scheduleEditData.participants">
+                                    </ng-select>
+									<!-- <owl-form-field>
 						                <owl-select 
 						                [owlSelectRange]="[1, 8]"
 						                [multiple]="true" 
@@ -194,14 +215,14 @@
 						                    Selected participants can't be more than 8.
 						                </div>
 
-						            </owl-form-field>
+						            </owl-form-field> -->
 								</div>
 							</div>
 
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label class="mb-2">Edit Date & Time</label>
-									 <input [owlDateTimeTrigger]="broadcastTime" [(ngModel)]="scheduleEditData.date" class="form-control" [owlDateTime]="broadcastTime">
+									 <input [owlDateTimeTrigger]="broadcastTime" [(ngModel)]="scheduleEditData.date" class="form-control no-radius" [owlDateTime]="broadcastTime">
                                     <owl-date-time [pickerMode]="dialog" [panelClass]="'bring-forward'" #broadcastTime></owl-date-time>
 								</div>
 							</div>
@@ -236,15 +257,19 @@
 
 							<div class="col-lg-12">
 								<div class="form-group">
-									<label class="mb-2">Select Batch</label>
-									<owl-form-field>
+									<label class="mb-2">Select Schedule</label>
+									<ng-select [items]="schedules"
+                                               bindLabel="title"
+                                               [(ngModel)]="pushBatch">
+                                    </ng-select>
+									<!-- <owl-form-field>
 						                <owl-select
 						                [(ngModel)]="pushBatch" 
 						                placeholder="Schedule Batch">
 						                    <owl-option *ngFor="let schedule of schedules" [value]="schedule.id">{{schedule.title}} - {{ count(schedule.participants) }} participants</owl-option>
 						                </owl-select>
 
-						            </owl-form-field>
+						            </owl-form-field> -->
 								</div>
 							</div>
 							<div class="col-lg-12">
@@ -258,7 +283,7 @@
 							</div>
 
 							<div class="col-lg-12 mt-5">
-								<button 
+								<button [ladda]="pushLadda"
 								(click)="sendPushNotification()"
 								type="button" 
 								class="btn btn-primary btn-sm">
