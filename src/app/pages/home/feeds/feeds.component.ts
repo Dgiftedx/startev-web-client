@@ -214,9 +214,24 @@ export class FeedsComponent implements OnInit {
     });
   }
 
+  validateVideoFileExtension(file: File) {
+    const file_type = file.type;
+    let extension = file_type.split("/")[1];
+    if(!/(\flv|\avi|\mov|\mpg|\wmv|\m4v|\mp3|\mp4|\wma|\3gp)$/i.test(extension)) {
+        return false;
+      }
+    return true;
+  }
+
   public onSelectedVideo(event) {
     
     if (event.target.files.length > 0) {
+
+       if (!this.validateVideoFileExtension(event.target.files[0])) {
+         this.alert.errorMsg("File type not allowed. Please upload valid video file", "An error occurred");
+         return;
+       }
+
       this.videoSelected = true;
       const file = event.target.files[0];
       this.videoForm.get('file').setValue(file);
@@ -224,10 +239,11 @@ export class FeedsComponent implements OnInit {
   }
 
   onVideoSubmit() {
-
+    this.videoUpload = {};
     if (this.videoForm.errors) {
       return;
     }
+
     const formData = new FormData();
     formData.append('title', this.videoForm.get('title').value);
     formData.append('file', this.videoForm.get('file').value);
@@ -237,16 +253,27 @@ export class FeedsComponent implements OnInit {
     this.videoService.upload(formData).subscribe(
       res => {
         this.videoUpload = res;
-        setTimeout(() => {
-          this.closeModal('videoPostModal');
+
+          $("#video-upload").val("");
           this.createVideoForm();
           this.videoSelected = false;
-        }, 2000);
+          this.closeModal('videoPostModal');
+
+          if (!res.success && res.message) {
+            this.alert.infoMsg("Your video upload is processing. You'll be notified once it's done", "Video uploading...");
+          }
+
+          if (res.success) {
+            this.alert.infoMsg("Your video has been processed.", "Video uploaded successfully");
+          }
+
+          if (res.error) {
+            this.alert.errorMsg(res.error, "An error occured");
+          }
       },
       err => {
-        this.videoError = err
-      }
-      );
+        this.videoError = err;
+      });
   }
 
 
@@ -261,8 +288,6 @@ export class FeedsComponent implements OnInit {
       return "null";
     }
   }
-
-
 
   videoPost(){
     $(document).find('#videoPostModal').modal();

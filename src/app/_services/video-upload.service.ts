@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpErrorResponse, HttpEventType} from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { AlertService } from './alert.service';
 import { AuthenticationService } from './authentication.service';
 import { catchError, map } from 'rxjs/operators';
 
@@ -11,9 +12,15 @@ export class VideoUploadService {
 
   apiUrl = '';
 
-  constructor(private http: HttpClient, private authenticationService : AuthenticationService) {
+  constructor(private http: HttpClient, private authenticationService : AuthenticationService, private alert : AlertService) {
   	this.apiUrl = this.authenticationService.endpoint+'/upload-video';
    }
+
+  // upload(formData) {
+  //   return this.http.post<any>(`${this.apiUrl}`, formData)
+  // }
+
+
 
   upload(formData) {
     return this.http.post<any>(`${this.apiUrl}`, formData, {
@@ -50,14 +57,13 @@ export class VideoUploadService {
   }
 
   private handleError(error: HttpErrorResponse) {
-  	console.log(error);
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
+      this.alert.errorMsg(error.error.message, "An error occurred");
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+      this.alert.errorMsg(error.error, "There is an error");
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened. Please try again later.');
