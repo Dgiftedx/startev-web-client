@@ -22,12 +22,14 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@
 })
 export class CartViewComponent implements OnInit {
 
+	userData:any = {};
 
 	currentUser : User;
 	transactionRef:Guid;
-	transactionKey:any = 'pk_test_c76acb3b20e6cdf526d2c722cc0ba0021c411f43';
+	transactionKey:any = 'pk_live_88361dabf717bb87148ec9858c651c1205f10bbe';
 	public total:number = 0;
 	public cart:any = [];
+	public server:any = [];
 	public invoice:any = [];
 	public showCart:boolean = true;
 	public showMsgBox:boolean = false;
@@ -55,38 +57,81 @@ export class CartViewComponent implements OnInit {
 			return false;
 		};
 
-		//user cart items
-		this.cartSubscription = this.storeService.mainStoreGetCartItems()
-		.subscribe(items => {
-			this.cart = items;
-		});
+
+		if (this.currentUser && this.currentUser.id) {
+			this.userData.name = this.currentUser.name;
+			this.userData.email = this.currentUser.email;
+			this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
+			this.userData.address = this.currentUser.address;
+				
+			//user cart items
+			this.cartSubscription = this.storeService.mainStoreGetCartItems()
+			.subscribe(items => {
+				// console.log(items);
+				this.cart = items;
+			});
+		}else{
+			this.cart = this.getSavedCartInStorage();
+		}
+
+
 	}
 
 	ngOnInit() {
+
 		//
 	}
 
+	removeLocalStorageCart(){
+		return localStorage.removeItem('cartItems');
+	}
+
+	getSavedCartInStorage(){
+		return JSON.parse(localStorage.getItem('cartItems'));
+	}
+
+	clearCart(){
+		this.removeLocalStorageCart();
+		this.cart = [];
+	}
+
+
 
 	// ============ check null item and return default as required =======//
-    checkValue(item:any,  type:string, nullValue:string) {
-      if (type === 'text') {
-        if (this.count(item) === 0) {
-          return nullValue;
-        }
-        return item;
-      }
+	checkValue(item:any,  type:string, nullValue:string) {
+		if (type === 'text') {
+			if (this.count(item) === 0) {
+				return nullValue;
+			}
+			return item;
+		}
 
-      if (type === 'avatar') {
+		if (type === 'avatar') {
 
-        if (this.count(item) === 0) {
-          return '/assets/images/default/avatar.jpg';
-        }
-        return this.authenticationService.baseurl+item;
-      }
-    }
+			if (this.count(item) === 0) {
+				return '/assets/images/default/avatar.jpg';
+			}
+			return this.authenticationService.baseurl+item;
+		}
+	}
 
 	ngAfterViewInit(){
 		this.cdr.detectChanges();
+		if (this.currentUser && this.currentUser.id) {
+			this.userData.name = this.currentUser.name;
+			this.userData.email = this.currentUser.email;
+			this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
+			this.userData.address = this.currentUser.address;
+				
+			//user cart items
+			this.cartSubscription = this.storeService.mainStoreGetCartItems()
+			.subscribe(items => {
+				// console.log(items);
+				this.cart = items;
+			});
+		}else{
+			this.cart = this.getSavedCartInStorage();
+		}
 	}
 
 	goBack(){
@@ -109,17 +154,19 @@ export class CartViewComponent implements OnInit {
 	}
 
 	calculateTotal(){
-		this.total = 0;
-		this.cart.forEach(item => {
-			this.total += (item.product.product_price * item.quantity);
-			item.amount = (item.product.product_price * item.quantity);
-		});
+		if (this.count(this.cart) > 0) {
+			this.total = 0;
+			this.cart.forEach(item => {
+				this.total += (item.product.product_price * item.quantity);
+				item.amount = (item.product.product_price * item.quantity);
+			});
 
-		setTimeout(() => {
-			this.cdr.detectChanges();
-		}, 500);
+			setTimeout(() => {
+				this.cdr.detectChanges();
+			}, 500);
 
-		return this.total;
+			return this.total;
+		}
 	}
 
 	increase(item:any){
@@ -143,10 +190,29 @@ export class CartViewComponent implements OnInit {
 
 	// ===================== Remove ITem From Cart ==================//
 	removeFromCart(item:any) {
-		this.storeService.mainStoreRemoveFromCart(item.id)
+		if (this.currentUser) {
+			this.storeService.mainStoreRemoveFromCart(item.id)
 		.subscribe(data => this.cart = data);
+		}else{
+			this.sliceLocalCart(item);
+		}
 
 		this.calculateTotal();
+	}
+
+
+	updateLocalCart(){
+		localStorage.setItem('cartItems', JSON.stringify(this.cart));
+	}
+
+
+	sliceLocalCart(item) {
+		let cartItems = this.getSavedCartInStorage();
+		let search = _.findLastIndex(cartItems, ['product_id',item.product_id]);
+
+		cartItems.splice(search,1);
+		this.cart = cartItems;
+		this.updateLocalCart();
 	}
 
 	// =================== Payment ======================//
@@ -159,7 +225,8 @@ export class CartViewComponent implements OnInit {
 
 
 	handleOrderResponse(data:any) {
-		this.cart = data.cartItems;
+		this.clearCart();
+		this.cart = [];
 		this.total = 0;
 		this.deliveryAddress = '';
 		this.invoice = data.invoice;
@@ -172,17 +239,15 @@ export class CartViewComponent implements OnInit {
 
 		this.refreshTransactionRef();
 
-		if (this.count(this.deliveryAddress) === 0 || this.count(this.deliveryAddress) < 7) {
-			// empty or invalid address . Set user address as delivery address.
-			this.deliveryAddress = this.currentUser.address;
-		}
-
 		let formData = new FormData();
 
 		formData.append('items', JSON.stringify(this.cart));
 		formData.append('transaction_ref', event.reference);
-		formData.append('delivery_address', this.deliveryAddress);
-		formData.append('user_id', this.currentUser.id);
+		formData.append('email', this.userData.email);
+		formData.append('name', this.userData.name);
+		formData.append('phone', this.userData.phone);
+		formData.append('delivery_address', this.userData.address);
+		formData.append('user_id', this.currentUser?this.currentUser.id:0);
 
 		this.storeService.mainStorePlaceOrder(formData)
 		.subscribe(data => {

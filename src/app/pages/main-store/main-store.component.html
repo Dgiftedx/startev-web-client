@@ -1,51 +1,31 @@
 <section class="companies-info">
-    <div class="container">
+    <div class="container-fluid">
             <div class="row">
              
-                <div class="col-md-3 mt-5" *ngIf="store">
-                    <div class="card feeds-container fadeIn">
+                <div class="col-md-4 mt-5" *ngIf="store">
+                    <div class="card fadeIn">
                         <div class="card-body">
-                             <div class="text-center">
-                                <img [src]="checkValue(store.store_logo, 'avatar', 'null')" height="80" class="img-responsive" />
-                                <p class="apple-font" [innerHtml]="store.store_name"></p>
-                            </div>
 
-                            <div class="border"></div>
-
-                            <div class="mt-3">
-                                <!-- <p class="pl-2 text-danger">Filter by Price</p> -->
-                            </div>
-
-                            <div class="mt-3">
-                                <p class="pl-2 text-danger">Select Filter</p>
-
-                                <div class="form-group">
-                                    <div class="radio m-r-20mb-2 ">
-                                        <input type="radio" 
-                                        [(ngModel)]="selectedSortFilter" 
-                                        name="sort" id="newest" class="with-gap" 
-                                        [value]="productSortFilter[0].value">
-                                        <label for="newest">{{ productSortFilter[0].name }}</label>
-                                    </div>                                
-                                    <div class="radio">
-                                        <input type="radio" 
-                                        [(ngModel)]="selectedSortFilter"  
-                                        name="sort" id="oldest" class="with-gap" 
-                                        [value]="productSortFilter[1].value">
-                                        <label for="oldest">{{ productSortFilter[1].name }}</label>
+                             <div class="row">
+                                 <div class="col-md-12">
+                                    <div class="text-center">
+                                        <img [src]="checkValue(store.store_logo, 'avatar', 'null')"  class="img-responsive" />
                                     </div>
+                                 </div>
+                             </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h1 class="apple-font rigid" [innerHtml]="store.store_name"></h1>
                                 </div>
                             </div>
-
-                            <button type="button" (click)="applyFilter()" class="btn btn-block btn-primary waves-effect">Apply Filter</button>
-
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <div class="row clearfix m-b-20">
-                         <div class="col-md-6 offset-3 m-b-20">
+                         <div class="col-md-6 m-b-20">
                              <div class="form-group text-center slideDown">
                               <label for="search">Search for Products</label>
                               <input type="text" class="form-control" id="search" #search (ngxInputSearch)="doTheSearch($event)"/>
@@ -65,12 +45,12 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row clearfix mt-4" *ngIf="products">
+                    <div class="row clearfix mt-5" *ngIf="products">
                         <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let product of products">
                             <div class="card product_item fadeIn">
                                 <div class="card-body">
                                     <div class="cp_img">
-                                        <a [routerLink]="['/product-view',product.id]"><img [src]="checkValue(product.images[0],'avatar','null')" alt="Product" class="img-fluid"></a>
+                                        <a [routerLink]=""><img [src]="checkValue(product.images[0],'avatar','null')" alt="Product" class="img-fluid"></a>
                                         <div class="hover">
                                             <button
                                             type="button"
@@ -124,22 +104,9 @@
                    
                     <hr>
                     <p class="product-description" [innerHtml]="singleProduct.highlight"></p>
-                    <!-- <h5 class="sizes">sizes:
-                        <span 
-                        *ngFor="let size of singleProduct.sizes" 
-                        class="size" title="{{ size }}">{{ getFirstLetter(size) }}</span>
-                    </h5>
-                    <h5 class="colors">colors:
-                        <span 
-                        *ngFor="let color of singleProduct.colors" 
-                        class="color bg-{{ color }}"></span>
-                    </h5> -->
+                   
                     <hr>
                     <div class="action">
-                        <!-- <button 
-                        class="btn btn-warning btn-round waves-effect" 
-                        type="button">Edit Product</button> -->
-
                         <button 
                         class="btn btn-round btn-primary waves-effect"
                         type="button"

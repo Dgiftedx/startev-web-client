@@ -49,8 +49,8 @@
                                     </tr>
 
                                     <!-- if cart is empty -->
-                                    <tr *ngIf="count(cart) === 0">
-                                        <td colspan="5" class="text-center"><strong>No Items in Your Cart</strong></td>
+                                    <tr *ngIf="count(cart) < 1">
+                                        <td colspan="5" class="text-center"><strong>No Item in Your Cart</strong></td>
                                     </tr>
                                     
                                 </tbody>
@@ -63,6 +63,7 @@
                             </table>
                         </div>
                     </div>
+                    <button *ngIf="count(cart) > 0" (click)="clearCart()" class="btn btn-primary">Clear Cart</button>
     		</div>
 
 
@@ -70,12 +71,28 @@
     			<div class="card-header">
     				<h2><strong>Delivery </strong> Details</h2>
     				<div class="card-body mt-3">
-    					<div class="form-group">
-    						<label>Delivery Address <span class="text-danger">(important! if not filled your residential address will be used instead)</span></label>
-    						<textarea rows="3" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="deliveryAddress" placeholder="enter delivery full address"></textarea>
-    					</div>
+
+                        <div class="form-group">
+                            <label>Full Name </label>
+                            <input type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.name" placeholder="Your Full Name"/>
+                        </div>
+
+                         <div class="form-group">
+                            <label>Phone Number: </label>
+                            <input type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.phone" placeholder="Your Phone Number"/>
+                        </div>
+
+                         <div class="form-group">
+                            <label>Email Address </label>
+                            <input type="email" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.email" placeholder="Your Email Address"/>
+                        </div>
 
     					<div class="form-group">
+    						<label>Delivery Address</label>
+    						<textarea rows="3" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.address" placeholder="enter delivery full address"></textarea>
+    					</div>
+
+    					<div class="form-group" *ngIf="currentUser">
     						<button
     						angular4-paystack
     						[key]="transactionKey"
@@ -87,6 +104,20 @@
     						type="button"
     						class="btn btn-round btn-primary waves-effect">Pay Now</button>
     					</div>
+
+                        <div class="form-group" *ngIf="!currentUser && count(userData.email) > 0 && count(userData.name) > 0 && count(userData.address) > 0">
+                            <button
+                            angular4-paystack
+                            [key]="transactionKey"
+                            [email]="userData.email"
+                            [amount]="total+'00'"
+                            [ref]="transactionRef.value"
+                            (close)="transactionCancelled()"
+                            (callback)="transactionSuccessful($event)"
+                            type="button"
+                            class="btn btn-round btn-primary waves-effect">Pay Now</button>
+                        </div>
+
     				</div>
     			</div>
     		</div>

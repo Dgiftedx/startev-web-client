@@ -20,6 +20,10 @@ export class StoreService {
 	endpoint = this.authenticationService.endpoint;
 
 
+	public getCommonData(url:string){
+		return this.http.get(`${this.endpoint}/store/${url}`);
+	}
+
 	//======================= Methods Starts Here ==========================//
 
 	public getStore(user_id: number, url:string){

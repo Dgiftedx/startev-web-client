@@ -33,8 +33,8 @@ export class MainStoreComponent implements OnInit {
   public selectedSortFilter = 'desc';
 
   public productSortFilter = [
-    {id: 1, name: "Sort By Newest", value: 'desc'},
-    {id: 2, name: "Sort By Oldest", value: 'asc'}
+  {id: 1, name: "Sort By Newest", value: 'desc'},
+  {id: 2, name: "Sort By Oldest", value: 'asc'}
   ];
 
 
@@ -51,11 +51,15 @@ export class MainStoreComponent implements OnInit {
     // this.getIndustryList();
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
-    //user cart items
-    this.cartSubscription = this.storeService.mainStoreGetCartItems()
-    .subscribe(items => {
-      this.cart = items;
-    });
+    if (this.currentUser) {
+      //user cart items
+      this.cartSubscription = this.storeService.mainStoreGetCartItems()
+      .subscribe(items => {
+        this.cart = items;
+      });
+    }else{
+      this.cart = this.getSavedCartInStorage();
+    }
   }
 
   ngOnInit() {
@@ -64,23 +68,23 @@ export class MainStoreComponent implements OnInit {
   }
 
 
-// ============ check null item and return default as required =======//
-    checkValue(item:any,  type:string, nullValue:string) {
-      if (type === 'text') {
-        if (this.count(item) === 0) {
-          return nullValue;
-        }
-        return item;
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
       }
-
-      if (type === 'avatar') {
-
-        if (this.count(item) === 0) {
-          return '/assets/images/default/avatar.jpg';
-        }
-        return this.authenticationService.baseurl+item;
-      }
+      return item;
     }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return '/assets/images/default/avatar.jpg';
+      }
+      return this.authenticationService.baseurl+item;
+    }
+  }
 
   get profile(){
     return JSON.parse(this.authenticationService.getUserData());
@@ -137,11 +141,11 @@ export class MainStoreComponent implements OnInit {
 
     let query = '&sort='+this.selectedSortFilter;
 
-   this.storeService.mainStoreByFilter(this.route.snapshot.params.identifier, query)
-   .subscribe(data => {
-     this.products = data;
-     this.alert.snotSimpleSuccess("Filter Applied");
-   });
+    this.storeService.mainStoreByFilter(this.route.snapshot.params.identifier, query)
+    .subscribe(data => {
+      this.products = data;
+      this.alert.snotSimpleSuccess("Filter Applied");
+    });
 
   }
 
@@ -183,31 +187,105 @@ export class MainStoreComponent implements OnInit {
 
 
   checkForError(data:any){
-    if (data.message) {
-      this.alert.infoMsg(data.message,"Info");
+    if (data.error) {
+      this.alert.infoMsg(data.error,"Info");
       return true;
     }
   }
 
-  addToCart(productSku: any, productId:number) {
+
+  removeLocalStorageCart(){
+    return localStorage.removeItem('cartItems');
+  }
+
+  getSavedCartInStorage(){
+    return JSON.parse(localStorage.getItem('cartItems'));
+  }
+
+
+  saveToSession(data:any){
+
+    if (this.count(this.getSavedCartInStorage()) === 0) {
+
+      let $array = [];
+
+      this.storeService.getCommonData('get-local-product?product_id='+data.product_id)
+      .subscribe((item:any) => {
+
+        if (this.count(data.store_identifier) === 0) {
+          data.store_identifier = item.store_identifier;
+        }
+
+        data.product = item.product;
+        data.store = item.store;
+        data.quantity = 1;
+
+        $array.push(data);
+        localStorage.setItem('cartItems', JSON.stringify($array));
+        this.alert.snotSimpleSuccess("Your product has been added to cart");
+        this.cart = this.getSavedCartInStorage();
+
+      });
+    }else{
+
+      //check is item already exists
+      let cartItems = this.getSavedCartInStorage();
+      let search = _.findLast(cartItems, ['product_id', data.product_id]);
+
+      if (_.size(search) > 0) {
+        this.alert.infoMsg("Your product already has been added to cart","Added already");
+      }else{
+        this.storeService.getCommonData('get-local-product?product_id='+data.product_id)
+        .subscribe((item:any) => {
+
+          if (this.count(data.store_identifier) === 0) {
+            data.store_identifier = item.store_identifier;
+          }
+
+          data.product = item.product;
+          data.store = item.store;
+          data.quantity = 1;
+
+          cartItems.push(data);
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+          this.alert.snotSimpleSuccess("Your product has been added to cart");
+          this.cart = this.getSavedCartInStorage();
+        });
+
+      }
+
+    }
+
+  }
+
+    addToCart(productSku: any, productId:number) {
 
       let toCart = {
         product_id: productId, 
         product_sku: productSku,
         store_identifier: this.route.snapshot.params.identifier,
-        user_id: this.currentUser.id
+        user_id: this.currentUser?this.currentUser.id:0
       };
 
-      this.storeService.mainStoreAddToCart(toCart)
-      .subscribe( items => {
 
-        //first check for notice
-        if (!this.checkForError(items)) {
-          this.cart = items;
-          this.alert.snotSimpleSuccess("Added to cart");
-        }
-        
-      });
+      //check if user is logged in
+      if (this.currentUser) {
+        this.storeService.mainStoreAddToCart(toCart)
+        .subscribe( (resp:any) => {
+
+          //first check for notice
+          if (!this.checkForError(resp)) {
+            this.cart = resp.items;
+            this.alert.snotSimpleSuccess(resp.message);
+          }
+
+        });
+      }else{
+        //use local storage
+        this.saveToSession(toCart);
+      }
+
+
+    }
+
   }
-
-}

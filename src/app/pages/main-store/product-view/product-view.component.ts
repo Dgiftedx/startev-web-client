@@ -104,7 +104,7 @@ export class ProductViewComponent implements OnInit {
         product_id: productId, 
         product_sku: productSku,
         store_identifier: this.route.snapshot.params.identifier,
-        user_id: this.currentUser.id
+        user_id: this.currentUser?this.currentUser.id:0
       };
 
       this.storeService.mainStoreAddToCart(toCart)

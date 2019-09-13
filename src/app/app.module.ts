@@ -86,10 +86,7 @@ import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/revi
 import { SettingsComponent } from './pages/partner/venture-dashboard/settings/settings.component';
 import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/tracker.component';
 import { StoreManagerComponent } from './pages/store-manager/store-manager.component';
-import { StoreManagerDashboardComponent } from './pages/store-manager/store-manager-dashboard/store-manager-dashboard.component';
 import { StoreManagerVenturesComponent } from './pages/store-manager/store-manager-ventures/store-manager-ventures.component';
-import { StoreManagerProductsComponent } from './pages/store-manager/store-manager-products/store-manager-products.component';
-import { StoreManagerOrdersComponent } from './pages/store-manager/store-manager-orders/store-manager-orders.component';
 import { StoreManagerSettingsComponent } from './pages/store-manager/store-manager-settings/store-manager-settings.component';
 import { StoreManagerTrackerComponent } from './pages/store-manager/store-manager-tracker/store-manager-tracker.component';
 import { NoAccessComponent } from './pages/no-access/no-access.component';
@@ -195,10 +192,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SettingsComponent,
     TrackerComponent,
     StoreManagerComponent,
-    StoreManagerDashboardComponent,
     StoreManagerVenturesComponent,
-    StoreManagerProductsComponent,
-    StoreManagerOrdersComponent,
     StoreManagerSettingsComponent,
     StoreManagerTrackerComponent,
     NoAccessComponent,

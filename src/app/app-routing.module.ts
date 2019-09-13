@@ -180,20 +180,17 @@ const routes: Routes = [
 	component: MainStoreComponent,
 	resolve: {store : MainStoreResolve},
 	// data: {animation: 'All'},
-	canActivate : [AuthGuard]
 },
 
 {
 	path: 'store/cart-view',
 	component: CartViewComponent,
-	canActivate : [AuthGuard]
 },
 
 {
 	path: 'product-view/:id',
 	component: ProductViewComponent,
 	// data: {animation: 'All'},
-	canActivate : [AuthGuard]
 },
 {
 	path: 'search-result',
