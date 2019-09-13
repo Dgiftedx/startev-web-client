@@ -45,6 +45,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
 import { OpenFeedComponent } from './pages/open-feed/open-feed.component';
+import { StoreManagerVenturesComponent } from './pages/store-manager/store-manager-ventures/store-manager-ventures.component';
 
 
 const routes: Routes = [
@@ -149,6 +150,13 @@ const routes: Routes = [
 	path: 'partner-view/:identifier', 
 	component: PartnerViewComponent,
 	resolve: {partnerView : SingleVentureResolve},
+	canActivate : [AuthGuard]
+},
+
+{
+	path: 'business-ventures',
+	component: StoreManagerVenturesComponent,
+	// data: {animation: 'All'},
 	canActivate : [AuthGuard]
 },
 

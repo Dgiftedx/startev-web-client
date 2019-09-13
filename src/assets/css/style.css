@@ -5789,7 +5789,9 @@ a:hover {
     padding-left: 20px;
 }
 
-
+.radius-0{
+    border-radius: 0 !important;
+}
 
 
 /* ============= account-tabs-setting ============ */
@@ -5818,7 +5820,7 @@ a:hover {
     border-bottom: 1px solid #e5e5e5;
     border-left: 0;
     border-right: 0;
-    color: #000000;
+    color: #00507b;
     font-size: 16px;
     font-weight: 600;
     -webkit-border-radius: 0;
@@ -5844,7 +5846,7 @@ a:hover {
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
     background-color: inherit;
-    color: #00507b;
+    color: #D78257;
     border-color: inherit;
 }
 

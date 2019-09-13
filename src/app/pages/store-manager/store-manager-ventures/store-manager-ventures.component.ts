@@ -219,7 +219,22 @@ export class StoreManagerVenturesComponent implements OnInit {
 
 	onSubmitVenture(){
 		this.updateVentureLadda = true;
-		this.validateFields();
+
+		if (this.count(this.ventureName) === 0) {
+			this.alert.errorMsg("Please enter venture name","Error in Form");
+			return;
+		}
+
+		if (this.count(this.ventureAddress) === 0) {
+			this.alert.errorMsg("Please enter venture location address","Error in Form");
+			return;
+		}
+
+
+		if (this.count(this.ventureDescription) < 5) {
+			this.alert.errorMsg("Please enter valid venture description","Error in Form");
+			return;
+		}
 
 		let formData = new FormData();
 		formData.append('venture_name',this.ventureName);

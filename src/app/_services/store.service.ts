@@ -96,16 +96,16 @@ export class StoreService {
 	}
 
 
-	public storeManagerDashboardData(user_id:number){
-		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${user_id}`);
+	public storeManagerDashboardData( ventureId:any, user_id:any ){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${ventureId}/${user_id}`);
 	}
 
-	public storeManagerGetOrders(user_id:number){
-		return this.http.get(`${this.endpoint}/store/store-manager/get-store-orders/${user_id}`);
+	public storeManagerGetOrders(ventureId:any, user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-store-orders/${ventureId}/${user_id}`);
 	}
 
-	public storeManagerGetProducts(user_id:number){
-		return this.http.get(`${this.endpoint}/store/store-manager/get-store-products/${user_id}`);
+	public storeManagerGetProducts(ventureId:any, user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-store-products/${ventureId}/${user_id}`);
 	}
 
 	public storeManagerAddProduct(formData:any, user_id:number, url:string){
