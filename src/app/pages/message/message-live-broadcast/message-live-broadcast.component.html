@@ -55,12 +55,13 @@
  				        			<tr *ngIf="count(schedules) > 0">
  				        				<owl-radio-group 
  				        				class="owlng-radio-group" 
- 				        				name="schedule-batch" 
- 				        				[(ngModel)]="selectedSchedule">
+ 				        				name="schedule" 
+ 				        				[(ngModel)]="selectedSchedule"
+ 				        				(change)="selectSchedule()">
  				        				<td>
     										<owl-radio-button *ngFor="let schedule of schedules" 
     										class="owlng-radio mt-3" [value]="schedule.id">
-    											<span style="overflow-wrap: break-word !important;">{{ schedule.title }} <br/> - {{ count(schedule.participants) }} participants</span>
+    											<span style="overflow-wrap: break-word !important;">{{ schedule.title }}</span>
     										</owl-radio-button>
     										
  				        				</td>
@@ -69,7 +70,7 @@
  				        			</tr>
  				        		</table>
 
- 				        		 <h5 class="text-success">Live Now: 
+ 				        		 <h5 *ngIf="currentSession" class="text-success">Live Now: 
  				        			<span *ngIf="count(currentSession) > 0" class="text-secondary">{{ currentSession.title }}</span>
  				        		</h5>
 				                

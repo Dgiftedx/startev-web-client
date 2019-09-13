@@ -224,7 +224,7 @@ export class JoinLiveSessionComponent implements OnInit {
 
 		//================= Start Broadcast Session ================//
 		joinBroadcastSession() {
-
+			this.ngxAgoraService.AgoraRTC.Logger.setLogLevel(this.ngxAgoraService.AgoraRTC.Logger.NONE);
 			this.client = this.ngxAgoraService.createClient({ mode: 'live', codec: 'h264' });
 			this.assignClientHandlers();
 

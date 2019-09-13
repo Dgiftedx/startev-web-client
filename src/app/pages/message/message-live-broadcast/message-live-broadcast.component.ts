@@ -63,7 +63,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	public groupMessage:string = '';
 
 	currentUser : User;
-	public selectedSchedule: number;
+	public selectedSchedule: any;
 
 	public broadcastInProgress : boolean = false;
 
@@ -170,6 +170,15 @@ export class MessageLiveBroadcastComponent implements OnInit {
 				}
 			})
 			this.schedules = temp;
+		});
+	}
+
+	selectSchedule(){
+		setTimeout(() => {
+			if (this.selectedSchedule) {
+				let item = _.findLast(this.schedules, ['id', parseInt(this.selectedSchedule)]);
+				this.currentSession = item;
+			}
 		});
 	}
 

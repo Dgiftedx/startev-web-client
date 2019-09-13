@@ -5,6 +5,7 @@ import { User } from '../../_models';
 import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { StoreService } from '../../_services/store.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { trigger, style, animate,state, transition } from '@angular/animations';
 import { AlertService, AuthenticationService, BaseService } from '../../_services';
@@ -48,6 +49,8 @@ export class StoreManagerComponent implements OnInit {
 
  currentUser : User;
 
+ public ventures:any = [];
+  public ventureSubscription: Subscription;
 
   //======= Dashboard Navigation ============//
   public navigation: Array<any> = [
@@ -63,11 +66,14 @@ export class StoreManagerComponent implements OnInit {
 
   public selectedNavigation = this.navigation[0];
 
+  public selectedVenture:number;
+
   constructor(
     private router: Router,
     private config: NgSelectConfig,
     private route: ActivatedRoute,
     private alert: AlertService,
+    private storeService : StoreService,
     private baseService : BaseService,
     private authenticationService: AuthenticationService) {
     // this.getIndustryList();
@@ -77,6 +83,9 @@ export class StoreManagerComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
+
+    this.ventureSubscription = this.storeService.storeManagerGetVentures(this.currentUser.id)
+    .subscribe(data => {this.ventures = data; console.log(data);});
   }
 
 
@@ -92,6 +101,44 @@ export class StoreManagerComponent implements OnInit {
 
   get profile(){
     return JSON.parse(this.authenticationService.getUserData());
+  }
+
+  count(items:any)
+  {
+    return _.size(items);
+  }
+
+
+  // ============ check null item and return default as required =======//
+  checkValue(item:any,  type:string, nullValue:string) {
+    if (type === 'text') {
+      if (this.count(item) === 0) {
+        return nullValue;
+      }
+      return item;
+    }
+
+    if (type === 'avatar') {
+
+      if (this.count(item) === 0) {
+        return '/assets/images/default/avatar.jpg';
+      }
+      return this.authenticationService.baseurl+item;
+    }
+
+    if (type === 'banner') {
+      
+      if (this.count(item) === 0) {
+        return '/assets/images/default/default.png';
+      }
+
+      return this.authenticationService.baseurl+item;
+    }
+  }
+
+
+  setCurrentVenture(){
+    console.log(this.selectedVenture);
   }
 
   //============ Check if user has access to this page ================//
