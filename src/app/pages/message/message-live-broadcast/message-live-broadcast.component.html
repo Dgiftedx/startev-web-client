@@ -5,32 +5,22 @@
 			<div class="col-md-8 no-margin no-pdd">
 
 				<!-- if live broadcast session is on progress Display Live Cams-->
-				<div [@fadeAnimation] class="cam-container" *ngIf="broadcastInProgress">
-					<div class="row pt-1">
-						<div class="col"></div>
-						<div class="col-lg-6 col-md-12">
-							<div class="card">
-								<div class="card-body cam-holder">
-									<div [id]="localCallId" class="local"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col"></div>
+				<div [@fadeAnimation] class="cam-container">
+					<div [id]="localCallId" class="local"></div>
+					<div *ngIf="count(remoteCalls) > 0">
+						<div *ngFor="let remote of remoteClass" [attr.id]="remote"></div>
 					</div>
-					<div class="row">
-						<div class="col-lg-12 col-md-12">
-							<div class="remote-container">
-								<div class="remote-item"  *ngFor="let callId of remoteCalls" [id]="callId"></div>
-							</div>
+					<div class="row live-users-list" *ngIf="count(currentSchedule) > 0">
+						<div class="col-md-3 text-center animated fadeIn" *ngFor="let user of currentSchedule">
+							<img [src]="checkValue(user.avatar, 'avatar', 'null')" class="rounded-circle mx-auto d-block float-none mt-3" width="80" alt=""/>
+							<br/>
+							<h5>{{ user.name }}</h5>
+							<br/>
+							<span class="text-success apple-font rigid" *ngIf="user.status === 'online'">active</span><br/>
+							<span class="text-danger apple-font rigid" *ngIf="user.status === 'offline'">offline</span>
 						</div>
 					</div>
 				</div>
-
-
-				<!-- if live broadcst has not been started or joined, display cover image-->
-				<div [@fadeAnimation] class="cam-container" [hidden]="broadcastInProgress" style="background-image: url('/assets/images/cam-sec.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-				</div>
-
 			</div>
 
 
@@ -53,10 +43,15 @@
 				        			and click on <strong>start</strong> button below. <br/><br/>
  				        		
  				        			If you have not create broadcast schedule, please navigate to <strong>Broadcast Schedule</strong> to create one.
+
+ 				        			<br/>
+ 				        			<br/>
+ 				        			<strong>Resuming a Session</strong> <br/><br/>
+ 				        			<i class="fa fa-arrow-right"></i> When resuming a session, all you need to do is click on <strong>Resume</strong> button below. Current session is selected automatically. <br/><br/>
  				        		
 
  				        		<!-- Action button -->
- 				        		<table class="table-center table mt-4" style="width: 100%;">
+ 				        		<table class="table-center table mt-4">
  				        			<tr *ngIf="count(schedules) > 0">
  				        				<owl-radio-group 
  				        				class="owlng-radio-group" 
@@ -64,30 +59,44 @@
  				        				[(ngModel)]="selectedSchedule">
  				        				<td>
     										<owl-radio-button *ngFor="let schedule of schedules" 
-    										class="owlng-radio mt-3" [value]="schedule.id">{{ schedule.title }} - {{ count(schedule.participants) }} participants</owl-radio-button>
+    										class="owlng-radio mt-3" [value]="schedule.id">
+    											<span style="overflow-wrap: break-word !important;">{{ schedule.title }} <br/> - {{ count(schedule.participants) }} participants</span>
+    										</owl-radio-button>
     										
  				        				</td>
  				        				</owl-radio-group>
  				        				
  				        			</tr>
  				        		</table>
+
+ 				        		 <h5 class="text-success">Live Now: 
+ 				        			<span *ngIf="count(currentSession) > 0" class="text-secondary">{{ currentSession.title }}</span>
+ 				        		</h5>
 				                
 
 				                <!-- if live session is not live yet -->
-				               <div *ngIf="!broadcastInProgress">
+				               <div *ngIf="selectedSchedule">
 				               	 <button
 				               	 [ladda]="startSession"
-				                *ngIf="selectedSchedule"
+				                *ngIf="!broadcastInProgress && currentSession.status === 'pending'"
 				                (click)="startBroadcastSession()"
 				                class="btn btn-primary btn-sm mt-3">
 				                <i class="fa fa-send"></i> Start Session</button>
 
-				                 <button
+				                <button
+				                *ngIf="!broadcastInProgress && currentSession.status === 'in progress'"
+				                (click)="resumeBroadcastSession()"
+				                class="btn btn-primary btn-sm mt-3">
+				                <i class="fa fa-send"></i> Resume Session</button>
+				            </div>
+				            
+
+				                <!--  <button
 				                *ngIf="selectedSchedule"
 				                (click)="clearSelection()"
 				                class="btn btn-primary btn-sm mt-3">
-				                <i class="fa fa-circle"></i> Clear</button>
-				               </div>
+				                <i class="fa fa-circle"></i> Clear</button> -->
+				               
 
 				               	<!-- If live session is active -->
 				               	<div *ngIf="broadcastInProgress">
@@ -152,7 +161,7 @@
 
 				        </div>
 				    </owl-tab>
-				    <owl-tab label="Participants" [disabled]="!broadcastInProgress">
+				   <!--  <owl-tab label="Participants" [disabled]="!broadcastInProgress">
 				        <div class="owlng-tabs-content" [style.padding.px]="20">
 				        	<div class="" *ngIf="count(currentSchedule) > 0">
 				        		<h3 class="text-center mb-2 apple-font"><span>Participants in this current schedule</span></h3>
@@ -172,7 +181,7 @@
 				        		<h3 class="text-center"><span>No active session</span></h3>
 				        	</div>
 				        </div>
-				    </owl-tab>
+				    </owl-tab> -->
 				</owl-tab-view>
 			</div>
 		</div>

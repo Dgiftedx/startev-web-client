@@ -199,6 +199,9 @@
                               type="button" (click)="hideFeed(feed.id)"> <i class="fa fa-ban"></i> Hide</button>
                               <button 
                               *ngIf="feed.user.id === currentUser.id" 
+                              class="dropdown-item" type="button" (click)="editFeed(feed)">  <i class="fa fa-edit"></i> Edit Feed</button>
+                              <button 
+                              *ngIf="feed.user.id === currentUser.id" 
                               class="dropdown-item" type="button" (click)="deleteFeed(feed)">  <i class="fa fa-trash"></i> Remove</button>
                             </div>
                           
@@ -206,7 +209,7 @@
                         </div>
 
                         <div class="job_descp" *ngIf="count(feed.video) === 0">
-                        <h3>{{ feed.title }}</h3>
+                        <!-- <h3>{{ feed.title }}</h3> -->
                         <div class="feed-image" *ngIf="feed.image && !feed.images">
                           <img (click)="openImage(feed)" [src]="checkValue(feed.image, 'avatar', 'null')" class="feed-image-responsive"/>
                         </div>
@@ -226,7 +229,7 @@
                         <!-- If Video Type -->
 
                         <div class="job_descp" *ngIf="count(feed.video) > 1">
-                          <h3>{{ feed.title }}</h3>
+                          <!-- <h3>{{ feed.title }}</h3> -->
 
                           <div class="video-container">
                             <video style="width:100%;" controls [poster]="checkVideo(feed.image, 'image')">
@@ -376,9 +379,9 @@
           </div>
           <div class="modal-body"> 
             <br/>
-            <div class="form-group">
+           <!--  <div class="form-group">
               <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
-            </div>
+            </div> -->
              <div class="">
                <quill-editor 
                [modules]="editorConfig"
@@ -388,8 +391,36 @@
              </div>
           </div>
           <div class="modal-footer">
-            <button type="button" (click)="submitArticlePost()" class="btn btn-sm btn-simple waves-effect">Publish</button>
-            <button (click)="closeModal('articlePostModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
+            <button type="button" [ladda]="feedActivity" (click)="submitArticlePost()" class="btn btn-sm btn-primary waves-effect">Publish</button>
+            <button (click)="closeModal('articlePostModal')" type="button" class="btn btn-sm btn-primary waves-effect">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+          <!---------------------------------- EDIT POST MODAL -------------------------- -->
+
+      <div class="modal fade" [ngStyle]="{'z-index':'9999'}" #editPostModal id="editPostModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+            <img [src]="checkValue(currentUser.avatar, 'avatar', 'null')" class="rounded-circle img-raised img-border" height="45" width="45" />
+          </div>
+          <div class="modal-body"> 
+            <br/>
+             <div class="">
+               <quill-editor 
+               [modules]="editorConfig"
+               [placeholder]="'type something cool'"
+               [(ngModel)]="editContent">
+               </quill-editor>
+             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" [ladda]="feedActivity" (click)="updateFeed()" class="btn btn-sm btn-primary waves-effect">Update</button>
+            <button (click)="closeModal('editPostModal')" type="button" class="btn btn-sm btn-primary waves-effect">Close</button>
           </div>
         </div>
       </div>
@@ -415,9 +446,9 @@
                 <input id="file-upload" type="file" multiple (change)="processPostImage(postImage)" #postImage/>
                 
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input type="text" placeholder="enter a topic..." class="form-control" [(ngModel)]="title">
-              </div>
+              </div> -->
               <div class="form-group">
                
                 <div class="">
@@ -436,8 +467,8 @@
                 </div>
                 
               </div>
-              <button type="button" (click)="submitImagePost()" class="btn btn-sm btn-simple waves-effect">Publish</button>
-              <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-simple waves-effect">Close</button>
+              <button type="button" [ladda]="feedActivity" (click)="submitImagePost()" class="btn btn-sm btn-primary waves-effect">Publish</button>
+              <button (click)="closeModal('imagePostModal')" type="button" class="btn btn-sm btn-primary waves-effect">Close</button>
             </div>
           </div>
         </div>
@@ -463,9 +494,9 @@
             </div>
 
               <form [formGroup] = "videoForm" (ngSubmit)="onVideoSubmit()">
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input type="text" placeholder="heading..." class="form-control" formControlName="title">
-              </div>
+              </div> -->
 
                <div class="form-group text-center">
                  <label for="video-upload" class="custom-file-upload waves-effect">
@@ -482,7 +513,7 @@
                 </div>
 
               <div class="form-group text-center">
-                <button type="submit" class="btn btn-white btn-sm">Submit</button>
+                <button type="submit" [ladda]="feedActivity" class="btn btn-primary btn-sm">Submit</button>
               </div>
             </form>
 

@@ -92,22 +92,10 @@
 
 				<!-- if live broadcast session is on progress Display Live Cams-->
 				<div [@fadeAnimation] class="cam-container" *ngIf="broadcastInProgress">
-					<div class="row pt-1">
-						<div class="col"></div>
-						<div class="col-lg-6 col-md-12">
-							<div class="card">
-								<div class="card-body cam-holder">
-									<div [id]="localCallId" class="local"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col"></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12 col-md-12">
-							<div class="remote-container">
-								<div class="remote-item"  *ngFor="let callId of remoteCalls" [id]="callId"></div>
-							</div>
+					<div class="row align-items-center justify-content-center">
+						<div class="col-md-8 screen">
+							<div [id]="remoteCalls[0]" class="local"></div>
+							<div [id]="localCallId" class=""></div>
 						</div>
 					</div>
 				</div>

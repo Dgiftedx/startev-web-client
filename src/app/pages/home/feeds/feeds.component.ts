@@ -116,8 +116,9 @@ export class FeedsComponent implements OnInit {
   public hasMoreFeeds : boolean = true;
   public currentPage : number;
   public nextPage : number;
-
-
+  public feedActivity:boolean = false;
+  public editContent:string = '';
+  public editId:number = 0;
 
   public quickMessageContent : string = '';
   public quickMessageRecipient : number;
@@ -203,11 +204,43 @@ export class FeedsComponent implements OnInit {
 
 
 
+  editFeed(feed:any){
+    this.editContent = feed.body;
+    this.editId = feed.id;
+    $(document).find('#editPostModal').modal();
+  }
+
+  updateFeed(){
+
+    if (_.size(this.editContent) === 0) {
+      this.alert.errorMsg("Feed body can't be empty","Empty content");
+      return;
+    }
+
+    this.feedActivity = true;
+
+    let data = {
+      id: this.editId,
+      body: this.editContent
+    };
+
+    this.baseService.updateFeed(data, 'api-update-feed')
+    .subscribe(data => {
+      let search = _.findIndex(this.feeds, ['id',this.editId]);
+      this.feeds[search].content = this.editContent;
+
+      this.feedActivity = false;
+      this.closeModal('editPostModal');
+      this.editContent = '';
+      this.editId = 0;
+    });
+  }
+
+
   //=================== Video Upload ====================//
 
   public createVideoForm() {
     return this.videoForm = this.formBuilder.group({
-      title: ['', Validators.required],
       file:[],
       post_type : ['video'],
       user_id : [this.currentUser.id],
@@ -218,19 +251,19 @@ export class FeedsComponent implements OnInit {
     const file_type = file.type;
     let extension = file_type.split("/")[1];
     if(!/(\flv|\avi|\mov|\mpg|\wmv|\m4v|\mp3|\mp4|\wma|\3gp)$/i.test(extension)) {
-        return false;
-      }
+      return false;
+    }
     return true;
   }
 
   public onSelectedVideo(event) {
-    
+
     if (event.target.files.length > 0) {
 
-       if (!this.validateVideoFileExtension(event.target.files[0])) {
-         this.alert.errorMsg("File type not allowed. Please upload valid video file", "An error occurred");
-         return;
-       }
+      if (!this.validateVideoFileExtension(event.target.files[0])) {
+        this.alert.errorMsg("File type not allowed. Please upload valid video file", "An error occurred");
+        return;
+      }
 
       this.videoSelected = true;
       const file = event.target.files[0];
@@ -245,7 +278,7 @@ export class FeedsComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('title', this.videoForm.get('title').value);
+    // formData.append('title', this.videoForm.get('title').value);
     formData.append('file', this.videoForm.get('file').value);
     formData.append('post_type', this.videoForm.get('post_type').value);
     formData.append('user_id', this.videoForm.get('user_id').value);
@@ -254,22 +287,22 @@ export class FeedsComponent implements OnInit {
       res => {
         this.videoUpload = res;
 
-          $("#video-upload").val("");
-          this.createVideoForm();
-          this.videoSelected = false;
-          this.closeModal('videoPostModal');
+        $("#video-upload").val("");
+        this.createVideoForm();
+        this.videoSelected = false;
+        this.closeModal('videoPostModal');
 
-          if (!res.success && res.message) {
-            this.alert.infoMsg("Your video upload is processing. You'll be notified once it's done", "Video uploading...");
-          }
+        if (!res.success && res.message) {
+          this.alert.infoMsg("Your video upload is processing. You'll be notified once it's done", "Video uploading...");
+        }
 
-          if (res.success) {
-            this.alert.infoMsg("Your video has been processed.", "Video uploaded successfully");
-          }
+        if (res.success) {
+          this.alert.infoMsg("Your video has been processed.", "Video uploaded successfully");
+        }
 
-          if (res.error) {
-            this.alert.errorMsg(res.error, "An error occured");
-          }
+        if (res.error) {
+          this.alert.errorMsg(res.error, "An error occured");
+        }
       },
       err => {
         this.videoError = err;
@@ -375,9 +408,7 @@ export class FeedsComponent implements OnInit {
   //================ Name splitter & shotener ====================//
   shortenName(name:string) {
     let splitted = name.split(" ");
-
     let firstName = splitted[0];
-
     if (splitted[this.count(splitted) - 1]) {
       return firstName + " " + splitted[this.count(splitted) - 1];
     }
@@ -524,7 +555,6 @@ export class FeedsComponent implements OnInit {
   cleanForm(): void {
     this.images = [];
     this.processedImages = [];
-    this.title = '';
     this.content = '';
     this.post_type = '';
   }
@@ -702,17 +732,20 @@ export class FeedsComponent implements OnInit {
   //======================= Submit Feeds ===================//
   submitPost(){
 
-    if (_.size(this.content) === 0 || _.size(this.title) === 0) {
-      this.alert.errorMsg("Sorry. You can't publish empty content","There is error in form");
-      return;
+    if (this.post_type === 'post') {
+      if (_.size(this.content) === 0) {
+        this.alert.errorMsg("Sorry. You can't publish empty content","There is error in form");
+        return;
+      }
     }
 
+    this.feedActivity = true;
     // this.alert.infoMsg("Processing your post....","Processing");
 
     let formData = new FormData();
     formData.append('post_type',this.post_type);
     formData.append('user_id',this.currentUser.id);
-    formData.append('title',this.title);
+    // formData.append('title',this.title);
     formData.append('body',this.content);
 
     for (let i = 0; i < this.images.length; i++) {
@@ -723,6 +756,7 @@ export class FeedsComponent implements OnInit {
     .post(`${this.authenticationService.endpoint}/feed-post-article`, formData)
     .toPromise()
     .then((data: { message: string; status: boolean }) => {
+      this.feedActivity = false;
       this.alert.snotSimpleSuccess(data.message);
       $(document).find('.modal').each(function() {
         $(this).modal('hide');

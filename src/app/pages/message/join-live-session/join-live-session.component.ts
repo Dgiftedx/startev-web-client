@@ -66,12 +66,12 @@ export class JoinLiveSessionComponent implements OnInit {
 	currentUser:User;
 
 	localCallId = 'agora_local';
-	remoteCalls: string[] = [];
+	remoteCalls: Array<any> = [];
 	channel_name:string = '';
 
 	private client: AgoraClient;
 	private localStream: Stream;
-	private uid: number;
+	private uid: any;
 
 
 	interval:any;
@@ -104,19 +104,20 @@ export class JoinLiveSessionComponent implements OnInit {
 			return false;
 		};
 
-      //Push cuccurrent broadcast messages
-      this.realTimeBSubscription = this.broadCastService
-      .getBroadcastMessage()
-      .subscribe((message: BroadcastMessage) => {
-       //if we have an active schedule
-       if (this.currentSession) {
-       		if (this.currentSession.schedule_id === message.schedule_id) {
-       			this.groupMessages.push(message);
-       		}
-       }
-      });
+		//Push cuccurrent broadcast messages
+		this.realTimeBSubscription = this.broadCastService
+		.getBroadcastMessage()
+		.subscribe((message: BroadcastMessage) => {
+			//if we have an active schedule
+			if (this.currentSession) {
+				if (this.currentSession.schedule_id === message.schedule_id) {
+					this.groupMessages.push(message);
+				}
+			}
+		});
 
 	}
+
 
 	ngOnInit() {
 
@@ -125,9 +126,9 @@ export class JoinLiveSessionComponent implements OnInit {
 		});
 
 		this.getOnGoingSessions();
-	    this.interval = setInterval(() => { 
-	        this.getOnGoingSessions();
-	    }, 8000);
+		this.interval = setInterval(() => { 
+			this.getOnGoingSessions();
+		}, 8000);
 
 		this.getUpcomingMeetings();
 		
@@ -171,67 +172,67 @@ export class JoinLiveSessionComponent implements OnInit {
 	getOnGoingSessions() {
 		// this.onGoingSubscription = this.baseService.getLiveSessions(this.currentUser.id)
 		// .subscribe( (data:any) => {
-		// 	this.onGoingSessions = data;
-		// });
-		this.baseService.getLiveSessions(this.currentUser.id);
-	}
+			// 	this.onGoingSessions = data;
+			// });
+			this.baseService.getLiveSessions(this.currentUser.id);
+		}
 
-	//=================== Get upcoming invitations ==============//
-	getUpcomingMeetings(){
-		this.upcomingSubscription = this.baseService.getUpcomingMeeting(this.currentUser.id)
-		.subscribe( (data:any) => {
-			this.upcomingMeeting = data;
-		});
-	}
-
-
-	//clear selected schedule
-	clearSelection(){
-		
-	}
+		//=================== Get upcoming invitations ==============//
+		getUpcomingMeetings(){
+			this.upcomingSubscription = this.baseService.getUpcomingMeeting(this.currentUser.id)
+			.subscribe( (data:any) => {
+				this.upcomingMeeting = data;
+			});
+		}
 
 
-	setCurrentSession(session:any){
-		this.currentSession = session;
-		// this.localCallId += 'agora_localstartev-live'+session.channel_id;
-		this.channel_name = session.channel_id;
-		this.uid = Math.floor(Math.random() * 100);//session.uid;
-		this.showTable = false;
-		this.showBroadcast = true;
-		this.broadcastInProgress = true;
+		//clear selected schedule
+		clearSelection(){
 
-		//First push local feeds on load
-	      this.groupMessageSubscription = this.broadCastService
-	      .getLocalBroadcastMessage()
-	      .subscribe((message:any) => {
-	      	message.forEach((item) => {
-	         	//if message is directed to schedule
-	         	if (item.schedule_id == session.schedule_id) {
-	         		 item.created_at = new Date(item.created_at);
-	         		 //push messages
-	          		this.groupMessages.push(item);
-	         	}
-	        });
-
-	      });
-
-		setTimeout(() =>{
-			this.joinBroadcastSession();
-		})
-	}
+		}
 
 
-	//================= Start Broadcast Session ================//
-	joinBroadcastSession() {
+		setCurrentSession(session:any){
+			this.currentSession = session;
+			// this.localCallId += 'agora_localstartev-live'+session.channel_id;
+			this.channel_name = session.channel_id;
+			this.uid = Math.floor(100000 + Math.random() * 900000) + `${this.currentUser.id}`;
+			this.showTable = false;
+			this.showBroadcast = true;
+			this.broadcastInProgress = true;
 
-		this.client = this.ngxAgoraService.createClient({ mode: 'live', codec: 'h264' });
-		this.assignClientHandlers();
+			//First push local feeds on load
+			this.groupMessageSubscription = this.broadCastService
+			.getLocalBroadcastMessage()
+			.subscribe((message:any) => {
+				message.forEach((item) => {
+					//if message is directed to schedule
+					if (item.schedule_id == session.schedule_id) {
+						item.created_at = new Date(item.created_at);
+						//push messages
+						this.groupMessages.push(item);
+					}
+				});
 
-		this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
-		this.assignLocalStreamHandlers();
-		// Join and publish methods added in this step
-		this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
-	}
+			});
+
+			setTimeout(() =>{
+				this.joinBroadcastSession();
+			})
+		}
+
+
+		//================= Start Broadcast Session ================//
+		joinBroadcastSession() {
+
+			this.client = this.ngxAgoraService.createClient({ mode: 'live', codec: 'h264' });
+			this.assignClientHandlers();
+
+			this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+			this.assignLocalStreamHandlers();
+			// Join and publish methods added in this step
+			this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+		}
 
 	/**
    * Attempts to connect to an online chat room where users can host and receive A/V streams.
@@ -276,8 +277,15 @@ export class JoinLiveSessionComponent implements OnInit {
    		const stream = evt.stream as Stream;
    		const id = this.getRemoteId(stream);
    		if (!this.remoteCalls.length) {
-   			this.remoteCalls.push(id);
-   			setTimeout(() => stream.play(id), 1000);
+
+   			let filter = id.split("-")[1];
+   			let realId = filter.substr(filter.length -1);
+   			let filtered = parseInt(realId);
+
+   			if (this.currentSession.host === filtered) {
+   				this.remoteCalls.push(id);
+   				setTimeout(() => stream.play(id), 1000);
+   			}
    		}
    	});
 
@@ -333,42 +341,42 @@ export class JoinLiveSessionComponent implements OnInit {
 
 
    //======================= Submit Feeds ===================//
-    sendMessage(){
+   sendMessage(){
 
-      if (!this.currentSession) {
-      	return;
-      }
+   	if (!this.currentSession) {
+   		return;
+   	}
 
-      if (_.size(this.groupMessage) === 0) {
-        return this.alert.errorMsg("Please type you message","Error");
-      }
+   	if (_.size(this.groupMessage) === 0) {
+   		return this.alert.errorMsg("Please type you message","Error");
+   	}
 
-      this.isSending = true;
+   	this.isSending = true;
 
-      let data:any = {
-      	message: this.groupMessage,
-      	schedule_id : this.currentSession.schedule_id,
-      	user_avatar: this.currentUser.avatar,
-      	user_name: this.currentUser.name,
-      	is_mentor : 0
-      }
+   	let data:any = {
+   		message: this.groupMessage,
+   		schedule_id : this.currentSession.schedule_id,
+   		user_avatar: this.currentUser.avatar,
+   		user_name: this.currentUser.name,
+   		is_mentor : 0
+   	}
 
-      if (this.userData.role === 'mentor') {
-      	data.is_mentor = 1;
-      }
+   	if (this.userData.role === 'mentor') {
+   		data.is_mentor = 1;
+   	}
 
-      this.http
-      .post(`${this.authenticationService.endpoint}/submit-broadcast-message`, data)
-      .toPromise()
-      .then((data: { message: string; status: boolean }) => {
-     	//so nothing
-     	this.groupMessage = '';
-     	this.isSending = false;
-      })
-      .catch(error => {
-        this.alert.errorMsg(error, " There is an error");
-      });
-    }
+   	this.http
+   	.post(`${this.authenticationService.endpoint}/submit-broadcast-message`, data)
+   	.toPromise()
+   	.then((data: { message: string; status: boolean }) => {
+   		//so nothing
+   		this.groupMessage = '';
+   		this.isSending = false;
+   	})
+   	.catch(error => {
+   		this.alert.errorMsg(error, " There is an error");
+   	});
+   }
 
 
    leaveBroadcastSession(){

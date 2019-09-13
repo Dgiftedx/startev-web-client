@@ -54,9 +54,11 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	localCallId = 'agora_local';
 	remoteCalls: string[] = [];
 
+	remoteUsers: Array<any> = [];
+
 	private client: AgoraClient;
 	private localStream: Stream;
-	private uid: number;
+	private uid: any;
 
 	public groupMessage:string = '';
 
@@ -73,6 +75,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	private traineesSubscription: Subscription;
 
 	public currentSchedule:any = {};
+	public currentSession:any = {};
 
 	public groupMessages: BroadcastMessage[] = [];
 	private groupMessageSubscription : Subscription;
@@ -96,7 +99,9 @@ export class MessageLiveBroadcastComponent implements OnInit {
 
 		// Subscribe to current logged in user
 		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-		this.uid = Math.floor(Math.random() * 100);
+
+		//append user id to the end of this unique session id
+		this.uid = Math.floor(100000 + Math.random() * 900000) + `${this.currentUser.id}`;
 		//disable resuable route
 		this.router.routeReuseStrategy.shouldReuseRoute = function () {
 			return false;
@@ -155,8 +160,13 @@ export class MessageLiveBroadcastComponent implements OnInit {
 		.subscribe( (data:any) => {
 			let temp = [];
 			data.forEach(item => {
-				if (item.status === 'pending') {
+				if (item.status === 'pending' || item.status === 'in progress') {
 					temp.push(item);
+				}
+
+				if (item.status === 'in progress') {
+					this.selectedSchedule = item.id;
+					this.currentSession = item;
 				}
 			})
 			this.schedules = temp;
@@ -191,6 +201,29 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	}
 
 
+	filterRemoteCalls(){
+		if (this.count(this.remoteCalls) > 0) {
+			this.remoteCalls.forEach(item => {
+
+				let filter = item.split("-")[1];
+				 let realId = filter.substr(filter.length -1)
+				this.remoteUsers.push(parseInt(realId));
+			});
+
+			//on the first call of this method, run isOnline
+			setInterval(() => {this.isOnline()}, 5000);
+		}
+	}
+
+
+	isOnline(){
+		if (this.currentSchedule) {
+			this.currentSchedule.forEach(user => {
+				user.status = this.remoteUsers.includes(user.id)?'online':'offline';
+			});
+		}
+	}
+
 
 	//============ Count items ===================//
 	public count( items:any ){
@@ -201,8 +234,14 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	//clear selected schedule
 	clearSelection(){
 		this.currentSchedule = {};
+		this.currentSession = {};
 		this.selectedSchedule = null;
 		this.broadcastInProgress = false;
+	}
+
+
+	resumeBroadcastSession(){
+		this.startBroadcastSession();
 	}
 
 
@@ -210,7 +249,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 	startBroadcastSession() {
 		this.startSession = true;
 		// this.localCallId += "startev-live"+this.selectedSchedule;
-
+		this.ngxAgoraService.AgoraRTC.Logger.setLogLevel(this.ngxAgoraService.AgoraRTC.Logger.NONE);
 		this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
 		this.assignClientHandlers();
 
@@ -219,6 +258,9 @@ export class MessageLiveBroadcastComponent implements OnInit {
 			this.baseService.fetchParticipants(this.selectedSchedule)
 			.subscribe( (data:any) => {
 				this.currentSchedule = data;
+				this.currentSchedule.forEach(item => {
+					item.status = 'offline';
+				});
 				this.startSession = false;
 			})
 
@@ -235,7 +277,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 		//log necessary informations and notify participants
 		//change schedule status to in progress and efforce necessary restrictions
 		this.startSession = false;
-		this.selectedIndex = 2;
+		// this.selectedIndex = 2;
 	}
 
 
@@ -337,6 +379,8 @@ export class MessageLiveBroadcastComponent implements OnInit {
 
    	this.client.on(ClientEvent.RemoteStreamAdded, evt => {
    		const stream = evt.stream as Stream;
+
+   		console.log(this.getRemoteId(stream));
    		this.client.subscribe(stream, { audio: true, video: true }, err => {
    			console.log('Subscribe stream failed', err);
    		});
@@ -345,10 +389,11 @@ export class MessageLiveBroadcastComponent implements OnInit {
    	this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
    		const stream = evt.stream as Stream;
    		const id = this.getRemoteId(stream);
-   		if (!this.remoteCalls.length) {
+   	
    			this.remoteCalls.push(id);
+   			this.filterRemoteCalls();
    			setTimeout(() => stream.play(id), 1000);
-   		}
+   		
    	});
 
    	this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
@@ -364,8 +409,18 @@ export class MessageLiveBroadcastComponent implements OnInit {
    		const stream = evt.stream as Stream;
    		if (stream) {
    			stream.stop();
+
+   			let id = this.getRemoteId(stream);
+   			let filter = id.split("-")[1];
+			let realId = filter.substr(filter.length -1)
+			let search = _.findIndex(this.currentSchedule, ['id', parseInt(realId)]);
+			this.currentSchedule[search].status = 'offline';
+			
    			this.remoteCalls = this.remoteCalls.filter(call => call !== `${this.getRemoteId(stream)}`);
-   			console.log(`${evt.uid} left from this channel`);
+   			this.remoteUsers = this.remoteUsers.filter(call => call !== parseInt(realId));
+   			this.filterRemoteCalls();
+   			
+   			
    		}
    	});
    }
@@ -373,12 +428,12 @@ export class MessageLiveBroadcastComponent implements OnInit {
 
    private assignLocalStreamHandlers(): void {
    	this.localStream.on(StreamEvent.MediaAccessAllowed, () => {
-   		console.log('accessAllowed');
+   		//accessAllowed
    	});
 
    	// The user has denied access to the camera and mic.
    	this.localStream.on(StreamEvent.MediaAccessDenied, () => {
-   		console.log('accessDenied');
+   		//accessDenied
    	});
    }
 
@@ -403,9 +458,9 @@ export class MessageLiveBroadcastComponent implements OnInit {
    //================= End Broadcast Session =================//
    endBroadcastSession(){
    	this.client.leave(() => {
-   		console.log("Leavel channel successfully");
+   		//Leavel channel successfully
    	}, (err) => {
-   		console.log("Leave channel failed");
+   		//Leave channel failed
    	});
 
    	this.client.unpublish(this.localStream, err => console.log("Unable to unpublish stream"));

@@ -120,6 +120,10 @@ export class BaseService {
         return this.http.post(`${this.endpoint}/${url}`, formData);
     }
 
+    public updateFeed( formData:any, url:string ){
+        return this.http.post(`${this.endpoint}/${url}`, formData);
+    }
+
     public deleteSchedule(schedule_id:number) {
         return this.http.get(`${this.endpoint}/delete-schedule/${schedule_id}`);
     }

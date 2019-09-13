@@ -3,11 +3,45 @@
 	position: static;
 }
 
-.cam-container{
+/*.cam-container{
 	margin-top: 0;
 	padding-top: 0;
 	min-height: 600px;
 	background-color: #222;
+}
+*/
+
+.f16 {
+	font-size: 27px !important;
+}
+.cam-container {
+	margin-top: 0;
+	padding-top: 0;
+	position: relative;
+	width: 100%; min-height: 600px;
+	max-height: 600px;
+	background:url(/assets/images/chat-back.jpg);
+	overflow-y: auto;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.cam-container:before {
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	background-color: inherit;
+	content: ' ';
+}
+
+.live-users-list div{
+	margin:1em;
+	text-align: center;
+	min-height: 200px;
+	background: #fff;
+	border-radius: 6px;
+	-webkit-box-shadow: 0px 3px 23px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 3px 23px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 3px 23px 0px rgba(0,0,0,0.75);
 }
 
 .cam-container .cam-image-holder {
