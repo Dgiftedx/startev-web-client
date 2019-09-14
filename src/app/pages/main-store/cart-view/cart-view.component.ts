@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Guid } from "guid-typescript";
 import { User } from '../../../_models';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { switchMap, first } from "rxjs/operators";
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -38,6 +39,7 @@ export class CartViewComponent implements OnInit {
 	private cartSubscription: Subscription;
 
 	constructor(
+		private http: HttpClient,
 		private cdr: ChangeDetectorRef,
 		private router: Router,
 		private config: NgSelectConfig,
@@ -59,15 +61,13 @@ export class CartViewComponent implements OnInit {
 
 
 		if (this.currentUser && this.currentUser.id) {
-			this.userData.name = this.currentUser.name;
-			this.userData.email = this.currentUser.email;
-			this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
-			this.userData.address = this.currentUser.address;
-				
 			//user cart items
 			this.cartSubscription = this.storeService.mainStoreGetCartItems()
 			.subscribe(items => {
-				// console.log(items);
+				this.userData.name = this.currentUser.name;
+				this.userData.email = this.currentUser.email;
+				this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
+				this.userData.address = this.currentUser.address;
 				this.cart = items;
 			});
 		}else{
@@ -79,7 +79,7 @@ export class CartViewComponent implements OnInit {
 
 	ngOnInit() {
 
-		//
+		setTimeout(() => {this.cdr.detectChanges();}, 1000);
 	}
 
 	removeLocalStorageCart(){
@@ -112,25 +112,6 @@ export class CartViewComponent implements OnInit {
 				return '/assets/images/default/avatar.jpg';
 			}
 			return this.authenticationService.baseurl+item;
-		}
-	}
-
-	ngAfterViewInit(){
-		this.cdr.detectChanges();
-		if (this.currentUser && this.currentUser.id) {
-			this.userData.name = this.currentUser.name;
-			this.userData.email = this.currentUser.email;
-			this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
-			this.userData.address = this.currentUser.address;
-				
-			//user cart items
-			this.cartSubscription = this.storeService.mainStoreGetCartItems()
-			.subscribe(items => {
-				// console.log(items);
-				this.cart = items;
-			});
-		}else{
-			this.cart = this.getSavedCartInStorage();
 		}
 	}
 
@@ -192,7 +173,7 @@ export class CartViewComponent implements OnInit {
 	removeFromCart(item:any) {
 		if (this.currentUser) {
 			this.storeService.mainStoreRemoveFromCart(item.id)
-		.subscribe(data => this.cart = data);
+			.subscribe(data => this.cart = data);
 		}else{
 			this.sliceLocalCart(item);
 		}
@@ -257,5 +238,10 @@ export class CartViewComponent implements OnInit {
 
 	}
 
+
+
+	ngAfterViewInit(){
+		// this.cdr.detectChanges();
+	}
 
 }
