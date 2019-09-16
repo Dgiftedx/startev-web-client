@@ -48,16 +48,16 @@
         </li>
 
         <li class="noty-box">
-            <a href="javascript:;" title="" class="not-box-open">
+            <a href="javascript:;" title="" class="" (click)="openNotiBar()">
                 <span><i class="fa fa-bell"></i></span>
                 Notifications <span class="noty-count">{{ notyCount }}</span>
             </a>
-            <div class="notification-box msg" *ngIf="count(notifications) > 0">
-                <div class="nt-title">
+            <div [class.active]="showNoti" class="notification-box msg">
+                <div class="nt-title" *ngIf="count(notifications) > 0">
                     <h4>Setting</h4>
                     <a href="javascript:;" (click)="markAsRead()" title="">Mark all as read</a>
                 </div>
-                <div class="nott-list">
+                <div class="nott-list" *ngIf="count(notifications) > 0">
 
                     <div class="notfication-details" *ngFor="let item of notifications">
                         <div class="noty-user-img">
@@ -76,13 +76,12 @@
                     </div> -->
                 </div>
 
-            </div>
-
-            <div class="notification-box msg" *ngIf="count(notifications) < 1">
-                <div class="notification-info">
+                <div class="notification-info"  *ngIf="count(notifications) < 1">
                     <p style="padding: 20px;">No New Notification</p>
                 </div>
+
             </div>
+
         </li>
 
 

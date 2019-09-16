@@ -6,7 +6,7 @@
 
 				<!-- if live broadcast session is on progress Display Live Cams-->
 				<div [@fadeAnimation] class="cam-container">
-					<div [id]="localCallId" class="local"></div>
+					<!-- <div [id]="localCallId" class="local"></div> -->
 					<div *ngIf="count(remoteCalls) > 0">
 						<div *ngFor="let remote of remoteClass" [attr.id]="remote"></div>
 					</div>
@@ -48,6 +48,10 @@
  				        			<br/>
  				        			<strong>Resuming a Session</strong> <br/><br/>
  				        			<i class="fa fa-arrow-right"></i> When resuming a session, all you need to do is click on <strong>Resume</strong> button below. Current session is selected automatically. <br/><br/>
+
+ 				        			<div class="cal-house">
+ 				        				<div [id]="localCallId" class="local"></div>
+ 				        			</div>
  				        		
 
  				        		<!-- Action button -->
@@ -90,14 +94,6 @@
 				                class="btn btn-primary btn-sm mt-3">
 				                <i class="fa fa-send"></i> Resume Session</button>
 				            </div>
-				            
-
-				                <!--  <button
-				                *ngIf="selectedSchedule"
-				                (click)="clearSelection()"
-				                class="btn btn-primary btn-sm mt-3">
-				                <i class="fa fa-circle"></i> Clear</button> -->
-				               
 
 				               	<!-- If live session is active -->
 				               	<div *ngIf="broadcastInProgress">
@@ -106,8 +102,6 @@
 					                class="btn btn-primary btn-sm mt-3">
 					                <i class="fa fa-times"></i> End Session</button>
 				               	</div>
-
-
 				        	</div>
 				        </div>
 				    </owl-tab>

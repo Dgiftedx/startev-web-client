@@ -47,6 +47,8 @@ export class NavbarComponent implements OnInit {
           $(".user-account-settingss").removeClass("active");
         }
 
+        this.showNoti = false;
+
         if (this.show) {
           this.toggleNav();
         }
@@ -69,10 +71,6 @@ export class NavbarComponent implements OnInit {
       this.notyInterval = setInterval(() => {
         this.refreshNotifications();
       }, 6000 * 3);
-
-      $(".not-box-open").on("click", function(){
-        $(this).next(".notification-box").toggleClass("active");
-    });
   }
 
 
@@ -83,6 +81,11 @@ export class NavbarComponent implements OnInit {
       this.alert.snotSimpleSuccess("Successfull");
       this.refreshNotifications();
     })
+  }
+
+
+  openNotiBar(){
+    return this.showNoti = !this.showNoti;
   }
 
   // ============ check null item and return default as required =======//
