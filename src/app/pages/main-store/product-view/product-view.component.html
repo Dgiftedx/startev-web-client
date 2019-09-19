@@ -1,3 +1,25 @@
+<header class="sticky-top shadow" *ngIf="!currentUser">
+    <div class="container-fluid">
+        <div class="header-data">
+            <div class="logo">
+                <a href="#" title=""><img src="/assets/images/logo_1.png" width="138" alt="Startev"></a>
+            </div><!--logo end-->
+           
+            <nav>
+                <ul>
+                    <li>
+                        <a href="javascript:;" title="">
+                            <span>&nbsp;</span>
+                            &nbsp;
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
 <section class="content" [ngClass]="{'zero-margin': profile.progress < 82}">
   <div class="container">
     <div class="row clearfix" [ngClass]="{'m-t-125': profile.progress >= 82, 'zero-margin': profile.progress < 82}">

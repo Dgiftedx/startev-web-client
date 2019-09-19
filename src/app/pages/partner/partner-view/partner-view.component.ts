@@ -19,7 +19,7 @@ export class PartnerViewComponent implements OnInit {
  partner:any;
  similar:any = [];
  sendingRequest:boolean = false;
-
+ products:any = [];
  userIsPartner: any;
  venturePartners : any;
 
@@ -41,6 +41,7 @@ export class PartnerViewComponent implements OnInit {
 
  ngOnInit() {
     this.partner = this.route.snapshot.data.partnerView.result;
+    this.products = this.partner.products;
     this.userIsPartner = this.partner.userIsPartner;
     this.venturePartners = this.partner.venturePartners;
     this.partner.similar.forEach((item) => {

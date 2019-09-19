@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
 import { StoreService } from '../../_services/store.service';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { NavbarService } from '../../_services/navbar.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService } from '../../_services';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -39,6 +40,7 @@ export class MainStoreComponent implements OnInit {
 
 
   constructor(
+    private nav : NavbarService,
     private router: Router,
     private config: NgSelectConfig,
     private route: ActivatedRoute,
@@ -63,6 +65,7 @@ export class MainStoreComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.products = this.route.snapshot.data.store.products;
     this.store = this.route.snapshot.data.store.storeDetails;
   }

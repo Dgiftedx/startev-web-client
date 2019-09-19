@@ -8,15 +8,39 @@
 			<div class="col-12 col-md-8">
 				<div class="card feeds-container">
 					<div class="row clearfix">
-						<div class="col-md-3">
+						<div class="col-md-3 mt-3">
 							<img src="{{ checkValue(partner.venture.business.user.avatar,'avatar','null') }}" class="img-thumbnail" />
 							<h6 class="apple-font p-4 text-center">{{ partner.venture.business.name }}</h6>
 						</div>
 						<div class="col-md-9 p-3">
-							<h5 class="apple-font pl-3 mb-2">{{ partner.venture.venture_name }}</h5>
-							<h6 class="title text-muted pl-3">About {{ partner.venture.venture_name }}</h6>
+							<h4 class="apple-font pl-3 mt-4">About {{ partner.venture.venture_name }}</h4>
 							<div class="border"></div>
 							<p class="p-3 partner-desc" [innerHtml]="partner.venture.venture_description"></p>
+						
+							<h4 class="apple-font pl-3 mt-4">Partnership Terms</h4>
+							<div class="border"></div>
+							<p class="p-3 partner-desc" [innerHtml]="partner.venture.business.partnership_terms"></p>
+
+							<h4 class="apple-font pl-3 mt-4">Products Overview</h4>
+							<div class="border"></div>
+
+							<table style="width:100%;" class="table table-stiped">
+								<tr *ngFor="let product of products">
+									<td>
+										<img src="{{ checkValue(product.images[0],'avatar','null') }}" alt="" height="50">
+									</td>
+									<td>
+										{{ product.product_name }}
+									</td>
+									<td>
+										NGN {{ product.product_price | number:0 }}.00
+									</td>
+								</tr>
+							</table>
+
+							<div class="d-flex  w-100 justify-content-between">
+								<div ></div>
+							</div>
 						</div>
 					</div>
 				</div>
