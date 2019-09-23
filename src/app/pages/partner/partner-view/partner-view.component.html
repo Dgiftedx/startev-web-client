@@ -9,22 +9,29 @@
 				<div class="card feeds-container">
 					<div class="row clearfix">
 						<div class="col-md-3 mt-3">
-							<img src="{{ checkValue(partner.venture.business.user.avatar,'avatar','null') }}" class="img-thumbnail" />
-							<h6 class="apple-font p-4 text-center">{{ partner.venture.business.name }}</h6>
+							<div class="row">
+								<div class="col-sm-12">
+									<img src="{{ checkValue(partner.venture.business.user.avatar,'avatar','null') }}" class="img-thumbnail"/><br/>
+								</div>
+								<div class="col-sm-12">
+									<h6 style="margin-top: 2em !important;" class="apple-font text-center">{{ partner.venture.business.name }}</h6>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-9 p-3">
 							<h4 class="apple-font pl-3 mt-4">About {{ partner.venture.venture_name }}</h4>
-							<div class="border"></div>
-							<p class="p-3 partner-desc" [innerHtml]="partner.venture.venture_description"></p>
+							<div class="border mt-2"></div>
+							<p class="p-3 partner-desc text-justify" [innerHtml]="partner.venture.venture_description"></p>
 						
 							<h4 class="apple-font pl-3 mt-4">Partnership Terms</h4>
-							<div class="border"></div>
-							<p class="p-3 partner-desc" [innerHtml]="partner.venture.business.partnership_terms"></p>
+							<div class="border mt-2"></div>
+							<p class="p-3 partner-desc text-justify" [innerHtml]="partner.venture.business.partnership_terms"></p>
 
 							<h4 class="apple-font pl-3 mt-4">Products Overview</h4>
-							<div class="border"></div>
+							<div class="border mt-2"></div>
 
-							<table style="width:100%;" class="table table-stiped">
+							<div class="table-responsive">
+								<table style="width:100%;" class="table table-stiped">
 								<tr *ngFor="let product of products">
 									<td>
 										<img src="{{ checkValue(product.images[0],'avatar','null') }}" alt="" height="50">
@@ -37,6 +44,7 @@
 									</td>
 								</tr>
 							</table>
+							</div>
 
 							<div class="d-flex  w-100 justify-content-between">
 								<div ></div>
@@ -45,7 +53,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-4">
+			<div class="col-12 col-md-4 clearix">
 				<div class="card feeds-container" [ngStyle]="{'min-height':'250px'}">
 					<div class="partner-count pb-1">
 						<h1>{{ count(venturePartners) }}</h1>
@@ -53,8 +61,18 @@
 					</div>
 					<div class="border"></div>
 
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group mt-3">
+								<label class="mb-2 text-muted">Introduce yourself to Venture</label>
+								<textarea *ngIf="!userIsPartner || userIsPartner.length === 0" class=" border border-danger form-control radius-0" rows="5" placeholder=""> Write...
+							</textarea>
+							</div>
+						</div>
+					</div>
+
 					<div *ngIf="!isVentureOwner(profile,partner.venture)">
-						<button [ladda]="sendingRequest" type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-5 btn btn-block btn-secondary waves-effect">Apply To Partner</button>
+						<button [ladda]="sendingRequest" type="button" (click)="applyToPartner(partner.venture.id)" *ngIf="!userIsPartner || userIsPartner.length === 0"  class="mt-1 btn btn-block btn-secondary waves-effect">Apply To Partner</button>
 
 						<div *ngIf="userIsPartner && isAccepted(userIsPartner, partner)" class="m-3 alert alert-success"> You already partnered with {{ partner.venture.venture_name }}</div>
 						<div 

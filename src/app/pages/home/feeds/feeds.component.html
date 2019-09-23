@@ -222,8 +222,8 @@
                             </ngx-slick-carousel>
                         </div>
 
-                        <p class="post-content" [innerHtml]="feed.content | excerpt: 257"></p>
-                          <a *ngIf="isMore(feed.content, 257)" [routerLink]="['/feed', feed.id]" class="btn-sm btn btn-round btn-white">read more</a>
+                        <p class="post-content" [innerHtml]="feed.content | excerpt: 500"></p>
+                          <a *ngIf="isMore(feed.content, 500)" [routerLink]="['/feed', feed.id]" class="btn-sm btn btn-round btn-white">read more</a>
                         </div>
 
                         <!-- If Video Type -->
