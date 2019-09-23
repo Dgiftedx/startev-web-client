@@ -11,7 +11,7 @@
                     <button type="button" (click)="doTheSearch($event)"><i class="la la-search"></i></button>
                 </form>
             </div><!--search-bar end-->
-            <nav>
+            <nav [class.active]="showMobileMenu">
                 <ul>
                     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
                         <a 
@@ -88,14 +88,14 @@
     </ul>
 </nav><!--nav end-->
 <div class="menu-btn">
-    <a [routerLink]=""><i class="fa fa-bars"></i></a>
+    <a (click)="toggleMoileNav()" [routerLink]=""><i class="fa fa-bars"></i></a>
 </div><!--menu-btn end-->
 <div class="user-account">
     <div class="user-info">
         <img src="{{ checkValue(currentUser.avatar,'avatar','null') }}" width="32" alt="">
-        <a href="javascript:;" (click)="toggleOptionClass()">{{ splitName(currentUser.name) }} <i class="la la-sort-down"></i></a>
+        <a [routerLink]="" (click)="toggleOptionClass()">{{ splitName(currentUser.name) }} <i class="la la-sort-down"></i></a>
     </div>
-    <div class="user-account-settingss">
+    <div class="user-account-settingss" [class.active]="showAccountSettings">
         <!-- <h3>Account</h3> -->
         <!-- <h3 class="tc"><a href="#" title="">Setting</a></h3> -->
         <h3>Manage</h3>

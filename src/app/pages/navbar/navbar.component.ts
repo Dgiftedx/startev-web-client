@@ -26,6 +26,9 @@ export class NavbarComponent implements OnInit {
   showNoti:boolean = false;
   public notyInterval;
 
+  public showMobileMenu:boolean = false;
+  public showAccountSettings:boolean = false;
+
   notyCount : number = 0;
   notifications:any = [];
   notificationSubscription: Subscription;
@@ -42,12 +45,14 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event: routerEvent) => {
 
       if (event instanceof NavigationStart) {
-        // Hide loading indicator
-        if ($(".user-account-settingss").hasClass('active')) {
-          $(".user-account-settingss").removeClass("active");
-        }
+        // on route load, hide user account settings dropdown
+        this.showAccountSettings = false;
 
+        // on route load, hide notification bar if opened
         this.showNoti = false;
+
+        //on route load, hide mobile menu if opened
+        this.showMobileMenu = false;
 
         if (this.show) {
           this.toggleNav();
@@ -60,7 +65,7 @@ export class NavbarComponent implements OnInit {
 
 
   toggleOptionClass() {
-    $(".user-account-settingss").toggleClass("active");
+    return this.showAccountSettings = !this.showAccountSettings;
   }
 
 
@@ -71,6 +76,11 @@ export class NavbarComponent implements OnInit {
       this.notyInterval = setInterval(() => {
         this.refreshNotifications();
       }, 6000 * 3);
+  }
+
+
+  toggleMoileNav(){
+    return this.showMobileMenu = !this.showMobileMenu;
   }
 
 

@@ -210,10 +210,10 @@ $(window).on("load", function() {
 
     // ============== Menu Script =============
 
-    $(".menu-btn > a").on("click", function(){
-        $("nav").toggleClass("active");
-        return false;
-    });
+    // $(".menu-btn > a").on("click", function(){
+    //     $("nav").toggleClass("active");
+    //     return false;
+    // });
 
 
     //  ============ Notifications Open =============

@@ -123,6 +123,7 @@ import { FooterWidgetTwoComponent } from './pages/widgets/footer-widget-two/foot
 import { OverlayModule } from "@angular/cdk/overlay";
 import { VideoUploadService } from './_services/video-upload.service';
 import { BroadcastMessageService } from './_services/broadcast-message.service';
+import { Routes, RouterModule } from '@angular/router';
 
 //Owl NG
 import { OwlFormFieldModule, 
@@ -233,6 +234,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // RouterModule.forRoot(appRoutes, ),
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
