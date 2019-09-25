@@ -65,7 +65,6 @@ export class MainStoreComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.products = this.route.snapshot.data.store.products;
     this.store = this.route.snapshot.data.store.storeDetails;
   }

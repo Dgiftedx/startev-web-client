@@ -5,6 +5,7 @@ import { NgxPrintModule} from 'ngx-print';
 import { BaseService } from './_services';
 import { ToastrModule } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { BlockUIModule } from 'ng-block-ui';
 import { OrderModule } from 'ngx-order-pipe';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { LaddaModule } from  'angular7-ladda';
@@ -79,9 +80,7 @@ import { FeedDetailsComponent } from './pages/home/feed-details/feed-details.com
 import { PublishComponent } from './pages/home/publish/publish.component';
 import { PublicationViewComponent } from './pages/knowledge-hub/publication-view/publication-view.component';
 import { VentureDashboardComponent } from './pages/partner/venture-dashboard/venture-dashboard.component';
-import { DashboardComponent } from './pages/partner/venture-dashboard/dashboard/dashboard.component';
 import { VenturesComponent } from './pages/partner/venture-dashboard/ventures/ventures.component';
-import { OrdersComponent } from './pages/partner/venture-dashboard/orders/orders.component';
 import { ReviewsComponent } from './pages/partner/venture-dashboard/reviews/reviews.component';
 import { SettingsComponent } from './pages/partner/venture-dashboard/settings/settings.component';
 import { TrackerComponent } from './pages/partner/venture-dashboard/tracker/tracker.component';
@@ -186,9 +185,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     PublishComponent,
     PublicationViewComponent,
     VentureDashboardComponent,
-    DashboardComponent,
     VenturesComponent,
-    OrdersComponent,
     ReviewsComponent,
     SettingsComponent,
     TrackerComponent,
@@ -250,6 +247,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         spinnerSize: 35,
         spinnerLines: 15
     }),
+    BlockUIModule.forRoot(),
     NgxUiLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderRouterModule,

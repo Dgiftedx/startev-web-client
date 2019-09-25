@@ -550,15 +550,44 @@ fieldset[disabled] .btn-primary.active {
 }
 
 
+#scrollNotice{
+    display: inline-flex;
+    align-items: center;
+}
+
+#scrollNotice span{
+    color: #D78257;
+    padding-top:10px;
+}
+
+#scrollNotice span:not(:last-child):after{
+    content: '>>';
+    font-size: 20px;
+    font-weight: 600;
+    padding-left:20px;
+    padding-right:20px;
+    color: #222 !important;
+}
+
+.custom-btn{
+    padding: 8px 10px;
+    background-color: #D78257;
+    color: #222;
+    border: 0 !important;
+}
+.text-center{
+    text-align: center !important;
+}
+.custom-btn:hover{
+    transition: background-color 1.5s;
+    background-color: rgb(14,95,137);
+    color: #fff;
+    box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.17) !important;
+}
+
+
 /*===========================MESSAGING =======================*/
 /*CSS*/ 
-/*video {
-  width: 100%;
-  max-height: 100%;
-}
-.video-container {
-    height: 272px;
-}*/
 .chat-container{
     box-sizing: content-box;
     /*position: fixed;*/
@@ -569,7 +598,6 @@ fieldset[disabled] .btn-primary.active {
 .chat-contacts .card-body{
     min-height: 520px;
     max-height: 520px;
-    /*background-color: transparent;*/
 }
 
 .chat-outer {

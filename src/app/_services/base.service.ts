@@ -378,8 +378,8 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/single-venture/${identifier}`).pipe(delay(500));
     }
 
-    public applyToPartner(id : number, user_id: number, url : string) {
-        return this.http.get(`${this.endpoint}/${url}/${id}/${user_id}`);
+    public applyToPartner(data:any, url : string) {
+        return this.http.post(`${this.endpoint}/${url}`, data);
     }
 
     //User Likes & Un-like reaction on feeds 

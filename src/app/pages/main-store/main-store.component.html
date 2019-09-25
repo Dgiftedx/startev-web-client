@@ -67,7 +67,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row clearfix mt-5" *ngIf="products">
+                    <div class="row clearfix mt-5" *ngIf="products && count(products) > 0">
                         <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let product of products">
                             <div class="card product_item fadeIn">
                                 <div class="card-body">
@@ -108,7 +108,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content m-4">
             
-          <div class="row clearfix p-4" *ngIf="singleProduct">
+          <div class="row clearfix p-4" *ngIf="count(singleProduct) > 0">
                 <div class="preview col-lg-4 col-md-12">
                     <div class="preview-pic tab-content">
 
@@ -135,45 +135,6 @@
                         (click)="closeModal()">Close</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #cartViewModal id="cartViewModal" [attr.tabindex]="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content m-4">
-            
-            <div class="p-4">
-                <table class="table" *ngIf="count(cart) > 0">
-                    <tr *ngFor="let item of cart">
-                        <td>
-                            <img [src]="checkValue(item.product.images[0],'avatar','null')" width="40" />
-                        </td>
-                        <td>{{ item.product.product_name }}</td>
-                        <td>NGN {{ item.product.product_price | number:0 }}</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Subtotal</strong>
-                        </td>
-                        <td colspan="2">NGN {{ calculateTotal()|number:0 }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <button *ngIf="count(cart) > 0" (click)="goToCart()" type="button" class="btn btn-primary btn-sm waves-effect">Modify Cart & Checkout</button>
-                            <button type="button" (click)="closeCartModal()" class="btn btn-secondary btn-simple waves-effect">Close</button>
-                        </td>
-                    </tr>
-                </table>
-
-                <table *ngIf="count(cart) === 0">
-                    <tr>
-                        <td colspan="3" class="text-center"><strong>Your shopping cart is empty</strong></td>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>

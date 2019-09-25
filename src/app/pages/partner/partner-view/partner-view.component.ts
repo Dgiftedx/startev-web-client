@@ -22,6 +22,7 @@ export class PartnerViewComponent implements OnInit {
  products:any = [];
  userIsPartner: any;
  venturePartners : any;
+ partnershipLetter : string = '';
 
  constructor(
     private router: Router,
@@ -95,8 +96,17 @@ export class PartnerViewComponent implements OnInit {
   applyToPartner( id: number ): void{
 
     this.sendingRequest = true;
-    
-    this.baseService.applyToPartner(id, this.currentUser.id, 'apply-to-partner')
+
+    let data:any = {
+      id : id,
+      user_id : this.currentUser.id
+    }
+
+    if (_.size(this.partnershipLetter) > 0) {
+      data.letter = this.partnershipLetter;
+    }
+
+    this.baseService.applyToPartner(data, 'apply-to-partner')
     .subscribe(
 
       data => {

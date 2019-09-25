@@ -56,8 +56,12 @@ export class StoreService {
 	}
 
 
-	public importProducts(user_id:number, venture_id:number){
-		return this.http.get(`${this.endpoint}/store/import-venture-products/${user_id}/${venture_id}`);
+	public importProducts(data:any){
+		return this.http.post(`${this.endpoint}/store/import-venture-products`, data);
+	}
+
+	public fetchProducts(user:number, venture_id:number){
+		return this.http.get(`${this.endpoint}/store/fetch-venture-products/${user}/${venture_id}`);
 	}
 
 

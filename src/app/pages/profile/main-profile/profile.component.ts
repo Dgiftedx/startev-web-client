@@ -217,7 +217,13 @@ export class ProfileComponent implements OnInit {
 
 
   acceptPartner(partner: any){
-    this.baseService.applyToPartner(partner.id, partner.user.id, 'accept-partnership')
+
+    let data:any = {
+      partner_id : partner.id,
+      user_id : partner.user.id
+    };
+
+    this.baseService.applyToPartner(data, 'accept-partnership')
     .subscribe(
       data => {
         this.partners = data;

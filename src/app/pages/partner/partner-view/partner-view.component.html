@@ -61,11 +61,11 @@
 					</div>
 					<div class="border"></div>
 
-					<div class="row">
+					<div class="row" *ngIf="!userIsPartner || userIsPartner.length === 0">
 						<div class="col-sm-12">
 							<div class="form-group mt-3">
 								<label class="mb-2 text-muted">Introduce yourself to Venture</label>
-								<textarea *ngIf="!userIsPartner || userIsPartner.length === 0" class=" border border-danger form-control radius-0" rows="5" placeholder=""> Write...
+								<textarea class=" border border-danger form-control radius-0" [(ngModel)]="partnershipLetter" rows="6" placeholder=""> Write...
 							</textarea>
 							</div>
 						</div>

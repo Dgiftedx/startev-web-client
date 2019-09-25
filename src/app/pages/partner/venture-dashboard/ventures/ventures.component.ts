@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { User } from '../../../../_models';
 import { Component, OnInit } from '@angular/core';
 import { switchMap, first } from "rxjs/operators";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { StoreService } from '../../../../_services/store.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
@@ -15,15 +16,21 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 	styleUrls: ['./ventures.component.css']
 })
 export class VenturesComponent implements OnInit {
+	 // Decorator wires up blockUI instance
+  	 @BlockUI('products-list') blockUIList: NgBlockUI;
 
 	currentUser:User;
 
-	public importingId:number = 0;
+	public loadingProducts:boolean = false;
+	public ventureId:number = 0;
 	public syncId:number = 0;
 	public detachId:number = 0;
 	public manageLadda:boolean = false;
-
+	public showAttachmentView:boolean = false;
 	public ventureList:any = [];
+	public fetchedProducts:any = [];
+	public checkItems:any = [];
+	public checkAll:any;
 
 	private venturesSubscription: Subscription;
 
@@ -71,11 +78,11 @@ export class VenturesComponent implements OnInit {
 	}
 	
 	//====== Getter method for Current User Profile =======//
-
 	get profile(){
 		return JSON.parse(this.authenticationService.getUserData());
 	}
 
+	//================ Count ITems
 	count(items:any)
 	{
 		return _.size(items);
@@ -90,32 +97,82 @@ export class VenturesComponent implements OnInit {
 
 
 
-	handleSuccessResponse(data:any){
-		this.alert.snotSimpleSuccess(data.message);
-		this.updateResources();
+	handleFetchedProducts(data:any){
+		this.fetchedProducts = data.products;
+		//give a time to close loader
+		setTimeout(() => {
+			this.blockUIList.stop();
+			this.loadingProducts = false;
+		}, 2000);
 	}
 
-	//================== Import Products From Venture ===============//
-	importProducts( ventureId: number ){
+
+	//================== Check all products =========================//
+	changeCheckAll(){
+		if (this.checkAll) {
+			this.checkItems = [];
+			this.fetchedProducts.forEach(item => {
+				item.selected = true;
+				this.checkItems.push(item.id);
+			});
+		}else{
+			this.fetchedProducts.forEach(item => {
+				item.selected = false;
+			});
+			this.checkItems = [];
+		}
+	}
+
+	//================= Check Single Product ========================//
+	changeSingleCheck(product:any){
+		if (product.selected) {
+			//push to array
+			this.checkItems.push(product.id);
+		}else{
+			//remove from array
+			this.checkItems = this.checkItems.filter(item => item !== product.id);
+		}
+	}
+
+	//================== Fetch Importable Products From Venture ===============//
+	fetchProducts( ventureId: number ){
+		this.showAttachmentView = true;
+		this.ventureId = ventureId;
+		this.loadingProducts = true;
+		this.blockUIList.start();
 		
-		this.importingId = ventureId;
-		
-		this.storeService.importProducts(this.currentUser.id, ventureId)
+		this.storeService.fetchProducts(this.currentUser.id, ventureId)
 		.subscribe(data => {
-			this.handleSuccessResponse(data);
-			this.importingId = 0;
+			this.handleFetchedProducts(data);
 		});
 	}
 
+	closeView(){
+		this.showAttachmentView = false;
+	}
 
-	//================== Syncronize Products ========================//
-	syncronizeProducts( ventureId: number ){
-		this.syncId = ventureId;
 
-		this.storeService.syncProducts(this.currentUser.id, ventureId)
+	//================ Import Selected Products ========================//
+	importSelected(){
+
+		if (this.count(this.checkItems) === 0) {
+			this.alert.infoMsg("no product is selected for import", "Import Error!");
+			return;
+		}
+
+		let importData = {
+			user_id : this.currentUser.id,
+			venture_id : this.ventureId,
+			imports : this.checkItems
+		};
+
+		this.storeService.importProducts(importData)
 		.subscribe(data => {
-			this.handleSuccessResponse(data);
-			this.syncId = 0;
+			this.showAttachmentView = false;
+			this.updateResources();
+			this.checkAll = false;
+			this.checkItems = [];
+			this.alert.successMsg("Products has been imported successfully and now avaliable in your store. Auto sync has been activated", "Import Successful");
 		});
 	}
 
@@ -126,7 +183,7 @@ export class VenturesComponent implements OnInit {
 		
 		this.storeService.detachProducts(this.currentUser.id, ventureId)
 		.subscribe(data => {
-			this.handleSuccessResponse(data);
+			this.updateResources();
 			this.detachId = 0
 		});
 	}

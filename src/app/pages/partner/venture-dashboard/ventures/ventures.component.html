@@ -2,17 +2,12 @@
 	<div class="col-sm-12 col-md-12" *ngIf="ventureList">
         <div class="card feeds-container">
             <div class="card-header">
-                <h2><strong>Venture</strong> List</h2>
+                <h2><strong>Venture</strong> list & products</h2>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table m-b-0">
                         <tbody>
-                            <tr>
-                              <td colspan="3"><p class="text-info"> Please not that copy of the same product that already exists on any of the ventures will not be re-imported.<br/>
-                                Only unique products will be imported.</p>
-                              </td>
-                            </tr>
                             <tr *ngFor="let list of ventureList; let index = index">
                                 <td>
                                     <img [src]="checkValue(list.business.user.avatar,'avatar','null')" width="40" class="rounded-circle img-raised" />
@@ -24,38 +19,27 @@
                               
                                 <td>
                                 	<button 
-                                    type="button" 
-                                    [disabled]="list.is_products_imported"
-                                    (click)="importProducts(list.venture_id)"
-                                    class="btn btn-round btn-sm btn-primary waves-effect">Import Products 
-                                    <small *ngIf=" importingId === list.venture_id"> importing..</small>
-                                  </button>
-
-                                	<button
                                     type="button"
-                                    [swal]="syncSwal"
-                                    (confirm)="syncronizeProducts(list.venture_id)"
-                                    class="btn btn-round btn-sm btn-primary waves-effect">Sync Products
-                                    <small *ngIf=" syncId === list.venture_id"> ...</small>
+                                    [ladda]="loadingProducts"
+                                    (click)="fetchProducts(list.venture_id)"
+                                    class="btn btn-round btn-sm btn-primary waves-effect">Import Products
                                   </button>
 
                                 	<button 
                                     type="button"
-                                    [swal]="detachSwal" 
+                                    [swal]="detachSwal"
                                     (confirm)="detachProducts(list.venture_id)"
                                     class="btn btn-round btn-sm btn-primary waves-effect">Detach Products
                                     <small *ngIf=" detachId === list.venture_id"> ...</small>
                                   </button>
                                 </td>
-
                             </tr>
-                            
                         </tbody>
                     </table>
                 </div>
                     <!-- Products Detachment confirmation Alert -->
                     <swal #detachSwal title="Detach Products ?"
-                      text="Orders would have been places on this products. 
+                      text="Orders would have been placed on this products. 
                        Are you sure you want to continue ?"
                       type="question"
                       [showCancelButton]="true"
@@ -71,6 +55,52 @@
                       [focusCancel]="true">
                       </swal>
             </div>
+        </div>
+
+        <div class="card feeds-container mt-5" *ngIf="showAttachmentView">
+          <div class="card-header">
+            <h2><strong>Product </strong> Import</h2>
+          </div>
+          <!-- Attachment View -->
+              <div class="card-body">
+                  <div class="table-responsive" *blockUI="'products-list'">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            <label for="checkAll"><input type="checkbox" [(ngModel)]="checkAll" (change)="changeCheckAll()" class="checkbox" id="checkAll"/> All</label>
+                          </th>
+                          <th>Image</th>
+                          <th>Product</th>
+                          <th>Amount</th>
+                          <th>Commission</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of fetchedProducts">
+                          <td>
+                            <label for="{{ product.id }}"><input type="checkbox" [(ngModel)]="product.selected" id="{{ product.id }}" (change)="changeSingleCheck(product)" /></label>
+                          </td>
+                          <td><img [src]="checkValue(product.images[0], 'avatar', 'null')" alt="" height="40"></td>
+                          <td>{{ product.product_name }}</td>
+                          <td>{{ product.product_price }}</td>
+                          <td>{{ product.product_commission }}%</td>
+                        </tr>
+                        <tr *ngIf="count(fetchedProducts) === 0">
+                          <td colspan="5" class="text-center"> No new products found in venture archive.</td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" class="text-center">
+                            <button class="custom-btn mr-4" (click)="importSelected()">Import Selected</button>
+                            <button class="custom-btn" (click)="closeView()">Close</button>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+              </div>
         </div>
     </div>
 </div>
