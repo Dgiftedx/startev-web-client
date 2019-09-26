@@ -260,11 +260,12 @@ export class MainStoreComponent implements OnInit {
 
   }
 
-    addToCart(productSku: any, productId:number) {
+    addToCart(product:any) {
 
       let toCart = {
-        product_id: productId, 
-        product_sku: productSku,
+        product_id: product.id,
+        original_product_id : product.product_id, 
+        product_sku: product.sku,
         store_identifier: this.route.snapshot.params.identifier,
         user_id: this.currentUser?this.currentUser.id:0
       };

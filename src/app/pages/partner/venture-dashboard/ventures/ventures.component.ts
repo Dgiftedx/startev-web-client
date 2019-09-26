@@ -179,6 +179,7 @@ export class VenturesComponent implements OnInit {
 
 	//=================== Detach Imported Products ====================//
 	detachProducts( ventureId: number ){
+		this.showAttachmentView = false;
 		this.detachId = ventureId;
 		
 		this.storeService.detachProducts(this.currentUser.id, ventureId)

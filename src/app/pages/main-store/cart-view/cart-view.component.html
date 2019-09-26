@@ -118,7 +118,7 @@
     					<div class="form-group" *ngIf="currentUser">
     						<button
     						angular4-paystack
-    						[key]="transactionKey"
+    						[key]="transactionTestKey"
     						[email]="currentUser.email"
     						[amount]="total+'00'"
     						[ref]="transactionRef.value"
@@ -131,7 +131,7 @@
                         <div class="form-group" *ngIf="!currentUser && count(userData.email) > 0 && count(userData.name) > 0 && count(userData.address) > 0">
                             <button
                             angular4-paystack
-                            [key]="transactionKey"
+                            [key]="transactionTestKey"
                             [email]="userData.email"
                             [amount]="total+'00'"
                             [ref]="transactionRef.value"

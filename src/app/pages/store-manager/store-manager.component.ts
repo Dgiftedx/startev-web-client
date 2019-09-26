@@ -378,15 +378,14 @@ export class StoreManagerComponent implements OnInit {
   }
 
 
-  // ==================== Edit Order ===============================//
+  // ==================== View Order ===============================//
 
-  editOrder(order_id: number) {
+  viewOrder(order_id: number) {
 
     this.controlInputLock(true);
-    this.storeService.getSingleOrder(order_id)
+    this.storeService.storeManagerGetSingleOrder(order_id)
     .subscribe(data => {
       this.singleOrder = data;
-
       setTimeout(() => {
         this.showMainOrders = false;
         this.showModBox = true;

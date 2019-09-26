@@ -28,6 +28,7 @@ export class CartViewComponent implements OnInit {
 	currentUser : User;
 	transactionRef:Guid;
 	transactionKey:any = 'pk_live_88361dabf717bb87148ec9858c651c1205f10bbe';
+	transactionTestKey:any = 'pk_test_c76acb3b20e6cdf526d2c722cc0ba0021c411f43';
 	public total:number = 0;
 	public cart:any = [];
 	public server:any = [];

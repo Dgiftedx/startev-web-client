@@ -187,47 +187,43 @@
 					                  <tr *ngFor="let order of singleOrder.orders">
 					                      <td>Item: </td>
 					                      <td>
-					                        {{ order.product.product_name }}
+					                        {{ order.main_product.product_name }}
 					                      </td>
-					                      <td>Unit Price</td>
+					                      <td><strong>Unit Price: </strong></td>
 					                      <td>
-					                        {{ order.product.product_price }}
+					                        {{ order.main_product.product_price }}
 					                      </td>
 
-					                      <td>Total: </td>
+					                      <td><strong>Total: </strong></td>
 					                      <td>
-					                        {{ order.amount | number:0 }}
+					                        NGN {{ order.amount | number:0 }}
 					                      </td>
 
-					                      <td>Quantity</td>
-					                      <td style="min-width: 120px !important;">
-					                         <div class="form-group">
-					                          <input class="form-control" [readonly]="true" [(ngModel)]="order.quantity">
-					                        </div>
-					                      </td>
+					                      <td><strong>Quantity: </strong></td>
+					                      <td>{{ order.quantity }}</td>
 
-					                      <td>
-					                        <!-- <button class="btn btn-sm btn-danger waves-effect">Cancel Order</button> -->
-					                        <!-- <button class="btn btn-sm btn-warning waves-effect">Update Order</button> -->
-					                      </td>
+					                      <td><strong>Store: </strong></td>
+					                      <td class="text-danger">{{ order.store.store_name }}</td>
+
+					                      <td><strong>Venture: </strong></td>
+					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
 					                </table>
 					                <button 
-					                (click)="finallizeOrder('shipped', singleOrder.orders[0].identifier)" 
+					                (click)="finallizeOrder('confirmed', singleOrder.orders[0].identifier)" 
 					                type="button" 
 					                *ngIf="singleOrder.orders[0].status === 'pending' || singleOrder.orders[0].status === 'processing'" 
 					                class="btn btn-primary waves-effect">
-					                  Product Shipped
+					                  Ready For Pickup
 					                </button>
 
-					                <button 
+					               <!--  <button 
 					                (click)="finallizeOrder('delivered', singleOrder.orders[0].identifier)" 
 					                class="btn btn-primary waves-effect" 
 					                *ngIf="singleOrder.orders[0].status === 'shipped'" 
 					                type="button">
 					                  Product Delivered
-					                </button>
-
+					                </button> -->
 					                </div>
 					            </div>
 					        </div>
@@ -264,7 +260,7 @@
 					                            </td>
 					                            <td>{{ item.order_id }}</td>
 					                            <td>{{ item.items }}</td>
-					                            <td>{{ item.date|date:'mediumDate' }}</td>
+					                            <td>{{ item.date | date:'medium' }}</td>
 					                            <td>
 					                               <span 
 					                             class="badge badge-success bg-success text-white" 
@@ -278,8 +274,8 @@
 					                              <!-- Edit product -->
 					                            <button 
 					                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
-					                            (click)="editOrder(item.order_id)">
-					                             <i class="fa fa-edit"></i>
+					                            (click)="viewOrder(item.order_id)">
+					                             <i class="fa fa-eye"></i>
 					                            </button>
 
 					                            </td>

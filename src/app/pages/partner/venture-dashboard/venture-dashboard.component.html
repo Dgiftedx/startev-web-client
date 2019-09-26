@@ -133,7 +133,7 @@
 						<div class="col-md-12">
 					        <div class="card feeds-container fadeIn" *ngIf="showModBox">
 					            <div class="card-header">
-					              <h2><strong>View/Modify</strong> Order</h2>
+					              <h2><strong>View</strong> Order</h2>
 					              <button type="button" (click)="closeModBox()" class="float-right btn btn-icon btn-round btn-icon-mini btn-white waves-effect">
 					                  <i class="la la-close"></i>
 					              </button>
@@ -172,42 +172,37 @@
 					                  <p>Items</p>
 					                <table class="table mt-3">
 					                  <tr *ngFor="let order of singleOrder.orders">
-					                      <td>Item: </td>
+					                      <td><strong>Item:</strong> </td>
 					                      <td>
 					                        {{ order.product.product_name }}
 					                      </td>
-					                      <td>Unit Price</td>
+					                      <td><strong>Unit Price</strong></td>
 					                      <td>
 					                        {{ order.product.product_price }}
 					                      </td>
 
-					                      <td>Total: </td>
+					                      <td><strong>Total:</strong> </td>
 					                      <td>
 					                        {{ order.amount | number:0 }}
 					                      </td>
 
-					                      <td>Quantity</td>
-					                      <td style="min-width: 120px !important;">
-					                         <div class="form-group">
-					                          <input class="form-control" [readonly]="true" [(ngModel)]="order.quantity">
-					                        </div>
-					                      </td>
-
+					                      <td><strong>Quantity: </strong></td>
 					                      <td>
-					                        <!-- <button class="btn btn-sm btn-danger waves-effect">Cancel Order</button> -->
-					                        <!-- <button class="btn btn-sm btn-warning waves-effect">Update Order</button> -->
+					                        {{order.quantity}}
 					                      </td>
+					                      <td><strong>Venture</strong></td>
+					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
 					                </table>
 
-					                <div class="" *ngIf="!singleOrder.forwarded">
+					                <!-- <div class="" *ngIf="!singleOrder.forwarded">
 					                  <button 
 					                  (click)="forwardOrders(singleOrder)"
 					                  type="button"
 					                  [disabled]="singleOrder.forwarded"
 					                  [ladda]="sendingOrder"
 					                  class="btn btn-sm btn-warning color-white waves-effect">Forward Orders To Venture</button>
-					                </div>
+					                </div> -->
 					                </div>
 					            </div>
 					        </div>
@@ -244,7 +239,7 @@
 					                            </td>
 					                            <td>{{ item.order_id }}</td>
 					                            <td>{{ item.items }}</td>
-					                            <td>{{ item.date|date:'mediumDate' }}</td>
+					                            <td>{{ item.date | date:'medium' }}</td>
 					                            <td>
 					                               <span 
 					                             class="badge badge-success bg-success text-white" 
@@ -280,7 +275,7 @@
 					<app-user-ventures></app-user-ventures>
 				</div>
 
-				<div *ngIf="selectedNavigation.alias === 'manage_products'">
+				<div *ngIf="selectedNavigation.alias === 'view_products'">
 					<app-user-manage-products></app-user-manage-products>
 				</div>
 				
@@ -292,6 +287,9 @@
 				</div>
 				<div *ngIf="selectedNavigation.alias === 'order_tracking'">
 					<app-user-tracker></app-user-tracker>
+				</div>
+				<div *ngIf="selectedNavigation.alias === 'transactions'">
+					<app-user-transactions></app-user-transactions>
 				</div>
 			</div>
 

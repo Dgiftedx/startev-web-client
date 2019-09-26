@@ -112,6 +112,10 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/store-manager/get-store-orders/${ventureId}/${user_id}`);
 	}
 
+	public storeManagerGetSingleOrder(identifier:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-single-order/${identifier}`);
+	}
+
 	public storeManagerGetProducts(ventureId:any, user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-store-products/${ventureId}/${user_id}`);
 	}

@@ -32,6 +32,7 @@ export class UserManageProductsComponent implements OnInit {
 	{name: 'Image'},
 	{name : 'Product Name', prop: 'name'},
 	{name: 'Product Sku', prop:'sku'},
+	{name: 'Product Venture', prop:'venture'},
 	{name: 'Amount', prop:'amount'},
 	{name: 'Status', prop:'status'},
 	{name: 'Actions', prop:'id'},

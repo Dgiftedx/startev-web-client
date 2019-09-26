@@ -51,6 +51,9 @@
                       <!-- Product Sku Column -->
                       <ngx-datatable-column name="Product Sku" prop="sku" [width]="10"></ngx-datatable-column>
 
+                      <!-- Product Venture -->
+                      <ngx-datatable-column name="Product Venture" prop="venture" [width]="10"></ngx-datatable-column>
+
                       <!-- Price Column -->
                       <ngx-datatable-column name="Amount" prop="amount" [width]="10">
                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -82,14 +85,6 @@
 
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
 
-                            <!-- Edit product -->
-                            <button 
-                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
-                            (click)="editProduct(value)">
-                             <i class="la la-edit"></i>
-                            </button>
-
-
                             <!-- Remove Product From Store -->
                             <button 
                             [swal]="deleteSwal" (confirm)="deleteProduct(value)"
@@ -99,11 +94,11 @@
 
 
                             <!-- View Product -->
-                            <!-- <button 
+                            <button 
                             class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
                             (click)="viewProduct(value)">
                                 <i class="la la-eye"></i>
-                            </button> -->
+                            </button>
 
                         </ng-template>
                     </ngx-datatable-column>
@@ -202,45 +197,49 @@
 
         <div class="row clearfix" *ngIf="showProduct">
             <div class="card fadeIn feeds-container">
+              <div class="card-header">
+                <h3><strong>Viewing </strong>{{ singleProduct.product_name | titlecase }}</h3>
+              </div>
                 <div class="card-body" *ngIf="singleProduct">
                         <div class="row">
                             <div class="preview col-lg-4 col-md-12">
-                                <div class="preview-pic tab-content">
-
-                                    <div 
-                                    *ngFor="let preview of singleProduct.images; let index = index;" 
-                                    class="tab-pane" 
-                                    [ngClass]="{'active':selectedSingleImage === preview}"
-                                    id="product_{{ index+1 }}"><img [src]="checkValue(preview, 'banner', 'null')" class="img-fluid"></div>
-                                    
-                                </div>
-                                <ul class="preview-thumbnail nav nav-tabs">
-                                    <li class="nav-item" *ngFor="let image of singleProduct.images">
-                                        <a class="nav-link" [ngClass]="{'active':image === selectedSingleImage}" data-toggle="tab" [routerLink]="" (click)="setSelectedImage(image)">
-                                        <img [src]="checkValue(image,'banner','null')">
-                                        </a>
-                                    </li>
-                                                                        
-                                </ul>                
+                                <div class="preview-pic">
+                                    <div><img [src]="checkValue(singleProduct.images[0], 'banner', 'null')" class="img-fluid"></div>
+                                </div>     
                             </div>
                             <div class="details col-lg-8 col-md-12">
-                                <h3 class="product-title m-b-0">{{ singleProduct.product_name | titlecase }}</h3>
-                                <h4 class="price m-t-0">Current Price: <span class="col-amber">NGN {{ singleProduct.product_price | number:0 }}</span></h4>
-                                
+                              <div class="table-responsive"> 
+                                <table class="table">
+                                  <tr>
+                                    <td><strong>Product Name: </strong></td>
+                                    <td>{{ singleProduct.product_name | titlecase }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><strong>Current Price:</strong></td>
+                                    <td>NGN {{ singleProduct.product_price | number:0 }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td><strong>Stock Status: </strong></td>
+                                    <td>
+                                      <span 
+                                       class="badge badge-success bg-success text-white" 
+                                       *ngIf="singleProduct.stock_status === 'inStock'">In Stock</span>
+
+                                       <span 
+                                       class="badge badge-warning bg-warning text-white" 
+                                       *ngIf="singleProduct.stock_status !== 'inStock'">Out of Stock</span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td><strong>Product Venture: </strong></td>
+                                    <td>{{ singleProduct.venture.venture_name }}</td>
+                                  </tr>
+                                </table>
+                              </div>
+                               
                                 <hr>
-                                <p class="product-description">{{ singleProduct.highlight }}</p>
-                                <!-- <p class="vote"><strong>78%</strong> of buyers enjoyed this product! <strong>(23 votes)</strong></p> -->
-                                <h5 class="sizes">sizes:
-                                    <span 
-                                    *ngFor="let size of singleProduct.sizes" 
-                                    class="size" title="{{ size }}">{{ getFirstLetter(size) }}</span>
-                                </h5>
-                                <h5 class="colors">colors:
-                                    <!-- <span class="color bg-amber not-available" title="Not In store"></span> -->
-                                    <span 
-                                    *ngFor="let color of singleProduct.colors" 
-                                    class="color bg-{{ color }}"></span>
-                                </h5>
+                                <p class="product-description" [innerHtml]="singleProduct.highlight"></p>
+                               
                                 <hr>
                                 <div class="action">
                                     <button 

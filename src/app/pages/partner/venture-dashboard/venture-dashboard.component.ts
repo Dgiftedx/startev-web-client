@@ -55,9 +55,11 @@ export class VentureDashboardComponent implements OnInit {
   	{id: 1, alias: "dashboard", name: "Dashboard", icon: "fa fa-dashboard"},
   	{id: 2, alias: "view_orders", name: "View Orders", icon: "fa fa-shopping-cart"},
     {id: 3, alias: "order_tracking", name: "Track Order", icon: "fa fa-send"},
-  	{id: 4, alias: "venture_products", name: "Products Dropship", icon: "fa fa-download"},
-  	{id: 5, alias: "customer_reviews", name: "Customer Reviews", icon: "fa fa-list-alt"},
-  	{id: 6, alias: "store_settings", name: "Store Settings", icon: "fa fa-cog"},
+    {id: 4, alias: "view_products", name: "View Products", icon: "fa fa-eye"},
+  	{id: 5, alias: "venture_products", name: "Products Dropship", icon: "fa fa-download"},
+  	// {id: 6, alias: "customer_reviews", name: "Customer Reviews", icon: "fa fa-list-alt"},
+    {id: 6, alias: "transactions", name: "Transactions", icon: "fa fa-bank"},
+  	{id: 7, alias: "store_settings", name: "Store Settings", icon: "fa fa-cog"},
 
   ];
 
@@ -174,6 +176,9 @@ export class VentureDashboardComponent implements OnInit {
 
   handleRecentOrders(data:any) {
     let orders = data.recent_orders;
+
+    //clean collection for new update;
+    this.recentOrders = [];
     for ( let identifier in orders ) {
       for (let index in orders[identifier]) {
         this.recentOrders.push(orders[identifier][index]);
@@ -196,16 +201,18 @@ export class VentureDashboardComponent implements OnInit {
 
 
   handleOrdersInit(data:any) {
+    this.orders = []; //clean orders for new items;
     for ( let identifier in data ) {
       this.orders.push({
         name: data[identifier][0].name,
         order_id: identifier,
         items: this.count(data[identifier]),
-        date: data[identifier][0].date.date,
+        date: data[identifier][0].date,
         status: data[identifier][0].status
       });
     }
 
+    this.orderTemp = []; //Clean order collection for new items.
     this.orderTemp = [...this.orders];
   }
 
