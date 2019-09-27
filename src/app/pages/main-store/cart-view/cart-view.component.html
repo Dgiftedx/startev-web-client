@@ -90,7 +90,7 @@
     		</div>
 
 
-    		<div class="card feeds-container" *ngIf="showCart && count(cart) > 0">
+    		<div class="card feeds-container mt-5" *ngIf="showCart && count(cart) > 0">
     			<div class="card-header">
     				<h2><strong>Delivery </strong> Details</h2>
     				<div class="card-body mt-3">
@@ -110,23 +110,53 @@
                             <input type="email" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.email" placeholder="Your Email Address"/>
                         </div>
 
-    					<div class="form-group">
-    						<label>Delivery Address</label>
-    						<textarea rows="3" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.address" placeholder="enter delivery full address"></textarea>
-    					</div>
+                        <span>Enter Delivery Address</span>
+                        <div style="width:100%; z-index:9999 !important;" class="ng-autocomplete mt-3">
+                            <ng-autocomplete
+                              [(ngModel)]="userData.address"
+                              [isLoading]="searching"
+                              [searchKeyword]="'name'"
+                              [data]="suggestions"
+                              (selected)='selectEvent($event)'
+                              (inputChanged)='onChangeSearch($event)'
+                              [itemTemplate]="itemTemplate"
+                              [notFoundTemplate]="notFoundTemplate">                                 
+                            </ng-autocomplete>
+                             
+                            <ng-template #itemTemplate let-item>
+                            <a [innerHTML]="item.name"></a>
+                            </ng-template>
+                             
+                            <ng-template #notFoundTemplate let-notFound>
+                            <div [innerHTML]="addressNotFound"></div>
+                            </ng-template>
+                        </div>
+                        <br/>
+                        <span *ngIf="addressError" class="text-danger mt-3" [innerHtml]="addressError"></span>
 
-    					<div class="form-group" *ngIf="currentUser">
-    						<button
-    						angular4-paystack
-    						[key]="transactionTestKey"
-    						[email]="currentUser.email"
-    						[amount]="total+'00'"
-    						[ref]="transactionRef.value"
-    						(close)="transactionCancelled()"
-    						(callback)="transactionSuccessful($event)"
-    						type="button"
-    						class="btn btn-round btn-primary waves-effect">Pay Now</button>
-    					</div>
+                        <div *ngIf="verifyError" class="notice_bar danger mt-3 shadow text-center">
+                            <p class="text-danger">{{ verifyError }}</p>
+                        </div>
+                        </div>
+    				</div>
+
+                    <div *ngIf="!showPaymentButton && showConfirmButton">
+                            <button type="button" (click)="confirmOrder()" class="btn btn-round btn-primary waves-effect">Confirm Details</button>
+                        </div>
+
+                        <div *ngIf="showPaymentButton">
+                            <div class="form-group" *ngIf="currentUser">
+                            <button
+                            angular4-paystack
+                            [key]="transactionTestKey"
+                            [email]="currentUser.email"
+                            [amount]="total+'00'"
+                            [ref]="transactionRef.value"
+                            (close)="transactionCancelled()"
+                            (callback)="transactionSuccessful($event)"
+                            type="button"
+                            class="btn btn-round btn-primary waves-effect">Pay Now</button>
+                        </div>
 
                         <div class="form-group" *ngIf="!currentUser && count(userData.email) > 0 && count(userData.name) > 0 && count(userData.address) > 0">
                             <button
@@ -141,7 +171,6 @@
                             class="btn btn-round btn-primary waves-effect">Pay Now</button>
                         </div>
 
-    				</div>
     			</div>
     		</div>
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
 import { User } from '../_models';
@@ -24,10 +24,23 @@ export class BaseService {
     //audio call monitor for host
     public audioHostSessions$: BehaviorSubject<any> = new BehaviorSubject({});
 
+    // Http Options
+    httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin' : 'allow'
+        })
+    }  
+
     constructor(
         private http: HttpClient,
         private authenticationService : AuthenticationService) { }
 
+
+    //Google Api Calls
+    public googleSearchPlaces( query:any ){
+        return this.http.post(`${this.endpoint}/address-search-places`, {query:query});
+    }
 
     //get emdpoints
     endpoint = this.authenticationService.endpoint;
@@ -37,7 +50,6 @@ export class BaseService {
     changeQuery(query:string):void {
         this.querySource.next(query);
     }
-
 
     public getSearchResults( query:any ){
         return this.http.post(`${this.endpoint}/get-search-results`, query);

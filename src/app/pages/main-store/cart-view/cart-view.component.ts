@@ -4,10 +4,11 @@ import { Subscription } from 'rxjs';
 import { Guid } from "guid-typescript";
 import { User } from '../../../_models';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { switchMap, first } from "rxjs/operators";
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { BaseService } from '../../../_services/base.service';
 import { StoreService } from '../../../_services/store.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService,} from '../../../_services';
@@ -30,14 +31,28 @@ export class CartViewComponent implements OnInit {
 	transactionKey:any = 'pk_live_88361dabf717bb87148ec9858c651c1205f10bbe';
 	transactionTestKey:any = 'pk_test_c76acb3b20e6cdf526d2c722cc0ba0021c411f43';
 	public total:number = 0;
+	public suggestions:any = [];
 	public cart:any = [];
 	public server:any = [];
+	public venturesId:any = [];
 	public invoice:any = [];
 	public showCart:boolean = true;
+	public calculating:boolean = false;
 	public showMsgBox:boolean = false;
 	public orderMessage:string = '';
+	public addressError:string = '';
+	public verifyError:string = '';
+	public searching:boolean = false;
 	public deliveryAddress:string = '';
+	public addressConfirmed:boolean = false;
 	private cartSubscription: Subscription;
+	public showPaymentButton:boolean = false;
+
+
+	// moderators
+	public showConfirmButton:boolean = false;
+
+	public addressNotFound:string = '<span class=\"text-danger apple-font\">Address not found:<span> you can choose the nearest address to your location';
 
 	constructor(
 		private http: HttpClient,
@@ -49,6 +64,7 @@ export class CartViewComponent implements OnInit {
 		private _location: Location,
 		private formBuilder: FormBuilder,
 		private storeService : StoreService,
+		private baseService : BaseService,
 		private authenticationService: AuthenticationService) {
 		this.transactionRef = Guid.create();
 		this.config.notFoundText = 'item not found';
@@ -68,20 +84,130 @@ export class CartViewComponent implements OnInit {
 				this.userData.name = this.currentUser.name;
 				this.userData.email = this.currentUser.email;
 				this.userData.phone = this.currentUser.phone?this.currentUser.phone:0;
-				this.userData.address = this.currentUser.address;
 				this.cart = items;
+				this.gatherProductIds();
+				//check if address of already logged in user is google verfied
+				this.verifyLoggedUserAddress(this.currentUser);
+
 			});
 		}else{
+			this.gatherProductIds();
 			this.cart = this.getSavedCartInStorage();
 		}
-
 
 	}
 
 	ngOnInit() {
-
 		setTimeout(() => {this.cdr.detectChanges();}, 1000);
 	}
+
+
+	gatherProductIds(){
+		this.cart.forEach(item => {
+			this.venturesId.push({id:item.id, venture_id: item.product.venture_id});
+		});
+	}
+
+
+	removeFromProductId(item:any){
+		let search = _.findLastIndex(this.venturesId, ['id',item.id]);
+		this.venturesId.splice(search,1);
+	}
+
+
+	//=====================================================
+	// Address Search Functionality
+	//=====================================================
+
+	removeDuplicateWord(address){
+		address = address.replace(/[ - ]/g," ").split(" ");
+		let result = [];
+
+		//remvoe duplicates
+		for(let i =0; i < address.length ; i++){
+		    if(result.indexOf(address[i]) == -1) result.push(address[i]);
+		}
+		//return filtered result
+		return result.join(" ").replace(/,/g," ");
+	}
+
+
+	verifyLoggedUserAddress(params:any){
+		//only if address is set and is valid
+		if (this.count(params.address) > 4) {
+			//remove duplicate words to fine tune the address
+			let address = this.removeDuplicateWord(params.address);
+			this.baseService.googleSearchPlaces(address)
+			.subscribe((resp:any) => {
+				if (this.count(resp) > 0) {
+					//set address and calculate delivery charges
+					this.selectEvent(resp[0]);
+				}else{
+					//address not found
+					this.addressError = `Your address; <strong> ${address}. </strong> was not found. Please enter a delivery address above.`;
+				}
+			});
+		}else{
+			this.userData.address = '';
+			this.addressError = `Your do not have a verified address. Please enter a delivery address above.`;
+		}
+	}
+
+	selectEvent(item) {
+		this.addressError = '';
+		this.userData.address = item.name;
+		this.calculateDeliveryFee(item, this.venturesId);
+	}
+
+	onChangeSearch(val: string) {
+		this.verifyError = '';
+		this.searching = true;
+		this.baseService.googleSearchPlaces(val)
+		.subscribe((resp:any) => {
+			this.suggestions = resp;
+			this.searching = false;
+		});
+	}
+
+
+	calculateDeliveryFee(item:any, venturesId:any){
+		this.calculating = true;
+		let filteredIds:any = [];
+		//filter array to hold only venture ids
+		venturesId.forEach(item => {
+			filteredIds.push(item.venture_id);
+		});
+
+		//make the call
+		let data = {
+			venture_ids : filteredIds,
+			place_id : item.place_id
+		};
+		
+		this.storeService.mainStoreCalculateDelivery(data)
+		.subscribe((resp:any) => {
+			//the response should be delivery fee/charge
+			//add it to cart and notify customer
+			if (resp.error) {
+				this.verifyError = resp.error;
+				return;
+			}else{
+				//show delivery price and add to total
+				this.showConfirmButton = true;
+				console.log(resp);
+			}
+		});
+	}
+
+
+	//=======================================================
+	// Confirm Order Details
+	//=======================================================
+	confirmOrder(){
+		console.log(this.userData);
+	}
+
+	// Local storage manipulation
 
 	removeLocalStorageCart(){
 		return localStorage.removeItem('cartItems');
@@ -173,10 +299,16 @@ export class CartViewComponent implements OnInit {
 	// ===================== Remove ITem From Cart ==================//
 	removeFromCart(item:any) {
 		if (this.currentUser) {
+			//remove from venturesId record
+			this.removeFromProductId(item);
+			let search = 
 			this.storeService.mainStoreRemoveFromCart(item.id)
-			.subscribe(data => this.cart = data);
+			.subscribe(data => {
+				this.cart = data;
+			});
 		}else{
 			this.sliceLocalCart(item);
+			this.removeFromProductId(item);
 		}
 
 		this.calculateTotal();

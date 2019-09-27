@@ -188,6 +188,10 @@ export class StoreService {
 		return this.http.post(`${this.endpoint}/store/main-store-add-to-cart`, data);
 	}
 
+	public mainStoreCalculateDelivery(data:any){
+		return this.http.post(`${this.endpoint}/main-store-calculate-delivery`, data);
+	}
+
 	public mainStoreRemoveFromCart(item_id:number){
 		return this.http.get(`${this.endpoint}/store/main-store-remove-from-cart/${item_id}`);
 	}

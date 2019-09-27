@@ -33,6 +33,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { MainStoreResolve } from './_resolvers/store.resolver';
 import { VentureResolve } from './_resolvers/venture.resolver';
+import { AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { NgxEpicVideoPlayerModule } from 'ngx-epic-video-player';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -249,6 +250,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         spinnerSize: 35,
         spinnerLines: 15
     }),
+    AutocompleteLibModule,
     BlockUIModule.forRoot(),
     NgxUiLoaderModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
