@@ -17,24 +17,23 @@
                         <thead>
                           <tr>
                             <th>S/N</th>
-                            <th>Order ID</th>
+                            <th>Batch ID</th>
                             <th>Commission</th>
-                            <th>Product Amount</th>
+                            <th>Order Total Amount</th>
                             <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                           </tr>
                         </thead>
-                        <tbody *ngIf="orders">
-                          <tr *ngFor="let item of orders; let index = index;">
+                        <tbody>
+                          <tr *ngFor="let item of transactions; let index = index;">
                             <td>{{ index + 1 }}</td>
                             <td>
-                              {{ item.order.identifier }}
+                              {{ item.batch_id }}
                             </td>
-                            <td>{{ item.commission }}</td>
-                            <td>{{ item.order.order_price }}</td>
-                            <td>{{ item.date | date:'medium' }}</td>
-                            <td>
+                            <td>NGN {{ item.total_student_commission | number:0 }}</td>
+                            <td>NGN {{ item.items_total |number:0 }}</td>
+                            <td>{{ item.created_at | date:'medium' }}</td>
+                            <!-- <td>
                                <span 
                              class="badge badge-success bg-success text-white" 
                              *ngIf="item.status === 'delivered'">{{ item.status | titlecase }}</span>
@@ -42,16 +41,14 @@
                              <span 
                              class="badge badge-warning bg-warning text-white" 
                              *ngIf="item.status !== 'delivered'">{{ item.status | titlecase }}</span>
-                            </td>
-                            <td>
-                              <!-- Edit product -->
+                            </td> -->
+                            <!-- <td>
                             <button 
                             class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" 
-                            (click)="editOrder(item.order_id)">
+                            (click)="editOrder(item.id)" [owlTooltip]="'View Transaction'">
                              <i class="fa fa-eye"></i>
                             </button>
-
-                            </td>
+                            </td> -->
                           </tr>
                         </tbody>
                       </table>

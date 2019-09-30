@@ -403,10 +403,10 @@ export class StoreManagerComponent implements OnInit {
 
 
 
-  finallizeOrder(action:string, identifier:any) {
+  finallizeOrder(identifier:any) {
 
     let data = {
-      action: action,
+      action: "confirmed",
       order_id: identifier
     };
 

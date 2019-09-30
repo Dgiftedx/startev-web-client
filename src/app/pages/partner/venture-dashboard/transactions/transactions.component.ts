@@ -19,6 +19,7 @@ export class TransactionsComponent implements OnInit {
 
 	currentUser : User;
 
+  public transactions:any = [];
 	public showTransactions : boolean  = true;
 	public hasTransactions : boolean = false;
 
@@ -44,6 +45,14 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
   }
 
+  getTransactions() {
+    this.storeService.mainStoreGetTransactions(this.currentUser.id)
+    .subscribe((resp:any) => {
+      this.transactions = resp.transactions;
+      this.hasTransactions = true;
+    });
+  }
+
 
      count(items:any)
   {
@@ -67,13 +76,6 @@ export class TransactionsComponent implements OnInit {
       }
       return this.authenticationService.baseurl+item;
     }
-  }
-
-
-  getTransactions() {
-
-  	this.hasTransactions = true;
-
   }
 
 }

@@ -31,6 +31,7 @@ export class CartViewComponent implements OnInit {
 	transactionKey:any = 'pk_live_88361dabf717bb87148ec9858c651c1205f10bbe';
 	transactionTestKey:any = 'pk_test_c76acb3b20e6cdf526d2c722cc0ba0021c411f43';
 	public total:number = 0;
+	public grandTotal:number = 0;
 	public suggestions:any = [];
 	public cart:any = [];
 	public server:any = [];
@@ -42,11 +43,13 @@ export class CartViewComponent implements OnInit {
 	public orderMessage:string = '';
 	public addressError:string = '';
 	public verifyError:string = '';
+	public deliveryFee : number;
 	public searching:boolean = false;
 	public deliveryAddress:string = '';
 	public addressConfirmed:boolean = false;
 	private cartSubscription: Subscription;
 	public showPaymentButton:boolean = false;
+	public processingOrder:boolean = false;
 
 
 	// moderators
@@ -190,22 +193,20 @@ export class CartViewComponent implements OnInit {
 			//add it to cart and notify customer
 			if (resp.error) {
 				this.verifyError = resp.error;
+				this.showPaymentButton = false;
 				return;
 			}else{
 				//show delivery price and add to total
-				this.showConfirmButton = true;
-				console.log(resp);
+				this.showPaymentButton = true;
+				this.deliveryFee = resp.result.price;
+				this.grandTotal = this.total + resp.result.price;
+				setTimeout(() => {
+					this.cdr.detectChanges();
+				}, 500);
 			}
 		});
 	}
 
-
-	//=======================================================
-	// Confirm Order Details
-	//=======================================================
-	confirmOrder(){
-		console.log(this.userData);
-	}
 
 	// Local storage manipulation
 
@@ -351,23 +352,35 @@ export class CartViewComponent implements OnInit {
 
 	transactionSuccessful(event:any){
 
+		let address = this.userData.address.name?this.userData.address.name:this.userData.address;
+
+		this.processingOrder = true;
+
 		this.refreshTransactionRef();
 
 		let formData = new FormData();
+
+		let items_total:any = this.total;
+		let deliveryFee:any = this.deliveryFee;
+		let grand_total:any = this.grandTotal;
 
 		formData.append('items', JSON.stringify(this.cart));
 		formData.append('transaction_ref', event.reference);
 		formData.append('email', this.userData.email);
 		formData.append('name', this.userData.name);
 		formData.append('phone', this.userData.phone);
-		formData.append('delivery_address', this.userData.address);
+		formData.append('items_total', items_total);
+		formData.append('grand_total', grand_total);
+		formData.append('delivery_fee', deliveryFee);
+		formData.append('delivery_address', address);
 		formData.append('user_id', this.currentUser?this.currentUser.id:0);
 
 		this.storeService.mainStorePlaceOrder(formData)
 		.subscribe(data => {
 			this.handleOrderResponse(data);
 			this.refreshTransactionRef();
-		})
+			this.processingOrder = false;
+		});
 
 	}
 

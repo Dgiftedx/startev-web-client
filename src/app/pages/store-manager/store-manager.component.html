@@ -183,39 +183,52 @@
 
 					                <div class="table-responsive">
 					                  <p>Items</p>
-					                <table class="table mt-3">
-					                  <tr *ngFor="let order of singleOrder.orders">
+					                <table class="table mt-3" *ngFor="let order of singleOrder.orders">
+					                  <tr>
 					                      <td>Item: </td>
 					                      <td>
 					                        {{ order.main_product.product_name }}
 					                      </td>
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Unit Price: </strong></td>
 					                      <td>
 					                        {{ order.main_product.product_price }}
 					                      </td>
-
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Total: </strong></td>
 					                      <td>
 					                        NGN {{ order.amount | number:0 }}
 					                      </td>
-
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Quantity: </strong></td>
 					                      <td>{{ order.quantity }}</td>
-
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Store: </strong></td>
 					                      <td class="text-danger">{{ order.store.store_name }}</td>
-
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Venture: </strong></td>
 					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
+					                  <tr>
+					                  	<td colspan="2">
+					                  		 <button 
+								                (click)="finallizeOrder('confirmed', order.identifier)" 
+								                type="button" 
+								                *ngIf="order.status === 'pending' || order.status === 'processing'" 
+								                class="btn btn-primary waves-effect">
+								                  Ready For Pickup
+								                </button>
+					                  	</td>
+					                  </tr>
+					                  <tr>
+					                  	<td colspan="2">&nbsp;</td>
+					                  </tr>
 					                </table>
-					                <button 
-					                (click)="finallizeOrder('confirmed', singleOrder.orders[0].identifier)" 
-					                type="button" 
-					                *ngIf="singleOrder.orders[0].status === 'pending' || singleOrder.orders[0].status === 'processing'" 
-					                class="btn btn-primary waves-effect">
-					                  Ready For Pickup
-					                </button>
 
 					               <!--  <button 
 					                (click)="finallizeOrder('delivered', singleOrder.orders[0].identifier)" 
@@ -274,7 +287,7 @@
 					                              <!-- Edit product -->
 					                            <button 
 					                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
-					                            (click)="viewOrder(item.order_id)">
+					                            (click)="viewOrder(item.order_id)" [owlTooltip]="'View Order'">
 					                             <i class="fa fa-eye"></i>
 					                            </button>
 
@@ -388,14 +401,14 @@
 					                            <!-- Edit product -->
 					                            <button 
 					                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
-					                            (click)="editProduct(value)">
+					                            (click)="editProduct(value)" [owlTooltip]="'Edit Product'">
 					                             <i class="la la-edit"></i>
 					                            </button>
 
 
 					                            <!-- Remove Product From Store -->
 					                            <button 
-					                            [swal]="deleteSwal" (confirm)="deleteProduct(value)"
+					                            [swal]="deleteSwal" (confirm)="deleteProduct(value)" [owlTooltip]="'Remove Product'"
 					                            class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect">
 					                                <i class="la la-remove"></i>
 					                            </button>

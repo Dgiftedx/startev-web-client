@@ -184,6 +184,10 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/main-store-get-cart`);
 	}
 
+	public mainStoreGetTransactions(user_id:number){
+		return this.http.get(`${this.endpoint}/store/store-get-transactions/${user_id}`);
+	}
+
 	public mainStoreAddToCart(data:any){
 		return this.http.post(`${this.endpoint}/store/main-store-add-to-cart`, data);
 	}

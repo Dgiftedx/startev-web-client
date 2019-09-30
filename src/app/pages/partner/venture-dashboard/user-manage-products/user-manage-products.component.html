@@ -87,7 +87,7 @@
 
                             <!-- Remove Product From Store -->
                             <button 
-                            [swal]="deleteSwal" (confirm)="deleteProduct(value)"
+                            [swal]="deleteSwal" (confirm)="deleteProduct(value)" [owlTooltip]="'Remove Product'"
                             class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect">
                                 <i class="la la-remove"></i>
                             </button>
@@ -96,7 +96,7 @@
                             <!-- View Product -->
                             <button 
                             class="btn btn-icon btn-icon-mini btn-round btn-white waves-effect" 
-                            (click)="viewProduct(value)">
+                            (click)="viewProduct(value)" [owlTooltip]="'View Product'">
                                 <i class="la la-eye"></i>
                             </button>
 
