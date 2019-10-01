@@ -298,6 +298,10 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/cities/${id}`);
     }
 
+    public getAdverts( ){
+        return this.http.get(`${this.endpoint}/get-adverts`);
+    }
+
     // Register a new user
     public updateUserData(formData: any, url : string, id : number){
         return this.http.post<any>(`${this.endpoint}/${url}/${id}`, formData);

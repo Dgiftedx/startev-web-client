@@ -138,6 +138,7 @@ import { NgxAgoraModule } from 'ngx-agora';
 import { JoinLiveSessionComponent } from './pages/message/join-live-session/join-live-session.component';
 import { ChatConversationsComponent } from './pages/message/chat-conversations/chat-conversations.component';
 import { TransactionsComponent } from './pages/partner/venture-dashboard/transactions/transactions.component';
+import { AdsWidgetLeftComponent } from './pages/widgets/ads-widget-left/ads-widget-left.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -227,6 +228,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     JoinLiveSessionComponent,
     ChatConversationsComponent,
     TransactionsComponent,
+    AdsWidgetLeftComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

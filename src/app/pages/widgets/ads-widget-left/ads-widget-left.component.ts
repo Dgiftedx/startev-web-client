@@ -9,11 +9,11 @@ import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService } from '../../../_services';
 
 @Component({
-  selector: 'app-ads-widget',
-  templateUrl: './ads-widget.component.html',
-  styleUrls: ['./ads-widget.component.css']
+  selector: 'app-ads-widget-left',
+  templateUrl: './ads-widget-left.component.html',
+  styleUrls: ['./ads-widget-left.component.css']
 })
-export class AdsWidgetComponent implements OnInit {
+export class AdsWidgetLeftComponent implements OnInit {
 
 
   currentUser : User;
@@ -41,8 +41,7 @@ export class AdsWidgetComponent implements OnInit {
   	this.baseService.getAdverts()
   	.subscribe((resp:any) => {
   		this.adverts = resp.adverts;
-  		// console.log(this.adverts);
-  	})
+  	});
   }
 
    // ============ check null item and return default as required =======//
@@ -59,7 +58,7 @@ export class AdsWidgetComponent implements OnInit {
       if (this.count(item) === 0) {
         return '/assets/images/default/avatar.jpg';
       }
-      return this.authenticationService.baseurl +"/storage" + item;
+      return this.authenticationService.baseurl+"/storage" + item;
     }
   }
 

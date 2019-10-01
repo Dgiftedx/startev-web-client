@@ -1,9 +1,9 @@
- <div class="widget widget-about feeds-container">
- 	<img src="/assets/images/edutech.png" class="advert-img" alt="">
+ <div class="widget widget-about feeds-container" *ngIf="count(adverts) > 0">
+ 	<img [src]="checkValue(adverts[0].path, 'avatar', 'null')" class="advert-img" alt="">
  	<!-- <h3>Track Time on Workwise</h3>
  	<span>Pay only for the Hours worked</span> -->
  	<div class="sign_link">
  		<!-- <h3><a href="#" title="">Sign up</a></h3> -->
- 		<a href="http://www.terrapinn.com/edutechafrica" target="_blank" title="">Learn More</a>
+ 		<a href="{{ adverts[0].link }}" target="_blank" title="">Learn More</a>
  	</div>
 </div><!--widget-about end-->
