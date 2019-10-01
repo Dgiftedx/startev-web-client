@@ -51,13 +51,14 @@
                                             <div class="quantity-grp">
                                                 <div class="input-group">                                    
                                                     <span class="input-group-addon">
-                                                        <a (click)="increase(item)" [routerLink]=""  class="spin-up"><i class="fa fa-arrow-left"></i></a>
+                                                        <a [routerLink]="" (click)="decrease(item)" class="spin-down"><i class="fa fa-minus"></i></a>
                                                     </span>
 
                                                     <input type="text" [readonly]="true" class="form-control text-center" [(ngModel)]="item.quantity">
 
-                                                    <span class="input-group-addon">
-                                                        <a [routerLink]="" (click)="decrease(item)" class="spin-down"><i class="fa fa-arrow-right"></i></a>
+
+                                                     <span class="input-group-addon">
+                                                        <a (click)="increase(item)" [routerLink]=""  class="spin-up"><i class="fa fa-plus"></i></a>
                                                     </span>
                                                 </div>
                                             </div>

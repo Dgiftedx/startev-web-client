@@ -403,14 +403,9 @@ export class StoreManagerComponent implements OnInit {
 
 
 
-  finallizeOrder(identifier:any) {
-
-    let data = {
-      action: "confirmed",
-      order_id: identifier
-    };
-
-    this.storeService.storeManagerOrderAction(data)
+  finallizeOrder(orderId:number) {
+    console.log(orderId);
+    this.storeService.storeManagerOrderAction(orderId)
     .subscribe( data => {
       this.stableCall(this.selectedVenture);
       this.closeModBox();

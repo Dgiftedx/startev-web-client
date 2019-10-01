@@ -170,15 +170,6 @@
 					                    <td><strong>Delivery Address: </strong></td>
 					                    <td>{{ singleOrder.delivery_address }}</td>
 					                  </tr>
-
-					                  <tr>
-					                    <td><strong>Order Date: </strong></td>
-					                    <td>{{ singleOrder.order_date | date: 'longDate' }}</td>
-					                  </tr>
-					                  <tr>
-					                    <td><strong>Order Status: </strong></td>
-					                    <td>{{ singleOrder.orders[0].status }}</td>
-					                  </tr>
 					                </table>
 
 					                <div class="table-responsive">
@@ -206,6 +197,15 @@
 					                      <td><strong>Quantity: </strong></td>
 					                      <td>{{ order.quantity }}</td>
 					                  </tr>
+					                   <tr>
+					                    <td><strong>Order Date: </strong></td>
+					                    <td>{{ order.created_at | date: 'longDate' }}</td>
+					                  </tr>
+					                  <tr>
+					                    <td><strong>Order Status: </strong></td>
+					                    <td *ngIf="order.status === 'confirmed'">Order Ready For Pickup</td>
+					                    <td *ngIf="order.status !== 'confirmed'">{{ order.status }}</td>
+					                  </tr>
 					                  <tr>
 					                      <td><strong>Store: </strong></td>
 					                      <td class="text-danger">{{ order.store.store_name }}</td>
@@ -217,7 +217,7 @@
 					                  <tr>
 					                  	<td colspan="2">
 					                  		 <button 
-								                (click)="finallizeOrder('confirmed', order.identifier)" 
+								                (click)="finallizeOrder(order.id)" 
 								                type="button" 
 								                *ngIf="order.status === 'pending' || order.status === 'processing'" 
 								                class="btn btn-primary waves-effect">
@@ -278,10 +278,13 @@
 					                               <span 
 					                             class="badge badge-success bg-success text-white" 
 					                             *ngIf="item.status === 'delivered'">{{ item.status | titlecase }}</span>
+					                              <span 
+					                             class="badge badge-info bg-info text-white" 
+					                             *ngIf="item.status === 'confirmed'">{{ item.status | titlecase }}</span>
 
 					                             <span 
 					                             class="badge badge-warning bg-warning text-white" 
-					                             *ngIf="item.status !== 'delivered'">{{ item.status | titlecase }}</span>
+					                             *ngIf="item.status === 'processing' || item.status === 'pending'">{{ item.status | titlecase }}</span>
 					                            </td>
 					                            <td class="align-top">
 					                              <!-- Edit product -->

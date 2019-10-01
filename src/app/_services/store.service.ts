@@ -160,8 +160,8 @@ export class StoreService {
 		return this.http.get(`${this.endpoint}/store/store-manager/track-order/${order_id}/${business_id}`);
 	}
 
-	public storeManagerOrderAction(data:any){
-		return this.http.post(`${this.endpoint}/store/store-manager/order-action`, data);
+	public storeManagerOrderAction(orderId:number){
+		return this.http.get(`${this.endpoint}/store/store-manager/confirm-order/${orderId}`);
 	}
 
 

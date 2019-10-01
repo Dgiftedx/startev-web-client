@@ -43,6 +43,7 @@ export class PartnerViewComponent implements OnInit {
  ngOnInit() {
     this.partner = this.route.snapshot.data.partnerView.result;
     this.products = this.partner.products;
+    // console.log(this.products);
     this.userIsPartner = this.partner.userIsPartner;
     this.venturePartners = this.partner.venturePartners;
     this.partner.similar.forEach((item) => {
