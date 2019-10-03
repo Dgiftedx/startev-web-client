@@ -58,11 +58,15 @@ export class SettingsComponent implements OnInit {
 	public store_name:string = '';
 	public store_url:string = '';
 	public bank_name:string = '';
+  public bank_code:string = '';
+  public verificationError:string = '';
   public auto_forward:boolean;
 	public account_name:string = '';
 	public account_number:number = 0;
   public ref_code : string = '';
+  public readAccountNumber:boolean = false;
 
+  public banks:any = [];
 	public settings:any = [];
 	private settingSubscription:Subscription;
 	constructor(
@@ -84,6 +88,9 @@ export class SettingsComponent implements OnInit {
 		//Get Settings
 		this.settingSubscription = this.storeService.getStore(this.currentUser.id, 'get-store-settings')
 		.subscribe(data => this.settings = data);
+
+    this.getBanks();
+
 	}
 
 	ngOnInit() {
@@ -101,6 +108,13 @@ export class SettingsComponent implements OnInit {
 		return _.size(items);
 	}
 
+
+ getBanks(){
+   this.baseService.getBanks()
+    .subscribe((data : any) => {
+      this.banks = data;
+    });
+ }
 
 // ============ check null item and return default as required =======//
   checkValue(item:any,  type:string, nullValue:string) {
@@ -174,14 +188,18 @@ export class SettingsComponent implements OnInit {
   openForModification(){
   	this.store_name  = this.settings.store_name;
   	this.store_url = this.settings.store_url;
-    this.ref_code = this.settings.ref_code;
     this.auto_forward = Boolean(this.settings.auto_forward);
   	
   	if (this.settings.store_logo) {
   		this.processedImage = this.settings.store_logo;
   	}
+    this.bank_code = this.settings.bank_code;
   	this.bank_name = this.settings.bank_name;
   	this.account_number = this.settings.account_number;
+    if (!this.bank_code) {
+      this.bank_name = '';
+      this.changeAccountNumber();
+    }
   	this.account_name = this.settings.account_name;
   	this.showEdit = true;
   }
@@ -223,16 +241,93 @@ export class SettingsComponent implements OnInit {
   }
 
 
+  changeBank(){
+    let search = _.findLast(this.banks, ['code',this.bank_code]);
+    this.bank_name = search.name;
+  }
+
+
+  changeAccountNumber(){
+
+    if (!this.account_number) {
+      return;
+    }
+
+    //we only want to run this when the account number is exactly 10 digits
+    if (this.count(this.account_number.toString()) === 10) {
+
+      if (this.count(this.bank_name) === 0) {
+          this.alert.warningMsg("Please select your bank to continue","Select Bank");
+          return;
+      }
+
+      let query = {
+        bank_code : this.bank_code,
+        account_number : this.account_number
+      };
+
+      //disable field and verify address
+      this.readAccountNumber = true;
+
+      this.baseService.postData(query, 'verify-account-number')
+      .subscribe((resp:any) => {
+        if (resp.success) {
+          this.account_name = resp.data.account_name;
+          this.readAccountNumber = false;
+        }else{
+          this.readAccountNumber = false;
+          this.verificationError = "we couldn't find your account. proceed only if you're sure";
+        }
+      });
+
+
+    }else if (this.count(this.account_number.toString()) > 10) {
+      return;
+    }else{
+      //enable input until it completed 10 digits
+      this.readAccountNumber = false;
+    }
+  }
+
+  updateAccount() {
+
+    let errorTitle = "Account Update Error!";
+
+    let values = {
+      user_id : this.currentUser.id,
+      bank_code : this.bank_code,
+      bank_name: this.bank_name,
+      account_name: this.account_name,
+      account_number: this.account_number
+    };
+
+
+    // validate bank name
+    if (this.count(this.bank_name) === 0 || this.count(this.bank_name) < 3) {
+      this.alert.errorMsg("Please enter a valid bank full name. Please check",errorTitle);
+      return;
+    }
+
+    // validate account name
+    if (this.count(this.account_name) === 0) {
+      this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name",errorTitle);
+      return;
+    }
+
+     this.baseService.postData(values, 'add-account-details')
+      .subscribe((resp:any) => {
+        console.log(resp);
+        this.alert.snotSimpleSuccess("Your Store has been updated.");
+      });
+  }
+
+
   saveModifications(){
   	let values = {
   		store_name: this.store_name,
   		store_logo: this.image,
   		store_url: this.store_url,
-      ref_code : this.ref_code,
-  		bank_name: this.bank_name,
-      auto_forward : this.auto_forward,
-  		account_name: this.account_name,
-  		account_number: this.account_number
+      auto_forward : 1,
   	};
 
     let errorTitle = "Store Settings Error";
@@ -249,29 +344,6 @@ export class SettingsComponent implements OnInit {
     if (this.count(this.store_url) === 0) {
       this.alert.errorMsg("You haven't generate your store url. Please generate url.",errorTitle);
       return;
-    }
-
-    // validate bank name
-    if (this.count(this.bank_name) === 0 || this.count(this.bank_name) < 3) {
-      this.alert.errorMsg("Please enter a valid bank full name. Please check",errorTitle);
-      return;
-    }
-
-    // validate account name
-    if (this.count(this.account_name) === 0) {
-      this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name",errorTitle);
-      return;
-    }
-
-    // Validate account number
-    if (this.count(this.account_number.toString()) < 10 || isNaN(this.account_number)) {
-      this.alert.errorMsg("Please enter a valid account number.",errorTitle);
-      return;
-    }
-
-
-     if (this.count(this.ref_code) === 0) {
-      this.alert.errorMsg("You haven't generate your refferal code. Please refferal code.",errorTitle);
     }
 
   	this.sendingForm = true;

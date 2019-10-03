@@ -128,6 +128,15 @@ export class BaseService {
         return this.http.get(`${this.endpoint}/get-mentor-trainees/${user_id}`);
     }
 
+     public getBanks(){
+        return this.http.get(`${this.endpoint}/get-banks`);
+    }
+
+    public postData(data:any, url:string) {
+        return this.http.post(`${this.endpoint}/${url}`, data);
+    }
+
+
     public updateSchedule( formData:any, url:string ){
         return this.http.post(`${this.endpoint}/${url}`, formData);
     }

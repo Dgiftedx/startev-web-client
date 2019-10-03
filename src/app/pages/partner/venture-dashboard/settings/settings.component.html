@@ -100,42 +100,50 @@
                       <button *ngIf="!settings.store_url || settings.store_url === 'null'" (click)="generateStoreUrl(settings.identifier)" class="btn">generate url</button>
                   </div>
 
-                  <div class="form-group">
-                      <label class="mb-2">Refferal Code</label>
-                      <input 
-                      type="text"
-                      [readonly]="true"
-                      placeholder="Refferal Code" 
-                      class="form-control" [(ngModel)]="ref_code">
-                       <button *ngIf="!settings.ref_code || settings.ref_code === 'null'" (click)="generateRefCode(settings.identifier)" class="btn">generate code</button>
-                  </div>
+                  <hr>
 
-                  <div class="form-group form-check mt-2">
-                    <input type="checkbox" class="form-check-input" id="auto_forward" [(ngModel)]="settings.auto_forward" (click)="changeAutoForward()">
-                    <label class="form-check-label" for="auto_forward">Auto Forward Orders ?</label>
-                  </div>
+                  <button type="button" 
+                    (click)="saveModifications()" 
+                    class="btn btn-round btn-sm btn-primary waves-effect" [ladda]="sendingForm">Update Store</button>
+
+                  <hr>
+
+                  <h2 class="mb-3"><strong>Bank Account Details</strong></h2>
 
                    <div class="form-group">
+                         <label class="mb-3">Select Bank</label>
+                          <ng-select [items]="banks"
+                                   bindLabel="name"
+                                   bindValue="code"
+                                   (change)="changeBank()"
+                                   placeholder="select bank"
+                                   [(ngModel)]="bank_code">
+                        </ng-select>
+
+                    </div>
+
+                    <div class="form-group" *ngIf="count(bank_name)">
+                    <label class="mb-3">Account Number</label>
                       <input 
-                      type="text" 
-                      placeholder="Bank Full Name" 
-                      class="form-control" [(ngModel)]="bank_name">
+                      type="number"
+                      [readonly]="readAccountNumber"
+                      (keyup)="changeAccountNumber()"
+                      placeholder="Your Account Number" 
+                      class="form-control mb-3" [(ngModel)]="account_number">
+
+                      <span class="text-danger pl-2" *ngIf="readAccountNumber">verifying...</span>
+                      <span class="text-danger pl-2" *ngIf="verificationError">{{ verificationError }}</span>
                   </div>
 
-                   <div class="form-group mb-3">
+                   <div class="form-group mb-3" *ngIf="count(bank_name) > 0">
+                    <label class="mb-3">Account Name</label>
                       <input 
                       type="text" 
                       placeholder="Account Full Name" 
                       class="form-control" [(ngModel)]="account_name">
                   </div>
 
-                   <div class="form-group">
-                    <label>Account Number</label>
-                      <input 
-                      type="text"
-                      placeholder="Your Account Number" 
-                      class="form-control" [(ngModel)]="account_number">
-                  </div>
+                   
                   
                 <div class="mt-2 p-3">
                      <div class="float-left">
@@ -143,8 +151,8 @@
                     <img *ngIf="!isImage" [src]="checkValue(processedImage,'avatar','null')" alt="" class="img-raised mr-3" height="60" width="60">
                     </div>
                     <button type="button" 
-                    (click)="saveModifications()" 
-                    class="btn btn-round btn-sm btn-primary waves-effect" [ladda]="sendingForm">Save Modifications</button>
+                    (click)="updateAccount()" 
+                    class="btn btn-round btn-sm btn-primary waves-effect" [ladda]="sendingForm">Save Account</button>
                     <button
                     type="button"
                     (click)="closeForModification()" 
