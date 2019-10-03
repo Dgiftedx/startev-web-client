@@ -139,6 +139,7 @@ import { JoinLiveSessionComponent } from './pages/message/join-live-session/join
 import { ChatConversationsComponent } from './pages/message/chat-conversations/chat-conversations.component';
 import { TransactionsComponent } from './pages/partner/venture-dashboard/transactions/transactions.component';
 import { AdsWidgetLeftComponent } from './pages/widgets/ads-widget-left/ads-widget-left.component';
+import { BusinessPartnersComponent } from './pages/partnership/business-partners/business-partners.component';
 
 export const ngxDropTargetOptions: DropTargetOptions = {
   color: 'dropZoneColor',
@@ -229,6 +230,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ChatConversationsComponent,
     TransactionsComponent,
     AdsWidgetLeftComponent,
+    BusinessPartnersComponent,
   ],
   schemas : [
     CUSTOM_ELEMENTS_SCHEMA

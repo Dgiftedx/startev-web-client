@@ -47,9 +47,9 @@
                       <li>
                         <a class="waves-effect" (click)="openFollowers()" [routerLink]="" title="">Followers ({{ count(profileData.followers) }})</a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a class="waves-effect" [routerLink]="['/profile']" title="">View Profile</a>
-                      </li>
+                      </li> -->
 
                        <li *ngIf="profile.role !== 'student' && profile.role !== 'graduate'">
                          <a 
@@ -61,6 +61,10 @@
                         <a 
                          [routerLink]="['/store-manager']"
                          class="waves-effect"> Open Store Manager</a>
+                      </li>
+
+                      <li *ngIf="profile.role ==='business'">
+                        <a [routerLink]="['/business-partnerships']" class="waves-effect">Open Partnerships</a>
                       </li>
 
                       <li *ngIf="profile.role ==='student' || profile.role === 'graduate'">

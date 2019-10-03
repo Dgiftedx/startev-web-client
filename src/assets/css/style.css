@@ -153,6 +153,10 @@ ngx-file-picker {
     break-after: always;
 }
 
+.badge-danger{
+    background-color: #f00800;
+}
+
 /* ================ CROSS BROWSER COMPATABILITY =============== */
 
 .ask-question,

@@ -44,6 +44,7 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { MyPublicationsComponent } from './pages/my-publications/my-publications.component';
 import { OpenFeedComponent } from './pages/open-feed/open-feed.component';
 import { StoreManagerVenturesComponent } from './pages/store-manager/store-manager-ventures/store-manager-ventures.component';
+import { BusinessPartnersComponent } from './pages/partnership/business-partners/business-partners.component';
 
 
 const routes: Routes = [
@@ -155,6 +156,11 @@ const routes: Routes = [
 	path: 'business-ventures',
 	component: StoreManagerVenturesComponent,
 	// data: {animation: 'All'},
+	canActivate : [AuthGuard]
+},
+{
+	path: 'business-partnerships',
+	component: BusinessPartnersComponent,
 	canActivate : [AuthGuard]
 },
 

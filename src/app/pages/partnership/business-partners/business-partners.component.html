@@ -1,0 +1,95 @@
+<section class="companies-info">
+	<div class="container">
+		<div class="company-title">
+			<h3>All Partnerships</h3>
+		</div><!--company-title end-->
+		<div class="companies-list">
+			<div class="row" *ngIf="count(partnerships) > 0">
+				<div class="col-md-3" *ngFor="let partner of partnerships">
+					<div class="user-data full-width feeds-container">
+						<div class="user-profile">
+							<div class="username-dt">
+								<div class="usr-pic">
+									<img src="{{ checkValue(partner.user.avatar,'avatar','null') }}" alt="">
+								</div>
+							</div><!--username-dt end-->
+							<div class="user-specs">
+								<h3>{{ partner.user.name }}</h3>
+								<br/>
+								<h5>Partnership With:<br/> <br/>
+									<strong class="text-danger">{{ partner.venture.venture_name }}</strong>
+								</h5>
+								<br/>
+								 <small>
+					              <span style="color:#fff !important;" class="badge " [ngClass]="{'badge-success': partner.status === 'accepted', 'badge-warning': partner.status === 'pending', 'badge-danger': partner.status ==='rejected'}">{{ partner.status }}
+					              </span><br/>
+					          </small>
+							</div>
+							
+						</div><!--user-profile end-->
+						<ul class="user-fw-status">
+						<li><div *ngIf="partner.status === 'accepted'" class="alert alert-info" role="alert">Partnership accepted</div></li>
+						<li><div *ngIf="partner.status === 'rejected'" class="alert alert-danger" role="alert">Partnership rejected</div></li>
+						<li *ngIf="partner.status === 'pending'">
+								<button 
+								type="button" 
+								(click)="acceptPartner(partner)"
+								class="btn btn-block btn-white btn-sm waves-effect">
+								Accept Partnership
+							</button>
+						</li>
+						<li *ngIf="partner.status === 'pending'">
+								<button 
+								type="button" 
+								(click)="rejectPartner(partner)"
+								class="btn btn-block btn-white btn-sm waves-effect">
+								Reject Partnership
+							</button>
+						</li>
+						<li *ngIf="partner.status === 'rejected'">
+								<button 
+								type="button" 
+								(click)="acceptPartner(partner)"
+								class="btn btn-block btn-white btn-sm waves-effect">
+								Reconsider
+							</button>
+						</li>
+
+						<li>
+							<button 
+							type="button" 
+							(click)="viewLetter(partner)"
+							class="btn btn-block btn-white btn-sm waves-effect">
+							View Application Letter
+							</button>
+						</li>
+
+						<li>
+							<a class="btn btn-block btn-white btn-sm waves-effect" [routerLink]="['/general-profile', partner.user.slug]" title="">View Profile</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+<!-- Modal Section -->
+<div class="modal fade" [ngStyle]="{'z-index':'9999'}" #letterModal id="letterModal" tabindex="-1" role="dialog" [attr.aria-hidden]="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div  class="modal-header custom-modal-header" 
+	            [ngStyle]="{'margin-top': 0, 'padding': '9px', 'text-align': 'center'}">
+	            <img [src]="checkValue(currentUser.avatar, 'avatar','null')" class="rounded-circle img-raised img-border" height="45" width="45" />
+	        </div>
+	        <div class="modal-body"> 
+	        	<h3>Brief Note from Applicant</h3>
+	        	<hr>
+	        	<p [innerHtml]="currentPartner.letter"></p>
+	        </div>
+	         <div class="modal-footer">
+		        <button (click)="closeModal()" type="button" class="btn btn-sm btn-primary waves-effect">CLOSE</button>
+		    </div>
+	    </div>
+    </div>
+</div>

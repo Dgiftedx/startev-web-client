@@ -351,7 +351,6 @@ export class CartViewComponent implements OnInit {
 
 
 	transactionSuccessful(event:any){
-
 		let address = this.userData.address.name?this.userData.address.name:this.userData.address;
 
 		this.processingOrder = true;
