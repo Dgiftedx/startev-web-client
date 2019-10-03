@@ -201,19 +201,7 @@ export class VentureDashboardComponent implements OnInit {
 
 
   handleOrdersInit(data:any) {
-    this.orders = []; //clean orders for new items;
-    for ( let identifier in data ) {
-      this.orders.push({
-        name: data[identifier][0].name,
-        order_id: identifier,
-        items: this.count(data[identifier]),
-        date: data[identifier][0].date,
-        status: data[identifier][0].status
-      });
-    }
-
-    this.orderTemp = []; //Clean order collection for new items.
-    this.orderTemp = [...this.orders];
+    this.orders = data.orders;
   }
 
   onSelect({ selected }) {
@@ -237,16 +225,22 @@ export class VentureDashboardComponent implements OnInit {
   }
 
   // ==================== Edit Order ===============================//
-  editOrder(order_id: number) {
+  viewOrder(order:any) {
 
-    this.storeService.getSingleOrder(order_id)
-    .subscribe(data => {
-      this.singleOrder = data;
-      setTimeout(() => {
+    this.singleOrder = order;
+     setTimeout(() => {
         this.showMainOrders = false;
         this.showModBox = true;
       });
-    });
+     
+    // this.storeService.getSingleOrder(order_id)
+    // .subscribe(data => {
+    //   this.singleOrder = data;
+    //   setTimeout(() => {
+    //     this.showMainOrders = false;
+    //     this.showModBox = true;
+    //   });
+    // });
   }
 
   closeModBox(){

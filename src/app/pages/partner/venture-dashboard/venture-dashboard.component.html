@@ -145,64 +145,68 @@
 					                      Transaction Refference: 
 					                    </td>
 					                    <td>
-					                      <strong class="text-success">{{ singleOrder.transaction_ref }}</strong>
+					                      <strong class="text-success">{{ singleOrder.orders_student[0].transaction_ref }}</strong>
 					                    </td>
 					                  </tr>
+
 					                  <tr>
 					                    <td><strong>Buyer Name: </strong></td>
-					                    <td>{{ singleOrder.name }}</td>
+					                    <td>{{ singleOrder.buyer.name }}</td>
 					                  </tr>
 
 					                  <tr>
 					                    <td><strong>Delivery Address: </strong></td>
-					                    <td>{{ singleOrder.delivery_address }}</td>
+					                    <td>{{ singleOrder.orders_student[0].delivery_address }}</td>
 					                  </tr>
 
 					                  <tr>
 					                    <td><strong>Order Date: </strong></td>
-					                    <td>{{ singleOrder.order_date | date: 'longDate' }}</td>
+					                    <td>{{ singleOrder.created_at | date: 'mediumDate' }}</td>
 					                  </tr>
 					                  <tr>
 					                    <td><strong>Order Status: </strong></td>
-					                    <td>{{ singleOrder.orders[0].status }}</td>
+					                    <td>{{ singleOrder.orders_student[0].status }}</td>
 					                  </tr>
 					                </table>
 
 					                <div class="table-responsive">
 					                  <p>Items</p>
-					                <table class="table mt-3">
-					                  <tr *ngFor="let order of singleOrder.orders">
+					                <table class="table mt-3" *ngFor="let order of singleOrder.orders_student">
+					                	<tr>
+					                		<td>ORDER ID: </td>
+					                		<td>{{ order.identifier }}</td>
+					                	</tr>
+					                  <tr>
 					                      <td><strong>Item:</strong> </td>
 					                      <td>
 					                        {{ order.product.product_name }}
 					                      </td>
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Unit Price</strong></td>
 					                      <td>
 					                        {{ order.product.product_price }}
 					                      </td>
+					                  </tr>
+					                  <tr>
 
 					                      <td><strong>Total:</strong> </td>
 					                      <td>
 					                        {{ order.amount | number:0 }}
 					                      </td>
-
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Quantity: </strong></td>
 					                      <td>
 					                        {{order.quantity}}
 					                      </td>
+					                  </tr>
+					                  <tr>
 					                      <td><strong>Venture</strong></td>
 					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
 					                </table>
 
-					                <!-- <div class="" *ngIf="!singleOrder.forwarded">
-					                  <button 
-					                  (click)="forwardOrders(singleOrder)"
-					                  type="button"
-					                  [disabled]="singleOrder.forwarded"
-					                  [ladda]="sendingOrder"
-					                  class="btn btn-sm btn-warning color-white waves-effect">Forward Orders To Venture</button>
-					                </div> -->
 					                </div>
 					            </div>
 					        </div>
@@ -223,11 +227,11 @@
 					                        <thead>
 					                          <tr>
 					                            <th>S/N</th>
-					                            <th>Name</th>
-					                            <th>Order ID</th>
-					                            <th>Items</th>
-					                            <th>Date</th>
-					                            <th>Status</th>
+					                            <th>Batch ID</th>
+					                            <th>Buyer Name</th>
+					                            <th>Buyer Phone</th>
+					                            <th>Total Amount</th>
+					                            <th>Total ITems</th>
 					                            <th>Actions</th>
 					                          </tr>
 					                        </thead>
@@ -235,25 +239,17 @@
 					                          <tr *ngFor="let item of orders; let index = index;">
 					                            <td>{{ index + 1 }}</td>
 					                            <td>
-					                              {{ item.name }}
+					                              {{ item.batch_id }}
 					                            </td>
-					                            <td>{{ item.order_id }}</td>
-					                            <td>{{ item.items }}</td>
-					                            <td>{{ item.date | date:'medium' }}</td>
-					                            <td>
-					                               <span 
-					                             class="badge badge-success bg-success text-white" 
-					                             *ngIf="item.status === 'delivered'">{{ item.status | titlecase }}</span>
-
-					                             <span 
-					                             class="badge badge-warning bg-warning text-white" 
-					                             *ngIf="item.status !== 'delivered'">{{ item.status | titlecase }}</span>
-					                            </td>
+					                            <td>{{ item.buyer.name }}</td>
+					                            <td>{{ item.buyer.phone?item.buyer.phone:'N/A' }}</td>
+					                            <td>NGN {{ item.grant_total|number:0 }}</td>
+					                            <td>{{ count(item.orders_student) }}</td>
 					                            <td>
 					                              <!-- Edit product -->
 					                            <button 
 					                            class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" 
-					                            (click)="editOrder(item.order_id)" [owlTooltip]="'View Details'">
+					                            (click)="viewOrder(item)" [owlTooltip]="'View Details'">
 					                             <i class="fa fa-eye"></i>
 					                            </button>
 

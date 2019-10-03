@@ -138,7 +138,7 @@ export class VenturesComponent implements OnInit {
 	fetchProducts( ventureId: number ){
 		this.showAttachmentView = true;
 		this.ventureId = ventureId;
-		this.loadingProducts = true;
+		// this.loadingProducts = true;
 		this.blockUIList.start();
 		
 		this.storeService.fetchProducts(this.currentUser.id, ventureId)
