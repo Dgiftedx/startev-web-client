@@ -65,8 +65,9 @@ export class StoreManagerComponent implements OnInit {
   {id: 1, alias: "dashboard", name: "Dashboard", icon: "fa fa-dashboard"},
   {id: 2, alias: "manage_orders", name: "Manage Orders", icon: "fa fa-shopping-cart"},
   {id: 3, alias: "manage_products", name: "Manage Products", icon: "fa fa-list"},
-  {id: 4, alias: "store_settings", name: "Store Settings", icon: "fa fa-cog"},
-  {id: 5, alias: "order_tracking", name: "Track Order", icon: "fa fa-send"}
+  {id: 4, alias: "settlements", name: "Settlements", icon: "fa fa-credit-card"},
+  {id: 5, alias: "store_settings", name: "Store Settings", icon: "fa fa-cog"},
+  {id: 6, alias: "order_tracking", name: "Track Order", icon: "fa fa-send"}
 
   ];
 

@@ -161,7 +161,6 @@ export class ProfileComponent implements OnInit {
           {id: 2, name : "basic", alias : "Basic Info", image: "/assets/images/ic2.png"},
           {id: 3, name : "followers", alias : "Followers", image: "/assets/images/ic2.png"},
           {id: 4, name : "following", alias : "Following", image: "/assets/images/ic2.png"},
-          {id: 5, name: "partnerships", alias : "Partnerships", image: "/assets/images/ic3.png"}
         ];
 
 

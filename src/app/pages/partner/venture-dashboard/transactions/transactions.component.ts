@@ -17,11 +17,13 @@ import { AlertService, AuthenticationService, BaseService } from '../../../../_s
 })
 export class TransactionsComponent implements OnInit {
 
-	currentUser : User;
+	  currentUser: User;
 
-  public transactions:any = [];
-	public showTransactions : boolean  = true;
-	public hasTransactions : boolean = false;
+    public totalPayout:number = 0;
+    public pendingPayout:number = 0;
+    public paidSettlement:number = 0;
+    public settlements:any = [];
+    public settlementSubscription: Subscription;
 
    constructor(
     private router: Router,
@@ -29,8 +31,8 @@ export class TransactionsComponent implements OnInit {
     private route: ActivatedRoute,
     private alert: AlertService,
     private storeService : StoreService,
-    private baseService : BaseService,
     private authenticationService: AuthenticationService) {
+    // Subscribe to current logged in user
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
     //disable resuable route
@@ -38,27 +40,31 @@ export class TransactionsComponent implements OnInit {
       return false;
     };
 
-    //Get transactions
-    this.getTransactions();
-  }
+    this.settlementSubscription = this.storeService.getCommonData(`payout/get-business-settlements/${this.currentUser.id}`)
+    .subscribe((data:any) => {
+      this.settlements = data.result; 
+      this.settlements.forEach(item => {
 
-  ngOnInit() {
-  }
+        //Get total payout
+        this.totalPayout += item.total;
 
-  getTransactions() {
-    this.storeService.mainStoreGetTransactions(this.currentUser.id)
-    .subscribe((resp:any) => {
-      this.transactions = resp.transactions;
-      this.hasTransactions = true;
+        //Get pending payout
+        if (item.status === 'pending') {
+          this.pendingPayout += item.total;
+        }
+
+        //Get paid payout
+        if (item.status === 'processed') {
+          this.paidSettlement += item.total;
+        }
+      })
     });
   }
 
+  ngOnInit() {
 
-     count(items:any)
-  {
-    return _.size(items);
+    //
   }
-
 
   // ============ check null item and return default as required =======//
   checkValue(item:any,  type:string, nullValue:string) {
@@ -76,6 +82,26 @@ export class TransactionsComponent implements OnInit {
       }
       return this.authenticationService.baseurl+item;
     }
+
+    if (type === 'banner') {
+      
+      if (this.count(item) === 0) {
+        return '/assets/images/default/default.png';
+      }
+
+      return this.authenticationService.baseurl+item;
+    }
+  }
+
+  //====== Getter method for Current User Profile =======//
+
+  get profile(){
+    return JSON.parse(this.authenticationService.getUserData());
+  }
+
+  count(items:any)
+  {
+    return _.size(items);
   }
 
 }

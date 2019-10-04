@@ -330,6 +330,7 @@ class="waves-effect">
 
 </div>
 
+<div *ngIf="profile.role !== 'business'">
 
 <div *ngIf="selectedTab.id === profileTabs[4].id" class="product-feed-tab" id="feed-single-4" [class.current]="selectedTab.id === profileTabs[4].id">
 
@@ -349,34 +350,13 @@ class="waves-effect">
         </div>
       </div>
     </div>
-
-    <div class="" *ngIf="profile.role === 'business'">
-          <h3>Partnerships</h3>
-          <br/>
-        <div class="user-profile-ov st2" *ngFor="let p of partners">
-          <h4>{{ p.user.name  | titlecase }}</h4>
-          <h6 class="mb-2">{{ p.venture.venture_name | titlecase }}</h6>
-          <small>
-              <span class="badge " [ngClass]="{'badge-success': p.status === 'accepted', 'badge-warning': p.status === 'pending', 'badge-danger': p.status ==='rejected'}">{{ p.status }}
-              </span><br/>
-          </small>
-
-          <div *ngIf="p.status !== 'pending'" class="alert alert-info" role="alert">Partnership accepted</div>
-         <button
-         *ngIf="p.status === 'pending'" 
-         (click)="acceptPartner(p)" 
-         class="btn btn-sm btn-simple waves-effect mb-2">Accept Partnership</button>
-    </div>
-  </div>
-
-
  </div>
  <div class="user-profile-ov st2" *ngIf="count(partners) === 0">
    <p class="no-margin">You don't have any partnership at the moment.</p>
  </div>
 
 </div>
-
+</div>
 
 
 </div>
