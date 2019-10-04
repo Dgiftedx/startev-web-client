@@ -22,6 +22,14 @@ export class ProfileEditComponent implements OnInit {
 	industriesArray = [];
 	states: Array<any> = [];
 	cities: Array<any> = [];
+	public account_name:string = '';
+	public account_number:number = 0;
+	public bank_name:string = '';
+	public bank_code:string = '';
+	public verificationError:string = '';
+	public banks:any = [];
+	public savingPayment:boolean = false;
+	public readAccountNumber:boolean = false;
 	careerPaths : Array<any> = [];
 	public selectedCountry = {};
 	public selectedIndustries = {};
@@ -112,6 +120,8 @@ export class ProfileEditComponent implements OnInit {
 		this.config.notFoundText = 'item not found';
 		this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 		this.getCountries();
+
+		this.getBanks();
 	}
 
 
@@ -140,6 +150,98 @@ export class ProfileEditComponent implements OnInit {
 
 			return this.authenticationService.baseurl+item;
 		}
+	}
+
+
+	getBanks(){
+		this.baseService.getBanks()
+		.subscribe((data : any) => {
+			this.banks = data;
+		});
+	}
+
+
+	changeBank(){
+    let search = _.findLast(this.banks, ['code',this.bank_code]);
+    this.bank_name = search.name;
+  }
+
+
+  changeAccountNumber(){
+
+    if (!this.account_number) {
+      return;
+    }
+
+    //we only want to run this when the account number is exactly 10 digits
+    if (this.count(this.account_number.toString()) === 10) {
+
+      if (this.count(this.bank_name) === 0) {
+          this.alert.warningMsg("Please select your bank to continue","Select Bank");
+          return;
+      }
+
+      let query = {
+        bank_code : this.bank_code,
+        account_number : this.account_number
+      };
+
+      //disable field and verify address
+      this.readAccountNumber = true;
+
+      this.baseService.postData(query, 'verify-account-number')
+      .subscribe((resp:any) => {
+        if (resp.success) {
+          this.account_name = resp.data.account_name;
+          this.readAccountNumber = false;
+        }else{
+          this.readAccountNumber = false;
+          this.verificationError = "we couldn't find your account. proceed only if you're sure";
+        }
+      });
+
+
+    }else if (this.count(this.account_number.toString()) > 10) {
+      return;
+    }else{
+      //enable input until it completed 10 digits
+      this.readAccountNumber = false;
+    }
+  }
+
+
+	updateAccount() {
+
+		this.savingPayment = true;
+
+		let errorTitle = "Account Update Error!";
+
+		let values = {
+			user_id : this.currentUser.id,
+			bank_code : this.bank_code,
+			bank_name: this.bank_name,
+			account_name: this.account_name,
+			account_number: this.account_number
+		};
+
+
+		// validate bank name
+		if (this.count(this.bank_name) === 0 || this.count(this.bank_name) < 3) {
+			this.alert.errorMsg("Please enter a valid bank full name. Please check",errorTitle);
+			return;
+		}
+
+		// validate account name
+		if (this.count(this.account_name) === 0) {
+			this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name",errorTitle);
+			return;
+		}
+
+		this.baseService.postData(values, 'add-business-account-details')
+		.subscribe((resp:any) => {
+			this.savingPayment = false;
+			this.alert.snotSimpleSuccess("Your Store has been updated.");
+		});
 	}
 
 
@@ -268,6 +370,12 @@ export class ProfileEditComponent implements OnInit {
 		this.progress = data.profileData.progress;
 		this.role = data.profileData.role;
 		this.profileData = data.profileData;
+
+		//Set payment account details
+		this.bank_name = this.roleData.bank_name;
+		this.bank_code = this.roleData.bank_code;
+		this.account_name = this.roleData.account_name;
+		this.account_number = this.roleData.account_number;
 
 		//Set userForm values
 		this.userForm.get('name').setValue(this.user.name);

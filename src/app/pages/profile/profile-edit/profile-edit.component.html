@@ -150,12 +150,70 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-3">
                                 <button class="btn btn-sm btn-primary btn-round waves-effect" [ladda]="userFormLoading">Save Changes</button>
                             </div>
                         </div>
                        </form>
                     </div>
+                </div>
+
+
+                <div class="card mt-5">
+                  <div class="card-header">
+                    <h2><strong>Payment</strong> Information</h2>
+                  </div>
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+
+                          <h2 class="mb-3"><strong>Bank Account Details</strong></h2>
+                          
+                          <div class="form-group">
+                             <label class="mb-3">Select Bank</label>
+                              <ng-select [items]="banks"
+                                       bindLabel="name"
+                                       bindValue="code"
+                                       (change)="changeBank()"
+                                       placeholder="select bank"
+                                       [(ngModel)]="bank_code">
+                            </ng-select>
+
+                        </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group" *ngIf="count(bank_name) > 0">
+                            <label class="mb-3">Account Number</label>
+                              <input 
+                              type="number"
+                              [readonly]="readAccountNumber"
+                              (keyup)="changeAccountNumber()"
+                              placeholder="Your Account Number" 
+                              class="form-control mb-3" [(ngModel)]="account_number">
+
+                              <span class="text-danger pl-2" *ngIf="readAccountNumber">verifying...</span>
+                              <span class="text-danger pl-2" *ngIf="verificationError">{{ verificationError }}</span>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="form-group mb-3" *ngIf="count(bank_name) > 0">
+                            <label class="mb-3">Account Name</label>
+                              <input 
+                              type="text" 
+                              placeholder="Account Full Name" 
+                              class="form-control" [(ngModel)]="account_name">
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <button type="button" (click)="updateAccount()" class="btn btn-sm btn-primary btn-round waves-effect" [ladda]="savingPayment">Save Changes</button>
+                        </div>
+
+                    </div>
+                  </div>
                 </div>
               </div>
 
