@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit {
   public bank_code:string = '';
   public verificationError:string = '';
   public auto_forward:boolean;
+  public store_code:string = '';
 	public account_name:string = '';
 	public account_number:number = 0;
   public ref_code : string = '';
@@ -187,8 +188,10 @@ export class SettingsComponent implements OnInit {
   //=================== Modify Settings ===================//
   openForModification(){
   	this.store_name  = this.settings.store_name;
-  	this.store_url = this.settings.store_url;
+  	this.store_url = this.base_url+"/main-store/";
+  	// this.store_url = this.settings.store_url;
     this.auto_forward = Boolean(this.settings.auto_forward);
+    this.store_code='';
   	
   	if (this.settings.store_logo) {
   		this.processedImage = this.settings.store_logo;
@@ -209,8 +212,16 @@ export class SettingsComponent implements OnInit {
   }
 
   generateStoreUrl(storeIdentifier:any){
-  	this.store_url = this.base_url+"/main-store/"+storeIdentifier;
+  	this.store_url = this.base_url+"/main-store/";
+  	// this.store_url = this.base_url+"/main-store/"+storeIdentifier;
   }
+
+  // generateStoreUrl(storeIdentifier:any){
+  //     this.store_code=this.generateRefCode(this.settings.store_name);
+  //     console.log(this.store_code);
+  // 	this.store_url = this.base_url+"/main-store/"+this.store_code;
+  // 	// this.store_url = this.base_url+"/main-store/"+this.settings.store_name.replace(' ','-');
+  // }
 
 
   generateRefCode(storeIdentifier:any) {
@@ -218,10 +229,12 @@ export class SettingsComponent implements OnInit {
       store_id : storeIdentifier
     };
 
-    this.baseService.generateCode(formData)
+    this.baseService.generateStoreUrl(formData)
     .subscribe( ( data : any) => {
-        this.ref_code = data;
+        this.store_code=data;
      })
+      console.log(this.store_code)
+      return this.store_code;
   }
 
 

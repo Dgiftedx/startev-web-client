@@ -217,6 +217,9 @@ export class BaseService {
     public generateCode(formData: any){
         return this.http.post<any>(`${this.endpoint}/generate-code`, formData);
     }
+    public generateStoreUrl(formData: any){
+        return this.http.post<any>(`${this.endpoint}/generate-store-url`, formData);
+    }
 
     public sendVerDoc(formData: any){
         return this.http.post<any>(`${this.endpoint}/submit-verification`, formData);

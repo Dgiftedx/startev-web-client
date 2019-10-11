@@ -29,10 +29,16 @@ export class AuthenticationService {
     // public baseurl = 'http://10.1.1.63:8087';
     // public endPointAuth = 'http://10.1.1.63:8087/api/auth';
 
-    //Server
-    public endpoint = 'https://server.startev.africa/api';
-    public baseurl = 'https://server.startev.africa';
-    public endPointAuth = 'https://server.startev.africa/api/auth';
+    //James Local
+    public endpoint = 'http://startevserver.test/api';
+    public baseurl = 'http://startevserver.test';
+    public endPointAuth = 'http://startevserver.test/api/auth';
+
+    // Server
+    // public endpoint = 'https://server.startev.africa/api';
+    // public baseurl = 'https://server.startev.africa';
+    // public endPointAuth = 'https://server.startev.africa/api/auth';
+
 
 
     private iss = {
