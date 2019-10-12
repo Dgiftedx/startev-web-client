@@ -155,7 +155,7 @@
 					                <table class="table">
 					                  <tr>
 					                    <td>
-					                      Transaction Refference: 
+					                      Transaction Reference:
 					                    </td>
 					                    <td>
 					                      <strong class="text-success">{{ singleOrder.transaction_ref }}</strong>
@@ -203,8 +203,10 @@
 					                  </tr>
 					                  <tr>
 					                    <td><strong>Order Status: </strong></td>
-					                    <td *ngIf="order.status === 'confirmed'">Order Ready For Pickup</td>
-					                    <td *ngIf="order.status !== 'confirmed'">{{ order.status }}</td>
+					                    <td *ngIf="order.status === 'confirmed'"><span class="text-info">Order Ready For Pickup</span></td>
+					                    <td *ngIf="order.status === 'shipped'"><span class="text-info">Order Dispatched</span></td>
+					                    <td *ngIf="order.status === 'delivered'"><span class="text-success">Order Delivered</span></td>
+					                    <td *ngIf="order.status === 'pending'"><span class="text-warning">{{ order.status }}</span></td>
 					                  </tr>
 					                  <tr>
 					                      <td><strong>Store: </strong></td>
@@ -214,12 +216,22 @@
 					                      <td><strong>Venture: </strong></td>
 					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
-					                  <tr>
+					                  <!--<tr>-->
+					                  	<!--<td colspan="2">-->
+					                  		 <!--<button -->
+								                <!--(click)="finallizeOrder(order.id)" -->
+								                <!--type="button" -->
+								                <!--class="btn btn-primary waves-effect">-->
+								                  <!--Ready For Pickup-->
+								                <!--</button>-->
+					                  	<!--</td>-->
+					                  <!--</tr>-->
+										<tr>
 					                  	<td colspan="2">
-					                  		 <button 
-								                (click)="finallizeOrder(order.id)" 
-								                type="button" 
-								                *ngIf="order.status === 'pending' || order.status === 'processing'" 
+					                  		 <button
+								                (click)="finallizeOrder(order.id)"
+								                type="button"
+								                *ngIf="order.status === 'pending' || order.status === 'processing'"
 								                class="btn btn-primary waves-effect">
 								                  Ready For Pickup
 								                </button>
@@ -278,7 +290,11 @@
 					                               <span 
 					                             class="badge badge-success bg-success text-white" 
 					                             *ngIf="item.status === 'delivered'">{{ item.status | titlecase }}</span>
-					                              <span 
+
+													<span
+					                             class="badge badge-info bg-info text-white"
+					                             *ngIf="item.status === 'shipped'">{{ item.status | titlecase }}</span>
+					                              <span
 					                             class="badge badge-info bg-info text-white" 
 					                             *ngIf="item.status === 'confirmed'">{{ item.status | titlecase }}</span>
 

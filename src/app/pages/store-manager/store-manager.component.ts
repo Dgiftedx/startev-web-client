@@ -405,9 +405,11 @@ export class StoreManagerComponent implements OnInit {
 
 
   finallizeOrder(orderId:number) {
-    console.log(orderId);
+    // console.log(orderId);
     this.storeService.storeManagerOrderAction(orderId)
     .subscribe( data => {
+      // console.log(data)
+      this.alert.successMsg("Order Pickup Successfully requested", "Pickup Request Completed");
       this.stableCall(this.selectedVenture);
       this.closeModBox();
       this.controlInputLock(false);
