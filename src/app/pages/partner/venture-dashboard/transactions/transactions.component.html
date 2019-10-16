@@ -80,17 +80,23 @@
               <tr *ngFor="let item of settlements; let index = index;">
                 <td>{{ index + 1 }}</td>
                 <td>
-                  {{ item.batch_ref_id?item.batch_ref_id:'processing...' }}
+                  {{ item.reference_id }}
                 </td>
                 <td>NGN {{ item.total | number:0 }}</td>
-                <td>{{ item.status }}</td>
+                <td>{{ item.status==0?"Pending":"Processed" }}</td>
                 <td>
-                  <button 
-                  class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" 
-                  (click)="editOrder(item.id)" [owlTooltip]="'View Details'">
+                  <button disabled
+                  class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect">
                   <i class="fa fa-eye"></i>
                 </button>
               </td>
+                <!--<td>-->
+                  <!--<button disabled -->
+                  <!--class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" -->
+                  <!--(click)="editOrder(item.id)" [owlTooltip]="'View Details'">-->
+                  <!--<i class="fa fa-eye"></i>-->
+                <!--</button>-->
+              <!--</td>-->
             </tr>
           </tbody>
         </table>

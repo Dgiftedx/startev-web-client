@@ -40,7 +40,7 @@ export class TransactionsComponent implements OnInit {
       return false;
     };
 
-    this.settlementSubscription = this.storeService.getCommonData(`payout/get-business-settlements/${this.currentUser.id}`)
+    this.settlementSubscription = this.storeService.getCommonData(`payout/get-store-settlements/${this.currentUser.id}`)
     .subscribe((data:any) => {
       this.settlements = data.result; 
       this.settlements.forEach(item => {
@@ -49,12 +49,12 @@ export class TransactionsComponent implements OnInit {
         this.totalPayout += item.total;
 
         //Get pending payout
-        if (item.status === 'pending') {
+        if (item.status ==0) {
           this.pendingPayout += item.total;
         }
 
         //Get paid payout
-        if (item.status === 'processed') {
+        if (item.status ==1) {
           this.paidSettlement += item.total;
         }
       })

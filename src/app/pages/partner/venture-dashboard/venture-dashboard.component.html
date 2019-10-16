@@ -78,7 +78,7 @@
 					            <div class="col-md-8">
 					              <div class="card-body">
 					                <h2><strong>Commission</strong></h2>  
-					                <p class="card-text">NGN {{ dashboardData.total_commission }}</p>
+					                <p class="card-text">NGN {{ dashboardData.total_commission |number }}</p>
 					                <p class="card-text"><small class="text-muted">&nbsp;</small></p>
 					              </div>
 					            </div>
@@ -142,7 +142,7 @@
 					                <table class="table">
 					                  <tr>
 					                    <td>
-					                      Transaction Refference: 
+					                      Transaction Reference:
 					                    </td>
 					                    <td>
 					                      <strong class="text-success">{{ singleOrder.orders_student[0].transaction_ref }}</strong>
@@ -152,6 +152,10 @@
 					                  <tr>
 					                    <td><strong>Buyer Name: </strong></td>
 					                    <td>{{ singleOrder.buyer.name }}</td>
+					                  </tr>
+					                  <tr>
+					                    <td><strong>Buyer Phone: </strong></td>
+					                    <td>{{ singleOrder.buyer.phone }}</td>
 					                  </tr>
 
 					                  <tr>
@@ -164,8 +168,8 @@
 					                    <td>{{ singleOrder.created_at | date: 'mediumDate' }}</td>
 					                  </tr>
 					                  <tr>
-					                    <td><strong>Order Status: </strong></td>
-					                    <td>{{ singleOrder.orders_student[0].status }}</td>
+					                    <td><strong>ORDER BATCH ID: </strong></td>
+					                    <td>{{ singleOrder.batch_id }}</td>
 					                  </tr>
 					                </table>
 
@@ -177,33 +181,37 @@
 					                		<td>{{ order.identifier }}</td>
 					                	</tr>
 					                  <tr>
-					                      <td><strong>Item:</strong> </td>
+					                      <td><strong>ITEM:</strong> </td>
 					                      <td>
 					                        {{ order.product.product_name }}
 					                      </td>
 					                  </tr>
 					                  <tr>
-					                      <td><strong>Unit Price</strong></td>
+					                      <td><strong>UNIT PRICE</strong></td>
 					                      <td>
 					                        {{ order.product.product_price }}
 					                      </td>
 					                  </tr>
-					                  <tr>
+										<tr>
+											<td><strong>QUANTITY: </strong></td>
+											<td>
+												{{order.quantity}}
+											</td>
+										</tr>
+										<tr>
 
-					                      <td><strong>Total:</strong> </td>
+					                      <td><strong>TOTAL:</strong> </td>
 					                      <td>
 					                        {{ order.amount | number:0 }}
 					                      </td>
 					                  </tr>
 					                  <tr>
-					                      <td><strong>Quantity: </strong></td>
-					                      <td>
-					                        {{order.quantity}}
-					                      </td>
+					                      <td><strong>VENTURE</strong></td>
+					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
 					                  </tr>
 					                  <tr>
-					                      <td><strong>Venture</strong></td>
-					                      <td class="text-danger">{{ order.venture.venture_name }}</td>
+					                      <td><strong>STATUS</strong></td>
+					                      <td class="text-{{order.status=='processing'?'danger':'info'}}">{{ order.status }}</td>
 					                  </tr>
 					                </table>
 

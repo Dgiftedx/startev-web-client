@@ -84,12 +84,18 @@
 								<td>NGN {{ item.total | number:0 }}</td>
 								<td>{{ item.status }}</td>
 								<td>
-									<button 
-									class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" 
-									(click)="editOrder(item.id)" [owlTooltip]="'View Details'">
+									<button disabled
+									class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect">
 									<i class="fa fa-eye"></i>
 								</button>
 							</td>
+								<!--<td>-->
+									<!--<button disabled-->
+									<!--class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" -->
+									<!--(click)="editOrder(item.id)" [owlTooltip]="'View Details'">-->
+									<!--<i class="fa fa-eye"></i>-->
+								<!--</button>-->
+							<!--</td>-->
 						</tr>
 					</tbody>
 				</table>
