@@ -119,6 +119,7 @@ export class FeedsComponent implements OnInit {
   public feedActivity:boolean = false;
   public editContent:string = '';
   public editId:number = 0;
+  public isVideoValid:boolean = false;
 
   public quickMessageContent : string = '';
   public quickMessageRecipient : number;
@@ -259,6 +260,8 @@ export class FeedsComponent implements OnInit {
 
   public onSelectedVideo(event) {
 
+    this.isVideoValid = false;
+
     if (event.target.files.length > 0) {
 
       if (!this.validateVideoFileExtension(event.target.files[0])) {
@@ -268,9 +271,26 @@ export class FeedsComponent implements OnInit {
 
       this.videoSelected = true;
       const file = event.target.files[0];
+      const size = event.target.files[0].size/1024/1024;
+
+      if (size > 100) {
+        this.alert.errorMsg("This file is too large max file size is 100MB", "An error occured");
+        this.videoSelected = false;
+        this.isVideoValid = false;
+        return;
+      }      
+
       this.videoForm.get('file').setValue(file);
+      this.isVideoValid = true;
+
+      return;
     }
+
+
+    return;
   }
+
+
   public processProcessTitle(event) {
     if(event.target.value.length>0)
     this.videoForm.get('title').setValue(event.target.value);
@@ -282,6 +302,11 @@ export class FeedsComponent implements OnInit {
       return;
     }
 
+    if (!this.isVideoValid) {
+      $("#video-upload").val("");
+      return;
+    }
+
     const formData = new FormData();
     // formData.append('title', this.videoForm.get('title').value);
     formData.append('file', this.videoForm.get('file').value);
@@ -289,7 +314,7 @@ export class FeedsComponent implements OnInit {
     formData.append('user_id', this.videoForm.get('user_id').value);
     formData.append('title', this.videoForm.get('title').value);
 
-    console.log(formData);
+    // console.log(formData);
     this.videoService.upload(formData).subscribe(
       res => {
         this.videoUpload = res;
@@ -299,7 +324,7 @@ export class FeedsComponent implements OnInit {
         this.videoSelected = false;
         this.closeModal('videoPostModal');
 
-        if (!res.success && res.message) {
+        if (res.success && res.message) {
           this.alert.infoMsg("Your video upload is processing. You'll be notified once it's done", "Video uploading...");
         }
 
