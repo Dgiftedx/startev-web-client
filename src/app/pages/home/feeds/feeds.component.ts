@@ -244,7 +244,7 @@ export class FeedsComponent implements OnInit {
       file:[],
       post_type : ['video'],
       user_id : [this.currentUser.id],
-      title : [''],
+      title : '',
     });
   }
 
@@ -270,6 +270,10 @@ export class FeedsComponent implements OnInit {
       const file = event.target.files[0];
       this.videoForm.get('file').setValue(file);
     }
+  }
+  public processProcessTitle(event) {
+    if(event.target.value.length>0)
+    this.videoForm.get('title').setValue(event.target.value);
   }
 
   onVideoSubmit() {
