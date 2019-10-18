@@ -284,7 +284,7 @@ export class SettingsComponent implements OnInit {
 
       this.baseService.postData(query, 'verify-account-number')
       .subscribe((resp:any) => {
-        if (resp.success) {
+        if (resp.success && resp.success==true) {
           this.account_name = resp.data.account_name;
           this.readAccountNumber = false;
         }else{
@@ -329,7 +329,7 @@ export class SettingsComponent implements OnInit {
 
      this.baseService.postData(values, 'add-account-details')
       .subscribe((resp:any) => {
-        console.log(resp);
+
         this.alert.snotSimpleSuccess("Your Store has been updated.");
       });
   }

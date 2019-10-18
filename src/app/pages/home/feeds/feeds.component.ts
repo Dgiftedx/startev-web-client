@@ -244,13 +244,14 @@ export class FeedsComponent implements OnInit {
       file:[],
       post_type : ['video'],
       user_id : [this.currentUser.id],
+      title : [''],
     });
   }
 
   validateVideoFileExtension(file: File) {
     const file_type = file.type;
     let extension = file_type.split("/")[1];
-    if(!/(\flv|\avi|\mov|\mpg|\wmv|\m4v|\mp3|\mp4|\wma|\3gp)$/i.test(extension)) {
+    if(!/(\flv|\avi|\mov|\mpg|\wmv|\m4v|\mp3|\mp4|\webm|\wma|\3gp)$/i.test(extension)) {
       return false;
     }
     return true;
@@ -282,7 +283,9 @@ export class FeedsComponent implements OnInit {
     formData.append('file', this.videoForm.get('file').value);
     formData.append('post_type', this.videoForm.get('post_type').value);
     formData.append('user_id', this.videoForm.get('user_id').value);
+    formData.append('title', this.videoForm.get('title').value);
 
+    console.log(formData);
     this.videoService.upload(formData).subscribe(
       res => {
         this.videoUpload = res;
