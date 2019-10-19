@@ -107,6 +107,9 @@ export class StoreService {
 	public storeManagerDashboardData( ventureId:any, user_id:any ){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-dashboard-data/${ventureId}/${user_id}`);
 	}
+	public storeManagerVentureData( ventureId:any, user_id:any ){
+		return this.http.get(`${this.endpoint}/store/store-manager/get-venture-data/${ventureId}/${user_id}`);
+	}
 
 	public storeManagerGetOrders(ventureId:any, user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-store-orders/${ventureId}/${user_id}`);

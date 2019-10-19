@@ -11,7 +11,7 @@ import { CustomFilePickerAdapter } from '../../../file-picker.adapter';
 import { StoreService } from '../../../_services/store.service';
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { AlertService, AuthenticationService, BaseService} from '../../../_services';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angular/forms';
 
 @Component({
 	selector: 'app-store-manager-settings',
@@ -23,13 +23,28 @@ export class StoreManagerSettingsComponent implements OnInit {
 
 	currentUser:User;
 
+	selectForm2: FormGroup;
+
+	public selectedVenture:number;
+	public lockView:boolean = false;
 	public settings:any = {};
 	public sendingSettings:boolean = false;
 	public showSettingsView:boolean = true;
 	public showModificationBox:boolean = false;
 	private settingsSubscription: Subscription;
-
-
+	public bank_name: string = '';
+	public bank_code: string = '';
+	public readAccountNumber: boolean = false;
+	public banks: any = [];
+	public account_name: string = '';
+	public account_number: number = 0;
+	public verificationError: string = '';
+	public isImage = false;
+	public processedImage = '';
+	public ventures:any = [];
+	public ventureSubscription: Subscription;
+	public sendingForm: boolean;
+	private ventureData: any;
 	constructor(
 		private http: HttpClient,
 		private router: Router,
@@ -51,9 +66,134 @@ export class StoreManagerSettingsComponent implements OnInit {
 		this.settingsSubscription = this.storeService.storeManagerGetSettings(this.profile.roleData.id)
 		.subscribe(
 			data => {this.settings = data;}
-		)
+		);
+		this.getBanks();
+		this.selectForm2 = new FormGroup({
+			selected: new FormControl()
+		});
+		this.ventureSubscription = this.storeService.storeManagerGetVentures(this.currentUser.id)
+            .subscribe(data => {this.ventures = data;
+				if (this.count(this.ventures) > 0) {
+					this.selectForm2.controls['selected'].setValue(this.ventures[0].id);
+					this.selectedVenture = this.ventures[0].id;
+					this.getVentureData(this.ventures[0].id);
+				}else{
+					setTimeout(() => {
+						this.lockView = true;
+					}, 1000);
+				}
+			});
+
 	}
 
+	count(items: any) {
+		return _.size(items);
+	}
+
+	getVentureData(ventureId:number) {
+		if (ventureId) {
+			this.storeService.storeManagerVentureData(ventureId, this.currentUser.id)
+                .subscribe((data:any) => {
+					this.ventureData = data;
+					console.log(this.ventureData);
+					if(this.ventureData.bank_code){
+						this.bank_name=this.ventureData.bank_name;
+						this.account_name=this.ventureData.account_name;
+						this.account_number=this.ventureData.account_number;
+						this.bank_code=this.ventureData.bank_code;
+					}
+				});
+		}
+	}
+
+	changeAccountNumberBiz() {
+
+		if (!this.account_number) {
+			return;
+		}
+
+		//we only want to run this when the account number is exactly 10 digits
+		if (this.count(this.account_number.toString()) === 10) {
+
+			if (this.count(this.bank_name) === 0) {
+				this.alert.warningMsg("Please select your bank to continue", "Select Bank");
+				return;
+			}
+
+			let query = {
+				bank_code: this.bank_code,
+				account_number: this.account_number
+			};
+
+			//disable field and verify address
+			this.readAccountNumber = true;
+
+			this.baseService.postData(query, 'verify-account-number')
+                .subscribe((resp: any) => {
+					if (resp.success && resp.success == true) {
+						this.account_name = resp.data.account_name;
+						this.readAccountNumber = false;
+					} else {
+						this.readAccountNumber = false;
+						this.verificationError = "we couldn't find your account. proceed only if you're sure";
+					}
+				});
+
+
+		} else if (this.count(this.account_number.toString()) > 10) {
+			return;
+		} else {
+			//enable input until it completed 10 digits
+			this.readAccountNumber = false;
+		}
+	}
+
+	getBanks() {
+		this.baseService.getBanks()
+            .subscribe((data: any) => {
+				this.banks = data;
+			});
+	}
+
+	setCurrentVenture(){
+		this.selectedVenture = this.selectForm2.value.selected;
+		// console.log(this.selectedVenture,this.selectForm2.value.selected)
+	}
+
+
+// ============ check null item and return default as required =======//
+	updateAccountBusiness() {
+
+		let errorTitle = "Account Update Error!";
+
+		let values = {
+			user_id: this.currentUser.id,
+			venture_id: this.selectedVenture,
+			bank_code: this.bank_code,
+			bank_name: this.bank_name,
+			account_name: this.account_name,
+			account_number: this.account_number
+		};
+
+
+		// validate bank name
+		if (this.count(this.bank_name) === 0 || this.count(this.bank_name) < 3) {
+			this.alert.errorMsg("Please enter a valid bank full name. Please check", errorTitle);
+			return;
+		}
+
+		// validate account name
+		if (this.count(this.account_name) === 0) {
+			this.alert.errorMsg("Your account name can't be empty. Please fill in your account full name", errorTitle);
+			return;
+		}
+		this.sendingForm=true;
+		this.baseService.postData(values, 'add-account-details-biz')
+            .subscribe((resp: any) => {
+				this.alert.snotSimpleSuccess("Your Venture Account has been updated.");
+				this.sendingForm=false;
+			});
+	}
 
 
 	ngOnInit() {
@@ -74,9 +214,9 @@ export class StoreManagerSettingsComponent implements OnInit {
 		return JSON.parse(this.authenticationService.getUserData());
 	}
 
-	count(items:any)
-	{
-		return _.size(items);
+	changeBankBiz() {
+		let search = _.findLast(this.banks, ['code', this.bank_code]);
+		this.bank_name = search.name;
 	}
 
 

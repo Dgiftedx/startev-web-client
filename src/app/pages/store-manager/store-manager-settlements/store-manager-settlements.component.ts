@@ -39,7 +39,7 @@ export class StoreManagerSettlementsComponent implements OnInit {
 			return false;
 		};
 
-		this.settlementSubscription = this.storeService.getCommonData(`payout/get-store-settlements/${this.currentUser.id}`)
+		this.settlementSubscription = this.storeService.getCommonData(`payout/get-business-settlements/${this.currentUser.id}`)
 		.subscribe((data:any) => {
 			this.settlements = data.result; 
 			this.settlements.forEach(item => {
