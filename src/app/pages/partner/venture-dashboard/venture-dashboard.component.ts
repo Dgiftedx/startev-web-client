@@ -228,8 +228,6 @@ export class VentureDashboardComponent implements OnInit {
   viewOrder(order:any) {
 
     this.singleOrder = order;
-    console.log(order);
-
      setTimeout(() => {
         this.showMainOrders = false;
         this.showModBox = true;
@@ -249,7 +247,5 @@ export class VentureDashboardComponent implements OnInit {
     this.showModBox = false;
     this.showMainOrders = true;
   }
-
-
 
 }
