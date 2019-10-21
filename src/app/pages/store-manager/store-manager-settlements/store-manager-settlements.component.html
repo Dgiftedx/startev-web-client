@@ -82,7 +82,7 @@
 									{{ item.batch_ref_id?item.batch_ref_id:'processing...' }}
 								</td>
 								<td>NGN {{ item.total | number:0 }}</td>
-								<td>{{ item.status }}</td>
+								<td><span class="fa fa-{{ item.status==1?'check':'warning' }}"> {{ item.status==1?'Paid':'Pending' }}</span></td>
 								<td>
 									<button disabled
 									class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect">
