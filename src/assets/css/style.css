@@ -1731,9 +1731,10 @@ header {
     float: left;
     width: 160px;
     margin-right: 12px;
-    margin-left: 22px;
+    margin-left: 0px;
     margin-top: 10px;
 }
+
 .logo.pd-btm {
     padding-bottom: 10px;
 }
