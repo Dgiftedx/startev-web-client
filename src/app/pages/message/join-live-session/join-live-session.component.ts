@@ -128,7 +128,7 @@ export class JoinLiveSessionComponent implements OnInit {
 		this.getOnGoingSessions();
 		this.interval = setInterval(() => { 
 			this.getOnGoingSessions();
-		}, 8000);
+		}, 10000);
 
 		this.getUpcomingMeetings();
 		
@@ -276,17 +276,14 @@ export class JoinLiveSessionComponent implements OnInit {
    	this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
    		const stream = evt.stream as Stream;
    		const id = this.getRemoteId(stream);
-   		if (!this.remoteCalls.length) {
+   		let filter = id.split("-")[1];
+		let realId = filter.substr(filter.length -1);
+		let filtered = parseInt(realId);
 
-   			let filter = id.split("-")[1];
-   			let realId = filter.substr(filter.length -1);
-   			let filtered = parseInt(realId);
-
-   			if (this.currentSession.host === filtered) {
-   				this.remoteCalls.push(id);
-   				setTimeout(() => stream.play(id), 1000);
-   			}
-   		}
+		if (this.currentSession.host === filtered) {
+			this.remoteCalls.push(id);
+			setTimeout(() => stream.play(id), 1000);
+		}
    	});
 
    	this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
