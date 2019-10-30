@@ -281,8 +281,11 @@ export class JoinLiveSessionComponent implements OnInit {
 		let filtered = parseInt(realId);
 
 		if (this.currentSession.host === filtered) {
-			this.remoteCalls.push(id);
-			setTimeout(() => stream.play(id), 1000);
+			
+			setTimeout(() => {
+				this.remoteCalls.push(id);
+				stream.play(id);
+			}, 1000);
 		}
    	});
 
@@ -298,7 +301,7 @@ export class JoinLiveSessionComponent implements OnInit {
    	this.client.on(ClientEvent.PeerLeave, evt => {
    		const stream = evt.stream as Stream;
    		if (stream) {
-   			stream.stop();
+   			// stream.stop();
    			this.remoteCalls = this.remoteCalls.filter(call => call !== `${this.getRemoteId(stream)}`);
    			console.log(`${evt.uid} left from this channel`);
    		}
@@ -378,9 +381,9 @@ export class JoinLiveSessionComponent implements OnInit {
 
    leaveBroadcastSession(){
    	this.client.leave(() => {
-   		console.log("Leavel channel successfully");
+   		//Leavel channel successfully
    	}, (err) => {
-   		console.log("Leave channel failed");
+   		//Leave channel failed
    	});
 
    	this.client.unpublish(this.localStream, err => console.log("Unable to unpublish stream"));

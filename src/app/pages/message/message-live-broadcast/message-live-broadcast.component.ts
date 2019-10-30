@@ -400,8 +400,11 @@ export class MessageLiveBroadcastComponent implements OnInit {
    		const id = this.getRemoteId(stream);
    	
    			this.remoteCalls.push(id);
-   			this.filterRemoteCalls();
-   			setTimeout(() => stream.play(id), 1000);
+   			
+   			setTimeout(() => {
+   				this.filterRemoteCalls();
+   				stream.play(id);
+   			}, 1000);
    		
    	});
 
