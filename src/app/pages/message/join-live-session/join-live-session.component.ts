@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription, Observable, interval} from 'rxjs';
 import { BroadcastMessage } from '../../../_models/broadcastMessage';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { switchMap, first, startWith, map} from "rxjs/operators";
 import { Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -17,6 +17,7 @@ import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from '
 
 @Component({
 	selector: 'app-join-live-session',
+	// changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './join-live-session.component.html',
 	styleUrls: ['./join-live-session.component.css'],
 	animations: [
@@ -66,7 +67,7 @@ export class JoinLiveSessionComponent implements OnInit {
 	currentUser:User;
 
 	localCallId = 'agora_local';
-	remoteCalls: Array<any> = [];
+	public remoteCalls: Array<any> = [];
 	channel_name:string = '';
 
 	private client: AgoraClient;
@@ -85,6 +86,7 @@ export class JoinLiveSessionComponent implements OnInit {
 	public isSending : boolean = false;
 
 	constructor(
+		private ref: ChangeDetectorRef,
 		private http : HttpClient,
 		private router: Router,
 		private route: ActivatedRoute,
@@ -281,10 +283,14 @@ export class JoinLiveSessionComponent implements OnInit {
 		let filtered = parseInt(realId);
 
 		if (this.currentSession.host === filtered) {
-			
 			setTimeout(() => {
 				this.remoteCalls.push(id);
-				stream.play(id);
+				this.ref.detectChanges();
+			}, 1000);
+
+
+			setTimeout(() => {
+				stream.play(this.remoteCalls[0]);
 			}, 1000);
 		}
    	});

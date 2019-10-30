@@ -93,9 +93,9 @@
 				<!-- if live broadcast session is on progress Display Live Cams-->
 				<div [@fadeAnimation] class="cam-container"> <!-- *ngIf="broadcastInProgress" -->
 					<div class="row align-items-center justify-content-center">
-						<div class="col-md-8 screen" *ngIf="count(remoteCalls) > 0">
-							<div [id]="remoteCalls[0]" class="local"></div>
-							<div [id]="localCallId" class=""></div>
+						<div class="col-md-8 screen">
+							<div *ngFor="let call of remoteCalls" [id]="call" class="local"></div>
+							<div id="agora_local" class=""></div>
 						</div>
 					</div>
 				</div>
