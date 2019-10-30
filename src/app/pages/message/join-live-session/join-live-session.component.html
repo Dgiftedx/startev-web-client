@@ -91,9 +91,9 @@
 			<div class="col-md-8 no-margin no-pdd">
 
 				<!-- if live broadcast session is on progress Display Live Cams-->
-				<div [@fadeAnimation] class="cam-container" *ngIf="broadcastInProgress">
+				<div [@fadeAnimation] class="cam-container"> <!-- *ngIf="broadcastInProgress" -->
 					<div class="row align-items-center justify-content-center">
-						<div class="col-md-8 screen">
+						<div class="col-md-8 screen" *ngIf="count(remoteCalls) > 0">
 							<div [id]="remoteCalls[0]" class="local"></div>
 							<div [id]="localCallId" class=""></div>
 						</div>
@@ -101,9 +101,9 @@
 				</div>
 
 
-				<!-- if live broadcst has not been started or joined, display cover image-->
-				<div [@fadeAnimation] class="cam-container" *ngIf="!broadcastInProgress" style="background-image: url('/assets/images/cam-sec.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
-				</div>
+				
+				<!-- <div [@fadeAnimation] class="cam-container" *ngIf="!broadcastInProgress" style="background-image: url('/assets/images/cam-sec.png'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+				</div> -->
 
 			</div>
 
