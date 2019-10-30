@@ -358,7 +358,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
    */
    createHostStream(): Stream {
    	if (this.userData.role === 'mentor') {
-   		return this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+   		return this.ngxAgoraService.createStream({ streamID: this.uid, audio: false, video: true, screen: false });
    	}
    	return null;
    }

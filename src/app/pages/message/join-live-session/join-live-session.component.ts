@@ -228,7 +228,7 @@ export class JoinLiveSessionComponent implements OnInit {
 			this.client = this.ngxAgoraService.createClient({ mode: 'live', codec: 'h264' });
 			this.assignClientHandlers();
 
-			this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+			this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: false, video: true, screen: false });
 			this.assignLocalStreamHandlers();
 			// Join and publish methods added in this step
 			this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
