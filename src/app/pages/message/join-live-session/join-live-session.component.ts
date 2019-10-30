@@ -285,6 +285,7 @@ export class JoinLiveSessionComponent implements OnInit {
 		if (this.currentSession.host === filtered) {
 			setTimeout(() => {
 				this.remoteCalls.push(id);
+				this.remoteCalls.push(id);
 				this.ref.detectChanges();
 			}, 1000);
 
