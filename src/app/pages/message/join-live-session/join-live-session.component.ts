@@ -270,7 +270,7 @@ export class JoinLiveSessionComponent implements OnInit {
 
    	this.client.on(ClientEvent.RemoteStreamAdded, evt => {
    		const stream = evt.stream as Stream;
-   		this.client.subscribe(stream, { audio: true, video: true }, err => {
+   		this.client.subscribe(stream, { audio: false, video: false }, err => {
    			console.log('Subscribe stream failed', err);
    		});
    	});
