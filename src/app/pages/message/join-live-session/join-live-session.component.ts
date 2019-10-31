@@ -280,7 +280,10 @@ export class JoinLiveSessionComponent implements OnInit {
    		const id = this.getRemoteId(stream);
    		let filter = id.split("-")[1];
 		let realId = filter.substr(filter.length -1);
-		let filtered = parseInt(realId);
+		let subuserid = filter.substr(realId.length - (realId.length-6));
+		let filtered = parseInt(subuserid);
+
+		console.log("filtered",filtered);
 
 		if (this.currentSession.host === filtered) {
 			console.log('current session:',this.currentSession,'stream id',id)
