@@ -262,7 +262,7 @@ export class MessageLiveBroadcastComponent implements OnInit {
 		this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
 		this.assignClientHandlers();
 
-		if (this.createHostStream()) {
+		if (this.localStream = this.createHostStream()) {
 
 			this.baseService.fetchParticipants(this.selectedSchedule)
 			.subscribe( (data:any) => {
@@ -273,11 +273,11 @@ export class MessageLiveBroadcastComponent implements OnInit {
 				this.startSession = false;
 			})
 
-			this.localStream = this.createHostStream();
+			// this.localStream = this.createHostStream();
 			this.assignLocalStreamHandlers();
 			// Join and publish methods added in this step
 			this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
-			//push critical updates to databse and log session
+			//push critical updates to database and log session
 			this.updateInitSession();
 			//change status
 			this.broadcastInProgress = true;
@@ -398,12 +398,13 @@ export class MessageLiveBroadcastComponent implements OnInit {
    	this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
    		const stream = evt.stream as Stream;
    		const id = this.getRemoteId(stream);
-   	
+
+   		console.log('Remote Subscribed id: ',id);
    			this.remoteCalls.push(id);
    			
    			setTimeout(() => {
    				this.filterRemoteCalls();
-   				stream.play(id);
+   				// stream.play(id);
    			}, 1000);
    		
    	});

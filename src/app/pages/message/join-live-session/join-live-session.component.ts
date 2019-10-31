@@ -270,7 +270,7 @@ export class JoinLiveSessionComponent implements OnInit {
 
    	this.client.on(ClientEvent.RemoteStreamAdded, evt => {
    		const stream = evt.stream as Stream;
-   		this.client.subscribe(stream, { audio: false, video: false }, err => {
+   		this.client.subscribe(stream, { audio: true, video: true }, err => {
    			console.log('Subscribe stream failed', err);
    		});
    	});
@@ -283,8 +283,9 @@ export class JoinLiveSessionComponent implements OnInit {
 		let filtered = parseInt(realId);
 
 		if (this.currentSession.host === filtered) {
+			console.log('current session:',this.currentSession,'stream id',id)
 			setTimeout(() => {
-				this.remoteCalls.push(id);
+				// this.remoteCalls.push(id);
 				this.remoteCalls.push(id);
 				this.ref.detectChanges();
 			}, 1000);
@@ -294,6 +295,7 @@ export class JoinLiveSessionComponent implements OnInit {
 				stream.play(this.remoteCalls[0]);
 			}, 1000);
 		}
+		console.log('remote calls:',this.remoteCalls,'id:',id);
    	});
 
    	this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
