@@ -37,7 +37,7 @@ export class StoreManagerSettingsComponent implements OnInit {
 	public readAccountNumber: boolean = false;
 	public banks: any = [];
 	public account_name: string = '';
-	public account_number: number = 0;
+	public account_number: string = '0';
 	public verificationError: string = '';
 	public isImage = false;
 	public processedImage = '';
@@ -111,10 +111,10 @@ export class StoreManagerSettingsComponent implements OnInit {
 		if (!this.account_number) {
 			return;
 		}
+		console.log(this.account_number)
 
 		//we only want to run this when the account number is exactly 10 digits
 		if (this.count(this.account_number.toString()) === 10) {
-
 			if (this.count(this.bank_name) === 0) {
 				this.alert.warningMsg("Please select your bank to continue", "Select Bank");
 				return;

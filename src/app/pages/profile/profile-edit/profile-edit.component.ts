@@ -172,6 +172,7 @@ export class ProfileEditComponent implements OnInit {
     if (!this.account_number) {
       return;
     }
+      console.log(this.account_number);
 
     //we only want to run this when the account number is exactly 10 digits
     if (this.count(this.account_number.toString()) === 10) {

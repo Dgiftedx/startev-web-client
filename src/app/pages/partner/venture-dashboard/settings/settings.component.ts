@@ -63,7 +63,7 @@ export class SettingsComponent implements OnInit {
     public auto_forward: boolean;
     public store_code: string = '';
     public account_name: string = '';
-    public account_number: number = 0;
+    public account_number: string = '0';
     public ref_code: string = '';
     public readAccountNumber: boolean = false;
 
