@@ -105,6 +105,7 @@ export class ProfileComponent implements OnInit {
     .subscribe( data => {
       this.userFeeds = data;
     });
+
   }
 
 

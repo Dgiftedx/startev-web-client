@@ -15,7 +15,7 @@ import { AlertService, AuthenticationService, BaseService } from '../../../_serv
   styleUrls: ['./partner-view.component.css']
 })
 export class PartnerViewComponent implements OnInit {
- currentUser : User;
+ currentUser: User;
  partner:any;
  similar:any = [];
  sendingRequest:boolean = false;
@@ -42,6 +42,8 @@ export class PartnerViewComponent implements OnInit {
 
  ngOnInit() {
     this.partner = this.route.snapshot.data.partnerView.result;
+    console.log(this.partner);
+    console.log(this.partner);
     this.products = this.partner.venture.products;
     // console.log(this.products);
     this.userIsPartner = this.partner.userIsPartner;

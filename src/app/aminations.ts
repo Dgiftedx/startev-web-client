@@ -14,7 +14,7 @@ export const slideInAnimation =
         transition('Industries => *', [
              query(':enter, :leave', 
                   style({ position: 'fixed', width: '100%' }), 
-                  { optional: true }),        
+                  { optional: true }),
              group([
                   query(':enter',[
                       style({ transform: 'translateX(-100%)' }),

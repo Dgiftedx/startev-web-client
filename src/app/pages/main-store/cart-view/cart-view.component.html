@@ -84,6 +84,11 @@
                                         <th colspan="2">NGN {{ deliveryFee | number:0 }}</th>
                                         <th></th>
                                     </tr>
+                                    <tr *ngIf="deliveryFee">
+                                        <th colspan="2">VAT</th>
+                                        <th colspan="2">NGN {{ salePercentage }}</th>
+                                        <th></th>
+                                    </tr>
                                     <tr>
                                         <th colspan="2">Subtotal</th>
                                         <th colspan="2">NGN {{ calculateTotal() | number:0 }}</th>
@@ -132,13 +137,13 @@
                               (selected)='selectEvent($event)'
                               (inputChanged)='onChangeSearch($event)'
                               [itemTemplate]="itemTemplate"
-                              [notFoundTemplate]="notFoundTemplate">                                 
+                              [notFoundTemplate]="notFoundTemplate">
                             </ng-autocomplete>
-                             
+
                             <ng-template #itemTemplate let-item>
                             <a [innerHTML]="item.name"></a>
                             </ng-template>
-                             
+
                             <ng-template #notFoundTemplate let-notFound>
                             <div [innerHTML]="addressNotFound"></div>
                             </ng-template>
@@ -193,9 +198,6 @@
                         <div class="col-md-6 col-sm-6">
                             <address>
                                 <strong>Startev Africa.</strong><br>
-                                <!-- 15B, Alhaji Hussen,<br>
-                                Lekki-Phase 1, NG 23407<br>
-                                <abbr title="Phone">P:</abbr> (123) 456-34636 -->
                             </address>
                         </div>
 

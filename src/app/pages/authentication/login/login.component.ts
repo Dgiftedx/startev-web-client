@@ -81,11 +81,19 @@ export class LoginComponent implements OnInit {
     .pipe(first())
     .subscribe(
       data => {
-        this.handleResponse(data);
-        this.loading = false;
+        console.log(data);
+        if (data.user.email_verified_at) {
+          this.handleResponse(data);
+          this.loading = false;
+        } else {
+          this.error = 'Your email is not verified. Please verify your email';
+          this.loading = false;
+          this.router.navigate(['/login']);
+        }
       },
       error => {
         this.error = error;
+        console.log(this.error);
         this.loading = false;
       });
   }

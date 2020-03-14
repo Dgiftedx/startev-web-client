@@ -315,7 +315,7 @@ export class BaseService {
     }
 
     // Register a new user
-    public updateUserData(formData: any, url : string, id : number){
+    public updateUserData(formData: any, url: string, id : number){
         return this.http.post<any>(`${this.endpoint}/${url}/${id}`, formData);
     }
 

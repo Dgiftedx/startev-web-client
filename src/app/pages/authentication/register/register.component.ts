@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
 	submitted = false;
 	returnUrl: string;
 	queryParams: string;
+	rand_token:number;
 	public error:string = '';
 	public showMain:boolean = true;
 	public showAfterRegister: boolean = false;
@@ -57,7 +58,7 @@ export class RegisterComponent implements OnInit {
 			confirmPassword : ['', Validators.required],
 			acceptTerms: [false, Validators.requiredTrue],
 			role : [''],
-			ref_code : [''],
+			ref_code : ['']
 		}, {validator : MustMatch('password','confirmPassword')});
 
 		this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
@@ -131,8 +132,8 @@ export class RegisterComponent implements OnInit {
 		});
 	}
 
-	onSubmit(){
-
+	onSubmit() {
+		// this.rand_token = Math.random();
 		this.setRefCodeField();
 
 		this.error = '';
@@ -144,7 +145,8 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-
+        // console.log(this.registrationForm);
+        console.log(this.registrationForm.value);
         this.authenticationService.createUser(this.registrationForm.value)
           .pipe(first())
           .subscribe(
@@ -152,14 +154,11 @@ export class RegisterComponent implements OnInit {
           			this.handleRegistration(data);
           			this.loading = false;
           		},
-
           		error => {
           			this.error = error;
           			this.loading = false;
           		}
-
           	)
-
 		}
 
 }

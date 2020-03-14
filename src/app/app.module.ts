@@ -1,4 +1,4 @@
-import { QuillModule } from 'ngx-quill'
+import { QuillModule } from 'ngx-quill';
 import { NgChatModule } from 'ng-chat';
 import { NgxAdDfpModule} from 'ngx-ad-dfp';
 import { NgxPrintModule} from 'ngx-print';

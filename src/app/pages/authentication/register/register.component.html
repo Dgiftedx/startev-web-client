@@ -106,10 +106,10 @@
             </div>
             <a [routerLink]="['login']" class="btn btn-round btn-primary btn-sm">Go back</a>
 
-            You didn't get it ? 
+            You didn't get it ?
             <button type="button" (click)="resendMail()" [ladda]="sendingResendMailLadda" class="btn btn-round btn-sm btn-primary">Resend</button>
             <br/>
-            <div *ngIf="error" class="alert alert-danger">{{error}}</div>  
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
           </div>
 
         </div>

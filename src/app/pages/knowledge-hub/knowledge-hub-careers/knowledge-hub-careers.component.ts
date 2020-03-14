@@ -24,14 +24,14 @@ export class KnowledgeHubCareersComponent implements OnInit {
 
   public query = '?q=all_career_fields';
   public showPublications:boolean = false;
-  public industries:any = [];
-  public showMain:boolean = true;
-  public showMaterials:boolean = false;
-  public showDetails:boolean = false;
-  public currentView : any = {};
-  public industryPublications : any = [];
-  public publications : any = [];
-  private allCareersSubscription : Subscription;
+  public industries: any = [];
+  public showMain: boolean = true;
+  public showMaterials: boolean = false;
+  public showDetails: boolean = false;
+  public currentView: any = {};
+  public industryPublications: any = [];
+  public publications: any = [];
+  private allCareersSubscription: Subscription;
 
   constructor(
     private router: Router,

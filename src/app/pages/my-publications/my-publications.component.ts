@@ -93,7 +93,7 @@ export class MyPublicationsComponent implements OnInit {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
 
     this.categoriesSubscription = this.baseService.fetchPublicationCat()
-    .subscribe( (data : any) => {
+    .subscribe( (data: any) => {
       this.categories = data.categories;
       this.industries = data.industries;
 
@@ -101,6 +101,7 @@ export class MyPublicationsComponent implements OnInit {
         this.showCategories = true;
       }
     });
+
 
 
     this.publicationSubscription = this.baseService.fetchMyPublications(this.currentUser.id)
@@ -348,7 +349,7 @@ export class MyPublicationsComponent implements OnInit {
         this.submitted = false;
         this.handlePublicationResponse(data);
       }
-   )
+   );
   }
 
 

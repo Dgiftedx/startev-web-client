@@ -40,7 +40,7 @@ export class ConfirmEmailComponent implements OnInit {
 
     this.authenticationService.verifyEmail(data)
     .subscribe( data => {
-    	this.handleVerificationResponse(data)
+    	this.handleVerificationResponse(data);
     }, error => {
     	this.error = error;
     });
