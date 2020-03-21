@@ -83,7 +83,8 @@ export class BaseService {
         }
 
         if (role === 'business') {
-            if (roleData.name) {
+            // console.log(roleData);
+            if (roleData) {
                 return roleData.name;
             }else{
                 return "";

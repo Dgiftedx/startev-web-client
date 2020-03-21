@@ -65,7 +65,7 @@
     "ngx-order-pipe": "^2.0.4",
     "ngx-pagination": "^3.3.1",
     "ngx-print": "^1.2.0-beta.3",
-    "ngx-quill": "^7.3.9",
+    "ngx-quill": "^6.3.1",
     "ngx-skeleton-loader": "^1.2.2",
     "ngx-slick-carousel": "^0.4.6",
     "ngx-smart-modal": "^7.2.1",

@@ -48,12 +48,12 @@ export class StoreManagerSettlementsComponent implements OnInit {
 				this.totalPayout += item.total;
 
 				//Get pending payout
-				if (item.status === 0) {
+				if (item.status != 1) {
 					this.pendingPayout += item.total;
 				}
 
 				//Get paid payout
-				if (item.status === 1) {
+				if (item.status == 1) {
 					this.paidSettlement += item.total;
 				}
 			})

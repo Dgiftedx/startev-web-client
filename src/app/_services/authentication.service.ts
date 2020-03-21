@@ -35,9 +35,9 @@ export class AuthenticationService {
     // public endPointAuth = 'http://startevserver.test/api/auth';
 
     // Server
-    public endpoint = 'https://server.startev.africa/api';
-    public baseurl = 'https://server.startev.africa';
-    public endPointAuth = 'https://server.startev.africa/api/auth';
+    public endpoint = 'http://startevweb.test/api';
+    public baseurl = 'http://startevweb.test';
+    public endPointAuth = 'http://startevweb.test/api/auth';
 
 
 
