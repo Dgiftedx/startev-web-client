@@ -66,7 +66,7 @@ export class BaseService {
             }
         }
 
-        if (role === 'mentor') {
+        else if (role === 'mentor') {
 
             if ( _.size(roleData.current_job_position) > 0 && _.size(roleData.organization) > 0 ) {
                 return roleData.current_job_position + " at " + roleData.organization;
@@ -82,13 +82,13 @@ export class BaseService {
             }
         }
 
-        if (role === 'business') {
-            // console.log(roleData);
-            if (roleData) {
-                return roleData.name;
-            }else{
-                return "";
-            }
+        else if (role === 'business') {
+            // if (roleData.name) {
+            //     return roleData.name;
+            // }else{
+            //     return "";
+            // }
+            return "";
         }
     }
 
