@@ -138,6 +138,9 @@ export class StoreService {
 	public storeManagerAttachPToVenture( venture_id:number, formData: any ){
 		return this.http.post(`${this.endpoint}/store/store-manager/attach-products-to-venture/${venture_id}`, formData);
 	}
+	public mainStoreCalculateProduct(data:any){
+		return this.http.post(`${this.endpoint}/main-store-calculate-product`, data);
+	}
 
 	public storeManagerGetVentures(user_id:number){
 		return this.http.get(`${this.endpoint}/store/store-manager/get-ventures/${user_id}`).pipe(delay(1000));

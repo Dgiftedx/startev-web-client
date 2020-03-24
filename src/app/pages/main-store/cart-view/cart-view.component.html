@@ -27,7 +27,7 @@
           <div class="main-section-data mt-4">
             <div class="row">
     	<div class="col-md-12">
-    		<div class="card feeds-container mt-5" *ngIf="showCart">
+    		<div class="card feeds-container mt-5" *ngIf="showCart && ischeckout">
     			<div class="card-header">
     				<h2><strong>Cart</strong> Summary</h2>
     			</div>
@@ -51,7 +51,7 @@
                                             <div class="quantity-grp">
                                                 <div class="input-group">                                    
                                                     <span class="input-group-addon">
-                                                        <a [routerLink]="" (click)="decrease(item)" class="spin-down"><i class="fa fa-minus"></i></a>
+                                                        <a  [routerLink]="" (click)="decrease(item)" class="spin-down"><i class="fa fa-minus"></i></a>
                                                     </span>
 
                                                     <input type="text" [readonly]="true" class="form-control text-center" [(ngModel)]="item.quantity">
@@ -79,33 +79,17 @@
                                     
                                 </tbody>
                                 <tfoot>
-                                    <tr *ngIf="deliveryFee">
-                                        <th colspan="2">Delivery</th>
-                                        <th colspan="2">NGN {{ deliveryFee | number:0 }}</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr *ngIf="deliveryFee">
-                                        <th colspan="2">VAT</th>
-                                        <th colspan="2">NGN {{ salePercentage }}</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="2">Subtotal</th>
-                                        <th colspan="2">NGN {{ calculateTotal() | number:0 }}</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr *ngIf="grandTotal > 0">
-                                        <th colspan="2">Grand Total</th>
-                                        <th colspan="2">NGN {{ grandTotal | number:0 }}</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th colspan="2">Subtotal</th>
+                                    <th colspan="2">NGN {{ calculateTotal() | number:0 }}</th>
+                                    <th></th>
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
                     <button *ngIf="count(cart) > 0" (click)="clearCart()" class="btn btn-primary">Clear Cart</button>
     		</div>
-
 
     		<div class="card feeds-container mt-5" *ngIf="showCart && count(cart) > 0">
     			<div class="card-header">
@@ -114,22 +98,23 @@
 
                         <div class="form-group">
                             <label>Full Name </label>
-                            <input type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.name" placeholder="Your Full Name"/>
+                            <input [disabled]="disabled" type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.name" placeholder="Your Full Name"/>
                         </div>
 
                          <div class="form-group">
                             <label>Phone Number: </label>
-                            <input type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.phone" placeholder="Your Phone Number"/>
+                            <input [disabled]="disabled" type="text" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.phone" placeholder="Your Phone Number"/>
                         </div>
 
                          <div class="form-group">
                             <label>Email Address </label>
-                            <input type="email" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.email" placeholder="Your Email Address"/>
+                            <input [disabled]="disabled" type="email" class="form-control mt-3" style="border-radius: 0 !important" [(ngModel)]="userData.email" placeholder="Your Email Address"/>
                         </div>
 
                         <span>Enter Delivery Address</span>
                         <div style="width:100%; z-index:9999 !important;" class="ng-autocomplete mt-3">
                             <ng-autocomplete
+                                    [disabled]="disabled"
                               [(ngModel)]="userData.address"
                               [isLoading]="searching"
                               [searchKeyword]="'name'"
@@ -156,39 +141,129 @@
                         </div>
                         </div>
     				</div>
-
-                    <div *ngIf="showPaymentButton">
-                        <div class="form-group" *ngIf="currentUser">
-                        <button
-                        angular4-paystack
-                        [key]="transactionKey"
-                        [email]="currentUser.email"
-                        [amount]="grandTotal+'00'"
-                        [ref]="transactionRef.value"
-                        (close)="transactionCancelled()"
-                        (callback)="transactionSuccessful($event)"
-                        [ladda]="processingOrder"
-                        type="button"
-                        class="btn btn-round btn-primary waves-effect">Pay Now</button>
+                <div *ngIf="showPaymentButton">
+                    <div class="form-group" *ngIf="currentUser && ischeckout">
+                        <button style="margin-left: 5px" [ladda]="processing"
+                                (click)="proceedToCheckout()"
+                                class="btn btn-round btn-primary waves-effect">Continue
+                            <i *ngIf="spin" class="fa fa-spinner fa-spin" style="font-size: 16px;font-weight: bold;"></i></button>
                     </div>
+                </div>
 
-                    <div class="form-group" *ngIf="!currentUser && count(userData.email) > 0 && count(userData.name) > 0 && count(userData.address) > 0">
-                        <button
-                        angular4-paystack
-                        [key]="transactionKey"
-                        [email]="userData.email"
-                        [amount]="grandTotal+'00'"
-                        [ref]="transactionRef.value"
-                        (close)="transactionCancelled()"
-                        (callback)="transactionSuccessful($event)"
-                        [ladda]="processingOrder"
-                        type="button"
-                        class="btn btn-round btn-primary waves-effect">Pay Now</button>
-                    </div>
-
-    			</div>
     		</div>
 
+            <div class="card feeds-container mt-5" *ngIf="proceed">
+                <div>
+                    <div class="card-header">
+                        <h2><strong>Order </strong> Summary</h2>
+                        <!--<i  style="font-size:16px;cursor: pointer;" class="fa fa-times"></i>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="row clearfix">
+                            <div class="col-md-6 col-sm-6">
+                                <address>
+                                    <strong>Startev Africa.</strong><br>
+                                </address>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6 text-right">
+                                <p class="m-b-0"><strong>Order Date: </strong> {{ date | date: 'mediumDate' }} </p>
+                                <p class="m-b-0"><strong>Order Status: </strong> <span class="badge badge-warning m-b-0"> Not paid </span></p>
+                                <p><strong>Order ID: </strong> # {{identifier }} </p>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th style="width: 50px;">Description</th>
+                                            <th>Quantity</th>
+                                            <th class="hidden-sm-down">Unit Cost</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let item of cart; let index = index;">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ item.product.product_name}}</td>
+                                            <td><p [innerHtml]="item.product.highlight | excerpt: 80"></p></td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.amount }}</td>
+                                            <td>{{ item.quantity  * item.amount }}</td>
+                                        </tr>
+                                        </tbody>
+
+                                        <tfoot>
+                                        <tr *ngIf="deliveryFee">
+                                            <th colspan="4"></th>
+                                            <th>Subtotal</th>
+                                            <th colspan="2">NGN {{ total | number:0 }}</th>
+                                        </tr>
+                                        <tr *ngIf="deliveryFee">
+                                            <th colspan="4"></th>
+                                            <th>Delivery Fee</th>
+                                            <th colspan="2">NGN {{ deliveryFee | number:0 }}</th>
+                                        </tr>
+                                        <tr *ngIf="deliveryFee">
+                                            <th colspan="4"></th>
+                                            <th>VAT</th>
+                                            <th colspan="2">NGN {{ salePercentage }}</th>
+                                        </tr>
+                                        <!--<tr *ngIf="grandTotal > 0">-->
+                                            <!--<th colspan="4"></th>-->
+                                            <!--<th>Grand Total</th>-->
+                                            <!--<th colspan="2">NGN {{ grandTotal | number:0 }}</th>-->
+                                        <!--</tr>-->
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="border-top: 1.5px solid #000000a1;">
+                        <div class="row clearfix">
+                            <div class="col-sm-12 text-right">
+                                <p class="m-b-0"><b>Total</b></p>
+                                <h3 class="m-b-0 m-t-10">NGN  {{ grandTotal  | number:0}}</h3>
+                            </div>
+                            <div class="col-sm-12 text-right">
+                                <hr>
+                                <div *ngIf="proceed">
+                                <div class="form-group" *ngIf="currentUser">
+                                <button
+                                        [disabled]="off"
+                                angular4-paystack
+                                [key]="transactionKey"
+                                [email]="currentUser.email"
+                                [amount]="grandTotal+'00'"
+                                [ref]="transactionRef.value"
+                                (close)="transactionCancelled()"
+                                (callback)="transactionSuccessful($event)"
+                                type="button"
+                                class="btn btn-round btn-primary waves-effect">Pay Now</button>
+                                </div>
+                                    <div class="form-group" *ngIf="!currentUser && count(userData.email) > 0 && count(userData.name) > 0 && count(userData.address) > 0">
+                                <button
+                                        [disabled]="off"
+                                angular4-paystack
+                                [key]="transactionKey"
+                                [email]="userData.email"
+                                [amount]="grandTotal+'00'"
+                                [ref]="transactionRef.value"
+                                (close)="transactionCancelled()"
+                                (callback)="transactionSuccessful($event)"
+                                type="button"
+                                class="btn btn-round btn-primary waves-effect">Pay Now</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     		<div id="print-invoice" class="card feeds-container" *ngIf="showMsgBox">
     			<div class="card-header">
     				<h2><strong>Order </strong> Invoice</h2>
@@ -222,13 +297,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let item of invoice.items; let index = index;">
+                                        <!--<tr *ngFor="let item of invoice.items; let index = index;">-->
+                                            <!--<td>{{ index + 1 }}</td>-->
+                                            <!--<td>{{ item.product_name }}</td>-->
+                                            <!--<td><p [innerHtml]="item.description | excerpt: 80"></p></td>-->
+                                            <!--<td>{{ item.quantity }}</td>-->
+                                            <!--<td>{{ item.unit_cost }}</td>-->
+                                            <!--<td>{{ item.total }}</td>-->
+                                        <!--</tr>-->
+                                        <tr *ngFor="let item of invoice.itemList; let index = index;">
                                             <td>{{ index + 1 }}</td>
-                                            <td>{{ item.product_name }}</td>
-                                            <td><p [innerHtml]="item.description | excerpt: 80"></p></td>
+                                            <td>{{ item.product.product_name }}</td>
+                                            <td><p [innerHtml]="item.product.highlight | excerpt: 80"></p></td>
                                             <td>{{ item.quantity }}</td>
-                                            <td>{{ item.unit_cost }}</td>
-                                            <td>{{ item.total }}</td>
+                                            <td>{{ item.amount }}</td>
+                                            <td>{{ item.amount * item.quantity }}</td>
                                         </tr>
                                         
                                     </tbody>

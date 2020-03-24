@@ -52,7 +52,13 @@ export class CartViewComponent implements OnInit {
 	public processingOrder:boolean = false;
 	public salePercentage: number;
 	public percentage: number = 7.5;
-
+	public proceed: boolean =false;
+	date:any = Date.now().toString();
+	public identifier: string = '';
+	public ischeckout:boolean = true;
+	public spin: boolean = false;
+	public disabled: boolean = false;
+	public off: boolean = false;
 
 	// moderators
 	public showConfirmButton:boolean = false;
@@ -269,7 +275,7 @@ export class CartViewComponent implements OnInit {
 		return _.size(items);
 	}
 
-	calculateTotal(){
+	calculateTotal() {
 		if (this.count(this.cart) > 0) {
 			this.total = 0;
 			this.cart.forEach(item => {
@@ -357,11 +363,66 @@ export class CartViewComponent implements OnInit {
 		this.cart = [];
 		this.total = 0;
 		this.deliveryAddress = '';
+		console.log(data);
 		this.invoice = data.invoice;
+		console.log(this.invoice);
 		this.showCart = false;
 		this.showMsgBox = true;
 	}
+	disable() {
+		this.disabled = !this.disabled;
+	}
+	enable() {
+		this.disabled = !this.disabled;
+	}
 
+
+	proceedToCheckout() {
+		if (_.isEmpty(this.userData.address)) {
+			// this.presentToast('Valid address is required');
+		} else {
+			// this.loader();
+			this.spin = true;
+			this.enable();
+			let address = this.userData.address.name ? this.userData.address.name : this.userData.address;
+
+			this.processingOrder = true;
+
+			this.refreshTransactionRef();
+
+			let formData = new FormData();
+			formData.append('items', JSON.stringify(this.cart));
+			formData.append('email', this.userData.email);
+			formData.append('name', this.userData.name);
+			formData.append('phone', this.userData.phone);
+			formData.append('delivery_address', address);
+			formData.append('user_id', this.currentUser ? this.currentUser.id : 0);
+
+			this.storeService.mainStoreCalculateProduct(formData)
+                .subscribe(data => {
+					// this.disabled = !this.disabled;
+					this.ischeckout = false;
+					this.spin = false;
+                	this.proceed = true;
+                	console.log(data);
+					let amount = data["amount"];
+					// console.log(amount["amount"]);
+					this.total = amount.total;
+					this.deliveryFee = amount.deliveryFee;
+					this.salePercentage = amount.salePercentage;
+					this.grandTotal = amount.grandTotal;
+					this.date = amount.order_time;
+					this.identifier = amount.identifier;
+					// this.showCart = false;
+					// this.showCheckout = false;
+					// this.orderSummary = true;
+					// this.page = 'Order summary';
+					// this.dismiss();
+				}, error => {
+					console.log(error);
+				});
+		}
+	}
 
 	transactionSuccessful(event:any){
 		let address = this.userData.address.name?this.userData.address.name:this.userData.address;
@@ -385,13 +446,16 @@ export class CartViewComponent implements OnInit {
 		formData.append('grand_total', grand_total);
 		formData.append('delivery_fee', deliveryFee);
 		formData.append('delivery_address', address);
-		formData.append('user_id', this.currentUser?this.currentUser.id:0);
-
+		formData.append('identifier', this.identifier);
+		formData.append('user_id', this.currentUser ? this.currentUser.id : 0);
+		this.off = true;
 		this.storeService.mainStorePlaceOrder(formData)
 		.subscribe(data => {
 			this.handleOrderResponse(data);
 			this.refreshTransactionRef();
 			this.processingOrder = false;
+			this.proceed = false;
+			this.off = false;
 		});
 
 	}
