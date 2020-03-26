@@ -36,7 +36,7 @@ import { VentureResolve } from './_resolvers/venture.resolver';
 import { AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { NgxEpicVideoPlayerModule } from 'ngx-epic-video-player';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, Injectable} from '@angular/core';
 import { BusinessResolve } from './_resolvers/business.resolver';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -124,7 +124,10 @@ import { OverlayModule } from "@angular/cdk/overlay";
 import { VideoUploadService } from './_services/video-upload.service';
 import { BroadcastMessageService } from './_services/broadcast-message.service';
 import { Routes, RouterModule } from '@angular/router';
-
+import {
+    SocialLoginModule, AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider,
+    AuthService
+} from 'angularx-social-login';
 //Owl NG
 import { OwlFormFieldModule, 
     OwlSelectModule, 
@@ -161,6 +164,20 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   overlayColor: "rgba(255,255,255, 1)",
   pbThickness: 5, // progress bar thickness
 };
+
+    const google_client_id="1035515922151-963toms6214ehn55d0irlp1dqae20hoh.apps.googleusercontent.com";
+    const facebook_client_id="2604297676515213";
+    let googleConfig = new AuthServiceConfig([
+        {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider("google_client_id,")
+        },
+        {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('facebook_client_id')
+        }
+    ]);
+
 
 
 @NgModule({
@@ -239,6 +256,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
   imports: [
     BrowserModule,
+    SocialLoginModule.initialize(googleConfig),
     AppRoutingModule,
     // RouterModule.forRoot(appRoutes, ),
     BrowserAnimationsModule,
@@ -325,8 +343,18 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
         SinglePublicationResolve,
         MainStoreResolve,
         SingleProfileResolve,
-        OpenSingleFeedResolve
+        OpenSingleFeedResolve,
+
+     // GoogleLoginProvider,
+     //  FacebookLoginProvider,
+     //  AuthService,
+     //  {
+     //      provide: AuthServiceConfig,
+     //       useFactory: provideConfig,
+     //  }
+
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

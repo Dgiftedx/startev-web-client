@@ -8,31 +8,43 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthenticationService } from '../../../_services';
 import { MustMatch } from '../../../_helpers/must-match';
+import {AuthService , FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import { SocialUser } from "angularx-social-login";
+
 
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
-	styleUrls: ['./register.component.css']
+	styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
 	registrationForm : FormGroup;
+	socialregistrationForm : FormGroup;
 	loading = false;
 	submitted = false;
 	returnUrl: string;
 	queryParams: string;
+    userdata={email:'',name:'',gid:''};
+
 	public error:string = '';
 	public showMain:boolean = true;
+	public showSocialSignup:boolean = false;
 	public showAfterRegister: boolean = false;
 	public returnedMail : string = '';
 	public returnedSlug: string = '';
 	public sendingResendMailLadda:boolean = false;
+    // private authService: AuthService;
+    private user: SocialUser;
+    private loggedIn: boolean;
 
-	constructor(
+
+    constructor(
 		private alert : AlertService,
 		private http: HttpClient,
 		private formBuilder: FormBuilder,
 		private route: ActivatedRoute,
 		private router: Router,
+		private _socioAuthServ:AuthService,
 		private authenticationService: AuthenticationService
 		) { }
 
@@ -58,10 +70,17 @@ export class RegisterComponent implements OnInit {
 			acceptTerms: [false, Validators.requiredTrue],
 			role : [''],
 			ref_code : [''],
-		}, {validator : MustMatch('password','confirmPassword')});
+		},{validator : MustMatch('password','confirmPassword')});
 
 		this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 		this.queryParams = this.route.snapshot.queryParamMap.get('ref_code');
+
+        //
+        // this.authService.authState.subscribe((user) => {
+        //     console.log(JSON.stringify(user,null,'\t'));
+        //     this.user = user;
+        //     this.loggedIn = (user != null);
+        // });
 	}
 
 
@@ -73,6 +92,9 @@ export class RegisterComponent implements OnInit {
 
 	get f(){
 		return this.registrationForm.controls;
+	}
+	get g(){
+		return this.socialregistrationForm.controls;
 	}
 
 
@@ -105,10 +127,16 @@ export class RegisterComponent implements OnInit {
 
 	handleRegistration(data:any) {
 		this.showMain = false;
-		this.showAfterRegister = true;
+        this.showSocialSignup=false;
+        this.showAfterRegister = true;
 		this.returnedMail = data.email;
 		this.returnedSlug = data.slug;
 	}
+
+	// handleSocialRegistration(data:any) {
+	// 	this.returnedMail = data.email;
+	// 	this.returnedSlug = data.slug;
+	// }
 
 
 	resendMail() {
@@ -132,8 +160,10 @@ export class RegisterComponent implements OnInit {
 	}
 
 	onSubmit(){
+        // this.userdata=data;
 
-		this.setRefCodeField();
+
+        this.setRefCodeField();
 
 		this.error = '';
 		this.submitted = true;
@@ -149,6 +179,7 @@ export class RegisterComponent implements OnInit {
           .pipe(first())
           .subscribe(
           		data => {
+          		    console.log(data)
           			this.handleRegistration(data);
           			this.loading = false;
           		},
@@ -161,5 +192,57 @@ export class RegisterComponent implements OnInit {
           	)
 
 		}
+
+
+
+handlesocial(){
+    console.log(this.userdata);
+    this.showSocialSignup=true;
+    this.showMain=false ;
+}
+    // Method to sign in with google.
+
+    getGoogleRes(platform : string): void {
+        platform = GoogleLoginProvider.PROVIDER_ID;
+        this._socioAuthServ.signIn(platform)
+             .then((response) => {
+                    this.userdata.email=response.email;
+                    this.userdata.name=response.name;
+                    this.userdata.gid=response.idToken;
+                console.log(JSON.stringify(response,null,'\t'));
+                console.log(platform + " logged in user data is= " , response);
+    // //             this.user = response;
+                     this.handlesocial();
+                 });
+
+}
+
+
+
+
+
+    //To Authenticate User Via FaceBook
+    fb_signup(platform : string): void {
+        platform = FacebookLoginProvider.PROVIDER_ID;
+        this._socioAuthServ.signIn(platform)
+            .then((response) => {
+                this.userdata.email=response.email;
+                this.userdata.name=response.name;
+                this.userdata.gid=response.id;
+                console.log(JSON.stringify(response,null,'\t'));
+                console.log(platform + " logged in user data is= " , response);
+                // //             this.user = response;
+                this.handlesocial();
+            });
+
+    }
+
+
+
+
+
+
+
+
 
 }

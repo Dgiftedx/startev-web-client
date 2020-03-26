@@ -4,6 +4,7 @@
       <div class="row login-box-6">
         <div class="col-lg-5 col-md-12 col-sm-12 col-pad-0 bg-img align-self-center none-992">
           <div class="row">
+
             <div class="col-12">
               <a href="#">
                 <img src="assets/images/logo-auth.png" class="logo" alt="logo">
@@ -19,6 +20,18 @@
         <div class="col-lg-7 col-md-12 col-sm-12 col-pad-0 align-self-center">
           <div class="login-inner-form">
             <div class="details" *ngIf="showMain">
+                <div class="col-sm-12">
+                    <div class="socials">
+                        <div class="socials_in" (click)="fb_signup()">
+                            <img src="assets/images/icons8-facebook-128.png" class="socials_img_fb"></div>
+                        <div class="socials_in" (click)="getGoogleRes()">
+                            <img src="assets/images/icons8-google-144.png" class="socials_img_g"></div>
+
+                    </div>
+                </div>
+                <div class="text-center">
+                    <hr class="hori">
+                </div>
               <h3>Sign Up</h3>
               <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">                            
                 
@@ -97,7 +110,85 @@
             <br/>
             <a class="btn-link" [routerLink]="'/login'">You already have a membership?</a>
             
-          </div>
+          </div><!-- registration section -->
+
+              <!--Sign Up With Socials -->
+              <div class="details" *ngIf="showSocialSignup">
+
+
+                  <h3>Choose Account Type to Continue</h3>
+                  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                      <div class="form-group">
+                          <input
+                                  [(ngModel)]="userdata.name"
+                                  type="hidden"
+                                  class="form-control input-text"
+                                  formControlName="name"
+                                  [ngClass]="{'is-invalid': submitted && f.name.errors }"/>
+
+                      </div>
+                      <div class="form-group">
+                          <label class="">I Am</label>
+                          <ng-select formControlName="role" id="register-select" [ngClass]="{'is-invalid': submitted && f.role.errors}" (change)="changeAccessType()">
+                              <ng-option *ngFor="let role of roles" [value]="role.alias">{{role.name}}</ng-option>
+                          </ng-select>
+                          <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
+                              <div *ngIf="f.name.errors.required">Role is required</div>
+                          </div>
+
+                      </div>
+
+                      <div class="form-group">
+                          <input [(ngModel)]="userdata.email"
+                                  type="email"
+                                  formControlName="email"
+                                  class="form-control input-text"
+                                  [ngClass] ="{'is-invalid': submitted && f.email.errors}">
+                          <div *ngIf="submitted && f.email.errors " class="invalid-feedback">
+                              <div *ngIf="f.email.errors.required">Email is required</div>
+                          </div>
+                      </div>
+
+
+
+
+                      <div class="form-group">
+                          <input type="hidden" [(ngModel)]="userdata.gid" [ngClass]="{'is-invalid': submitted && f.password.errors}" formControlName="password" class="form-control input-text" placeholder="Confirm Password">
+
+                      </div>
+   <div class="form-group">
+                          <input type="hidden" [(ngModel)]="userdata.gid" [ngClass]="{'is-invalid': submitted && f.confirmPassword.errors}" formControlName="confirmPassword" class="form-control input-text" placeholder="Confirm Password">
+
+                      </div>
+
+
+                      <div class="checkbox clearfix">
+                          <div class="form-check checkbox-theme">
+                              <input class="form-check-input" type="checkbox" formControlName="acceptTerms" id="terms">
+                              <label class="form-check-label" for="terms">
+                                  I read and Agree to the <a href="javascript:void(0);">Terms of Usage</a>
+                              </label>
+                              <div *ngIf="submitted && f.acceptTerms.errors" class="mt-2">
+                                  <small *ngIf="submitted && f.acceptTerms.errors.required" class="text-danger">
+                                      You must agree to our terms & conditions
+                                  </small>
+                              </div>
+                          </div>
+
+                      </div>
+
+
+                      <div class="footer">
+                          <button class="btn-theme waves-effect btn-md btn-block" [ladda]="loading">CONTINUE</button>
+                      </div>
+
+                      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                  </form>
+                  <br/>
+                  <a class="btn-link" [routerLink]="'/login'">You already have a membership?</a>
+
+
+              </div>
 
           <div class="details fadeIn" *ngIf="showAfterRegister">
             <h3>Password Confirmation Mail Sent</h3>

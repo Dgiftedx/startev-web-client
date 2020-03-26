@@ -30,9 +30,20 @@ export class AuthenticationService {
     // public endPointAuth = 'http://10.1.1.63:8087/api/auth';
 
     //James Local
-    public endpoint = 'http://startevserver.test/api';
-    public baseurl = 'http://startevserver.test';
-    public endPointAuth = 'http://startevserver.test/api/auth';
+    // public endpoint = 'http://startevserver.test/api';
+    // public baseurl = 'http://startevserver.test';
+    // public endPointAuth = 'http://startevserver.test/api/auth';
+
+    // felix
+     public endpoint = 'http://startevserver.test/api';
+     public baseurl = 'http://startevserver.test';
+     public endPointAuth = 'http://startevserver.test/api/auth';
+
+    //felix virtualhost
+    //  public endpoint = 'http://192.168.0.181/api';
+    //  public baseurl = 'http://192.168.0.181';
+    //  public endPointAuth = 'http://192.168.0.181/api/auth';
+
 
 
     // Server

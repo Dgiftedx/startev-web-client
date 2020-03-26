@@ -337,6 +337,35 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
         padding: 0;
     }
 }
+
+
+.socials{
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    padding: 10px;grid-gap: 20px;
+    background-color: transparent
+}
+.socials_in{
+    background-color:transparent;
+    padding: 5px;
+    font-size: 30px;
+    text-align: center;
+    border-radius: 100%
+}
+.socials_img_fb{
+    height: 1.5em;
+    width:1.5em
+}
+.socials_img_g{
+    height: 1.4em;
+    width:1.4em
+}
+.hori{
+    color: white;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
 /** Login 6 end **/
 
 
